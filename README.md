@@ -11,5 +11,5 @@
 
 ## References
 
-* Datasets in `/input` folder is from the repo https://github.com/pplonski/datasets-for-start/blob/master/LICENSE.
+* Datasets in the `/input` folder is from the repo https://github.com/pplonski/datasets-for-start/blob/master/LICENSE.
 
