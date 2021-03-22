@@ -7,9 +7,11 @@
 
 ## Quick links
 
+* [Python⇒Speed](https://pythonspeed.com/memory/) (!)
+
 <br>
 
 ## References
 
-* Datasets in the `/input` folder is from the repo https://github.com/pplonski/datasets-for-start.
+* Datasets in `input/datasets-for-start` is from [@pplonski/datasets-for-start](https://github.com/pplonski/datasets-for-start).
 
