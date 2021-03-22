@@ -2,7 +2,7 @@
 
 Datasets for start with Machine Learning
 
-Source: https://github.com/pplonski/datasets-for-start.
+Source repo: https://github.com/pplonski/datasets-for-start
 
 ## Binray classification
  
