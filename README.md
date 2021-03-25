@@ -1,14 +1,17 @@
-# machine-learning-collection
-
+# Machine learning collection
 
 <br>
+
+Colllection of notes, code, datasets and experiments in machine learning.
 
 <br>
 
 ## Quick links
 
-* [Python⇒Speed](https://pythonspeed.com/memory/) (!)
-
+* [Python⇒Speed](https://pythonspeed.com/memory/) 
+* [mCoding](https://www.youtube.com/channel/UCaiL2GDNpLYH6Wokkk1VNcg/videos) 
+  
+  
 <br>
 
 ## References
