@@ -16,5 +16,5 @@ Colllection of notes, code, datasets and experiments in machine learning.
 
 ## References
 
-* Datasets in `input/datasets-for-start` is from [@pplonski/datasets-for-start](https://github.com/pplonski/datasets-for-start).
+* Datasets in `data/datasets-for-start` is from [@pplonski/datasets-for-start](https://github.com/pplonski/datasets-for-start).
 
