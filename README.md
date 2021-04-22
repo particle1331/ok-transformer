@@ -8,9 +8,7 @@ Colllection of notes, code, datasets and experiments in machine learning.
 
 ## Quick links
 
-* [Python⇒Speed](https://pythonspeed.com/memory/) 
-* [mCoding](https://www.youtube.com/channel/UCaiL2GDNpLYH6Wokkk1VNcg/videos) 
-  
+* 
   
 <br>
 
