@@ -1428,7 +1428,7 @@ Train MAPE: 0.28465764084762196
 DecisionTreeRegressor()
 Train RMSE: 0.0
 Train MAPE: 0.0
-0.49473646199009214 0.005996645138176754
+0.4951536807807765 0.005067843306197019
 
 RandomForestRegressor(random_state=42)
 Train RMSE: 18603.515021376355
@@ -1518,7 +1518,7 @@ points in the second dict, this time with the <code class="docutils literal notr
     <span class="p">{</span><span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="nb">range</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="s1">&#39;max_features&#39;</span><span class="p">:</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="s1">&#39;bootstrap&#39;</span><span class="p">:</span> <span class="p">[</span><span class="kc">False</span><span class="p">],</span> <span class="p">},</span>
 <span class="p">]</span>
 
-<span class="n">forest_reg</span> <span class="o">=</span> <span class="n">RandomForestRegressor</span><span class="p">()</span>
+<span class="n">forest_reg</span> <span class="o">=</span> <span class="n">RandomForestRegressor</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
 <span class="n">random_search</span> <span class="o">=</span> <span class="n">RandomizedSearchCV</span><span class="p">(</span><span class="n">forest_reg</span><span class="p">,</span> <span class="n">param_grid</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">n_iter</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
                                    <span class="n">scoring</span><span class="o">=</span><span class="s1">&#39;neg_mean_squared_error&#39;</span><span class="p">,</span>  <span class="c1"># we use neg-RMSE more stable</span>
                                    <span class="n">return_train_score</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -1529,7 +1529,7 @@ points in the second dict, this time with the <code class="docutils literal notr
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>20.947160720825195
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>21.25009775161743
 </pre></div>
 </div>
 </div>
@@ -1581,18 +1581,18 @@ points in the second dict, this time with the <code class="docutils literal notr
   <tbody>
     <tr>
       <th>4</th>
-      <td>0.851567</td>
-      <td>0.006270</td>
-      <td>0.037841</td>
-      <td>0.000321</td>
+      <td>0.874839</td>
+      <td>0.004147</td>
+      <td>0.038460</td>
+      <td>0.000075</td>
       <td>18</td>
       <td>6</td>
       <td>False</td>
       <td>{'n_estimators': 18, 'max_features': 6, 'boots...</td>
-      <td>-2.648253e+09</td>
-      <td>-2.721035e+09</td>
-      <td>-2.684644e+09</td>
-      <td>3.639092e+07</td>
+      <td>-2.656695e+09</td>
+      <td>-2.681363e+09</td>
+      <td>-2.669029e+09</td>
+      <td>1.233405e+07</td>
       <td>1</td>
       <td>-0.000000e+00</td>
       <td>-0.000000e+00</td>
@@ -1601,18 +1601,18 @@ points in the second dict, this time with the <code class="docutils literal notr
     </tr>
     <tr>
       <th>3</th>
-      <td>2.308205</td>
-      <td>0.011195</td>
-      <td>0.061857</td>
-      <td>0.000190</td>
+      <td>2.290802</td>
+      <td>0.009544</td>
+      <td>0.065569</td>
+      <td>0.001985</td>
       <td>30</td>
       <td>10</td>
       <td>False</td>
       <td>{'n_estimators': 30, 'max_features': 10, 'boot...</td>
-      <td>-2.724255e+09</td>
-      <td>-2.686539e+09</td>
-      <td>-2.705397e+09</td>
-      <td>1.885829e+07</td>
+      <td>-2.672208e+09</td>
+      <td>-2.680448e+09</td>
+      <td>-2.676328e+09</td>
+      <td>4.119862e+06</td>
       <td>2</td>
       <td>-0.000000e+00</td>
       <td>-0.000000e+00</td>
@@ -1621,18 +1621,18 @@ points in the second dict, this time with the <code class="docutils literal notr
     </tr>
     <tr>
       <th>1</th>
-      <td>1.207472</td>
-      <td>0.000736</td>
-      <td>0.033227</td>
-      <td>0.000171</td>
+      <td>1.218799</td>
+      <td>0.008639</td>
+      <td>0.034739</td>
+      <td>0.000337</td>
       <td>16</td>
       <td>10</td>
       <td>False</td>
       <td>{'n_estimators': 16, 'max_features': 10, 'boot...</td>
-      <td>-2.744189e+09</td>
-      <td>-2.784085e+09</td>
-      <td>-2.764137e+09</td>
-      <td>1.994826e+07</td>
+      <td>-2.759168e+09</td>
+      <td>-2.798443e+09</td>
+      <td>-2.778805e+09</td>
+      <td>1.963792e+07</td>
       <td>3</td>
       <td>-0.000000e+00</td>
       <td>-0.000000e+00</td>
@@ -1641,138 +1641,138 @@ points in the second dict, this time with the <code class="docutils literal notr
     </tr>
     <tr>
       <th>2</th>
-      <td>0.515250</td>
-      <td>0.000137</td>
-      <td>0.027406</td>
-      <td>0.000280</td>
+      <td>0.520883</td>
+      <td>0.000572</td>
+      <td>0.028582</td>
+      <td>0.000291</td>
       <td>15</td>
       <td>7</td>
       <td>NaN</td>
       <td>{'n_estimators': 15, 'max_features': 7}</td>
-      <td>-2.717994e+09</td>
-      <td>-2.850027e+09</td>
-      <td>-2.784011e+09</td>
-      <td>6.601651e+07</td>
+      <td>-2.816141e+09</td>
+      <td>-2.771542e+09</td>
+      <td>-2.793842e+09</td>
+      <td>2.229979e+07</td>
       <td>4</td>
-      <td>-4.887478e+08</td>
-      <td>-4.696345e+08</td>
-      <td>-4.791911e+08</td>
-      <td>9.556622e+06</td>
+      <td>-4.707273e+08</td>
+      <td>-4.594520e+08</td>
+      <td>-4.650897e+08</td>
+      <td>5.637658e+06</td>
     </tr>
     <tr>
       <th>0</th>
-      <td>0.243690</td>
-      <td>0.010375</td>
-      <td>0.017709</td>
-      <td>0.000552</td>
+      <td>0.238864</td>
+      <td>0.005702</td>
+      <td>0.017685</td>
+      <td>0.000027</td>
       <td>9</td>
       <td>5</td>
       <td>NaN</td>
       <td>{'n_estimators': 9, 'max_features': 5}</td>
-      <td>-3.001851e+09</td>
-      <td>-2.986341e+09</td>
-      <td>-2.994096e+09</td>
-      <td>7.755320e+06</td>
+      <td>-2.953271e+09</td>
+      <td>-2.985379e+09</td>
+      <td>-2.969325e+09</td>
+      <td>1.605374e+07</td>
       <td>5</td>
-      <td>-5.794439e+08</td>
-      <td>-5.390184e+08</td>
-      <td>-5.592311e+08</td>
-      <td>2.021278e+07</td>
-    </tr>
-    <tr>
-      <th>7</th>
-      <td>0.197970</td>
-      <td>0.001221</td>
-      <td>0.020712</td>
-      <td>0.000437</td>
-      <td>11</td>
-      <td>3</td>
-      <td>NaN</td>
-      <td>{'n_estimators': 11, 'max_features': 3}</td>
-      <td>-3.013342e+09</td>
-      <td>-3.134957e+09</td>
-      <td>-3.074150e+09</td>
-      <td>6.080732e+07</td>
-      <td>6</td>
-      <td>-5.650493e+08</td>
-      <td>-5.403661e+08</td>
-      <td>-5.527077e+08</td>
-      <td>1.234162e+07</td>
+      <td>-5.696049e+08</td>
+      <td>-5.464127e+08</td>
+      <td>-5.580088e+08</td>
+      <td>1.159609e+07</td>
     </tr>
     <tr>
       <th>9</th>
-      <td>0.287647</td>
-      <td>0.002636</td>
-      <td>0.038019</td>
-      <td>0.000300</td>
+      <td>0.297367</td>
+      <td>0.003906</td>
+      <td>0.039920</td>
+      <td>0.000497</td>
       <td>21</td>
       <td>2</td>
       <td>NaN</td>
       <td>{'n_estimators': 21, 'max_features': 2}</td>
-      <td>-3.046336e+09</td>
-      <td>-3.160205e+09</td>
-      <td>-3.103270e+09</td>
-      <td>5.693451e+07</td>
+      <td>-3.020753e+09</td>
+      <td>-3.130519e+09</td>
+      <td>-3.075636e+09</td>
+      <td>5.488265e+07</td>
+      <td>6</td>
+      <td>-4.896920e+08</td>
+      <td>-4.888603e+08</td>
+      <td>-4.892762e+08</td>
+      <td>4.158683e+05</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>0.197764</td>
+      <td>0.002398</td>
+      <td>0.020930</td>
+      <td>0.000246</td>
+      <td>11</td>
+      <td>3</td>
+      <td>NaN</td>
+      <td>{'n_estimators': 11, 'max_features': 3}</td>
+      <td>-3.038669e+09</td>
+      <td>-3.117929e+09</td>
+      <td>-3.078299e+09</td>
+      <td>3.962984e+07</td>
       <td>7</td>
-      <td>-4.989559e+08</td>
-      <td>-5.022793e+08</td>
-      <td>-5.006176e+08</td>
-      <td>1.661713e+06</td>
+      <td>-5.563689e+08</td>
+      <td>-5.603186e+08</td>
+      <td>-5.583438e+08</td>
+      <td>1.974889e+06</td>
     </tr>
     <tr>
       <th>8</th>
-      <td>0.126116</td>
-      <td>0.002231</td>
-      <td>0.014389</td>
-      <td>0.000223</td>
+      <td>0.125949</td>
+      <td>0.001231</td>
+      <td>0.014290</td>
+      <td>0.000392</td>
       <td>7</td>
       <td>3</td>
       <td>NaN</td>
       <td>{'n_estimators': 7, 'max_features': 3}</td>
-      <td>-3.280521e+09</td>
-      <td>-3.357732e+09</td>
-      <td>-3.319126e+09</td>
-      <td>3.860557e+07</td>
+      <td>-3.328067e+09</td>
+      <td>-3.386337e+09</td>
+      <td>-3.357202e+09</td>
+      <td>2.913452e+07</td>
       <td>8</td>
-      <td>-6.897718e+08</td>
-      <td>-6.494536e+08</td>
-      <td>-6.696127e+08</td>
-      <td>2.015907e+07</td>
+      <td>-6.840676e+08</td>
+      <td>-6.733939e+08</td>
+      <td>-6.787308e+08</td>
+      <td>5.336830e+06</td>
     </tr>
     <tr>
       <th>6</th>
-      <td>0.087842</td>
-      <td>0.002745</td>
-      <td>0.010146</td>
-      <td>0.000153</td>
+      <td>0.092163</td>
+      <td>0.000978</td>
+      <td>0.010328</td>
+      <td>0.000169</td>
       <td>5</td>
       <td>3</td>
       <td>NaN</td>
       <td>{'n_estimators': 5, 'max_features': 3}</td>
-      <td>-3.552708e+09</td>
-      <td>-3.400791e+09</td>
-      <td>-3.476749e+09</td>
-      <td>7.595814e+07</td>
+      <td>-3.555231e+09</td>
+      <td>-3.613972e+09</td>
+      <td>-3.584601e+09</td>
+      <td>2.937086e+07</td>
       <td>9</td>
-      <td>-8.245683e+08</td>
-      <td>-7.533044e+08</td>
-      <td>-7.889364e+08</td>
-      <td>3.563191e+07</td>
+      <td>-8.330462e+08</td>
+      <td>-8.144237e+08</td>
+      <td>-8.237350e+08</td>
+      <td>9.311274e+06</td>
     </tr>
     <tr>
       <th>5</th>
-      <td>3.067760</td>
-      <td>0.009144</td>
-      <td>0.053928</td>
-      <td>0.000264</td>
+      <td>3.149092</td>
+      <td>0.032525</td>
+      <td>0.056430</td>
+      <td>0.001155</td>
       <td>26</td>
       <td>16</td>
       <td>False</td>
       <td>{'n_estimators': 26, 'max_features': 16, 'boot...</td>
-      <td>-5.091930e+09</td>
-      <td>-4.897621e+09</td>
-      <td>-4.994775e+09</td>
-      <td>9.715477e+07</td>
+      <td>-5.091761e+09</td>
+      <td>-4.908329e+09</td>
+      <td>-5.000045e+09</td>
+      <td>9.171590e+07</td>
       <td>10</td>
       <td>-0.000000e+00</td>
       <td>-0.000000e+00</td>
@@ -1802,7 +1802,8 @@ points in the second dict, this time with the <code class="docutils literal notr
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>RandomForestRegressor(bootstrap=False, max_features=6, n_estimators=18)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>RandomForestRegressor(bootstrap=False, max_features=6, n_estimators=18,
+                      random_state=42)
 </pre></div>
 </div>
 </div>
@@ -1853,7 +1854,7 @@ points in the second dict, this time with the <code class="docutils literal notr
       <td>6</td>
       <td>False</td>
       <td>1</td>
-      <td>-2.684644e+09</td>
+      <td>-2.669029e+09</td>
     </tr>
     <tr>
       <th>1</th>
@@ -1862,7 +1863,7 @@ points in the second dict, this time with the <code class="docutils literal notr
       <td>10</td>
       <td>False</td>
       <td>2</td>
-      <td>-2.705397e+09</td>
+      <td>-2.676328e+09</td>
     </tr>
     <tr>
       <th>2</th>
@@ -1871,7 +1872,7 @@ points in the second dict, this time with the <code class="docutils literal notr
       <td>10</td>
       <td>False</td>
       <td>3</td>
-      <td>-2.764137e+09</td>
+      <td>-2.778805e+09</td>
     </tr>
     <tr>
       <th>3</th>
@@ -1880,7 +1881,7 @@ points in the second dict, this time with the <code class="docutils literal notr
       <td>7</td>
       <td>NaN</td>
       <td>4</td>
-      <td>-2.784011e+09</td>
+      <td>-2.793842e+09</td>
     </tr>
   </tbody>
 </table>
@@ -1893,7 +1894,7 @@ points in the second dict, this time with the <code class="docutils literal notr
     <span class="p">{</span><span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="nb">range</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">33</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="s1">&#39;max_features&#39;</span><span class="p">:</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="s1">&#39;bootstrap&#39;</span><span class="p">:</span> <span class="p">[</span><span class="kc">False</span><span class="p">]},</span>
 <span class="p">]</span>
 
-<span class="n">forest_reg</span> <span class="o">=</span> <span class="n">RandomForestRegressor</span><span class="p">()</span>
+<span class="n">forest_reg</span> <span class="o">=</span> <span class="n">RandomForestRegressor</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
 <span class="n">grid_search</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">forest_reg</span><span class="p">,</span> <span class="n">param_grid</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
                            <span class="n">scoring</span><span class="o">=</span><span class="s1">&#39;neg_mean_squared_error&#39;</span><span class="p">,</span>  <span class="c1"># we use neg-RMSE more stable</span>
                            <span class="n">return_train_score</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -1904,7 +1905,7 @@ points in the second dict, this time with the <code class="docutils literal notr
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>87.77183794975281
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>88.20469999313354
 </pre></div>
 </div>
 </div>
@@ -1947,39 +1948,39 @@ points in the second dict, this time with the <code class="docutils literal notr
   <tbody>
     <tr>
       <th>0</th>
-      <td>7</td>
-      <td>29</td>
-      <td>6</td>
-      <td>False</td>
-      <td>1</td>
-      <td>-2.552888e+09</td>
-    </tr>
-    <tr>
-      <th>1</th>
       <td>8</td>
       <td>31</td>
       <td>6</td>
       <td>False</td>
+      <td>1</td>
+      <td>-2.595412e+09</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>16</td>
+      <td>29</td>
+      <td>8</td>
+      <td>False</td>
       <td>2</td>
-      <td>-2.562295e+09</td>
+      <td>-2.602150e+09</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>5</td>
-      <td>25</td>
-      <td>6</td>
+      <td>17</td>
+      <td>31</td>
+      <td>8</td>
       <td>False</td>
       <td>3</td>
-      <td>-2.597227e+09</td>
+      <td>-2.605545e+09</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>6</td>
-      <td>27</td>
+      <td>7</td>
+      <td>29</td>
       <td>6</td>
       <td>False</td>
       <td>4</td>
-      <td>-2.604784e+09</td>
+      <td>-2.608015e+09</td>
     </tr>
   </tbody>
 </table>
@@ -1993,14 +1994,111 @@ points in the second dict, this time with the <code class="docutils literal notr
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>RandomForestRegressor(bootstrap=False, max_features=6, n_estimators=29)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>RandomForestRegressor(bootstrap=False, max_features=6, n_estimators=31,
+                      random_state=42)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="feature-importance">
+<h3>Feature importance<a class="headerlink" href="#feature-importance" title="Permalink to this headline">¶</a></h3>
+<p>You will often gain good insights on the problem by inspecting the best models. For
+example, the RandomForestRegressor can indicate the relative importance of each
+attribute for making accurate predictions:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">feature_importances</span> <span class="o">=</span> <span class="n">grid_search</span><span class="o">.</span><span class="n">best_estimator_</span><span class="o">.</span><span class="n">feature_importances_</span>
+
+<span class="n">num_attribs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">housing_num</span><span class="p">)</span>
+<span class="n">extra_attribs</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;rooms_per_hhold&quot;</span><span class="p">,</span> <span class="s2">&quot;pop_per_hhold&quot;</span><span class="p">,</span> <span class="s2">&quot;bedrooms_per_room&quot;</span><span class="p">]</span>
+<span class="n">cat_one_attribs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">full_pipeline</span><span class="o">.</span><span class="n">named_transformers_</span><span class="p">[</span><span class="s2">&quot;cat&quot;</span><span class="p">][</span><span class="s1">&#39;one_hot&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">categories_</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">attributes</span> <span class="o">=</span> <span class="n">num_attribs</span> <span class="o">+</span> <span class="n">extra_attribs</span> <span class="o">+</span> <span class="n">cat_one_attribs</span>
+
+<span class="n">feature_importance_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">feature_importances</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">attributes</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;importance&#39;</span><span class="p">])</span>
+<span class="n">feature_importance_df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;importance&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">));</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/homl-2-house-prices_108_0.png" src="../_images/homl-2-house-prices_108_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="evaluating-on-the-test-set">
+<h3>Evaluating on the test set<a class="headerlink" href="#evaluating-on-the-test-set" title="Permalink to this headline">¶</a></h3>
+<p>Before evaluating on the test set, we should also look at the specific errors that the system makes, then try to understand
+why it makes them and what could fix the problem (adding extra features or getting rid of
+uninformative ones, cleaning up outliers, etc.). Instead we proceed directly to evaluation on the test set, and perform the error analysis there. (Not best practice, of course. But we do it only as an exercise.)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">best_model</span> <span class="o">=</span> <span class="n">grid_search</span><span class="o">.</span><span class="n">best_estimator_</span>
+
+<span class="n">targets</span> <span class="o">=</span> <span class="n">strat_test_set</span><span class="p">[</span><span class="s1">&#39;median_house_value&#39;</span><span class="p">]</span>
+<span class="n">preds</span> <span class="o">=</span> <span class="n">best_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">full_pipeline</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">strat_test_set</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;median_house_value&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;RMSE:&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="n">preds</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;MAPE:&#39;</span><span class="p">,</span> <span class="n">mean_absolute_percentage_error</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="n">preds</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>RMSE: 47066.11492603761
+MAPE: 0.17649854091977576
+</pre></div>
+</div>
+</div>
+</div>
+<p>This is better than the human experts baseline!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="n">preds</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">500000</span><span class="p">,</span> <span class="mi">10000</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">500000</span><span class="p">,</span> <span class="mi">10000</span><span class="p">),</span> <span class="s1">&#39;k--&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;targets&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;predictions&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/homl-2-house-prices_113_0.png" src="../_images/homl-2-house-prices_113_0.png" />
+</div>
+</div>
+<p>The model performs badly for targets at 500,000. The model predicts below this value, which is understandable from the data. From the plot, we can observe the model performs best when predicting up to 300,000. For predictions beyond 300,000 actual values are more dispersed. This might have to do with having little data in this region as the following plot shows. (See also tip in the monitoring section about having dedicated subsets for error analysis.)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">strat_train_set</span><span class="p">[</span><span class="s1">&#39;median_house_value&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="mi">100</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/homl-2-house-prices_115_0.png" src="../_images/homl-2-house-prices_115_0.png" />
+</div>
+</div>
+<p>Finally, we calculate the <a class="reference external" href="https://sphweb.bumc.bu.edu/otlt/MPH-Modules/BS/BS704_Confidence_Intervals/BS704_Confidence_Intervals_print.html">95% confidence interval</a> for the generalization error using <code class="docutils literal notranslate"><span class="pre">scipy.stats.t.interval</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
+
+<span class="n">confidence</span> <span class="o">=</span> <span class="mf">0.95</span>
+<span class="n">squared_errors</span> <span class="o">=</span> <span class="p">(</span><span class="n">preds</span> <span class="o">-</span> <span class="n">targets</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+<span class="n">mean</span> <span class="o">=</span> <span class="n">squared_errors</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">m</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">squared_errors</span><span class="p">)</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">stats</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">interval</span><span class="p">(</span><span class="n">confidence</span><span class="p">,</span> <span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
+                         <span class="n">loc</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">squared_errors</span><span class="p">),</span>
+                         <span class="n">scale</span><span class="o">=</span><span class="n">stats</span><span class="o">.</span><span class="n">sem</span><span class="p">(</span><span class="n">squared_errors</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([45106.79191289, 48947.07010424])
 </pre></div>
 </div>
 </div>
 </div>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-<p>Turns out, we can fit whole prediction pipelines in <code class="docutils literal notranslate"><span class="pre">GridSearchCV</span></code> and <code class="docutils literal notranslate"><span class="pre">RandomSearchCV</span></code> instead of just a single model. This requires keys for dictionaries in <code class="docutils literal notranslate"><span class="pre">param_grid</span></code> which is better shown than described (basically a recursive application of <code class="docutils literal notranslate"><span class="pre">__</span></code> which explains why we can only use single underscores for names of pipeline elements):</p>
+<p>Instead of tuning a single mode, <code class="docutils literal notranslate"><span class="pre">GridSearchCV</span></code> and <code class="docutils literal notranslate"><span class="pre">RandomSearchCV</span></code> can be used to tune whole prediction pipelines. This requires keys for dictionaries in <code class="docutils literal notranslate"><span class="pre">param_grid</span></code> which is better shown than described.  Basically, a recursive appending of <code class="docutils literal notranslate"><span class="pre">__</span></code> at names which explains why we can only use single underscores for names of pipeline elements.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Append estimator to preprocessing pipeline</span>
 <span class="n">prediction_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([</span>
     <span class="p">(</span><span class="s2">&quot;preprocessing&quot;</span><span class="p">,</span> <span class="n">full_pipeline</span><span class="p">),</span>
@@ -2049,106 +2147,10 @@ points in the second dict, this time with the <code class="docutils literal notr
 </div>
 </div>
 </div>
-<div class="section" id="feature-importance">
-<h3>Feature importance<a class="headerlink" href="#feature-importance" title="Permalink to this headline">¶</a></h3>
-<p>You will often gain good insights on the problem by inspecting the best models. For
-example, the RandomForestRegressor can indicate the relative importance of each
-attribute for making accurate predictions:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">feature_importances</span> <span class="o">=</span> <span class="n">grid_search</span><span class="o">.</span><span class="n">best_estimator_</span><span class="o">.</span><span class="n">feature_importances_</span>
-
-<span class="n">num_attribs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">housing_num</span><span class="p">)</span>
-<span class="n">extra_attribs</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;rooms_per_hhold&quot;</span><span class="p">,</span> <span class="s2">&quot;pop_per_hhold&quot;</span><span class="p">,</span> <span class="s2">&quot;bedrooms_per_room&quot;</span><span class="p">]</span>
-<span class="n">cat_one_attribs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">full_pipeline</span><span class="o">.</span><span class="n">named_transformers_</span><span class="p">[</span><span class="s2">&quot;cat&quot;</span><span class="p">][</span><span class="s1">&#39;one_hot&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">categories_</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-<span class="n">attributes</span> <span class="o">=</span> <span class="n">num_attribs</span> <span class="o">+</span> <span class="n">extra_attribs</span> <span class="o">+</span> <span class="n">cat_one_attribs</span>
-
-<span class="n">feature_importance_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">feature_importances</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">attributes</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;importance&#39;</span><span class="p">])</span>
-<span class="n">feature_importance_df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;importance&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">));</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/homl-2-house-prices_109_0.png" src="../_images/homl-2-house-prices_109_0.png" />
-</div>
-</div>
-</div>
-<div class="section" id="evaluating-on-the-test-set">
-<h3>Evaluating on the test set<a class="headerlink" href="#evaluating-on-the-test-set" title="Permalink to this headline">¶</a></h3>
-<p>Before evaluating on the test set, we should also look at the specific errors that the system makes, then try to understand
-why it makes them and what could fix the problem (adding extra features or getting rid of
-uninformative ones, cleaning up outliers, etc.). Instead we proceed directly to evaluation on the test set, and perform the error analysis there. (Not best practice, of course. But we do it only as an exercise.)</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">best_model</span> <span class="o">=</span> <span class="n">grid_search</span><span class="o">.</span><span class="n">best_estimator_</span>
-
-<span class="n">targets</span> <span class="o">=</span> <span class="n">strat_test_set</span><span class="p">[</span><span class="s1">&#39;median_house_value&#39;</span><span class="p">]</span>
-<span class="n">preds</span> <span class="o">=</span> <span class="n">best_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">full_pipeline</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">strat_test_set</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;median_house_value&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;RMSE:&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="n">preds</span><span class="p">)))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;MAPE:&#39;</span><span class="p">,</span> <span class="n">mean_absolute_percentage_error</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="n">preds</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>RMSE: 47436.55535771298
-MAPE: 0.17769582514754506
-</pre></div>
-</div>
-</div>
-</div>
-<p>This is better than the human experts baseline!</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="n">preds</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">);</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">500000</span><span class="p">,</span> <span class="mi">10000</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">500000</span><span class="p">,</span> <span class="mi">10000</span><span class="p">),</span> <span class="s1">&#39;k--&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;targets&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;predictions&#39;</span><span class="p">);</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/homl-2-house-prices_114_0.png" src="../_images/homl-2-house-prices_114_0.png" />
-</div>
-</div>
-<p>The model performs badly for targets at 500,000. The model predicts below this value, which is understandable from the data. From the plot, we can observe the model performs best when predicting up to 300,000. For predictions beyond 300,000 actual values are more dispersed. This might have to do with having little data in this region as the following plot shows. (See also tip in the monitoring section about having dedicated subsets for error analysis.)</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">strat_train_set</span><span class="p">[</span><span class="s1">&#39;median_house_value&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="mi">100</span><span class="p">);</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/homl-2-house-prices_116_0.png" src="../_images/homl-2-house-prices_116_0.png" />
-</div>
-</div>
-<p>Finally, we calculate the <a class="reference external" href="https://sphweb.bumc.bu.edu/otlt/MPH-Modules/BS/BS704_Confidence_Intervals/BS704_Confidence_Intervals_print.html">95% confidence interval</a> for the generalization error using <code class="docutils literal notranslate"><span class="pre">scipy.stats.t.interval</span></code>.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
-
-<span class="n">confidence</span> <span class="o">=</span> <span class="mf">0.95</span>
-<span class="n">squared_errors</span> <span class="o">=</span> <span class="p">(</span><span class="n">preds</span> <span class="o">-</span> <span class="n">targets</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
-<span class="n">mean</span> <span class="o">=</span> <span class="n">squared_errors</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-<span class="n">m</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">squared_errors</span><span class="p">)</span>
-
-<span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">stats</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">interval</span><span class="p">(</span><span class="n">confidence</span><span class="p">,</span> <span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
-                         <span class="n">loc</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">squared_errors</span><span class="p">),</span>
-                         <span class="n">scale</span><span class="o">=</span><span class="n">stats</span><span class="o">.</span><span class="n">sem</span><span class="p">(</span><span class="n">squared_errors</span><span class="p">)))</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([45397.28434501, 49391.70115018])
-</pre></div>
-</div>
-</div>
-</div>
-</div>
 </div>
 <div class="section" id="launch-monitor-and-maintain">
 <h2>Launch, monitor, and maintain<a class="headerlink" href="#launch-monitor-and-maintain" title="Permalink to this headline">¶</a></h2>
-<p>Now comes the project prelaunch phase: you need to present your solution (highlighting what you have learned, what worked and what did not, what assumptions were made, and what your system’s limitations are), document everything, and create nice presentations with clear visualizations and easy-to-remember statements (e.g., “the median income is the number one predictor of housing prices”). In our case, we found that the best RF model has an MAPE of 17% — significantly better than expert’s price estimates. Launching the model means that we can confidently free up some time for the experts so they can work on more interesting and productive tasks.</p>
+<p>Now comes the project prelaunch phase: you need to present your solution (highlighting what you have learned, what worked and what did not, what assumptions were made, and what your system’s limitations are), document everything, and create nice presentations with clear visualizations and easy-to-remember statements (e.g., “the median income is the number one predictor of housing prices”). In our case, we found that the best RF model has an MAPE of 17.6% — significantly better than expert’s price estimates. Launching the model means that we can confidently free up some time for the experts so they can work on more interesting and productive tasks.</p>
 <p>Perfect, you got approval to launch! You now need to get your solution ready for production (e.g., polish the code, write documentation and tests, and so on). Then you can deploy your model to your production environment. One way to do this is to save the trained Scikit-Learn model (e.g., using <code class="docutils literal notranslate"><span class="pre">joblib</span></code>), including the full preprocessing
 and prediction pipeline, then load this trained model within your production environment and use it to make predictions by calling its <code class="docutils literal notranslate"><span class="pre">predict()</span></code> method.</p>
 <div class="section" id="model-serving">

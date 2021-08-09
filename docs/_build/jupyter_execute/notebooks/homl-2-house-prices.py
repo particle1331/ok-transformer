@@ -717,7 +717,7 @@ param_grid = [
     {'n_estimators': range(8, 32, 2), 'max_features': range(2, 20, 2), 'bootstrap': [False], },
 ]
 
-forest_reg = RandomForestRegressor()
+forest_reg = RandomForestRegressor(random_state=42)
 random_search = RandomizedSearchCV(forest_reg, param_grid, cv=2, n_iter=10, random_state=42,
                                    scoring='neg_mean_squared_error',  # we use neg-RMSE more stable
                                    return_train_score=True)
@@ -763,7 +763,7 @@ param_grid = [
     {'n_estimators': range(15, 33, 2), 'max_features': range(6, 11, 2), 'bootstrap': [False]},
 ]
 
-forest_reg = RandomForestRegressor()
+forest_reg = RandomForestRegressor(random_state=42)
 grid_search = GridSearchCV(forest_reg, param_grid, cv=2,
                            scoring='neg_mean_squared_error',  # we use neg-RMSE more stable
                            return_train_score=True)
@@ -788,60 +788,6 @@ pd.DataFrame(grid_search.cv_results_).sort_values('rank_test_score')[
 
 grid_search.best_estimator_
 
-
-# :::{tip}
-# 
-# Turns out, we can fit whole prediction pipelines in `GridSearchCV` and `RandomSearchCV` instead of just a single model. This requires keys for dictionaries in `param_grid` which is better shown than described (basically a recursive application of `__` which explains why we can only use single underscores for names of pipeline elements):
-# 
-# ```python
-# # Append estimator to preprocessing pipeline
-# prediction_pipeline = Pipeline([
-#     ("preprocessing", full_pipeline),
-#     ("rf", best_model)
-# ])
-# 
-# # Specify parameter lattice
-# param_grid = [{
-#     'preprocessing__num__feature_adder__add_bedrooms_per_room': [True, False], 
-#     'rf__n_estimators': [6, 12, 30], 
-#     'rf__bootstrap': [True, False],
-#     }]
-# 
-# # Hyperparameter search
-# grid_search = GridSearchCV(prediction_pipeline, param_grid, cv=2,
-#                            scoring='neg_mean_squared_error',  # we use neg-RMSE more stable
-#                            return_train_score=True)
-# 
-# grid_search.fit(housing, housing_labels)
-# grid_search.best_estimator_
-# ```
-# 
-# This returns the following estimator. Observe that `add_bedrooms_per_room=False` is the better parameter setting. This example shows that even preprocessing steps can be optimized as part of sklearn's pipeline architecture. Neat!
-# 
-# ```python
-# Pipeline(steps=[('preprocessing',
-#                  ColumnTransformer(transformers=[('num',
-#                                                   Pipeline(steps=[('imputer',
-#                                                                    SimpleImputer(strategy='median')),
-#                                                                   ('feature_adder',
-#                                                                    CombinedFeaturesAdder(add_bedrooms_per_room=False)),
-#                                                                   ('std_scaler',
-#                                                                    StandardScaler())]),
-#                                                   ['longitude', 'latitude',
-#                                                    'housing_median_age',
-#                                                    'total_rooms',
-#                                                    'total_bedrooms',
-#                                                    'population', 'households',
-#                                                    'median_income']),
-#                                                  ('cat',
-#                                                   Pipeline(steps=[('one_hot',
-#                                                                    OneHotEncoder())]),
-#                                                   ['ocean_proximity'])])),
-#                 ('rf',
-#                  RandomForestRegressor(bootstrap=False, max_features=6,
-#                                        n_estimators=30))])
-# ```
-# :::
 
 # ### Feature importance
 
@@ -917,9 +863,63 @@ np.sqrt(stats.t.interval(confidence, m - 1,
                          scale=stats.sem(squared_errors)))
 
 
+# :::{tip}
+# 
+# Instead of tuning a single mode, `GridSearchCV` and `RandomSearchCV` can be used to tune whole prediction pipelines. This requires keys for dictionaries in `param_grid` which is better shown than described.  Basically, a recursive appending of `__` at names which explains why we can only use single underscores for names of pipeline elements.
+# 
+# ```python
+# # Append estimator to preprocessing pipeline
+# prediction_pipeline = Pipeline([
+#     ("preprocessing", full_pipeline),
+#     ("rf", best_model)
+# ])
+# 
+# # Specify parameter lattice
+# param_grid = [{
+#     'preprocessing__num__feature_adder__add_bedrooms_per_room': [True, False], 
+#     'rf__n_estimators': [6, 12, 30], 
+#     'rf__bootstrap': [True, False],
+#     }]
+# 
+# # Hyperparameter search
+# grid_search = GridSearchCV(prediction_pipeline, param_grid, cv=2,
+#                            scoring='neg_mean_squared_error',  # we use neg-RMSE more stable
+#                            return_train_score=True)
+# 
+# grid_search.fit(housing, housing_labels)
+# grid_search.best_estimator_
+# ```
+# 
+# This returns the following estimator. Observe that `add_bedrooms_per_room=False` is the better parameter setting. This example shows that even preprocessing steps can be optimized as part of sklearn's pipeline architecture. Neat!
+# 
+# ```python
+# Pipeline(steps=[('preprocessing',
+#                  ColumnTransformer(transformers=[('num',
+#                                                   Pipeline(steps=[('imputer',
+#                                                                    SimpleImputer(strategy='median')),
+#                                                                   ('feature_adder',
+#                                                                    CombinedFeaturesAdder(add_bedrooms_per_room=False)),
+#                                                                   ('std_scaler',
+#                                                                    StandardScaler())]),
+#                                                   ['longitude', 'latitude',
+#                                                    'housing_median_age',
+#                                                    'total_rooms',
+#                                                    'total_bedrooms',
+#                                                    'population', 'households',
+#                                                    'median_income']),
+#                                                  ('cat',
+#                                                   Pipeline(steps=[('one_hot',
+#                                                                    OneHotEncoder())]),
+#                                                   ['ocean_proximity'])])),
+#                 ('rf',
+#                  RandomForestRegressor(bootstrap=False, max_features=6,
+#                                        n_estimators=30))])
+# ```
+# :::
+
 # ## Launch, monitor, and maintain
 
-# Now comes the project prelaunch phase: you need to present your solution (highlighting what you have learned, what worked and what did not, what assumptions were made, and what your system's limitations are), document everything, and create nice presentations with clear visualizations and easy-to-remember statements (e.g., "the median income is the number one predictor of housing prices"). In our case, we found that the best RF model has an MAPE of 17% &mdash; significantly better than expert's price estimates. Launching the model means that we can confidently free up some time for the experts so they can work on more interesting and productive tasks. 
+# Now comes the project prelaunch phase: you need to present your solution (highlighting what you have learned, what worked and what did not, what assumptions were made, and what your system's limitations are), document everything, and create nice presentations with clear visualizations and easy-to-remember statements (e.g., "the median income is the number one predictor of housing prices"). In our case, we found that the best RF model has an MAPE of 17.6% &mdash; significantly better than expert's price estimates. Launching the model means that we can confidently free up some time for the experts so they can work on more interesting and productive tasks. 
 # 
 # Perfect, you got approval to launch! You now need to get your solution ready for production (e.g., polish the code, write documentation and tests, and so on). Then you can deploy your model to your production environment. One way to do this is to save the trained Scikit-Learn model (e.g., using `joblib`), including the full preprocessing
 # and prediction pipeline, then load this trained model within your production environment and use it to make predictions by calling its `predict()` method.
