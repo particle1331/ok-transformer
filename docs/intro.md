@@ -1,8 +1,10 @@
-# machine-learning
+# Machine Learning
 
-This contains a collection of notes and experiments on machine learning theory and algorithms.
+This is a collection of notes and experiments on machine learning theory and algorithms.
 
 
-:::{warning}
-UNDER CONSTRUCTION
-:::
+
+## References 
+
+```{bibliography}
+```

@@ -3,21 +3,13 @@
 
 # # End-to-End ML Project
 
-# In this notebook, we will work through an example project end to end, pretending to
-# be a recently hired data scientist at a real estate company. Here are the main steps
-# we will go through:
-# 1. Look at the big picture.
-# 2. Get the data.
-# 3. Discover and visualize the data to gain insights.
-# 4. Prepare the data for Machine Learning algorithms.
-# 5. Select a model and train it.
-# 6. Fine-tune your model.
-# 7. Present your solution.
-# 8. Launch, monitor, and maintain your system.
+# ```{admonition} Attribution
+# This notebook is based on Chapter 2 of {cite}`geron2019hands-on`.
+# ```
 
 # ## Looking at the big picture
 # 
-# The task is to use California census data to build a model of housing prices in the state for a real estate investing company. This data includes
+# In this notebook, we will work through an example project end to end, pretending to be a recently hired data scientist at a real estate company. Our first task is to use California census data to build a model of housing prices in the state for a real estate investing company. This data includes
 # metrics such as the population, median income, and median housing price for each
 # block group in California. Block groups are the smallest geographical unit for which
 # the US Census Bureau publishes sample data (a block group typically has a population of 600 to 3,000 people). We will call them “districts” for short.
@@ -235,7 +227,7 @@ strat_error = strat_test_set['income_cat'].value_counts(normalize=True) - housin
 strat_error / housing["income_cat"].value_counts(normalize=True)
 
 
-# This looks way better. We will drop the temporary feature `income_cat` from the train and test sets.
+# This looks way better. We drop the temporary feature `income_cat` from the train and test sets.
 
 # In[14]:
 
@@ -546,7 +538,7 @@ housing_extra_features.shape
 # 
 # We can separate the processing of subsets of columns of the data, then use `ColumnTransformer` to combine everything in a single pipeline. This is done below in defining `full_pipeline`. 
 
-# In[34]:
+# In[31]:
 
 
 from sklearn.pipeline import Pipeline
@@ -556,7 +548,7 @@ from sklearn.compose import ColumnTransformer
 
 num_pipeline = Pipeline([
     ('imputer', SimpleImputer(strategy='median')),
-    ('feature_adder', CombinedFeaturesAdder()),
+    ('feature_adder', CombinedFeaturesAdder()), # add_bedrooms_per_room=True
     ('std_scaler', StandardScaler()),    
 ])
 
@@ -599,7 +591,7 @@ full_pipeline.sparse_threshold
 # `ColumnTransformer` has an argument with default `remainder='drop'` which means non-specified columns in the list of transformers are dropped. Instead, we can specify `remainder='passthrough'` where all remaining columns are skipped and  concatenated with the output of the transformers.
 # :::
 
-# ## Modelling
+# ## Model selection
 
 # We train and evaluate three models: **Linear Regression**, **Decision Forest**, and **Random Forest**. Since we don't have a separate validation set, we will evaluate the models using **cross-validation**. 
 # 
@@ -609,23 +601,22 @@ full_pipeline.sparse_threshold
 # without spending too much time tweaking the hyperparameters. 
 # The goal is to shortlist a few (two to five) promising models.
 
-# ### Selecting a model
-
 # ```{margin}
 # For **scoring** functions, e.g. accuracy, higher is better. For **cost** or **loss** functions, e.g. RMSE, lower is better. 
 # In this case, we use the negative RMSE to flip the graph and convert it to a scoring function.
 # ```
 
-# In[60]:
+# In[34]:
 
 
 from sklearn.linear_model import LinearRegression
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_percentage_error, mean_squared_error 
+from sklearn.model_selection import cross_val_score
 
 
-for model in (LinearRegression(), DecisionTreeRegressor(), RandomForestRegressor()):
+for model in (LinearRegression(), DecisionTreeRegressor(), RandomForestRegressor(random_state=42)):
 
     # Fit with default parameters
     model.fit(housing_prepared, housing_labels)
@@ -658,12 +649,12 @@ for model in (LinearRegression(), DecisionTreeRegressor(), RandomForestRegressor
 #   - 0.066
 # * - **Valid** 
 #   - 0.534 $\pm$ 0.007
-#   - 0.469 $\pm$ 0.006
+#   - 0.495 $\pm$ 0.006
 #   - 0.425 $\pm$ 0.008
 # ```
 # 
 
-# Random Forests look very promising. However, note that
+# Random Forest looks very promising. However, note that
 # the score on the training set is still much lower than on the validation sets, meaning
 # that the model is still **overfitting** the training set. Possible solutions for overfitting are
 # to simplify the model, constrain or **regularize** it, or get a lot more training data.
@@ -690,7 +681,339 @@ for model in (LinearRegression(), DecisionTreeRegressor(), RandomForestRegressor
 # ```
 # :::
 
-# ### Fine tuning our model
+# ## Fine tuning a model
+
+# One option would be to fiddle with the hyperparameters manually, until you find a
+# great combination of hyperparameter values. This would be very tedious work, and
+# you may not have time to explore many combinations. But it also builds intuition on what ranges work. 
+# 
+# If we have a good idea of the search space, then we can start performing **random search** which evaluates a (sufficiently large) fixed number of points on a hyperparameter lattice sampled randomly (uniformly, or according to some distribution). Finally, to squeeze every last drop of performance, we can do **grid search** by evaluating *each* point on a small region of the lattice. 
+
+# ```{figure} ../img/grid-random-search.png
+# ---
+# width: 45em
+# name: grid-random
+# ---
+# Comparing grid and random search over for finding a good set of hyperparameters.
+# ```
+# 
+
+# ### Random search
+
+# Suppose we have familiarized ourselves with the hyperparameter search space giving us an idea on the regions to sample. The following `param_grid` tells the program to first evaluate 10 randomly sampled points out of the **union** of all 14 × 6 = 84 combinations of
+# `n_estimators` and `max_features` hyperparameter values specified in the first dict, plus all 12 × 9 = 96 combinations of hyperparameter values in the
+# points in the second dict, this time with the `bootstrap` hyperparameter set to `False` instead of
+# `True` (default).
+
+# In[35]:
+
+
+from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
+import time
+
+start = time.time()
+param_grid = [
+    {'n_estimators': range(3, 30, 2), 'max_features': range(2, 8)},
+    {'n_estimators': range(8, 32, 2), 'max_features': range(2, 20, 2), 'bootstrap': [False], },
+]
+
+forest_reg = RandomForestRegressor()
+random_search = RandomizedSearchCV(forest_reg, param_grid, cv=2, n_iter=10, random_state=42,
+                                   scoring='neg_mean_squared_error',  # we use neg-RMSE more stable
+                                   return_train_score=True)
+
+random_search.fit(housing_prepared, housing_labels);
+print(time.time() - start)
+
+
+# In[36]:
+
+
+pd.DataFrame(random_search.cv_results_).sort_values('rank_test_score')
+
+
+# In[37]:
+
+
+random_search.best_params_ # rank 1 in above table
+
+
+# In[38]:
+
+
+random_search.best_estimator_
+
+
+# ### Grid Search
+
+# From them the results of random search, it looks like `param_bootstrap` should be set to `False`. Moreover, the `n_estimators` is between 15 and 30, while `max_features` is between 6 to 10. We perform a finer search by doing grid search on these ranges.
+
+# In[39]:
+
+
+pd.DataFrame(random_search.cv_results_).sort_values('rank_test_score')[
+    ['param_n_estimators', 'param_max_features', 'param_bootstrap', 'rank_test_score', 'mean_test_score']][:4].reset_index()
+
+
+# In[40]:
+
+
+start = time.time()
+param_grid = [
+    {'n_estimators': range(15, 33, 2), 'max_features': range(6, 11, 2), 'bootstrap': [False]},
+]
+
+forest_reg = RandomForestRegressor()
+grid_search = GridSearchCV(forest_reg, param_grid, cv=2,
+                           scoring='neg_mean_squared_error',  # we use neg-RMSE more stable
+                           return_train_score=True)
+
+grid_search.fit(housing_prepared, housing_labels);
+print(time.time() - start)
+
+
+# Let us see whether we found better hyperparameters with this finer search method.
+
+# In[41]:
+
+
+pd.DataFrame(grid_search.cv_results_).sort_values('rank_test_score')[
+    ['param_n_estimators', 'param_max_features', 'param_bootstrap', 'rank_test_score', 'mean_test_score']][:4].reset_index()
+
+
+# The top four are actually better scores that the best score for random search! 
+
+# In[42]:
+
+
+grid_search.best_estimator_
+
+
+# :::{tip}
+# 
+# Turns out, we can fit whole prediction pipelines in `GridSearchCV` and `RandomSearchCV` instead of just a single model. This requires keys for dictionaries in `param_grid` which is better shown than described (basically a recursive application of `__` which explains why we can only use single underscores for names of pipeline elements):
+# 
+# ```python
+# # Append estimator to preprocessing pipeline
+# prediction_pipeline = Pipeline([
+#     ("preprocessing", full_pipeline),
+#     ("rf", best_model)
+# ])
+# 
+# # Specify parameter lattice
+# param_grid = [{
+#     'preprocessing__num__feature_adder__add_bedrooms_per_room': [True, False], 
+#     'rf__n_estimators': [6, 12, 30], 
+#     'rf__bootstrap': [True, False],
+#     }]
+# 
+# # Hyperparameter search
+# grid_search = GridSearchCV(prediction_pipeline, param_grid, cv=2,
+#                            scoring='neg_mean_squared_error',  # we use neg-RMSE more stable
+#                            return_train_score=True)
+# 
+# grid_search.fit(housing, housing_labels)
+# grid_search.best_estimator_
+# ```
+# 
+# This returns the following estimator. Observe that `add_bedrooms_per_room=False` is the better parameter setting. This example shows that even preprocessing steps can be optimized as part of sklearn's pipeline architecture. Neat!
+# 
+# ```python
+# Pipeline(steps=[('preprocessing',
+#                  ColumnTransformer(transformers=[('num',
+#                                                   Pipeline(steps=[('imputer',
+#                                                                    SimpleImputer(strategy='median')),
+#                                                                   ('feature_adder',
+#                                                                    CombinedFeaturesAdder(add_bedrooms_per_room=False)),
+#                                                                   ('std_scaler',
+#                                                                    StandardScaler())]),
+#                                                   ['longitude', 'latitude',
+#                                                    'housing_median_age',
+#                                                    'total_rooms',
+#                                                    'total_bedrooms',
+#                                                    'population', 'households',
+#                                                    'median_income']),
+#                                                  ('cat',
+#                                                   Pipeline(steps=[('one_hot',
+#                                                                    OneHotEncoder())]),
+#                                                   ['ocean_proximity'])])),
+#                 ('rf',
+#                  RandomForestRegressor(bootstrap=False, max_features=6,
+#                                        n_estimators=30))])
+# ```
+# :::
+
+# ### Feature importance
+
+# You will often gain good insights on the problem by inspecting the best models. For
+# example, the RandomForestRegressor can indicate the relative importance of each
+# attribute for making accurate predictions:
+
+# In[43]:
+
+
+feature_importances = grid_search.best_estimator_.feature_importances_
+
+num_attribs = list(housing_num)
+extra_attribs = ["rooms_per_hhold", "pop_per_hhold", "bedrooms_per_room"]
+cat_one_attribs = list(full_pipeline.named_transformers_["cat"]['one_hot'].categories_[0])
+attributes = num_attribs + extra_attribs + cat_one_attribs
+
+feature_importance_df = pd.DataFrame(feature_importances, index=attributes, columns=['importance'])
+feature_importance_df.sort_values('importance').plot.bar(figsize=(12, 6));
+
+
+# ### Evaluating on the test set
+
+# Before evaluating on the test set, we should also look at the specific errors that the system makes, then try to understand 
+# why it makes them and what could fix the problem (adding extra features or getting rid of 
+# uninformative ones, cleaning up outliers, etc.). Instead we proceed directly to evaluation on the test set, and perform the error analysis there. (Not best practice, of course. But we do it only as an exercise.)
+
+# In[44]:
+
+
+best_model = grid_search.best_estimator_
+
+targets = strat_test_set['median_house_value']
+preds = best_model.predict(full_pipeline.transform(strat_test_set.drop('median_house_value', axis=1)))
+print('RMSE:', np.sqrt(mean_squared_error(targets, preds)))
+print('MAPE:', mean_absolute_percentage_error(targets, preds))
+
+
+# This is better than the human experts baseline! 
+
+# In[45]:
+
+
+plt.figure(figsize=(10, 10))
+plt.scatter(targets, preds, alpha=0.4);
+plt.plot(range(0, 500000, 10000), range(0, 500000, 10000), 'k--')
+plt.xlabel('targets')
+plt.ylabel('predictions');
+
+
+# The model performs badly for targets at 500,000. The model predicts below this value, which is understandable from the data. From the plot, we can observe the model performs best when predicting up to 300,000. For predictions beyond 300,000 actual values are more dispersed. This might have to do with having little data in this region as the following plot shows. (See also tip in the monitoring section about having dedicated subsets for error analysis.)
+
+# In[46]:
+
+
+strat_train_set['median_house_value'].hist(bins=100);
+
+
+# Finally, we calculate the [95% confidence interval](https://sphweb.bumc.bu.edu/otlt/MPH-Modules/BS/BS704_Confidence_Intervals/BS704_Confidence_Intervals_print.html) for the generalization error using `scipy.stats.t.interval`.
+
+# In[47]:
+
+
+from scipy import stats
+
+confidence = 0.95
+squared_errors = (preds - targets) ** 2
+mean = squared_errors.mean()
+m = len(squared_errors)
+
+np.sqrt(stats.t.interval(confidence, m - 1,
+                         loc=np.mean(squared_errors),
+                         scale=stats.sem(squared_errors)))
+
+
+# ## Launch, monitor, and maintain
+
+# Now comes the project prelaunch phase: you need to present your solution (highlighting what you have learned, what worked and what did not, what assumptions were made, and what your system's limitations are), document everything, and create nice presentations with clear visualizations and easy-to-remember statements (e.g., "the median income is the number one predictor of housing prices"). In our case, we found that the best RF model has an MAPE of 17.4% &mdash; significantly better than expert's price estimates. Launching the model means that we can confidently free up some time for the experts so they can work on more interesting and productive tasks. 
+# 
+# Perfect, you got approval to launch! You now need to get your solution ready for production (e.g., polish the code, write documentation and tests, and so on). Then you can deploy your model to your production environment. One way to do this is to save the trained Scikit-Learn model (e.g., using `joblib`), including the full preprocessing
+# and prediction pipeline, then load this trained model within your production environment and use it to make predictions by calling its `predict()` method.
+# 
+# ### Model serving
+# 
+# Models can be served within a dedicated web service that downstream applications can
+# query through a REST API. Or the models can be run in a dedicated server which stores its prediction in a downstream data store (e.g. a database). Another popular strategy is to deploy your model on the cloud, for example on Google Cloud AI Platform (formerly known as Google Cloud ML Engine): just save your
+# model using joblib and upload it to Google Cloud Storage (GCS), then head over to
+# Google Cloud AI Platform and create a new model version, pointing it to the GCS
+# file. That’s it! This gives you a simple web service that takes care of load balancing and
+# scaling for you. It take JSON requests containing the input data (e.g., of a district) and
+# returns JSON responses containing the predictions. You can then use this web service
+# in your website (or whatever production environment you are using). 
+# 
+# ### Monitoring
+# 
+# But deployment is not the end of the story. You also need to write monitoring code to
+# check your system's live performance at regular intervals and trigger alerts when it
+# drops. This could be a steep drop, likely due to a broken component in your infrastructure, but be aware that it could also be a gentle decay that could easily go unnoticed for a long time. This is quite common because models tend to “rot” over time:
+# indeed, the world changes, so if the model was trained with last year’s data, it may not
+# be adapted to today's data.
+# 
+# In some cases, the model’s performance can be inferred from downstream
+# metrics. For example, if your model is part of a recommender system and it suggests
+# products that the users may be interested in, then it’s easy to monitor the number of
+# recommended products sold each day. If this number drops (compared to nonrecommended products), then the prime suspect is the model. This may be because
+# the data pipeline is broken, or perhaps the model needs to be retrained on fresh data. 
+# 
+# However, it's not always possible to determine the model’s performance without any
+# human analysis. This depends heavily on the nature of the task. How can you get an
+# alert if the model's performance drops, before thousands of defective products get
+# shipped to your clients? One solution is to send to human raters a sample of all the
+# pictures that the model classified (especially pictures that the model has low confidence). Depending on the task, the raters may need to be experts, or they could be
+# nonspecialists, such as workers on a crowdsourcing platform. In some applications they could even be the users themselves, responding for example via surveys or repurposed captchas.[^footnote1]
+# 
+# Either way, you need to put in place a monitoring system (with or without human
+# raters to evaluate the live model), as well as all the relevant processes to define what to
+# do in case of failures and how to prepare for them. Unfortunately, this can be a lot of
+# work. In fact, it is often much more work than building and training a model.
+# 
+# If the data keeps evolving, you will need to update your datasets and retrain your
+# model regularly. You should probably automate the whole process as much as possible. Here are a few things you can automate:
+# 
+# * Collect fresh data regularly and label it (e.g., using human raters).
+# 
+# +++
+# 
+# * Write a script to train the model and fine-tune the hyperparameters automatically. This script could run automatically, for example every day or every week, depending on your needs.
+# 
+# +++
+# 
+# * Write another script that will evaluate both the new model and the previous model on the updated test set, and deploy the model to production if the performance has not decreased (if it did, make sure you investigate why).
+# 
+# You should also make sure you evaluate the model’s input data quality. Sometimes
+# performance will degrade slightly because of a poor-quality signal (e.g., a malfunctioning sensor sending random values, or another team’s output becoming stale), but
+# it may take a while before your system’s performance degrades enough to trigger an
+# alert. If you monitor your model’s inputs, you may catch this earlier. For example, you
+# could trigger an alert if more and more inputs are missing a feature, or if its mean or
+# standard deviation drifts too far from the training set, or a categorical feature starts
+# containing new categories. (!)
+# 
+# :::{tip}
+# You may want to create several subsets of the test set in order to
+# evaluate how well your model performs on specific parts of the
+# data. For example, you may want to have a subset containing only
+# the most recent data, or a test set for specific kinds of inputs (e.g.,
+# districts located inland versus districts located near the ocean).
+# This will give you a deeper understanding of your model’s
+# strengths and weaknesses.
+# :::
+# 
+# [^footnote1]: A captcha is a test to ensure a user is not a robot. These tests have often been used as a cheap way to label
+# training data.
+# 
+# 
+# ### Backups
+# 
+# Finally, make sure you keep backups of every model you create and have the process
+# and tools in place to roll back to a previous model quickly, in case the new model
+# starts failing badly for some reason. Having backups also makes it possible to easily
+# compare new models with previous ones. Similarly, you should keep backups of every
+# version of your datasets so that you can roll back to a previous dataset if the new one
+# ever gets corrupted (e.g., if the fresh data that gets added to it turns out to be full of
+# outliers). Having backups of your datasets also allows you to evaluate any model
+# against any previous dataset.
+# 
+
+# ## Conclusion
+# 
+# Much of the work is in the data preparation step: building monitoring
+# tools, setting up human evaluation pipelines, and automating regular model training.
+# ML algorithms are important, of course, but it is probably preferable to be comfortable with the overall process and know three or four algorithms well
+# rather than to spend all your time exploring advanced algorithms.
 
 # In[ ]:
 

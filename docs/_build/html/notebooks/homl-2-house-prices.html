@@ -52,12 +52,11 @@
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
-    <link rel="canonical" href="https://github.com/particle1331/machine-learning-collection/notebooks/homl-2-house-prices.html" />
     <link rel="shortcut icon" href="../_static/loss_surface.png"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Markdown Files" href="../markdown.html" />
-    <link rel="prev" title="machine-learning" href="../intro.html" />
+    <link rel="next" title="Content with notebooks" href="../notebooks.html" />
+    <link rel="prev" title="Machine Learning" href="../intro.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
     
@@ -106,11 +105,6 @@
 </p>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="../markdown.html">
-   Markdown Files
-  </a>
- </li>
- <li class="toctree-l1">
   <a class="reference internal" href="../notebooks.html">
    Content with notebooks
   </a>
@@ -119,6 +113,10 @@
 
     </div>
 </nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
 
 </div>
 
@@ -171,7 +169,10 @@
             href="https://github.com/particle1331/machine-learning-collection"><button type="button" class="btn btn-secondary topbarbtn"
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
-        
+        <a class="issues-button"
+            href="https://github.com/particle1331/machine-learning-collection/issues/new?title=Issue%20on%20page%20%2Fnotebooks/homl-2-house-prices.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
         
     </div>
 </div>
@@ -190,7 +191,7 @@
         aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
     <div class="dropdown-buttons">
         
-        <a class="binder-button" href="https://mybinder.org/v2/gh/particle1331/machine-learning-collection/master?urlpath=tree/notebooks/homl-2-house-prices.ipynb"><button type="button"
+        <a class="binder-button" href="https://mybinder.org/v2/gh/particle1331/machine-learning-collection/master?urlpath=tree/docs/notebooks/homl-2-house-prices.ipynb"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
                 data-placement="left"><img class="binder-button-logo"
                     src="../_static/images/logo_binder.svg"
@@ -289,21 +290,63 @@
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#modelling">
-   Modelling
+  <a class="reference internal nav-link" href="#model-selection">
+   Model selection
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#fine-tuning-a-model">
+   Fine tuning a model
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#selecting-a-model">
-     Selecting a model
+    <a class="reference internal nav-link" href="#random-search">
+     Random search
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#fine-tuning-our-model">
-     Fine tuning our model
+    <a class="reference internal nav-link" href="#grid-search">
+     Grid Search
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#feature-importance">
+     Feature importance
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#evaluating-on-the-test-set">
+     Evaluating on the test set
     </a>
    </li>
   </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#launch-monitor-and-maintain">
+   Launch, monitor, and maintain
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#model-serving">
+     Model serving
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#monitoring">
+     Monitoring
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#backups">
+     Backups
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#conclusion">
+   Conclusion
+  </a>
  </li>
 </ul>
 
@@ -318,22 +361,13 @@
                 
   <div class="section" id="end-to-end-ml-project">
 <h1>End-to-End ML Project<a class="headerlink" href="#end-to-end-ml-project" title="Permalink to this headline">¶</a></h1>
-<p>In this notebook, we will work through an example project end to end, pretending to
-be a recently hired data scientist at a real estate company. Here are the main steps
-we will go through:</p>
-<ol class="simple">
-<li><p>Look at the big picture.</p></li>
-<li><p>Get the data.</p></li>
-<li><p>Discover and visualize the data to gain insights.</p></li>
-<li><p>Prepare the data for Machine Learning algorithms.</p></li>
-<li><p>Select a model and train it.</p></li>
-<li><p>Fine-tune your model.</p></li>
-<li><p>Present your solution.</p></li>
-<li><p>Launch, monitor, and maintain your system.</p></li>
-</ol>
+<div class="admonition-attribution admonition">
+<p class="admonition-title">Attribution</p>
+<p>This notebook is based on Chapter 2 of <span id="id1">[<a class="reference internal" href="../intro.html#id2">Geron19</a>]</span>.</p>
+</div>
 <div class="section" id="looking-at-the-big-picture">
 <h2>Looking at the big picture<a class="headerlink" href="#looking-at-the-big-picture" title="Permalink to this headline">¶</a></h2>
-<p>The task is to use California census data to build a model of housing prices in the state for a real estate investing company. This data includes
+<p>In this notebook, we will work through an example project end to end, pretending to be a recently hired data scientist at a real estate company. Our first task is to use California census data to build a model of housing prices in the state for a real estate investing company. This data includes
 metrics such as the population, median income, and median housing price for each
 block group in California. Block groups are the smallest geographical unit for which
 the US Census Bureau publishes sample data (a block group typically has a population of 600 to 3,000 people). We will call them “districts” for short.
@@ -845,7 +879,7 @@ Name: income_cat, dtype: float64
 </div>
 </div>
 </div>
-<p>This looks way better. We will drop the temporary feature <code class="docutils literal notranslate"><span class="pre">income_cat</span></code> from the train and test sets.</p>
+<p>This looks way better. We drop the temporary feature <code class="docutils literal notranslate"><span class="pre">income_cat</span></code> from the train and test sets.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">set_</span> <span class="ow">in</span> <span class="p">(</span><span class="n">strat_train_set</span><span class="p">,</span> <span class="n">strat_test_set</span><span class="p">):</span>
@@ -1275,7 +1309,7 @@ estimator is a <code class="docutils literal notranslate"><span class="pre">Stan
 
 <span class="n">num_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([</span>
     <span class="p">(</span><span class="s1">&#39;imputer&#39;</span><span class="p">,</span> <span class="n">SimpleImputer</span><span class="p">(</span><span class="n">strategy</span><span class="o">=</span><span class="s1">&#39;median&#39;</span><span class="p">)),</span>
-    <span class="p">(</span><span class="s1">&#39;feature_adder&#39;</span><span class="p">,</span> <span class="n">CombinedFeaturesAdder</span><span class="p">()),</span>
+    <span class="p">(</span><span class="s1">&#39;feature_adder&#39;</span><span class="p">,</span> <span class="n">CombinedFeaturesAdder</span><span class="p">()),</span> <span class="c1"># add_bedrooms_per_room=True</span>
     <span class="p">(</span><span class="s1">&#39;std_scaler&#39;</span><span class="p">,</span> <span class="n">StandardScaler</span><span class="p">()),</span>    
 <span class="p">])</span>
 
@@ -1342,16 +1376,14 @@ default, <code class="docutils literal notranslate"><span class="pre">sparse_thr
 </div>
 </div>
 </div>
-<div class="section" id="modelling">
-<h2>Modelling<a class="headerlink" href="#modelling" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="model-selection">
+<h2>Model selection<a class="headerlink" href="#model-selection" title="Permalink to this headline">¶</a></h2>
 <p>We train and evaluate three models: <strong>Linear Regression</strong>, <strong>Decision Forest</strong>, and <strong>Random Forest</strong>. Since we don’t have a separate validation set, we will evaluate the models using <strong>cross-validation</strong>.</p>
 <p>In general, we try out
 many models from various categories of ML algorithms (e.g.
 SVMs with different kernels, and possibly a neural network),
 without spending too much time tweaking the hyperparameters.
 The goal is to shortlist a few (two to five) promising models.</p>
-<div class="section" id="selecting-a-model">
-<h3>Selecting a model<a class="headerlink" href="#selecting-a-model" title="Permalink to this headline">¶</a></h3>
 <div class="margin sidebar">
 <p class="sidebar-title"></p>
 <p>For <strong>scoring</strong> functions, e.g. accuracy, higher is better. For <strong>cost</strong> or <strong>loss</strong> functions, e.g. RMSE, lower is better.
@@ -1363,9 +1395,10 @@ In this case, we use the negative RMSE to flip the graph and convert it to a sco
 <span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeRegressor</span>
 <span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">RandomForestRegressor</span>
 <span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_absolute_percentage_error</span><span class="p">,</span> <span class="n">mean_squared_error</span> 
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">cross_val_score</span>
 
 
-<span class="k">for</span> <span class="n">model</span> <span class="ow">in</span> <span class="p">(</span><span class="n">LinearRegression</span><span class="p">(),</span> <span class="n">DecisionTreeRegressor</span><span class="p">(),</span> <span class="n">RandomForestRegressor</span><span class="p">()):</span>
+<span class="k">for</span> <span class="n">model</span> <span class="ow">in</span> <span class="p">(</span><span class="n">LinearRegression</span><span class="p">(),</span> <span class="n">DecisionTreeRegressor</span><span class="p">(),</span> <span class="n">RandomForestRegressor</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)):</span>
 
     <span class="c1"># Fit with default parameters</span>
     <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">housing_prepared</span><span class="p">,</span> <span class="n">housing_labels</span><span class="p">)</span>
@@ -1395,18 +1428,18 @@ Train MAPE: 0.28465764084762196
 DecisionTreeRegressor()
 Train RMSE: 0.0
 Train MAPE: 0.0
-0.4949555677943283 0.007127614463937506
+0.49557949122272327 0.00799967032056219
 
-RandomForestRegressor()
-Train RMSE: 18706.490496026367
-Train MAPE: 0.06655703410239762
-0.4249542965906704 0.008573104912498245
+RandomForestRegressor(random_state=42)
+Train RMSE: 18603.515021376355
+Train MAPE: 0.06670555717338728
+0.4246711771974897 0.008435345703606448
 </pre></div>
 </div>
 </div>
 </div>
-<table class="table" id="id1">
-<caption><span class="caption-number">Table 1 </span><span class="caption-text">Train and 10-fold cross-validation MAPE of the models.</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
+<table class="table" id="id3">
+<caption><span class="caption-number">Table 1 </span><span class="caption-text">Train and 10-fold cross-validation MAPE of the models.</span><a class="headerlink" href="#id3" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col style="width: 25%" />
 <col style="width: 25%" />
@@ -1428,12 +1461,12 @@ Train MAPE: 0.06655703410239762
 </tr>
 <tr class="row-odd"><td><p><strong>Valid</strong></p></td>
 <td><p>0.534 <span class="math notranslate nohighlight">\(\pm\)</span> 0.007</p></td>
-<td><p>0.469 <span class="math notranslate nohighlight">\(\pm\)</span> 0.006</p></td>
+<td><p>0.495 <span class="math notranslate nohighlight">\(\pm\)</span> 0.006</p></td>
 <td><p>0.425 <span class="math notranslate nohighlight">\(\pm\)</span> 0.008</p></td>
 </tr>
 </tbody>
 </table>
-<p>Random Forests look very promising. However, note that
+<p>Random Forest looks very promising. However, note that
 the score on the training set is still much lower than on the validation sets, meaning
 that the model is still <strong>overfitting</strong> the training set. Possible solutions for overfitting are
 to simplify the model, constrain or <strong>regularize</strong> it, or get a lot more training data.</p>
@@ -1458,9 +1491,753 @@ NumPy arrays:</p>
 </div>
 </div>
 </div>
-<div class="section" id="fine-tuning-our-model">
-<h3>Fine tuning our model<a class="headerlink" href="#fine-tuning-our-model" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="fine-tuning-a-model">
+<h2>Fine tuning a model<a class="headerlink" href="#fine-tuning-a-model" title="Permalink to this headline">¶</a></h2>
+<p>One option would be to fiddle with the hyperparameters manually, until you find a
+great combination of hyperparameter values. This would be very tedious work, and
+you may not have time to explore many combinations. But it also builds intuition on what ranges work.</p>
+<p>If we have a good idea of the search space, then we can start performing <strong>random search</strong> which evaluates a (sufficiently large) fixed number of points on a hyperparameter lattice sampled randomly (uniformly, or according to some distribution). Finally, to squeeze every last drop of performance, we can do <strong>grid search</strong> by evaluating <em>each</em> point on a small region of the lattice.</p>
+<div class="figure align-default" id="grid-random">
+<a class="reference internal image-reference" href="../_images/grid-random-search.png"><img alt="../_images/grid-random-search.png" src="../_images/grid-random-search.png" style="width: 45em;" /></a>
+<p class="caption"><span class="caption-number">Fig. 2 </span><span class="caption-text">Comparing grid and random search over for finding a good set of hyperparameters.</span><a class="headerlink" href="#grid-random" title="Permalink to this image">¶</a></p>
 </div>
+<div class="section" id="random-search">
+<h3>Random search<a class="headerlink" href="#random-search" title="Permalink to this headline">¶</a></h3>
+<p>Suppose we have familiarized ourselves with the hyperparameter search space giving us an idea on the regions to sample. The following <code class="docutils literal notranslate"><span class="pre">param_grid</span></code> tells the program to first evaluate 10 randomly sampled points out of the <strong>union</strong> of all 14 × 6 = 84 combinations of
+<code class="docutils literal notranslate"><span class="pre">n_estimators</span></code> and <code class="docutils literal notranslate"><span class="pre">max_features</span></code> hyperparameter values specified in the first dict, plus all 12 × 9 = 96 combinations of hyperparameter values in the
+points in the second dict, this time with the <code class="docutils literal notranslate"><span class="pre">bootstrap</span></code> hyperparameter set to <code class="docutils literal notranslate"><span class="pre">False</span></code> instead of
+<code class="docutils literal notranslate"><span class="pre">True</span></code> (default).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">GridSearchCV</span><span class="p">,</span> <span class="n">RandomizedSearchCV</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">param_grid</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span><span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="s1">&#39;max_features&#39;</span><span class="p">:</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">8</span><span class="p">)},</span>
+    <span class="p">{</span><span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="nb">range</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="s1">&#39;max_features&#39;</span><span class="p">:</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="s1">&#39;bootstrap&#39;</span><span class="p">:</span> <span class="p">[</span><span class="kc">False</span><span class="p">],</span> <span class="p">},</span>
+<span class="p">]</span>
+
+<span class="n">forest_reg</span> <span class="o">=</span> <span class="n">RandomForestRegressor</span><span class="p">()</span>
+<span class="n">random_search</span> <span class="o">=</span> <span class="n">RandomizedSearchCV</span><span class="p">(</span><span class="n">forest_reg</span><span class="p">,</span> <span class="n">param_grid</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">n_iter</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+                                   <span class="n">scoring</span><span class="o">=</span><span class="s1">&#39;neg_mean_squared_error&#39;</span><span class="p">,</span>  <span class="c1"># we use neg-RMSE more stable</span>
+                                   <span class="n">return_train_score</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">random_search</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">housing_prepared</span><span class="p">,</span> <span class="n">housing_labels</span><span class="p">);</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>23.88477087020874
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">random_search</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;rank_test_score&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean_fit_time</th>
+      <th>std_fit_time</th>
+      <th>mean_score_time</th>
+      <th>std_score_time</th>
+      <th>param_n_estimators</th>
+      <th>param_max_features</th>
+      <th>param_bootstrap</th>
+      <th>params</th>
+      <th>split0_test_score</th>
+      <th>split1_test_score</th>
+      <th>mean_test_score</th>
+      <th>std_test_score</th>
+      <th>rank_test_score</th>
+      <th>split0_train_score</th>
+      <th>split1_train_score</th>
+      <th>mean_train_score</th>
+      <th>std_train_score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>4</th>
+      <td>0.870693</td>
+      <td>0.008878</td>
+      <td>0.042046</td>
+      <td>0.001072</td>
+      <td>18</td>
+      <td>6</td>
+      <td>False</td>
+      <td>{'n_estimators': 18, 'max_features': 6, 'boots...</td>
+      <td>-2.607647e+09</td>
+      <td>-2.632694e+09</td>
+      <td>-2.620170e+09</td>
+      <td>1.252363e+07</td>
+      <td>1</td>
+      <td>-0.000000e+00</td>
+      <td>-0.000000e+00</td>
+      <td>0.000000e+00</td>
+      <td>0.000000e+00</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2.486498</td>
+      <td>0.038457</td>
+      <td>0.068888</td>
+      <td>0.006710</td>
+      <td>30</td>
+      <td>10</td>
+      <td>False</td>
+      <td>{'n_estimators': 30, 'max_features': 10, 'boot...</td>
+      <td>-2.657541e+09</td>
+      <td>-2.727722e+09</td>
+      <td>-2.692631e+09</td>
+      <td>3.509062e+07</td>
+      <td>2</td>
+      <td>-0.000000e+00</td>
+      <td>-0.000000e+00</td>
+      <td>0.000000e+00</td>
+      <td>0.000000e+00</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.552883</td>
+      <td>0.009860</td>
+      <td>0.035649</td>
+      <td>0.004613</td>
+      <td>15</td>
+      <td>7</td>
+      <td>NaN</td>
+      <td>{'n_estimators': 15, 'max_features': 7}</td>
+      <td>-2.765721e+09</td>
+      <td>-2.799983e+09</td>
+      <td>-2.782852e+09</td>
+      <td>1.713091e+07</td>
+      <td>3</td>
+      <td>-4.881752e+08</td>
+      <td>-4.554458e+08</td>
+      <td>-4.718105e+08</td>
+      <td>1.636469e+07</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1.416437</td>
+      <td>0.084630</td>
+      <td>0.045737</td>
+      <td>0.005668</td>
+      <td>16</td>
+      <td>10</td>
+      <td>False</td>
+      <td>{'n_estimators': 16, 'max_features': 10, 'boot...</td>
+      <td>-2.759508e+09</td>
+      <td>-2.814966e+09</td>
+      <td>-2.787237e+09</td>
+      <td>2.772911e+07</td>
+      <td>4</td>
+      <td>-0.000000e+00</td>
+      <td>-0.000000e+00</td>
+      <td>0.000000e+00</td>
+      <td>0.000000e+00</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>0.304344</td>
+      <td>0.000377</td>
+      <td>0.042558</td>
+      <td>0.000475</td>
+      <td>21</td>
+      <td>2</td>
+      <td>NaN</td>
+      <td>{'n_estimators': 21, 'max_features': 2}</td>
+      <td>-3.045627e+09</td>
+      <td>-3.054800e+09</td>
+      <td>-3.050214e+09</td>
+      <td>4.586492e+06</td>
+      <td>5</td>
+      <td>-5.076856e+08</td>
+      <td>-4.693709e+08</td>
+      <td>-4.885283e+08</td>
+      <td>1.915738e+07</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>0.401320</td>
+      <td>0.015442</td>
+      <td>0.025843</td>
+      <td>0.002182</td>
+      <td>9</td>
+      <td>5</td>
+      <td>NaN</td>
+      <td>{'n_estimators': 9, 'max_features': 5}</td>
+      <td>-3.023947e+09</td>
+      <td>-3.106047e+09</td>
+      <td>-3.064997e+09</td>
+      <td>4.104974e+07</td>
+      <td>6</td>
+      <td>-5.760730e+08</td>
+      <td>-5.743082e+08</td>
+      <td>-5.751906e+08</td>
+      <td>8.823983e+05</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>0.313764</td>
+      <td>0.086171</td>
+      <td>0.023608</td>
+      <td>0.000879</td>
+      <td>11</td>
+      <td>3</td>
+      <td>NaN</td>
+      <td>{'n_estimators': 11, 'max_features': 3}</td>
+      <td>-3.043014e+09</td>
+      <td>-3.152223e+09</td>
+      <td>-3.097618e+09</td>
+      <td>5.460423e+07</td>
+      <td>7</td>
+      <td>-5.513906e+08</td>
+      <td>-5.495614e+08</td>
+      <td>-5.504760e+08</td>
+      <td>9.145923e+05</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>0.186915</td>
+      <td>0.023358</td>
+      <td>0.016704</td>
+      <td>0.000189</td>
+      <td>7</td>
+      <td>3</td>
+      <td>NaN</td>
+      <td>{'n_estimators': 7, 'max_features': 3}</td>
+      <td>-3.159677e+09</td>
+      <td>-3.398750e+09</td>
+      <td>-3.279214e+09</td>
+      <td>1.195366e+08</td>
+      <td>8</td>
+      <td>-6.500314e+08</td>
+      <td>-6.718126e+08</td>
+      <td>-6.609220e+08</td>
+      <td>1.089058e+07</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>0.106018</td>
+      <td>0.010140</td>
+      <td>0.012756</td>
+      <td>0.001840</td>
+      <td>5</td>
+      <td>3</td>
+      <td>NaN</td>
+      <td>{'n_estimators': 5, 'max_features': 3}</td>
+      <td>-3.511831e+09</td>
+      <td>-3.720816e+09</td>
+      <td>-3.616323e+09</td>
+      <td>1.044922e+08</td>
+      <td>9</td>
+      <td>-8.036129e+08</td>
+      <td>-8.452859e+08</td>
+      <td>-8.244494e+08</td>
+      <td>2.083651e+07</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>3.519423</td>
+      <td>0.101929</td>
+      <td>0.055001</td>
+      <td>0.000754</td>
+      <td>26</td>
+      <td>16</td>
+      <td>False</td>
+      <td>{'n_estimators': 26, 'max_features': 16, 'boot...</td>
+      <td>-5.078246e+09</td>
+      <td>-4.900667e+09</td>
+      <td>-4.989456e+09</td>
+      <td>8.878955e+07</td>
+      <td>10</td>
+      <td>-0.000000e+00</td>
+      <td>-0.000000e+00</td>
+      <td>0.000000e+00</td>
+      <td>0.000000e+00</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">random_search</span><span class="o">.</span><span class="n">best_params_</span> <span class="c1"># rank 1 in above table</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;n_estimators&#39;: 18, &#39;max_features&#39;: 6, &#39;bootstrap&#39;: False}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">random_search</span><span class="o">.</span><span class="n">best_estimator_</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>RandomForestRegressor(bootstrap=False, max_features=6, n_estimators=18)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="grid-search">
+<h3>Grid Search<a class="headerlink" href="#grid-search" title="Permalink to this headline">¶</a></h3>
+<p>From them the results of random search, it looks like <code class="docutils literal notranslate"><span class="pre">param_bootstrap</span></code> should be set to <code class="docutils literal notranslate"><span class="pre">False</span></code>. Moreover, the <code class="docutils literal notranslate"><span class="pre">n_estimators</span></code> is between 15 and 30, while <code class="docutils literal notranslate"><span class="pre">max_features</span></code> is between 6 to 10. We perform a finer search by doing grid search on these ranges.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">random_search</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;rank_test_score&#39;</span><span class="p">)[</span>
+    <span class="p">[</span><span class="s1">&#39;param_n_estimators&#39;</span><span class="p">,</span> <span class="s1">&#39;param_max_features&#39;</span><span class="p">,</span> <span class="s1">&#39;param_bootstrap&#39;</span><span class="p">,</span> <span class="s1">&#39;rank_test_score&#39;</span><span class="p">,</span> <span class="s1">&#39;mean_test_score&#39;</span><span class="p">]][:</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>index</th>
+      <th>param_n_estimators</th>
+      <th>param_max_features</th>
+      <th>param_bootstrap</th>
+      <th>rank_test_score</th>
+      <th>mean_test_score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>4</td>
+      <td>18</td>
+      <td>6</td>
+      <td>False</td>
+      <td>1</td>
+      <td>-2.620170e+09</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>3</td>
+      <td>30</td>
+      <td>10</td>
+      <td>False</td>
+      <td>2</td>
+      <td>-2.692631e+09</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>15</td>
+      <td>7</td>
+      <td>NaN</td>
+      <td>3</td>
+      <td>-2.782852e+09</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>16</td>
+      <td>10</td>
+      <td>False</td>
+      <td>4</td>
+      <td>-2.787237e+09</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">param_grid</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span><span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="nb">range</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">33</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="s1">&#39;max_features&#39;</span><span class="p">:</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="s1">&#39;bootstrap&#39;</span><span class="p">:</span> <span class="p">[</span><span class="kc">False</span><span class="p">]},</span>
+<span class="p">]</span>
+
+<span class="n">forest_reg</span> <span class="o">=</span> <span class="n">RandomForestRegressor</span><span class="p">()</span>
+<span class="n">grid_search</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">forest_reg</span><span class="p">,</span> <span class="n">param_grid</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                           <span class="n">scoring</span><span class="o">=</span><span class="s1">&#39;neg_mean_squared_error&#39;</span><span class="p">,</span>  <span class="c1"># we use neg-RMSE more stable</span>
+                           <span class="n">return_train_score</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">grid_search</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">housing_prepared</span><span class="p">,</span> <span class="n">housing_labels</span><span class="p">);</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>92.50989270210266
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let us see whether we found better hyperparameters with this finer search method.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">grid_search</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;rank_test_score&#39;</span><span class="p">)[</span>
+    <span class="p">[</span><span class="s1">&#39;param_n_estimators&#39;</span><span class="p">,</span> <span class="s1">&#39;param_max_features&#39;</span><span class="p">,</span> <span class="s1">&#39;param_bootstrap&#39;</span><span class="p">,</span> <span class="s1">&#39;rank_test_score&#39;</span><span class="p">,</span> <span class="s1">&#39;mean_test_score&#39;</span><span class="p">]][:</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>index</th>
+      <th>param_n_estimators</th>
+      <th>param_max_features</th>
+      <th>param_bootstrap</th>
+      <th>rank_test_score</th>
+      <th>mean_test_score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>8</td>
+      <td>31</td>
+      <td>6</td>
+      <td>False</td>
+      <td>1</td>
+      <td>-2.599473e+09</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>6</td>
+      <td>27</td>
+      <td>6</td>
+      <td>False</td>
+      <td>2</td>
+      <td>-2.600221e+09</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>7</td>
+      <td>29</td>
+      <td>6</td>
+      <td>False</td>
+      <td>3</td>
+      <td>-2.602704e+09</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>14</td>
+      <td>25</td>
+      <td>8</td>
+      <td>False</td>
+      <td>4</td>
+      <td>-2.611743e+09</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>The top four are actually better scores that the best score for random search!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">grid_search</span><span class="o">.</span><span class="n">best_estimator_</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>RandomForestRegressor(bootstrap=False, max_features=6, n_estimators=31)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Turns out, we can fit whole prediction pipelines in <code class="docutils literal notranslate"><span class="pre">GridSearchCV</span></code> and <code class="docutils literal notranslate"><span class="pre">RandomSearchCV</span></code> instead of just a single model. This requires keys for dictionaries in <code class="docutils literal notranslate"><span class="pre">param_grid</span></code> which is better shown than described (basically a recursive application of <code class="docutils literal notranslate"><span class="pre">__</span></code> which explains why we can only use single underscores for names of pipeline elements):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Append estimator to preprocessing pipeline</span>
+<span class="n">prediction_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([</span>
+    <span class="p">(</span><span class="s2">&quot;preprocessing&quot;</span><span class="p">,</span> <span class="n">full_pipeline</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;rf&quot;</span><span class="p">,</span> <span class="n">best_model</span><span class="p">)</span>
+<span class="p">])</span>
+
+<span class="c1"># Specify parameter lattice</span>
+<span class="n">param_grid</span> <span class="o">=</span> <span class="p">[{</span>
+    <span class="s1">&#39;preprocessing__num__feature_adder__add_bedrooms_per_room&#39;</span><span class="p">:</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">],</span> 
+    <span class="s1">&#39;rf__n_estimators&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">30</span><span class="p">],</span> 
+    <span class="s1">&#39;rf__bootstrap&#39;</span><span class="p">:</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">],</span>
+    <span class="p">}]</span>
+
+<span class="c1"># Hyperparameter search</span>
+<span class="n">grid_search</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">prediction_pipeline</span><span class="p">,</span> <span class="n">param_grid</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                           <span class="n">scoring</span><span class="o">=</span><span class="s1">&#39;neg_mean_squared_error&#39;</span><span class="p">,</span>  <span class="c1"># we use neg-RMSE more stable</span>
+                           <span class="n">return_train_score</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">grid_search</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">housing</span><span class="p">,</span> <span class="n">housing_labels</span><span class="p">)</span>
+<span class="n">grid_search</span><span class="o">.</span><span class="n">best_estimator_</span>
+</pre></div>
+</div>
+<p>This returns the following estimator. Observe that <code class="docutils literal notranslate"><span class="pre">add_bedrooms_per_room=False</span></code> is the better parameter setting. This example shows that even preprocessing steps can be optimized as part of sklearn’s pipeline architecture. Neat!</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Pipeline</span><span class="p">(</span><span class="n">steps</span><span class="o">=</span><span class="p">[(</span><span class="s1">&#39;preprocessing&#39;</span><span class="p">,</span>
+                 <span class="n">ColumnTransformer</span><span class="p">(</span><span class="n">transformers</span><span class="o">=</span><span class="p">[(</span><span class="s1">&#39;num&#39;</span><span class="p">,</span>
+                                                  <span class="n">Pipeline</span><span class="p">(</span><span class="n">steps</span><span class="o">=</span><span class="p">[(</span><span class="s1">&#39;imputer&#39;</span><span class="p">,</span>
+                                                                   <span class="n">SimpleImputer</span><span class="p">(</span><span class="n">strategy</span><span class="o">=</span><span class="s1">&#39;median&#39;</span><span class="p">)),</span>
+                                                                  <span class="p">(</span><span class="s1">&#39;feature_adder&#39;</span><span class="p">,</span>
+                                                                   <span class="n">CombinedFeaturesAdder</span><span class="p">(</span><span class="n">add_bedrooms_per_room</span><span class="o">=</span><span class="kc">False</span><span class="p">)),</span>
+                                                                  <span class="p">(</span><span class="s1">&#39;std_scaler&#39;</span><span class="p">,</span>
+                                                                   <span class="n">StandardScaler</span><span class="p">())]),</span>
+                                                  <span class="p">[</span><span class="s1">&#39;longitude&#39;</span><span class="p">,</span> <span class="s1">&#39;latitude&#39;</span><span class="p">,</span>
+                                                   <span class="s1">&#39;housing_median_age&#39;</span><span class="p">,</span>
+                                                   <span class="s1">&#39;total_rooms&#39;</span><span class="p">,</span>
+                                                   <span class="s1">&#39;total_bedrooms&#39;</span><span class="p">,</span>
+                                                   <span class="s1">&#39;population&#39;</span><span class="p">,</span> <span class="s1">&#39;households&#39;</span><span class="p">,</span>
+                                                   <span class="s1">&#39;median_income&#39;</span><span class="p">]),</span>
+                                                 <span class="p">(</span><span class="s1">&#39;cat&#39;</span><span class="p">,</span>
+                                                  <span class="n">Pipeline</span><span class="p">(</span><span class="n">steps</span><span class="o">=</span><span class="p">[(</span><span class="s1">&#39;one_hot&#39;</span><span class="p">,</span>
+                                                                   <span class="n">OneHotEncoder</span><span class="p">())]),</span>
+                                                  <span class="p">[</span><span class="s1">&#39;ocean_proximity&#39;</span><span class="p">])])),</span>
+                <span class="p">(</span><span class="s1">&#39;rf&#39;</span><span class="p">,</span>
+                 <span class="n">RandomForestRegressor</span><span class="p">(</span><span class="n">bootstrap</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">max_features</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+                                       <span class="n">n_estimators</span><span class="o">=</span><span class="mi">30</span><span class="p">))])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="feature-importance">
+<h3>Feature importance<a class="headerlink" href="#feature-importance" title="Permalink to this headline">¶</a></h3>
+<p>You will often gain good insights on the problem by inspecting the best models. For
+example, the RandomForestRegressor can indicate the relative importance of each
+attribute for making accurate predictions:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">feature_importances</span> <span class="o">=</span> <span class="n">grid_search</span><span class="o">.</span><span class="n">best_estimator_</span><span class="o">.</span><span class="n">feature_importances_</span>
+
+<span class="n">num_attribs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">housing_num</span><span class="p">)</span>
+<span class="n">extra_attribs</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;rooms_per_hhold&quot;</span><span class="p">,</span> <span class="s2">&quot;pop_per_hhold&quot;</span><span class="p">,</span> <span class="s2">&quot;bedrooms_per_room&quot;</span><span class="p">]</span>
+<span class="n">cat_one_attribs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">full_pipeline</span><span class="o">.</span><span class="n">named_transformers_</span><span class="p">[</span><span class="s2">&quot;cat&quot;</span><span class="p">][</span><span class="s1">&#39;one_hot&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">categories_</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">attributes</span> <span class="o">=</span> <span class="n">num_attribs</span> <span class="o">+</span> <span class="n">extra_attribs</span> <span class="o">+</span> <span class="n">cat_one_attribs</span>
+
+<span class="n">feature_importance_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">feature_importances</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">attributes</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;importance&#39;</span><span class="p">])</span>
+<span class="n">feature_importance_df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;importance&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">));</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/homl-2-house-prices_109_0.png" src="../_images/homl-2-house-prices_109_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="evaluating-on-the-test-set">
+<h3>Evaluating on the test set<a class="headerlink" href="#evaluating-on-the-test-set" title="Permalink to this headline">¶</a></h3>
+<p>Before evaluating on the test set, we should also look at the specific errors that the system makes, then try to understand
+why it makes them and what could fix the problem (adding extra features or getting rid of
+uninformative ones, cleaning up outliers, etc.). Instead we proceed directly to evaluation on the test set, and perform the error analysis there. (Not best practice, of course. But we do it only as an exercise.)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">best_model</span> <span class="o">=</span> <span class="n">grid_search</span><span class="o">.</span><span class="n">best_estimator_</span>
+
+<span class="n">targets</span> <span class="o">=</span> <span class="n">strat_test_set</span><span class="p">[</span><span class="s1">&#39;median_house_value&#39;</span><span class="p">]</span>
+<span class="n">preds</span> <span class="o">=</span> <span class="n">best_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">full_pipeline</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">strat_test_set</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;median_house_value&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;RMSE:&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="n">preds</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;MAPE:&#39;</span><span class="p">,</span> <span class="n">mean_absolute_percentage_error</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="n">preds</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>RMSE: 46724.24147629231
+MAPE: 0.17403191459270742
+</pre></div>
+</div>
+</div>
+</div>
+<p>This is better than the human experts baseline!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="n">preds</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">500000</span><span class="p">,</span> <span class="mi">10000</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">500000</span><span class="p">,</span> <span class="mi">10000</span><span class="p">),</span> <span class="s1">&#39;k--&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;targets&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;predictions&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/homl-2-house-prices_114_0.png" src="../_images/homl-2-house-prices_114_0.png" />
+</div>
+</div>
+<p>The model performs badly for targets at 500,000. The model predicts below this value, which is understandable from the data. From the plot, we can observe the model performs best when predicting up to 300,000. For predictions beyond 300,000 actual values are more dispersed. This might have to do with having little data in this region as the following plot shows. (See also tip in the monitoring section about having dedicated subsets for error analysis.)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">strat_train_set</span><span class="p">[</span><span class="s1">&#39;median_house_value&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="mi">100</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/homl-2-house-prices_116_0.png" src="../_images/homl-2-house-prices_116_0.png" />
+</div>
+</div>
+<p>Finally, we calculate the <a class="reference external" href="https://sphweb.bumc.bu.edu/otlt/MPH-Modules/BS/BS704_Confidence_Intervals/BS704_Confidence_Intervals_print.html">95% confidence interval</a> for the generalization error using <code class="docutils literal notranslate"><span class="pre">scipy.stats.t.interval</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
+
+<span class="n">confidence</span> <span class="o">=</span> <span class="mf">0.95</span>
+<span class="n">squared_errors</span> <span class="o">=</span> <span class="p">(</span><span class="n">preds</span> <span class="o">-</span> <span class="n">targets</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+<span class="n">mean</span> <span class="o">=</span> <span class="n">squared_errors</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">m</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">squared_errors</span><span class="p">)</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">stats</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">interval</span><span class="p">(</span><span class="n">confidence</span><span class="p">,</span> <span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
+                         <span class="n">loc</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">squared_errors</span><span class="p">),</span>
+                         <span class="n">scale</span><span class="o">=</span><span class="n">stats</span><span class="o">.</span><span class="n">sem</span><span class="p">(</span><span class="n">squared_errors</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([44705.23965543, 48659.54202847])
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="launch-monitor-and-maintain">
+<h2>Launch, monitor, and maintain<a class="headerlink" href="#launch-monitor-and-maintain" title="Permalink to this headline">¶</a></h2>
+<p>Now comes the project prelaunch phase: you need to present your solution (highlighting what you have learned, what worked and what did not, what assumptions were made, and what your system’s limitations are), document everything, and create nice presentations with clear visualizations and easy-to-remember statements (e.g., “the median income is the number one predictor of housing prices”). In our case, we found that the best RF model has an MAPE of 17.4% — significantly better than expert’s price estimates. Launching the model means that we can confidently free up some time for the experts so they can work on more interesting and productive tasks.</p>
+<p>Perfect, you got approval to launch! You now need to get your solution ready for production (e.g., polish the code, write documentation and tests, and so on). Then you can deploy your model to your production environment. One way to do this is to save the trained Scikit-Learn model (e.g., using <code class="docutils literal notranslate"><span class="pre">joblib</span></code>), including the full preprocessing
+and prediction pipeline, then load this trained model within your production environment and use it to make predictions by calling its <code class="docutils literal notranslate"><span class="pre">predict()</span></code> method.</p>
+<div class="section" id="model-serving">
+<h3>Model serving<a class="headerlink" href="#model-serving" title="Permalink to this headline">¶</a></h3>
+<p>Models can be served within a dedicated web service that downstream applications can
+query through a REST API. Or the models can be run in a dedicated server which stores its prediction in a downstream data store (e.g. a database). Another popular strategy is to deploy your model on the cloud, for example on Google Cloud AI Platform (formerly known as Google Cloud ML Engine): just save your
+model using joblib and upload it to Google Cloud Storage (GCS), then head over to
+Google Cloud AI Platform and create a new model version, pointing it to the GCS
+file. That’s it! This gives you a simple web service that takes care of load balancing and
+scaling for you. It take JSON requests containing the input data (e.g., of a district) and
+returns JSON responses containing the predictions. You can then use this web service
+in your website (or whatever production environment you are using).</p>
+</div>
+<div class="section" id="monitoring">
+<h3>Monitoring<a class="headerlink" href="#monitoring" title="Permalink to this headline">¶</a></h3>
+<p>But deployment is not the end of the story. You also need to write monitoring code to
+check your system’s live performance at regular intervals and trigger alerts when it
+drops. This could be a steep drop, likely due to a broken component in your infrastructure, but be aware that it could also be a gentle decay that could easily go unnoticed for a long time. This is quite common because models tend to “rot” over time:
+indeed, the world changes, so if the model was trained with last year’s data, it may not
+be adapted to today’s data.</p>
+<p>In some cases, the model’s performance can be inferred from downstream
+metrics. For example, if your model is part of a recommender system and it suggests
+products that the users may be interested in, then it’s easy to monitor the number of
+recommended products sold each day. If this number drops (compared to nonrecommended products), then the prime suspect is the model. This may be because
+the data pipeline is broken, or perhaps the model needs to be retrained on fresh data.</p>
+<p>However, it’s not always possible to determine the model’s performance without any
+human analysis. This depends heavily on the nature of the task. How can you get an
+alert if the model’s performance drops, before thousands of defective products get
+shipped to your clients? One solution is to send to human raters a sample of all the
+pictures that the model classified (especially pictures that the model has low confidence). Depending on the task, the raters may need to be experts, or they could be
+nonspecialists, such as workers on a crowdsourcing platform. In some applications they could even be the users themselves, responding for example via surveys or repurposed captchas.<a class="footnote-reference brackets" href="#footnote1" id="id2">1</a></p>
+<p>Either way, you need to put in place a monitoring system (with or without human
+raters to evaluate the live model), as well as all the relevant processes to define what to
+do in case of failures and how to prepare for them. Unfortunately, this can be a lot of
+work. In fact, it is often much more work than building and training a model.</p>
+<p>If the data keeps evolving, you will need to update your datasets and retrain your
+model regularly. You should probably automate the whole process as much as possible. Here are a few things you can automate:</p>
+<ul class="simple">
+<li><p>Collect fresh data regularly and label it (e.g., using human raters).</p></li>
+</ul>
+<ul class="simple">
+<li><p>Write a script to train the model and fine-tune the hyperparameters automatically. This script could run automatically, for example every day or every week, depending on your needs.</p></li>
+</ul>
+<ul class="simple">
+<li><p>Write another script that will evaluate both the new model and the previous model on the updated test set, and deploy the model to production if the performance has not decreased (if it did, make sure you investigate why).</p></li>
+</ul>
+<p>You should also make sure you evaluate the model’s input data quality. Sometimes
+performance will degrade slightly because of a poor-quality signal (e.g., a malfunctioning sensor sending random values, or another team’s output becoming stale), but
+it may take a while before your system’s performance degrades enough to trigger an
+alert. If you monitor your model’s inputs, you may catch this earlier. For example, you
+could trigger an alert if more and more inputs are missing a feature, or if its mean or
+standard deviation drifts too far from the training set, or a categorical feature starts
+containing new categories. (!)</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>You may want to create several subsets of the test set in order to
+evaluate how well your model performs on specific parts of the
+data. For example, you may want to have a subset containing only
+the most recent data, or a test set for specific kinds of inputs (e.g.,
+districts located inland versus districts located near the ocean).
+This will give you a deeper understanding of your model’s
+strengths and weaknesses.</p>
+</div>
+</div>
+<div class="section" id="backups">
+<h3>Backups<a class="headerlink" href="#backups" title="Permalink to this headline">¶</a></h3>
+<p>Finally, make sure you keep backups of every model you create and have the process
+and tools in place to roll back to a previous model quickly, in case the new model
+starts failing badly for some reason. Having backups also makes it possible to easily
+compare new models with previous ones. Similarly, you should keep backups of every
+version of your datasets so that you can roll back to a previous dataset if the new one
+ever gets corrupted (e.g., if the fresh data that gets added to it turns out to be full of
+outliers). Having backups of your datasets also allows you to evaluate any model
+against any previous dataset.</p>
+</div>
+</div>
+<div class="section" id="conclusion">
+<h2>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this headline">¶</a></h2>
+<p>Much of the work is in the data preparation step: building monitoring
+tools, setting up human evaluation pipelines, and automating regular model training.
+ML algorithms are important, of course, but it is probably preferable to be comfortable with the overall process and know three or four algorithms well
+rather than to spend all your time exploring advanced algorithms.</p>
+<hr class="footnotes docutils" />
+<dl class="footnote brackets">
+<dt class="label" id="footnote1"><span class="brackets"><a class="fn-backref" href="#id2">1</a></span></dt>
+<dd><p>A captcha is a test to ensure a user is not a robot. These tests have often been used as a cheap way to label
+training data.</p>
+</dd>
+</dl>
 </div>
 </div>
 
@@ -1489,8 +2266,8 @@ NumPy arrays:</p>
         
         <div class='prev-next-bottom'>
             
-    <a class='left-prev' id="prev-link" href="../intro.html" title="previous page">machine-learning</a>
-    <a class='right-next' id="next-link" href="../markdown.html" title="next page">Markdown Files</a>
+    <a class='left-prev' id="prev-link" href="../intro.html" title="previous page">Machine Learning</a>
+    <a class='right-next' id="next-link" href="../notebooks.html" title="next page">Content with notebooks</a>
 
         </div>
         

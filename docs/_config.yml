@@ -1,26 +1,27 @@
-# Book settings
 title: machine-learning
 author: Ron Medina
 logo: img/loss_surface.png
-exclude_patterns: []  # Patterns to skip when building the book. Can be glob-style (e.g. "*skip.ipynb")
 
 execute:
   execute_notebooks: "off"
-
-repository:
-  url: https://github.com/particle1331/machine-learning-collection
 
 latex:
   latex_documents:
     targetname: book.tex
 
-html:
-  extra_navbar: ""  # Will be displayed underneath the left navbar.
-  use_repository_button: true
-  favicon: "img/loss_surface.png"
-  home_page_in_navbar: false
-  baseurl: https://github.com/particle1331/machine-learning-collection
+bibtex_bibfiles:
+  - references.bib
 
-sphinx:
-  extra_extensions:
-   - sphinx_panels
+repository:
+  url: https://github.com/particle1331/machine-learning-collection
+  path_to_book: docs
+  branch: master
+
+
+
+
+html:
+  use_issues_button: true
+  use_repository_button: true
+  home_page_in_navbar: false
+  favicon: "img/loss_surface.png"
