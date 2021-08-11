@@ -1,12 +1,12 @@
 # machine-learning
 
-A collection of notes and experiments on machine learning theory and algorithms.
+A collection of notes and experiments on machine learning theory and engineering.
 
 
 ```{figure} img/knn.png
 ---
 width: 45em
-name: ml_pipeline
+name: knn
 ---
 p. 41. {cite}`James2021` A comparison of the KNN decision boundaries (solid black
 curves) obtained using $K = 1$ and $K = 100.$ With
