@@ -2,7 +2,7 @@
 docs:
 	jupyter-book build docs
 
-pushall:
+git:
 	git add .
 	git commit -m "${m}"
 	git push
