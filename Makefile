@@ -2,6 +2,7 @@
 docs:
 	jupyter-book build docs
 
+.ONESHELL:
 git:
 	git add .
 	git commit -m "${m}"
