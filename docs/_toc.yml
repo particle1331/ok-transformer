@@ -4,5 +4,4 @@ parts:
 - caption: FUNDAMENTALS
   chapters:
   - file: notebooks/homl-2-house-prices
-  - file: notebooks/homl-3-classification
-
+  - file: notebooks/ensembling-blending-stacking
