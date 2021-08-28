@@ -17,11 +17,13 @@ repository:
   path_to_book: docs
   branch: master
 
-
-
-
 html:
   use_issues_button: true
+  use_binder_button: false
   use_repository_button: true
   home_page_in_navbar: false
   favicon: "img/loss_surface.png"
+
+sphinx:
+  extra_extensions:
+   - sphinx_panels
