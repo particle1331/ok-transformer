@@ -1,5 +1,5 @@
 title: machine-learning
-author: Ron Medina
+author: Ron Medina. Powered by <a href="https://jupyterbook.org">Jupyter Book</a>.
 logo: img/loss_surface.png
 
 execute:
@@ -22,5 +22,9 @@ html:
   home_page_in_navbar: false
   use_issues_button: true
   use_repository_button: true
-  use_binder_button: false
+  extra_navbar: ""
   favicon: "img/loss_surface.png"
+
+
+launch_buttons:
+  notebook_interface: jupyterlab
