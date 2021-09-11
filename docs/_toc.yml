@@ -1,8 +1,10 @@
+# Table of contents
+# Learn more at https://jupyterbook.org/customize/toc.html
+
 format: jb-book
 root: intro
-parts: 
-- caption: FUNDAMENTALS
-  chapters:
-  - file: notebooks/homl-2-house-prices
-  - file: notebooks/ensembling-blending-stacking
-  - file: notebooks/nearest-neighbors.ipynb
+parts:
+  - caption: FUNDAMENTALS
+    chapters:
+    - file: notebooks/homl-2-house-prices
+    - file: notebooks/ensembling-blending-stacking
