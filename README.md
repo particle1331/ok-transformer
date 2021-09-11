@@ -1,5 +1,7 @@
 # machine-learning
 
-A collection of notes and experiments on machine learning theory and engineering.
+> Collection of notes and experiments on machine learning.
 
-Main entry point: `ENTRY_POINT_TODO`
+**Entry point:** https://particle1331.github.io/machine-learning/
+
+
