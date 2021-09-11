@@ -27,3 +27,11 @@ html:
 sphinx:
   extra_extensions:
    - sphinx_panels
+  # config:
+  #   html_theme: sphinx_material
+  #   html_theme_options:
+  #     color_primary: blue
+  #     color_accent: light-blue
+  #     globaltoc_depth: 3
+  #     globaltoc_collapse: false
+  #     globaltoc_includehidden: false
