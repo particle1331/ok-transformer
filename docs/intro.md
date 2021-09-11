@@ -1,6 +1,6 @@
 # machine-learning
 
-Collection of notes and experiments on machine learning.
+Collection of notebooks on machine learning theory and engineering.
 
 
 ```{figure} img/knn.png
