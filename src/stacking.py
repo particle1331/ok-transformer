@@ -405,10 +405,3 @@ if __name__ == '__main__':
     print('usual:', usual)
     print('usual_predict:', usual_predict)
     print('usual AUC:', metrics.roc_auc_score(df_test.sentiment, usual_pred))
-
-# todo:
-# add postfix to tqdm.
-
-
-    print(pd.DataFrame(stack.cv_scores_).mean())
-    print(pd.DataFrame(stack_parallel.cv_scores_).mean())
