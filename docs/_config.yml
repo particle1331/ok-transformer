@@ -19,6 +19,7 @@ repository:
   branch: master  # Which branch of the repository should be used when creating links (optional)
 
 html:
+  home_page_in_navbar: false
   use_issues_button: true
   use_repository_button: true
   use_binder_button: false
