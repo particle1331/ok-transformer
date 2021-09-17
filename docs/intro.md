@@ -1,20 +1,23 @@
 # machine-learning
 
-Collection of notebooks on machine learning theory and engineering.
+Collection of notebooks on machine learning theory and engineering. The notebooks should run end-to-end after some initial setup, i.e. setting up the required directories and datasets. 
 
 
-```{figure} img/knn.png
----
-width: 45em
-name: knn
----
-p. 41. {cite}`James2021` A comparison of the KNN decision boundaries (solid black
-curves) obtained using $K = 1$ and $K = 100.$ With
-$K = 1,$ the decision boundary is overly flexible, while with $K = 100$ it is not
-sufficiently flexible. The Bayes decision boundary is shown as a purple dashed
-line.
+## Requirements
+
 ```
-
+joblib==1.0.1
+kaleido==0.2.1
+matplotlib==3.4.2
+mlxtend==0.19.0
+numpy==1.21.1
+optuna==2.9.1
+pandas==1.3.1
+scikit-learn==0.24.2
+scipy==1.7.1
+tqdm==4.62.0
+xgboost==1.4.2
+```
 
 
 ## References 
