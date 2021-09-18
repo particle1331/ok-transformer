@@ -6,6 +6,6 @@ root: intro
 parts:
   - caption: FUNDAMENTALS
     chapters:
-    - file: notebooks/homl-2-house-prices
-    - file: notebooks/ensembling-blending-stacking
-    - file: notebooks/optuna
+    - file: notebooks/house-prices
+    - file: notebooks/blending-stacking
+    - file: notebooks/hyperopt-optuna
