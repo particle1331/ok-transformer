@@ -17,6 +17,23 @@
   abstract = 	 {The performance of many machine learning methods depends critically on hyperparameter settings. Sophisticated Bayesian optimization methods have recently achieved considerable successes in optimizing these hyperparameters, in several cases surpassing the performance of human experts. However, blind reliance on such methods can leave end users without insight into the relative importance of different hyperparameters and their interactions. This paper describes efficient methods that can be used to gain such insight, leveraging random forest models fit on the data already gathered by Bayesian optimization. We first introduce a novel, linear-time algorithm for computing marginals of random forest predictions and then show how to leverage these predictions within a functional ANOVA framework, to quantify the importance of both single hyperparameters and of interactions between hyperparameters. We conducted experiments with prominent machine learning frameworks and state-of-the-art solvers for combinatorial problems. We show that our methods provide insight into the relationship between hyperparameter settings and performance, and demonstrate that—even in very high-dimensional cases—most performance variation is attributable to just a few hyperparameters.}
 }
 
+@misc{hansen2016cma,
+      title={The CMA Evolution Strategy: A Tutorial}, 
+      author={Nikolaus Hansen},
+      year={2016},
+      eprint={1604.00772},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG}
+}
+
+@misc{akiba2019optuna,
+      title={Optuna: A Next-generation Hyperparameter Optimization Framework}, 
+      author={Takuya Akiba and Shotaro Sano and Toshihiko Yanase and Takeru Ohta and Masanori Koyama},
+      year={2019},
+      eprint={1907.10902},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG}
+}
 
 @book{geron2019hands-on,
     added-at = {2018-04-06T05:58:31.000+0200},
