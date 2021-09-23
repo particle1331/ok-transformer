@@ -19,6 +19,15 @@ tqdm==4.62.0
 xgboost==1.4.2
 ```
 
+For plotly plots to show, it is necessary to load `require.js` in `_config.yml`. [[docs](https://github.com/executablebooks/jupyter-book/blob/master/docs/interactive/interactive.ipynb)]
+
+```
+sphinx:
+  config:
+    html_js_files:
+    - https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js
+```
+
 
 ## References 
 
