@@ -12,11 +12,10 @@ latex:
 bibtex_bibfiles:
   - references.bib
 
-# Information about where the book exists on the web
 repository:
-  url: https://github.com/particle1331/machine-learning-collection # Online location of your book
-  path_to_book: docs  # Optional path to your book, relative to the repository root
-  branch: master  # Which branch of the repository should be used when creating links (optional)
+  url: https://github.com/particle1331/machine-learning-collection
+  path_to_book: docs  # Path to book relative to repository root
+  branch: master      # Branch of repo to use when creating links
 
 html:
   home_page_in_navbar: false
@@ -28,4 +27,6 @@ html:
 sphinx:
   config:
     html_js_files:
+    # For plotly plots to show, we need to load require.js
+    # https://jupyterbook.org/interactive/interactive.html
     - https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js
