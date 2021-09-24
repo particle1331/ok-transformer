@@ -1,6 +1,6 @@
 # machine-learning
 
-Collection of notebooks on machine learning theory and engineering. The notebooks should run end-to-end after some initial setup, i.e. setting up the required directories and datasets. 
+Collection of notebooks on machine learning theory and engineering. The notebooks should run end-to-end after some minimal initial setup, i.e. setting up the required directory structure containing datasets. 
 
 
 ## Requirements
