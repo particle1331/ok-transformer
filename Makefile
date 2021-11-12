@@ -16,3 +16,7 @@ git: docs clean
 	git commit -m "${m}"
 	git push
 	ghp-import -n -p -f docs/_build/html
+
+.ONESHELL:
+ghp: docs clean
+	ghp-import -n -p -f docs/_build/html
