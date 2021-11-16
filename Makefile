@@ -1,5 +1,6 @@
 .PHONY: docs
 docs:
+	rm -rf docs/_build
 	jupyter-book build docs
 
 .PHONY: clean

@@ -10,6 +10,6 @@ parts:
     - file: notebooks/blending-stacking
     - file: notebooks/hyperopt-optuna
 
-  - caption: UvA-DLC TUTORIALS
+  - caption: UvA DLC TUTORIALS
     chapters:
     - file: notebooks/uvadlc/tutorials/pytorch-intro
