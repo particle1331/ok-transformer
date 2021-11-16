@@ -9,3 +9,7 @@ parts:
     - file: notebooks/house-prices
     - file: notebooks/blending-stacking
     - file: notebooks/hyperopt-optuna
+
+  - caption: UvA-DLC TUTORIALS
+    chapters:
+    - file: uvadlc/tutorials/pytorch-intro
