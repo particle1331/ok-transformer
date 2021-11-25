@@ -6,10 +6,10 @@ root: intro
 parts:
 - caption: FUNDAMENTALS
   chapters:
-  - file: ../notebooks/house-prices
-  - file: ../notebooks/blending-stacking
-  - file: ../notebooks/hyperopt-optuna
+  - file: notebooks/house-prices
+  - file: notebooks/blending-stacking
+  - file: notebooks/hyperopt-optuna
 
 - caption: UvA DLC TUTORIALS
   chapters:
-  - file: ../notebooks/uvadlc/tutorials/pytorch-intro
+  - file: notebooks/uvadlc/tutorials/pytorch-intro
