@@ -10,6 +10,6 @@ parts:
   - file: notebooks/blending-stacking
   - file: notebooks/hyperopt-optuna
 
-- caption: PYTORCH TUTORIALS
+- caption: DEEP LEARNING
   chapters:
   - file: notebooks/uvadlc/tutorials/pytorch-intro
