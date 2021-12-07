@@ -12,4 +12,5 @@ parts:
 
 - caption: DEEP LEARNING
   chapters:
-  - file: notebooks/uvadlc/tutorials/pytorch-intro
+  - file: notebooks/pytorch-intro
+  - file: notebooks/seb3/tensorflow-nn
