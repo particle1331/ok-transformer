@@ -12,5 +12,6 @@ parts:
 
 - caption: DEEP LEARNING
   chapters:
+  - file: notebooks/backpropagation.ipynb
   - file: notebooks/pytorch-intro
   - file: notebooks/seb3/tensorflow-nn
