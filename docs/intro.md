@@ -2,6 +2,12 @@
 
 A collection of notebooks on machine learning theory and engineering. These notebooks should run end-to-end after some minimal initial setup, i.e. setting up the correct directory structure and obtaining the datasets. 
 
+<br>
+
+**Readings**
+* [Version Control with Git](https://swcarpentry.github.io/git-novice/index.html)
+
+
 
 ## Requirements
 
@@ -18,6 +24,7 @@ scipy==1.7.1
 tqdm==4.62.0
 xgboost==1.4.2
 ```
+
 
 ## References 
 
