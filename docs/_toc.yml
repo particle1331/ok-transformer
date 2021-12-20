@@ -13,7 +13,10 @@ parts:
 - caption: DEEP LEARNING
   chapters:
   - file: notebooks/backpropagation.ipynb
-  - file: notebooks/pytorch-intro
   - file: notebooks/seb3/tensorflow-nn
+
+- caption: PYTORCH TUTORIALS
+  chapters:
+  - file: notebooks/pytorch-intro
   - file: notebooks/pytorch-activations
   - file: notebooks/pytorch-optim-init
