@@ -6,6 +6,8 @@ A collection of notebooks on machine learning theory and engineering. These note
 
 **Readings**
 * [Version Control with Git](https://swcarpentry.github.io/git-novice/index.html)
+* [Configuring M1 Chip for TensorFlow](https://github.com/mrdbourke/m1-machine-learning-test)
+* [Iterm2 Macbook Setup](https://www.youtube.com/watch?v=0MiGnwPdNGE)
 
 
 
