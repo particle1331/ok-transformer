@@ -20,3 +20,7 @@ parts:
   - file: notebooks/pytorch-intro
   - file: notebooks/pytorch-activations
   - file: notebooks/pytorch-optim-init
+
+- caption: RESTFUL API DEVELOPMENT
+  chapters:
+  - file: notebooks/fastapi/ch3
