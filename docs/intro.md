@@ -1,4 +1,4 @@
-# ml-notebooks
+# ML Notebooks
 
 A collection of notebooks on machine learning theory and engineering. The notebooks should run end-to-end after some minimal initial setup, i.e. setting up the correct directory structure and obtaining the required datasets. 
 
@@ -6,9 +6,8 @@ A collection of notebooks on machine learning theory and engineering. The notebo
 
 **Readings**
 * [Version Control with Git](https://swcarpentry.github.io/git-novice/index.html)
-* [Configuring M1 Chip for TensorFlow](https://github.com/mrdbourke/m1-machine-learning-test)
-* [Iterm2 Macbook Setup](https://www.youtube.com/watch?v=0MiGnwPdNGE)
-
+* [How to setup a TensorFlow environment on M1](https://github.com/mrdbourke/m1-machine-learning-test)
+* [Iterm2 Setup for Macbooks](https://www.youtube.com/watch?v=0MiGnwPdNGE)
 
 
 ## Requirements
