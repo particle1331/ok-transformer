@@ -1,4 +1,4 @@
-# machine-learning
+# machine-learning-notebooks
 
 > Collection of notebooks on machine learning theory and engineering.
 
