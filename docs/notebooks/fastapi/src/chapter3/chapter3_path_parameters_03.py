@@ -1,12 +1,7 @@
-from fastapi import FastAPI
-from enum import Enum
-
-class UserType(str, Enum):
-    STANDARD = "standard"
-    ADMIN = "admin"
+from fastapi import FastAPI, Path
 
 app = FastAPI()
 
-@app.get("/users/{type}/{id}")
-async def get_user(id: int, type: UserType):
-    return {"id": id, "type": type}
+@app.get("/users/{id}")
+async def get_user(id: int = Path(..., ge=1)):
+    return {"id": id}
