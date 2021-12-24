@@ -6,7 +6,6 @@ class User(BaseModel):
     name: str
     age: int
 
-
 @app.post("/users")
 async def user(user: User):
     return user
