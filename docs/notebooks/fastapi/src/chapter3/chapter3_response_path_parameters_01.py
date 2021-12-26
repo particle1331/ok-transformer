@@ -17,3 +17,8 @@ async def create_post(post: Post):
 async def delete_post(id: int):
     posts.pop(id, None)
     return Response(status_code=204)
+
+
+if __name__ == "__main__":
+    import uvicorn 
+    uvicorn.run(app)
