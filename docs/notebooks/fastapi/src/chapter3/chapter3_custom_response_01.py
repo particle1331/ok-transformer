@@ -8,3 +8,7 @@ async def get_dog():
     root_directory = Path(__file__).absolute().parents[2]
     img_path = root_directory / "assets" / "dog.jpeg"
     return FileResponse(img_path)
+
+if __name__ == '__main__':
+    import uvicorn
+    uvicorn.run(app)
