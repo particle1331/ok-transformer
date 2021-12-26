@@ -16,9 +16,9 @@ async def create_post(post: Post):
 @app.delete("/posts/{id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_post(id: int):
     posts.pop(id, None)
-    return Response(status_code=204)
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
 
 
 if __name__ == "__main__":
     import uvicorn 
-    uvicorn.run(app)
+    uvicorn.run("path_status_code:app", reload=True)

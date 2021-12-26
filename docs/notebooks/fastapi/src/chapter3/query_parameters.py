@@ -20,3 +20,8 @@ async def user(
         "page": page, 
         "size": size,
     }
+
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("query_parameters:app", reload=True)

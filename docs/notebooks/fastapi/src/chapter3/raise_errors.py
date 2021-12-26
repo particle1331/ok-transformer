@@ -9,3 +9,8 @@ async def check_password(password: str = Body(...), password_confirm: str = Body
             detail="Password don't match."
         )
     return {"message": "Password match."}
+
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app)

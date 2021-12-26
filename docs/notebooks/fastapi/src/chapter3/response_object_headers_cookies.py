@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Response, Request
+from fastapi import FastAPI, Response
 app = FastAPI()
 
 @app.get("/custom-header")
@@ -10,3 +10,7 @@ async def custom_header(response: Response):
 async def custom_cookie(response: Response):
     response.set_cookie("cookie-name", "cookie-value", max_age=86400) # -> name value pair
     return {"hello": "world"}
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app)

@@ -16,3 +16,7 @@ async def update_or_create_post(id: int, post: Post, response: Response):
         response.status_code = status.HTTP_201_CREATED
     posts[id] = post
     
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app)

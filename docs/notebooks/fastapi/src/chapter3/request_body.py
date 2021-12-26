@@ -9,7 +9,21 @@ class User(BaseModel):
 class Company(BaseModel):
     name: str
 
-@app.post("/users")
+@app.post("/v1/users")
+async def user(
+    name: str = Body(...), 
+    age:  int = Body(...),
+):
+    return {
+        "name": name, 
+        "age":  age,
+    }
+
+@app.post("/v2/users")
+async def user(user: User):
+    return user
+
+@app.post("/v3/users")
 async def create_user(
     user: User, 
     company: Company, 
@@ -20,3 +34,7 @@ async def create_user(
         "company": company, 
         "priority": priority
     }
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("request_body:app", reload=True)
