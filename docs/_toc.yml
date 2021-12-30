@@ -14,6 +14,7 @@ parts:
   chapters:
   - file: notebooks/backpropagation.ipynb
   - file: notebooks/seb3/tensorflow-nn
+  - file: notebooks/seb3/tensorflow-mechanics
 
 - caption: PYTORCH TUTORIALS
   chapters:
