@@ -1,4 +1,4 @@
-# **Steepest Ascent**
+# **Steepest Ascent**  ⛰️
 
 A collection of notebooks on machine learning theory and engineering. The notebooks should run end-to-end after some minimal initial setup, i.e. setting up the correct directory structure and obtaining the required datasets.
 

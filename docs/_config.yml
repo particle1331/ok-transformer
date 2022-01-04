@@ -13,7 +13,7 @@ bibtex_bibfiles:
   - references.bib
 
 repository:
-  url: https://github.com/particle1331/ml-notebooks
+  url: https://github.com/particle1331/steepest-ascent
   path_to_book: docs  # Path to book relative to repository root
   branch: master      # Branch of repo to use when creating links
 
@@ -26,6 +26,4 @@ html:
 sphinx:
   config:
     html_js_files:
-    # For plotly plots to show, we need to load require.js
-    # https://jupyterbook.org/interactive/interactive.html
     - https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js

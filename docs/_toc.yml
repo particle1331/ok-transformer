@@ -9,21 +9,19 @@ parts:
   - file: notebooks/house-prices
   - file: notebooks/blending-stacking
   - file: notebooks/optuna
-  - file: notebooks/hyperopt-optuna
 
 - caption: DEEP LEARNING
   chapters:
-  - file: notebooks/backpropagation.ipynb
+  - file: notebooks/backpropagation
   - file: notebooks/seb3/tensorflow-nn
   - file: notebooks/seb3/tensorflow-mechanics
 
 - caption: PYTORCH TUTORIALS
   chapters:
   - file: notebooks/pytorch-intro
-  - file: notebooks/pytorch-activations
-  - file: notebooks/pytorch-optim-init
+  - file: notebooks/pytorch-activation
 
-- caption: RESTFUL API DEVELOPMENT
+- caption: REST APIs with FASTAPI
   chapters:
   - file: notebooks/fastapi/ch3
   - file: notebooks/fastapi/ch4
