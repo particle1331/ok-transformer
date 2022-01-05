@@ -1,8 +1,5 @@
 # steepest-ascent
 
-> Climbing the mountain of machine learning theory and engineering one notebook at a time.
-
+> Expeditions through the mountains of machine learning theory and engineering.
 
 **Entry point:** https://particle1331.github.io/steepest-ascent/
-
-
