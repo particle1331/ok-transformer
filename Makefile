@@ -17,9 +17,9 @@ commit: clean
 	git commit -m "${m}"
 	git push
 
-.ONESHELL:
-commit-deploy: commit deploy
-
 .ONESHELL: docs
 deploy:
 	ghp-import -n -p -f docs/_build/html
+
+.ONESHELL:
+commit-deploy: commit deploy
