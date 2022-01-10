@@ -3,7 +3,7 @@ docs:
 	rm -rf docs/_build
 	jupyter-book build docs
 
-.PHONY: clean
+.ONESHELL: clean
 clean:
 	find . -type f -name "*.DS_Store" -ls -delete
 	find . | grep -E "(__pycache__|\.pyc|\.pyo)" | xargs rm -rf
@@ -17,9 +17,6 @@ commit: clean
 	git commit -m "${m}"
 	git push
 
-.ONESHELL: docs
-deploy:
-	ghp-import -n -p -f docs/_build/html
-
 .ONESHELL:
-commit-deploy: commit deploy
+deploy: docs commit
+	ghp-import -n -p -f docs/_build/html
