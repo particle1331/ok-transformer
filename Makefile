@@ -18,9 +18,9 @@ commit: docs clean
 	git push
 
 .ONESHELL:
-commit-ghp: commit
+commit-deploy: commit
 	ghp-import -n -p -f docs/_build/html
 
 .ONESHELL:
-ghp:
+deploy:
 	ghp-import -n -p -f docs/_build/html
