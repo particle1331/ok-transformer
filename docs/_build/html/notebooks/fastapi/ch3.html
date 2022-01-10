@@ -1,0 +1,1959 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Developing a RESTful API &#8212; 𝗦𝘁𝗲𝗲𝗽𝗲𝘀𝘁 𝗔𝘀𝗰𝗲𝗻𝘁 ⛰️</title>
+    
+  <link href="../../_static/css/theme.css" rel="stylesheet" />
+  <link href="../../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/sphinx-book-theme.e8e5499552300ddf5d7adccae7cc3b70.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../../_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="shortcut icon" href="../../_static/loss_surface.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Managing Pydantic Data Models" href="ch4.html" />
+    <link rel="prev" title="Activation Functions" href="../pytorch-activation.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../../index.html">
+      
+      <img src="../../_static/loss_surface.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">𝗦𝘁𝗲𝗲𝗽𝗲𝘀𝘁 𝗔𝘀𝗰𝗲𝗻𝘁 ⛰️</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <div class="bd-toc-item active">
+        <p class="caption">
+ <span class="caption-text">
+  FUNDAMENTALS
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../house-prices.html">
+   Pipelines in Scikit-Learn
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../blending-stacking.html">
+   Blending and Stacking
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../optuna.html">
+   Hyperparameter Tuning with Optuna
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  DEEP LEARNING
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../backpropagation.html">
+   Backpropagation on DAGs
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../seb3/tensorflow-nn.html">
+   Neural Networks with TensorFlow
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../seb3/tensorflow-mechanics.html">
+   Mechanics of TensorFlow
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  PYTORCH TUTORIALS
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../pytorch-intro.html">
+   Introduction to PyTorch
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../pytorch-activation.html">
+   Activation Functions
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  REST APIs with FASTAPI
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Developing a RESTful API
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ch4.html">
+   Managing Pydantic Data Models
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../../_sources/notebooks/fastapi/ch3.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        
+        <a class="issues-button"
+            href="https://github.com/particle1331/steepest-ascent/issues/new?title=Issue%20on%20page%20%2Fnotebooks/fastapi/ch3.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/particle1331/steepest-ascent/master?urlpath=tree/docs/notebooks/fastapi/ch3.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#hello-world">
+   Hello, World!
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#httpie">
+   HTTPie
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#optional-get-and-post">
+     Optional GET and POST
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#querystring-parameters">
+     Querystring parameters
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#url-shortcuts-for-localhost">
+     URL shortcuts for localhost
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#automatic-documentation">
+   Automatic documentation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#handling-request-parameters">
+   Handling request parameters
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#path-parameters">
+     Path parameters
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#validation-logic-for-path-parameters">
+       Validation logic for path parameters
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#query-parameters">
+     Query parameters
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#the-request-body">
+     The request body
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#pydantic-models">
+       Pydantic models
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#form-data">
+     Form data
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#file-uploads">
+     File uploads
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#headers-and-cookies">
+     Headers and cookies
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#the-request-object">
+     The request object
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#customizing-the-response">
+   Customizing the response
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#decorator-parameters">
+     Decorator parameters
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#status-code">
+       Status code
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#the-response-model">
+       The response model
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#injecting-the-response-object">
+     Injecting the response object
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#setting-headers-and-cookies">
+       Setting headers and cookies
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#setting-status-code-dynamically">
+       Setting status code dynamically
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#raising-http-errors">
+     Raising HTTP errors
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#building-a-custom-response">
+     Building a custom response
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#using-the-response-class-argument">
+       Using the response_class argument
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#making-a-redirection">
+       Making a redirection
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#serving-a-file">
+       Serving a file
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#custom-responses">
+       Custom responses
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#structuring-a-bigger-project-with-multiple-routers">
+   Structuring a bigger project with multiple routers
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="developing-a-restful-api">
+<h1>Developing a RESTful API<a class="headerlink" href="#developing-a-restful-api" title="Permalink to this headline">¶</a></h1>
+<div class="admonition-attribution admonition">
+<p class="admonition-title">Attribution</p>
+<p>This notebook follows Chapter 3: <em>Developing a RESTful API with FastAPI</em> of <span id="id1">[<a class="reference internal" href="../../intro.html#id7">Vor21</a>]</span>. Source files for running the background local servers can be found <a class="reference external" href="https://github.com/particle1331/machine-learning/tree/master/docs/notebooks/fastapi/src/chapter3">here</a>.</p>
+</div>
+<p><strong>Goals</strong></p>
+<ul class="simple">
+<li><p>Create working API endpoint and test it locally with HTTPie</p></li>
+<li><p>Handling request parameters and customizing a response</p></li>
+<li><p>Structuring a bigger project with routes</p></li>
+</ul>
+<div class="section" id="hello-world">
+<h2>Hello, World!<a class="headerlink" href="#hello-world" title="Permalink to this headline">¶</a></h2>
+<p>Let us quickly create a simple endpoint which has a GET method.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># chapter3/hello_world.py</span>
+<span class="kn">from</span> <span class="nn">fastapi</span> <span class="kn">import</span> <span class="n">FastAPI</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">()</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">hello_world</span><span class="p">():</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;hello&quot;</span><span class="p">:</span> <span class="s2">&quot;world&quot;</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>The path function <code class="docutils literal notranslate"><span class="pre">hello_world</span></code> contains our route logic for the path <code class="docutils literal notranslate"><span class="pre">/</span></code> specified in the decorator. The decorator also specifies what HTTP method this function implements. The return value is automatically handled by FastAPI to produce a proper HTTP response with a JSON payload.</p>
+<p>Here <code class="docutils literal notranslate"><span class="pre">app</span></code> is the main application object that will wire all of the API routes. We will
+start the server in the terminal as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ uvicorn hello_world:app --reload
+INFO:     Started server process [14121]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+</pre></div>
+</div>
+<p>Then, we perform the following GET request.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">requests</span>
+<span class="n">root</span> <span class="o">=</span> <span class="s2">&quot;http://127.0.0.1:8000&quot;</span>
+<span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;/&quot;</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">root</span> <span class="o">+</span> <span class="n">path</span><span class="p">)</span>
+<span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;hello&#39;: &#39;world&#39;}
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="httpie">
+<h2>HTTPie<a class="headerlink" href="#httpie" title="Permalink to this headline">¶</a></h2>
+<p>Before delving into the details of building REST APIs, we need to have a tool for making HTTP requests. We will be using <strong>HTTPie</strong>, a command-line tool aimed at making HTTP
+requests with an intuitive syntax, JSON support, and syntax highlighting.</p>
+<blockquote>
+<div><p>HTTPie (pronounced <em>aitch</em>-<em>tee-tee-pie</em>) is a command-line HTTP client. Its goal is to make CLI interaction with web services as human-friendly as possible. HTTPie is designed for testing, debugging, and generally interacting with APIs &amp; HTTP servers. The <code class="docutils literal notranslate"><span class="pre">http</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">https</span></code> commands allow for creating and sending arbitrary HTTP requests. They use simple and natural syntax and provide formatted and colorized output.</p>
+</div></blockquote>
+<p>The general form of an HTTPie request is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">http</span> <span class="p">[</span><span class="n">flags</span><span class="p">]</span> <span class="p">[</span><span class="n">METHOD</span><span class="p">]</span> <span class="n">URL</span> <span class="p">[</span><span class="n">ITEM</span> <span class="p">[</span><span class="n">ITEM</span><span class="p">]]</span>
+</pre></div>
+</div>
+<p>For our local server, we can call:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>http -v GET http://127.0.0.1:8000/
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">GET</span> <span class=" -Color -Color-Cyan">/</span> <span class=" -Color -Color-Blue">HTTP</span>/<span class=" -Color -Color-Blue">1.1</span>
+<span class=" -Color -Color-Cyan">Accept</span>: */*
+<span class=" -Color -Color-Cyan">Accept-Encoding</span>: gzip, deflate, br
+<span class=" -Color -Color-Cyan">Connection</span>: keep-alive
+<span class=" -Color -Color-Cyan">Host</span>: 127.0.0.1:8000
+<span class=" -Color -Color-Cyan">User-Agent</span>: HTTPie/2.6.0
+
+
+
+<span class=" -Color -Color-Blue">HTTP</span>/<span class=" -Color -Color-Blue">1.1</span> <span class=" -Color -Color-Blue">200</span> <span class=" -Color -Color-Cyan">OK</span>
+<span class=" -Color -Color-Cyan">content-length</span>: 17
+<span class=" -Color -Color-Cyan">content-type</span>: application/json
+<span class=" -Color -Color-Cyan">date</span>: Sun, 26 Dec 2021 17:27:14 GMT
+<span class=" -Color -Color-Cyan">server</span>: uvicorn
+
+{
+    &quot;hello&quot;: <span class=" -Color -Color-Yellow">&quot;world&quot;</span>
+}
+</pre></div>
+</div>
+</div>
+</div>
+<p>The flag <code class="docutils literal notranslate"><span class="pre">-v</span></code> or <code class="docutils literal notranslate"><span class="pre">--verbose</span></code> is used here to print both the request and response. HTTPie also provides an <code class="docutils literal notranslate"><span class="pre">https</span></code> executable for dealing with URLs with <code class="docutils literal notranslate"><span class="pre">https://</span></code>.</p>
+<div class="section" id="optional-get-and-post">
+<h3>Optional GET and POST<a class="headerlink" href="#optional-get-and-post" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">METHOD</span></code> argument is optional, and when you don’t specify it, HTTPie defaults to:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">GET</span></code> for requests without body</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">POST</span></code> for requests with body</p></li>
+</ul>
+<p>For example, the following is a GET request.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># !http -v GET http://127.0.0.1:8000/</span>
+<span class="o">!</span>http -v http://127.0.0.1:8000/
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">GET</span> <span class=" -Color -Color-Cyan">/</span> <span class=" -Color -Color-Blue">HTTP</span>/<span class=" -Color -Color-Blue">1.1</span>
+<span class=" -Color -Color-Cyan">Accept</span>: */*
+<span class=" -Color -Color-Cyan">Accept-Encoding</span>: gzip, deflate, br
+<span class=" -Color -Color-Cyan">Connection</span>: keep-alive
+<span class=" -Color -Color-Cyan">Host</span>: 127.0.0.1:8000
+<span class=" -Color -Color-Cyan">User-Agent</span>: HTTPie/2.6.0
+
+
+
+<span class=" -Color -Color-Blue">HTTP</span>/<span class=" -Color -Color-Blue">1.1</span> <span class=" -Color -Color-Blue">200</span> <span class=" -Color -Color-Cyan">OK</span>
+<span class=" -Color -Color-Cyan">content-length</span>: 17
+<span class=" -Color -Color-Cyan">content-type</span>: application/json
+<span class=" -Color -Color-Cyan">date</span>: Sun, 26 Dec 2021 17:24:26 GMT
+<span class=" -Color -Color-Cyan">server</span>: uvicorn
+
+{
+    &quot;hello&quot;: <span class=" -Color -Color-Yellow">&quot;world&quot;</span>
+}
+</pre></div>
+</div>
+</div>
+</div>
+<p>On the other hand, the following request has data, so that the following defaults to a POST request. We add the function below which has a POST method to our main app.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># chapter3/hello_world.py</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">message</span><span class="p">(</span><span class="n">msg</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Body</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">embed</span><span class="o">=</span><span class="kc">True</span><span class="p">)):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="n">msg</span><span class="p">}</span>
+</pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>http -v http://127.0.0.1:8000/ <span class="nv">msg</span><span class="o">=</span><span class="s2">&quot;Hello&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">POST</span> <span class=" -Color -Color-Cyan">/</span> <span class=" -Color -Color-Blue">HTTP</span>/<span class=" -Color -Color-Blue">1.1</span>
+<span class=" -Color -Color-Cyan">Accept</span>: application/json, */*;q=0.5
+<span class=" -Color -Color-Cyan">Accept-Encoding</span>: gzip, deflate, br
+<span class=" -Color -Color-Cyan">Connection</span>: keep-alive
+<span class=" -Color -Color-Cyan">Content-Length</span>: 16
+<span class=" -Color -Color-Cyan">Content-Type</span>: application/json
+<span class=" -Color -Color-Cyan">Host</span>: 127.0.0.1:8000
+<span class=" -Color -Color-Cyan">User-Agent</span>: HTTPie/2.6.0
+
+{
+    &quot;msg&quot;: <span class=" -Color -Color-Yellow">&quot;Hello&quot;</span>
+}
+
+
+<span class=" -Color -Color-Blue">HTTP</span>/<span class=" -Color -Color-Blue">1.1</span> <span class=" -Color -Color-Blue">200</span> <span class=" -Color -Color-Cyan">OK</span>
+<span class=" -Color -Color-Cyan">content-length</span>: 19
+<span class=" -Color -Color-Cyan">content-type</span>: application/json
+<span class=" -Color -Color-Cyan">date</span>: Sun, 26 Dec 2021 17:27:31 GMT
+<span class=" -Color -Color-Cyan">server</span>: uvicorn
+
+{
+    &quot;message&quot;: <span class=" -Color -Color-Yellow">&quot;Hello&quot;</span>
+}
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="querystring-parameters">
+<h3>Querystring parameters<a class="headerlink" href="#querystring-parameters" title="Permalink to this headline">¶</a></h3>
+<p>HTTPie provides <code class="docutils literal notranslate"><span class="pre">param==value</span></code> syntax for appending URL querystring parameters. With that, you don’t have to worry about escaping the <code class="docutils literal notranslate"><span class="pre">&amp;</span></code> separators for your shell. Thus, the following are then equivalent:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>http :8000/ <span class="nv">p</span><span class="o">==</span>foo <span class="nv">q</span><span class="o">==</span>bar
+<span class="o">!</span>http <span class="s2">&quot;:8000/?p=foo&amp;q=bar&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="url-shortcuts-for-localhost">
+<h3>URL shortcuts for localhost<a class="headerlink" href="#url-shortcuts-for-localhost" title="Permalink to this headline">¶</a></h3>
+<p>Shorthand for <code class="docutils literal notranslate"><span class="pre">localhost</span></code> is supported. For example, <code class="docutils literal notranslate"><span class="pre">:8000</span></code> would expand to <code class="docutils literal notranslate"><span class="pre">http://localhost:8000</span></code>. If the port is omitted, then port 80 is assumed.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>http :8000/
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Blue">HTTP</span>/<span class=" -Color -Color-Blue">1.1</span> <span class=" -Color -Color-Blue">200</span> <span class=" -Color -Color-Cyan">OK</span>
+<span class=" -Color -Color-Cyan">content-length</span>: 17
+<span class=" -Color -Color-Cyan">content-type</span>: application/json
+<span class=" -Color -Color-Cyan">date</span>: Sun, 26 Dec 2021 17:19:09 GMT
+<span class=" -Color -Color-Cyan">server</span>: uvicorn
+
+{
+    &quot;hello&quot;: <span class=" -Color -Color-Yellow">&quot;world&quot;</span>
+}
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="automatic-documentation">
+<h2>Automatic documentation<a class="headerlink" href="#automatic-documentation" title="Permalink to this headline">¶</a></h2>
+<p>One of the most beloved features of FastAPI is the automatic interactive documentation.
+If you open <code class="docutils literal notranslate"><span class="pre">http://localhost:8000/docs</span></code> in your browser, you should get a web
+interface that looks similar to the following screenshot:</p>
+<div class="figure align-default" id="fastapi-docs">
+<a class="reference internal image-reference" href="../../_images/fastapi-docs.png"><img alt="../../_images/fastapi-docs.png" src="../../_images/fastapi-docs.png" style="width: 40em;" /></a>
+</div>
+<p>FastAPI automatically lists all defined endpoints and provide documentation about the expected inputs and outputs. You can even try each endpoint directly in this web interface.</p>
+</div>
+<div class="section" id="handling-request-parameters">
+<h2>Handling request parameters<a class="headerlink" href="#handling-request-parameters" title="Permalink to this headline">¶</a></h2>
+<p>The main goal of a REST API is to provide a structured way
+in which to interact with data. As such, it’s crucial for the end user to send some
+information to tailor the response they need, such as</p>
+<ul class="simple">
+<li><p>path parameters,</p></li>
+<li><p>query parameters,</p></li>
+<li><p>body payloads, or</p></li>
+<li><p>headers.</p></li>
+</ul>
+<p>To handle them, usually, web frameworks ask you to manipulate a request object to retrieve
+the parts you are interested in and manually apply validation. However, that’s not necessary
+with FastAPI. Indeed, it allows you to define all of your parameters declaratively. Then,
+it’ll automatically retrieve them in the request and apply validations based on the type
+hints as we will see below.</p>
+<div class="section" id="path-parameters">
+<h3>Path parameters<a class="headerlink" href="#path-parameters" title="Permalink to this headline">¶</a></h3>
+<p>We can have dynamic parameters in our paths which can then be passed to the path function. For example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># chapter3/path_parameters.py</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/v1/users/</span><span class="si">{id}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">get_user</span><span class="p">(</span><span class="nb">id</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="nb">id</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Then, we can make the following request for <code class="docutils literal notranslate"><span class="pre">id=123</span></code> (or for any other integer):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>http :8000/v1/users/123
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Blue">HTTP</span>/<span class=" -Color -Color-Blue">1.1</span> <span class=" -Color -Color-Blue">200</span> <span class=" -Color -Color-Cyan">OK</span>
+<span class=" -Color -Color-Cyan">content-length</span>: 10
+<span class=" -Color -Color-Cyan">content-type</span>: application/json
+<span class=" -Color -Color-Cyan">date</span>: Sun, 26 Dec 2021 17:37:55 GMT
+<span class=" -Color -Color-Cyan">server</span>: uvicorn
+
+{
+    &quot;id&quot;: <span class=" -Color -Color-Blue">123</span>
+}
+</pre></div>
+</div>
+</div>
+</div>
+<p>Notice the <strong>type hint</strong> in the path parameter <code class="docutils literal notranslate"><span class="pre">id</span></code>. If we pass a string into <code class="docutils literal notranslate"><span class="pre">id</span></code>, we get a response with a 422 status! Since this cannot be converted as a valid integer, the validation fails and outputs an error. All we need to do to trigger this validation is to type hint our parameter! Very cool.</p>
+<div class="section" id="validation-logic-for-path-parameters">
+<h4>Validation logic for path parameters<a class="headerlink" href="#validation-logic-for-path-parameters" title="Permalink to this headline">¶</a></h4>
+<p><strong>Enumeration</strong>. In the example below, <code class="docutils literal notranslate"><span class="pre">type</span></code> is a categorical parameter with two accepted values. We inherit from the <code class="docutils literal notranslate"><span class="pre">str</span></code> type and <code class="docutils literal notranslate"><span class="pre">Enum</span></code> class to facilitate the intended typing. We simply list the property name and its actual string value.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># chapter3/path_parameters.py</span>
+
+<span class="k">class</span> <span class="nc">UserType</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
+    <span class="n">STANDARD</span> <span class="o">=</span> <span class="s2">&quot;standard&quot;</span>
+    <span class="n">ADMIN</span> <span class="o">=</span> <span class="s2">&quot;admin&quot;</span>
+
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/v2/users/</span><span class="si">{type}</span><span class="s2">/</span><span class="si">{id}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">get_user</span><span class="p">(</span><span class="nb">id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="n">UserType</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="nb">id</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="nb">type</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Note that the actual string value is what is passed in the <code class="docutils literal notranslate"><span class="pre">type</span></code> parameter (not the property name). If we pass a value that is not in the enumeration, we get an error.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>http :8000/v2/users/admin/3
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Blue">HTTP</span>/<span class=" -Color -Color-Blue">1.1</span> <span class=" -Color -Color-Blue">200</span> <span class=" -Color -Color-Cyan">OK</span>
+<span class=" -Color -Color-Cyan">content-length</span>: 23
+<span class=" -Color -Color-Cyan">content-type</span>: application/json
+<span class=" -Color -Color-Cyan">date</span>: Sun, 26 Dec 2021 17:38:07 GMT
+<span class=" -Color -Color-Cyan">server</span>: uvicorn
+
+{
+    &quot;id&quot;: <span class=" -Color -Color-Blue">3</span>,
+    &quot;type&quot;: <span class=" -Color -Color-Yellow">&quot;admin&quot;</span>
+}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>http :8000/v2/users/dog/3
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Blue">HTTP</span>/<span class=" -Color -Color-Blue">1.1</span> <span class=" -Color -Color-Blue">422</span> <span class=" -Color -Color-Cyan">Unprocessable Entity</span>
+<span class=" -Color -Color-Cyan">content-length</span>: 184
+<span class=" -Color -Color-Cyan">content-type</span>: application/json
+<span class=" -Color -Color-Cyan">date</span>: Sun, 26 Dec 2021 17:38:19 GMT
+<span class=" -Color -Color-Cyan">server</span>: uvicorn
+
+{
+    &quot;detail&quot;: [
+        {
+            &quot;ctx&quot;: {
+                &quot;enum_values&quot;: [
+                    <span class=" -Color -Color-Yellow">&quot;standard&quot;</span>,
+                    <span class=" -Color -Color-Yellow">&quot;admin&quot;</span>
+                ]
+            },
+            &quot;loc&quot;: [
+                <span class=" -Color -Color-Yellow">&quot;path&quot;</span>,
+                <span class=" -Color -Color-Yellow">&quot;type&quot;</span>
+            ],
+            &quot;msg&quot;: <span class=" -Color -Color-Yellow">&quot;value is not a valid enumeration member; permitted: &#39;standard&#39;, &#39;admin&#39;&quot;</span>,
+            &quot;type&quot;: <span class=" -Color -Color-Yellow">&quot;type_error.enum&quot;</span>
+        }
+    ]
+}
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Integer bounds</strong>. For integers we can use the <code class="docutils literal notranslate"><span class="pre">Path</span></code> object from the <code class="docutils literal notranslate"><span class="pre">fastapi</span></code> library. In the example below, we set a lower bound to <code class="docutils literal notranslate"><span class="pre">id</span></code> so that it only takes positive values.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># chapter3/path_parameters.py</span>
+<span class="kn">from</span> <span class="nn">fastapi</span> <span class="kn">import</span> <span class="n">FastAPI</span><span class="p">,</span> <span class="n">Path</span>
+<span class="n">app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">()</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/v3/users/</span><span class="si">{id}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">get_user</span><span class="p">(</span><span class="nb">id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">)):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="nb">id</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="nb">type</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>i.e. <code class="docutils literal notranslate"><span class="pre">id</span> <span class="pre">&gt;=</span> <span class="pre">1</span></code>. Other possible arguments are <code class="docutils literal notranslate"><span class="pre">gt</span></code>, <code class="docutils literal notranslate"><span class="pre">lt</span></code>, <code class="docutils literal notranslate"><span class="pre">le</span></code>, etc. The <code class="docutils literal notranslate"><span class="pre">Path</span></code> function
+requires a first argument which becomes the default argument, using <code class="docutils literal notranslate"><span class="pre">...</span></code> indicates that
+we don’t want to set a default argument.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>http :8000/v3/users/3
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Blue">HTTP</span>/<span class=" -Color -Color-Blue">1.1</span> <span class=" -Color -Color-Blue">200</span> <span class=" -Color -Color-Cyan">OK</span>
+<span class=" -Color -Color-Cyan">content-length</span>: 8
+<span class=" -Color -Color-Cyan">content-type</span>: application/json
+<span class=" -Color -Color-Cyan">date</span>: Sun, 26 Dec 2021 17:38:37 GMT
+<span class=" -Color -Color-Cyan">server</span>: uvicorn
+
+{
+    &quot;id&quot;: <span class=" -Color -Color-Blue">3</span>
+}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>http :8000/v3/users/-1
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Blue">HTTP</span>/<span class=" -Color -Color-Blue">1.1</span> <span class=" -Color -Color-Blue">422</span> <span class=" -Color -Color-Cyan">Unprocessable Entity</span>
+<span class=" -Color -Color-Cyan">content-length</span>: 149
+<span class=" -Color -Color-Cyan">content-type</span>: application/json
+<span class=" -Color -Color-Cyan">date</span>: Sun, 26 Dec 2021 17:38:41 GMT
+<span class=" -Color -Color-Cyan">server</span>: uvicorn
+
+{
+    &quot;detail&quot;: [
+        {
+            &quot;ctx&quot;: {
+                &quot;limit_value&quot;: <span class=" -Color -Color-Blue">1</span>
+            },
+            &quot;loc&quot;: [
+                <span class=" -Color -Color-Yellow">&quot;path&quot;</span>,
+                <span class=" -Color -Color-Yellow">&quot;id&quot;</span>
+            ],
+            &quot;msg&quot;: <span class=" -Color -Color-Yellow">&quot;ensure this value is greater than or equal to 1&quot;</span>,
+            &quot;type&quot;: <span class=" -Color -Color-Yellow">&quot;value_error.number.not_ge&quot;</span>
+        }
+    ]
+}
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Strings and regex</strong>. We can bound string length using <code class="docutils literal notranslate"><span class="pre">min_length</span></code> and <code class="docutils literal notranslate"><span class="pre">max_length</span></code>. More generally, we can parse a string with a regular expressions in the <code class="docutils literal notranslate"><span class="pre">regex</span></code> argument.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># chapter3/path_parameters.py</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/username/</span><span class="si">{username}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">get_username</span><span class="p">(</span><span class="n">username</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">min_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">20</span><span class="p">)):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;username&quot;</span><span class="p">:</span> <span class="n">username</span><span class="p">}</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/license-plates/</span><span class="si">{license}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">get_license_plate</span><span class="p">(</span><span class="n">license</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;^\w</span><span class="si">{2}</span><span class="s2">-\d</span><span class="si">{3}</span><span class="s2">-\w</span><span class="si">{2}</span><span class="s2">$&quot;</span><span class="p">)):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;license&quot;</span><span class="p">:</span> <span class="n">license</span><span class="p">}</span>
+</pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>http :8000/license-plates/AB-123-CD
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Blue">HTTP</span>/<span class=" -Color -Color-Blue">1.1</span> <span class=" -Color -Color-Blue">200</span> <span class=" -Color -Color-Cyan">OK</span>
+<span class=" -Color -Color-Cyan">content-length</span>: 23
+<span class=" -Color -Color-Cyan">content-type</span>: application/json
+<span class=" -Color -Color-Cyan">date</span>: Sun, 26 Dec 2021 17:40:53 GMT
+<span class=" -Color -Color-Cyan">server</span>: uvicorn
+
+{
+    &quot;license&quot;: <span class=" -Color -Color-Yellow">&quot;AB-123-CD&quot;</span>
+}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>http :8000/username/abcdefghijklmnopqrst # <span class="m">20</span> characters
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Blue">HTTP</span>/<span class=" -Color -Color-Blue">1.1</span> <span class=" -Color -Color-Blue">200</span> <span class=" -Color -Color-Cyan">OK</span>
+<span class=" -Color -Color-Cyan">content-length</span>: 35
+<span class=" -Color -Color-Cyan">content-type</span>: application/json
+<span class=" -Color -Color-Cyan">date</span>: Sun, 26 Dec 2021 17:40:58 GMT
+<span class=" -Color -Color-Cyan">server</span>: uvicorn
+
+{
+    &quot;username&quot;: <span class=" -Color -Color-Yellow">&quot;abcdefghijklmnopqrst&quot;</span>
+}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition-parameter-metadata admonition">
+<p class="admonition-title">Parameter metadata</p>
+<p>Data validation is not the only option accepted by the parameter function <code class="docutils literal notranslate"><span class="pre">Path</span></code>.
+You can also set options such as <code class="docutils literal notranslate"><span class="pre">title</span></code>, <code class="docutils literal notranslate"><span class="pre">description</span></code>, and <code class="docutils literal notranslate"><span class="pre">deprecated</span></code>. These will add information about the parameter
+in the automatic documentation.</p>
+</div>
+</div>
+</div>
+<div class="section" id="query-parameters">
+<h3>Query parameters<a class="headerlink" href="#query-parameters" title="Permalink to this headline">¶</a></h3>
+<p>Query parameters are a common way to add some dynamic parameters to a
+URL. You find them at the end of the URL in the following form: <code class="docutils literal notranslate"><span class="pre">?param1=foo&amp;param2=bar</span></code>.
+In a REST API, they are commonly used on read endpoints to apply pagination, a filter, a
+sorting order, or selecting fields.</p>
+<p>By default, arguments of path functions that are not path parameters are interpreted by
+FastAPI as query parameters (i.e. without having to use the <code class="docutils literal notranslate"><span class="pre">Query</span></code> function defined
+below).</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># chapter3/query_parameters.py</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/users/</span><span class="si">{type}</span><span class="s2">/</span><span class="si">{id}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">user</span><span class="p">(</span>
+    <span class="nb">type</span><span class="p">:</span> <span class="n">UserType</span><span class="p">,</span> 
+    <span class="nb">id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> 
+    <span class="n">page</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span>
+        <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="nb">id</span><span class="p">,</span>
+        <span class="s2">&quot;page&quot;</span><span class="p">:</span> <span class="n">page</span><span class="p">,</span> 
+        <span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="n">size</span><span class="p">,</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>http :8000/users/admin/1 <span class="nv">page</span><span class="o">==</span><span class="m">0</span> <span class="nv">size</span><span class="o">==</span><span class="m">3</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Blue">HTTP</span>/<span class=" -Color -Color-Blue">1.1</span> <span class=" -Color -Color-Blue">200</span> <span class=" -Color -Color-Cyan">OK</span>
+<span class=" -Color -Color-Cyan">content-length</span>: 41
+<span class=" -Color -Color-Cyan">content-type</span>: application/json
+<span class=" -Color -Color-Cyan">date</span>: Sun, 26 Dec 2021 17:42:07 GMT
+<span class=" -Color -Color-Cyan">server</span>: uvicorn
+
+{
+    &quot;id&quot;: <span class=" -Color -Color-Blue">1</span>,
+    &quot;page&quot;: <span class=" -Color -Color-Blue">0</span>,
+    &quot;size&quot;: <span class=" -Color -Color-Blue">3</span>,
+    &quot;type&quot;: <span class=" -Color -Color-Yellow">&quot;admin&quot;</span>
+}
+</pre></div>
+</div>
+</div>
+</div>
+<p>These parameters are optional since we defined a default value. If there is no default
+value, then query parameter has to be supplied. If we want to validate query parameters,
+we use the <code class="docutils literal notranslate"><span class="pre">Query</span></code> function from <code class="docutils literal notranslate"><span class="pre">fastapi</span></code>. This works in the same way as the <code class="docutils literal notranslate"><span class="pre">Path</span></code>
+function. We can add metadata as mentioned in the above tip.</p>
+</div>
+<div class="section" id="the-request-body">
+<h3>The request body<a class="headerlink" href="#the-request-body" title="Permalink to this headline">¶</a></h3>
+<p>The body is the part of the HTTP request that contains is used to send
+and receive data via the REST API representing documents, files, or form submissions. In a REST API, it’s usually encoded in JSON and used to create structured objects in a
+database.</p>
+<p>For the simplest cases, retrieving data from the body works exactly like query
+parameters. The only difference is that you always have to use the <code class="docutils literal notranslate"><span class="pre">Body</span></code> function;
+otherwise, FastAPI will look for it inside the query parameters by default.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># chapter3/request_body.py</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/users&quot;</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">user</span><span class="p">(</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Body</span><span class="p">(</span><span class="o">...</span><span class="p">),</span> 
+    <span class="n">age</span><span class="p">:</span>  <span class="nb">int</span> <span class="o">=</span> <span class="n">Body</span><span class="p">(</span><span class="o">...</span><span class="p">),</span>
+<span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> 
+        <span class="s2">&quot;age&quot;</span><span class="p">:</span>  <span class="n">age</span><span class="p">,</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+<p>To send a request body, we use the following syntax in HTTPie. Note that HTTPie automatically detects that this is a POST method since a body is present. We see that a JSON payload was sent with string parameters. Note that the value of <code class="docutils literal notranslate"><span class="pre">age</span></code> in the response is automatically converted to <code class="docutils literal notranslate"><span class="pre">int</span></code> consistent with the typing.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>http -v :8000/v1/users <span class="nv">name</span><span class="o">=</span>Ronnie <span class="nv">age</span><span class="o">=</span>-99
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">POST</span> <span class=" -Color -Color-Cyan">/v1/users</span> <span class=" -Color -Color-Blue">HTTP</span>/<span class=" -Color -Color-Blue">1.1</span>
+<span class=" -Color -Color-Cyan">Accept</span>: application/json, */*;q=0.5
+<span class=" -Color -Color-Cyan">Accept-Encoding</span>: gzip, deflate, br
+<span class=" -Color -Color-Cyan">Connection</span>: keep-alive
+<span class=" -Color -Color-Cyan">Content-Length</span>: 32
+<span class=" -Color -Color-Cyan">Content-Type</span>: application/json
+<span class=" -Color -Color-Cyan">Host</span>: localhost:8000
+<span class=" -Color -Color-Cyan">User-Agent</span>: HTTPie/2.6.0
+
+{
+    &quot;age&quot;: <span class=" -Color -Color-Yellow">&quot;-99&quot;</span>,
+    &quot;name&quot;: <span class=" -Color -Color-Yellow">&quot;Ronnie&quot;</span>
+}
+
+
+<span class=" -Color -Color-Blue">HTTP</span>/<span class=" -Color -Color-Blue">1.1</span> <span class=" -Color -Color-Blue">200</span> <span class=" -Color -Color-Cyan">OK</span>
+<span class=" -Color -Color-Cyan">content-length</span>: 27
+<span class=" -Color -Color-Cyan">content-type</span>: application/json
+<span class=" -Color -Color-Cyan">date</span>: Sun, 26 Dec 2021 17:45:49 GMT
+<span class=" -Color -Color-Cyan">server</span>: uvicorn
+
+{
+    &quot;age&quot;: <span class=" -Color -Color-Blue">-99</span>,
+    &quot;name&quot;: <span class=" -Color -Color-Yellow">&quot;Ronnie&quot;</span>
+}
+</pre></div>
+</div>
+</div>
+</div>
+<p>Advanced validation and metadata through the <code class="docutils literal notranslate"><span class="pre">Body</span></code> function works in the same way as <code class="docutils literal notranslate"><span class="pre">Path</span></code> and <code class="docutils literal notranslate"><span class="pre">Query</span></code>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>For some reason, having a single <code class="docutils literal notranslate"><span class="pre">Body</span></code> parameter results in unexpected behavior. Indeed this is documented in <a class="reference external" href="https://github.com/tiangolo/fastapi/issues/1097">Issue #1097</a>. The solution is to set <code class="docutils literal notranslate"><span class="pre">embed=True</span></code> in the <code class="docutils literal notranslate"><span class="pre">Body</span></code> function for the single argument. Or defining a Pydantic model for this parameter as we will show below. This is a little inconsistent but done for the sake of backward compatibility.</p>
+</div>
+<div class="section" id="pydantic-models">
+<h4>Pydantic models<a class="headerlink" href="#pydantic-models" title="Permalink to this headline">¶</a></h4>
+<p>Defining payload validations like this has some major drawbacks. First, it’s quite verbose and makes the path function prototype huge, especially for bigger models with many fields. Second, usually, you’ll need to reuse the data structure on other endpoints or in other parts of your application.</p>
+<p>We’d like to define the data model in one place, so that updating the model updates all other places in the code where the model is used. For this we use <strong>Pydantic models</strong> which allows us to automatically type hint fields. We can use the <code class="docutils literal notranslate"><span class="pre">Field</span></code> function to validate Pydantic model fields. This offers the same options as the usual validation functions, e.g. <code class="docutils literal notranslate"><span class="pre">name:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">Field(...,</span> <span class="pre">max_length=20)</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># chapter3/request_body.py</span>
+<span class="kn">from</span> <span class="nn">fastapi</span> <span class="kn">import</span> <span class="n">FastAPI</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
+<span class="n">app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">()</span>
+
+<span class="k">class</span> <span class="nc">User</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">age</span><span class="p">:</span> <span class="nb">int</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/v2/users&quot;</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">user</span><span class="p">(</span><span class="n">user</span><span class="p">:</span> <span class="n">User</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">user</span>
+</pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>http :8000/v2/users <span class="nv">name</span><span class="o">=</span>Ronnie <span class="nv">age</span><span class="o">=</span>-99
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Blue">HTTP</span>/<span class=" -Color -Color-Blue">1.1</span> <span class=" -Color -Color-Blue">200</span> <span class=" -Color -Color-Cyan">OK</span>
+<span class=" -Color -Color-Cyan">content-length</span>: 27
+<span class=" -Color -Color-Cyan">content-type</span>: application/json
+<span class=" -Color -Color-Cyan">date</span>: Sun, 26 Dec 2021 17:46:12 GMT
+<span class=" -Color -Color-Cyan">server</span>: uvicorn
+
+{
+    &quot;age&quot;: <span class=" -Color -Color-Blue">-99</span>,
+    &quot;name&quot;: <span class=" -Color -Color-Yellow">&quot;Ronnie&quot;</span>
+}
+</pre></div>
+</div>
+</div>
+</div>
+<p>Note that FastAPI automatically understands that the user data can be found in the
+request payload and each field automatically validated based on the Pydantic model.
+Furthermore, the Pydantic object is simply returned and FastAPI is smart enough to convert it
+automatically into JSON to produce the HTTP response.</p>
+<p>We can extend this to multiple objects, as well as singular body values with the <code class="docutils literal notranslate"><span class="pre">Body</span></code>
+function. This is useful if you wish to have a single property that’s not part of any
+model.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># chapter3/request_body.py</span>
+
+<span class="k">class</span> <span class="nc">User</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">age</span><span class="p">:</span> <span class="nb">int</span>
+
+<span class="k">class</span> <span class="nc">Company</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/v3/users&quot;</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">create_user</span><span class="p">(</span><span class="n">user</span><span class="p">:</span> <span class="n">User</span><span class="p">,</span> <span class="n">company</span><span class="p">:</span> <span class="n">Company</span><span class="p">,</span> <span class="n">priority</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Body</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">3</span><span class="p">)):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;user&quot;</span><span class="p">:</span> <span class="n">user</span><span class="p">,</span> <span class="s2">&quot;company&quot;</span><span class="p">:</span> <span class="n">company</span><span class="p">,</span> <span class="s2">&quot;priority&quot;</span><span class="p">:</span> <span class="n">priority</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>This expects a properly formatted complex JSON structure as payload that can be passed using <code class="docutils literal notranslate"><span class="pre">&lt;&lt;&lt;</span></code>. Also recommended is to pipe the formatted JSON.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>http :8000/v3/users <span class="o">&lt;&lt;&lt;</span> <span class="s1">&#39;{ &quot;user&quot;: {&quot;name&quot;: &quot;Ronnie&quot;, &quot;age&quot;: -99 }, &quot;company&quot;: { &quot;name&quot;: &quot;Alliance&quot; }, &quot;priority&quot;: 1 }&#39;</span>
+<span class="c1"># !echo &#39;{&quot;user&quot;: {&quot;name&quot;: &quot;John&quot;, &quot;age&quot;: 30}, &quot;company&quot;: {&quot;name&quot;: &quot;ACME&quot;}, &quot;priority&quot;:1}&#39; | http POST http://localhost:8000/users</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Blue">HTTP</span>/<span class=" -Color -Color-Blue">1.1</span> <span class=" -Color -Color-Blue">200</span> <span class=" -Color -Color-Cyan">OK</span>
+<span class=" -Color -Color-Cyan">content-length</span>: 79
+<span class=" -Color -Color-Cyan">content-type</span>: application/json
+<span class=" -Color -Color-Cyan">date</span>: Sun, 26 Dec 2021 17:47:04 GMT
+<span class=" -Color -Color-Cyan">server</span>: uvicorn
+
+{
+    &quot;company&quot;: {
+        &quot;name&quot;: <span class=" -Color -Color-Yellow">&quot;Alliance&quot;</span>
+    },
+    &quot;priority&quot;: <span class=" -Color -Color-Blue">1</span>,
+    &quot;user&quot;: {
+        &quot;age&quot;: <span class=" -Color -Color-Blue">-99</span>,
+        &quot;name&quot;: <span class=" -Color -Color-Yellow">&quot;Ronnie&quot;</span>
+    }
+}
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="form-data">
+<h3>Form data<a class="headerlink" href="#form-data" title="Permalink to this headline">¶</a></h3>
+<p>We need to install <code class="docutils literal notranslate"><span class="pre">python-multipart</span></code> to handle form data.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># chapter3/form_data.py</span>
+<span class="kn">from</span> <span class="nn">fastapi</span> <span class="kn">import</span> <span class="n">FastAPI</span><span class="p">,</span> <span class="n">Form</span>
+<span class="n">app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">()</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/users&quot;</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">create_user</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Form</span><span class="p">(</span><span class="o">...</span><span class="p">),</span> <span class="n">age</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Form</span><span class="p">(</span><span class="o">...</span><span class="p">)):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="s2">&quot;age&quot;</span><span class="p">:</span> <span class="n">age</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>The only difference is we use <code class="docutils literal notranslate"><span class="pre">Form</span></code> instead of <code class="docutils literal notranslate"><span class="pre">Body</span></code>. Validation and metadata options we saw for <code class="docutils literal notranslate"><span class="pre">Path</span></code>, <code class="docutils literal notranslate"><span class="pre">Query</span></code>, and <code class="docutils literal notranslate"><span class="pre">Body</span></code> are likewise available. Note that FastAPI does not allow Pydantic models to validate form data.</p>
+<p>We use the <code class="docutils literal notranslate"><span class="pre">--form</span></code> option enforces the data to be form-encoded:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>http -v --form :8000/users <span class="nv">name</span><span class="o">=</span>Ronnie <span class="nv">age</span><span class="o">=</span><span class="m">96</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">POST</span> <span class=" -Color -Color-Cyan">/users</span> <span class=" -Color -Color-Blue">HTTP</span>/<span class=" -Color -Color-Blue">1.1</span>
+<span class=" -Color -Color-Cyan">Accept</span>: */*
+<span class=" -Color -Color-Cyan">Accept-Encoding</span>: gzip, deflate, br
+<span class=" -Color -Color-Cyan">Connection</span>: keep-alive
+<span class=" -Color -Color-Cyan">Content-Length</span>: 18
+<span class=" -Color -Color-Cyan">Content-Type</span>: application/x-www-form-urlencoded; charset=utf-8
+<span class=" -Color -Color-Cyan">Host</span>: localhost:8000
+<span class=" -Color -Color-Cyan">User-Agent</span>: HTTPie/2.6.0
+
+name=Ronnie&amp;age=96
+
+<span class=" -Color -Color-Blue">HTTP</span>/<span class=" -Color -Color-Blue">1.1</span> <span class=" -Color -Color-Blue">200</span> <span class=" -Color -Color-Cyan">OK</span>
+<span class=" -Color -Color-Cyan">content-length</span>: 26
+<span class=" -Color -Color-Cyan">content-type</span>: application/json
+<span class=" -Color -Color-Cyan">date</span>: Sun, 26 Dec 2021 17:48:35 GMT
+<span class=" -Color -Color-Cyan">server</span>: uvicorn
+
+{
+    &quot;age&quot;: <span class=" -Color -Color-Blue">96</span>,
+    &quot;name&quot;: <span class=" -Color -Color-Yellow">&quot;Ronnie&quot;</span>
+}
+</pre></div>
+</div>
+</div>
+</div>
+<p>Observe that <code class="docutils literal notranslate"><span class="pre">Content-Type:</span> <span class="pre">application/x-www-form-urlencoded;</span> <span class="pre">charset=utf-8</span></code> and the body data representation have changed in the request. Note also that the response for form data is still provided in JSON which is the default response by FastAPI no matter the form of input data.</p>
+</div>
+<div class="section" id="file-uploads">
+<h3>File uploads<a class="headerlink" href="#file-uploads" title="Permalink to this headline">¶</a></h3>
+<p>To handle files, the approach is still the same: we define an argument for the
+path operation function, <code class="docutils literal notranslate"><span class="pre">file</span></code>, we add a type of hint, <code class="docutils literal notranslate"><span class="pre">bytes</span></code>, and then we use the <code class="docutils literal notranslate"><span class="pre">File</span></code>
+function as a default value for this argument. By doing this, FastAPI understands that it
+will have to retrieve raw data in a part of the body named file and return it as bytes.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># chapter3/file_uploads.py</span>
+<span class="kn">from</span> <span class="nn">fastapi</span> <span class="kn">import</span> <span class="n">FastAPI</span><span class="p">,</span> <span class="n">File</span>
+<span class="n">app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">()</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/v1/files&quot;</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">upload_file</span><span class="p">(</span><span class="n">file</span><span class="p">:</span> <span class="nb">bytes</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="o">...</span><span class="p">)):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;file_size&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">file</span><span class="p">)}</span>
+</pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>http --form :8000/v1/files file@./assets/dog.jpeg
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Blue">HTTP</span>/<span class=" -Color -Color-Blue">1.1</span> <span class=" -Color -Color-Blue">200</span> <span class=" -Color -Color-Cyan">OK</span>
+<span class=" -Color -Color-Cyan">content-length</span>: 20
+<span class=" -Color -Color-Cyan">content-type</span>: application/json
+<span class=" -Color -Color-Cyan">date</span>: Sun, 26 Dec 2021 17:51:06 GMT
+<span class=" -Color -Color-Cyan">server</span>: uvicorn
+
+{
+    &quot;file_size&quot;: <span class=" -Color -Color-Blue">255436</span>
+}
+</pre></div>
+</div>
+</div>
+</div>
+<p>One drawback to this approach is that the uploaded file is entirely stored in the server’s memory while the function processes the request. This will likely run into issues for larger
+files. Besides, manipulating a bytes object is not always convenient for file handling. To fix this problem, FastAPI provides an <code class="docutils literal notranslate"><span class="pre">UploadFile</span></code> class. This class will store the data
+in memory up to a certain threshold and, after this, will automatically store it on disk
+in a temporary location.</p>
+<p>The exposed object instance exposes useful metadata, such as the
+content type, and a <strong>file-like</strong> interface. This means that you can manipulate it as a
+regular file in Python and that you can feed it to any function that expects a file. For example, <code class="docutils literal notranslate"><span class="pre">contents</span> <span class="pre">=</span> <span class="pre">await</span> <span class="pre">myfile.read()</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># chapter3/file_uploads.py</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/v2/files&quot;</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">upload_file</span><span class="p">(</span><span class="n">file</span><span class="p">:</span> <span class="n">UploadFile</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="o">...</span><span class="p">)):</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;file_name&quot;</span><span class="p">:</span> <span class="n">file</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> 
+        <span class="s2">&quot;content_type&quot;</span><span class="p">:</span> <span class="n">file</span><span class="o">.</span><span class="n">content_type</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>http --form :8000/v2/files file@./assets/dog.jpeg
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Blue">HTTP</span>/<span class=" -Color -Color-Blue">1.1</span> <span class=" -Color -Color-Blue">200</span> <span class=" -Color -Color-Cyan">OK</span>
+<span class=" -Color -Color-Cyan">content-length</span>: 52
+<span class=" -Color -Color-Cyan">content-type</span>: application/json
+<span class=" -Color -Color-Cyan">date</span>: Sun, 26 Dec 2021 17:51:32 GMT
+<span class=" -Color -Color-Cyan">server</span>: uvicorn
+
+{
+    &quot;content_type&quot;: <span class=" -Color -Color-Yellow">&quot;image/jpeg&quot;</span>,
+    &quot;file_name&quot;: <span class=" -Color -Color-Yellow">&quot;dog.jpeg&quot;</span>
+}
+</pre></div>
+</div>
+</div>
+</div>
+<p>Since <code class="docutils literal notranslate"><span class="pre">UploadFile</span></code> does not validate for specific file types, the content type is especially useful for validating the type of the uploaded file.</p>
+<p><strong>Multiple files.</strong> To upload multiple files, we can use the <code class="docutils literal notranslate"><span class="pre">List</span></code> type hint.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># chapter3/file_uploads.py</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/v3/files&quot;</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">upload_multiple_files</span><span class="p">(</span><span class="n">files</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">UploadFile</span><span class="p">]</span> <span class="o">=</span> 
+<span class="n">File</span><span class="p">(</span><span class="o">...</span><span class="p">)):</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;file_name&quot;</span><span class="p">:</span> <span class="n">file</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span>
+            <span class="s2">&quot;content_type&quot;</span><span class="p">:</span> <span class="n">file</span><span class="o">.</span><span class="n">content_type</span>
+        <span class="p">}</span>
+        <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">files</span>
+    <span class="p">]</span>
+</pre></div>
+</div>
+<p>Uploading multiple files via HTTPie:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>http --form :8000/v3/files files@./assets/dog.jpeg files@./assets/dog.jpeg
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Blue">HTTP</span>/<span class=" -Color -Color-Blue">1.1</span> <span class=" -Color -Color-Blue">200</span> <span class=" -Color -Color-Cyan">OK</span>
+<span class=" -Color -Color-Cyan">content-length</span>: 107
+<span class=" -Color -Color-Cyan">content-type</span>: application/json
+<span class=" -Color -Color-Cyan">date</span>: Sun, 26 Dec 2021 17:52:19 GMT
+<span class=" -Color -Color-Cyan">server</span>: uvicorn
+
+[
+    {
+        &quot;content_type&quot;: <span class=" -Color -Color-Yellow">&quot;image/jpeg&quot;</span>,
+        &quot;file_name&quot;: <span class=" -Color -Color-Yellow">&quot;dog.jpeg&quot;</span>
+    },
+    {
+        &quot;content_type&quot;: <span class=" -Color -Color-Yellow">&quot;image/jpeg&quot;</span>,
+        &quot;file_name&quot;: <span class=" -Color -Color-Yellow">&quot;dog.jpeg&quot;</span>
+    }
+]
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="headers-and-cookies">
+<h3>Headers and cookies<a class="headerlink" href="#headers-and-cookies" title="Permalink to this headline">¶</a></h3>
+<p>Besides the URL and the body, another major part of the HTTP request
+are the <strong>headers</strong>. They contain all sorts of metadata that can be useful when handling
+requests. Another is <strong>cookies</strong> which allows servers to store stateful information. Headers and cookies can be very useful tools in which to implement some authentication
+features.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># chapter3/headers_cookies.py</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">get_header</span><span class="p">(</span><span class="n">hello_world</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Header</span><span class="p">(</span><span class="o">...</span><span class="p">),</span> <span class="n">cookie</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Cookie</span><span class="p">(</span><span class="kc">None</span><span class="p">)):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;hello_world&quot;</span><span class="p">:</span> <span class="n">hello_world</span><span class="p">,</span> <span class="s2">&quot;cookie&quot;</span><span class="p">:</span> <span class="n">cookie</span><span class="p">}</span>
+</pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>http -v :8000/ <span class="s2">&quot;Hello-World: Hi&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">GET</span> <span class=" -Color -Color-Cyan">/</span> <span class=" -Color -Color-Blue">HTTP</span>/<span class=" -Color -Color-Blue">1.1</span>
+<span class=" -Color -Color-Cyan">Accept</span>: */*
+<span class=" -Color -Color-Cyan">Accept-Encoding</span>: gzip, deflate, br
+<span class=" -Color -Color-Cyan">Connection</span>: keep-alive
+<span class=" -Color -Color-Cyan">Hello-World</span>: Hi
+<span class=" -Color -Color-Cyan">Host</span>: localhost:8000
+<span class=" -Color -Color-Cyan">User-Agent</span>: HTTPie/2.6.0
+
+
+
+<span class=" -Color -Color-Blue">HTTP</span>/<span class=" -Color -Color-Blue">1.1</span> <span class=" -Color -Color-Blue">200</span> <span class=" -Color -Color-Cyan">OK</span>
+<span class=" -Color -Color-Cyan">content-length</span>: 34
+<span class=" -Color -Color-Cyan">content-type</span>: application/json
+<span class=" -Color -Color-Cyan">date</span>: Sun, 26 Dec 2021 17:54:44 GMT
+<span class=" -Color -Color-Cyan">server</span>: uvicorn
+
+{
+    &quot;cookie&quot;: <span class=" -Color -Color-Blue">null</span>,
+    &quot;hello_world&quot;: <span class=" -Color -Color-Yellow">&quot;Hi&quot;</span>
+}
+</pre></div>
+</div>
+</div>
+</div>
+<p>FastAPI automatically parses the header name to lowercase and snake case to get its corresponding variable in the function body. Here <code class="docutils literal notranslate"><span class="pre">&quot;Hello-World&quot;</span></code> to <code class="docutils literal notranslate"><span class="pre">hello_world</span></code>.</p>
+<p>One very special case of header is cookies. FastAPI provides another parameter function
+that automatically parses cookies for you. Here we didn’t pass anything so its value is <code class="docutils literal notranslate"><span class="pre">null</span></code>.</p>
+</div>
+<div class="section" id="the-request-object">
+<h3>The request object<a class="headerlink" href="#the-request-object" title="Permalink to this headline">¶</a></h3>
+<p>Sometimes, you might find that you need to access a raw request object
+with all of the data associated with it. Simply declare an argument on
+your path operation function type hinted with the <code class="docutils literal notranslate"><span class="pre">Request</span></code> class from the FastAPI library.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># chapter3/request_object.py</span>
+<span class="kn">from</span> <span class="nn">fastapi</span> <span class="kn">import</span> <span class="n">FastAPI</span><span class="p">,</span> <span class="n">Request</span>
+<span class="n">app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">()</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/random-path&quot;</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">get_request_object</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;path&quot;</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">path</span><span class="p">}</span>
+</pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>http :8000/random-path
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Blue">HTTP</span>/<span class=" -Color -Color-Blue">1.1</span> <span class=" -Color -Color-Blue">200</span> <span class=" -Color -Color-Cyan">OK</span>
+<span class=" -Color -Color-Cyan">content-length</span>: 23
+<span class=" -Color -Color-Cyan">content-type</span>: application/json
+<span class=" -Color -Color-Cyan">date</span>: Sun, 26 Dec 2021 17:55:14 GMT
+<span class=" -Color -Color-Cyan">server</span>: uvicorn
+
+{
+    &quot;path&quot;: <span class=" -Color -Color-Yellow">&quot;/random-path&quot;</span>
+}
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="customizing-the-response">
+<h2>Customizing the response<a class="headerlink" href="#customizing-the-response" title="Permalink to this headline">¶</a></h2>
+<p>Most of the time, you’ll want to customize this response a
+bit further; for instance, by changing the status code, raising validation errors, and
+setting cookies. We will discuss the different ways FastAPI does this, from the simplest case to the most advanced one.</p>
+<div class="section" id="decorator-parameters">
+<h3>Decorator parameters<a class="headerlink" href="#decorator-parameters" title="Permalink to this headline">¶</a></h3>
+<p>In order to
+create a new endpoint, you had to put a decorator on top of the path operation function.
+This decorator accepts a lot of options, including ones to customize the response.</p>
+<div class="section" id="status-code">
+<h4>Status code<a class="headerlink" href="#status-code" title="Permalink to this headline">¶</a></h4>
+<p>This is the most obvious. By default FastAPI sets <code class="docutils literal notranslate"><span class="pre">200</span> <span class="pre">OK</span></code> when
+everything goes well in executing the path operation function. Sometimes, it might be
+useful to change this status.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># chapter3/path_success_status_code.py</span>
+<span class="kn">from</span> <span class="nn">fastapi</span> <span class="kn">import</span> <span class="n">FastAPI</span><span class="p">,</span> <span class="n">status</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
+<span class="n">app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">()</span>
+
+<span class="k">class</span> <span class="nc">Post</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">title</span><span class="p">:</span> <span class="nb">str</span>
+
+<span class="c1"># Dummy database</span>
+<span class="n">posts</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/posts&quot;</span><span class="p">,</span> <span class="n">status_code</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_201_CREATED</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">create_post</span><span class="p">(</span><span class="n">post</span><span class="p">:</span> <span class="n">Post</span><span class="p">):</span>
+    <span class="n">posts</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">posts</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">post</span>
+    <span class="k">return</span> <span class="n">post</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="s2">&quot;/posts/</span><span class="si">{id}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">status_code</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_204_NO_CONTENT</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">delete_post</span><span class="p">(</span><span class="nb">id</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="n">posts</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">None</span>
+</pre></div>
+</div>
+<p>For example, it’s good practice in a REST API to return
+a <code class="docutils literal notranslate"><span class="pre">201</span> <span class="pre">Created</span></code> status when the execution of the endpoint ends up in the creation of
+a new object. (We can test whether the created posts persist in memory using print statements. Indeed they do, as expected.)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>http :8000/posts <span class="nv">title</span><span class="o">=</span><span class="s2">&quot;Hello!&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Blue">HTTP</span>/<span class=" -Color -Color-Blue">1.1</span> <span class=" -Color -Color-Blue">201</span> <span class=" -Color -Color-Cyan">Created</span>
+<span class=" -Color -Color-Cyan">content-length</span>: 18
+<span class=" -Color -Color-Cyan">content-type</span>: application/json
+<span class=" -Color -Color-Cyan">date</span>: Sun, 26 Dec 2021 18:01:23 GMT
+<span class=" -Color -Color-Cyan">server</span>: uvicorn
+
+{
+    &quot;title&quot;: <span class=" -Color -Color-Yellow">&quot;Hello!&quot;</span>
+}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>http -v DELETE :8000/posts/1
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">DELETE</span> <span class=" -Color -Color-Cyan">/posts/1</span> <span class=" -Color -Color-Blue">HTTP</span>/<span class=" -Color -Color-Blue">1.1</span>
+<span class=" -Color -Color-Cyan">Accept</span>: */*
+<span class=" -Color -Color-Cyan">Accept-Encoding</span>: gzip, deflate, br
+<span class=" -Color -Color-Cyan">Connection</span>: keep-alive
+<span class=" -Color -Color-Cyan">Content-Length</span>: 0
+<span class=" -Color -Color-Cyan">Host</span>: localhost:8000
+<span class=" -Color -Color-Cyan">User-Agent</span>: HTTPie/2.6.0
+
+
+
+<span class=" -Color -Color-Blue">HTTP</span>/<span class=" -Color -Color-Blue">1.1</span> <span class=" -Color -Color-Blue">204</span> <span class=" -Color -Color-Cyan">No Content</span>
+<span class=" -Color -Color-Cyan">date</span>: Sun, 26 Dec 2021 18:01:25 GMT
+<span class=" -Color -Color-Cyan">server</span>: uvicorn
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Remark</strong>. This runs into an error discussed in <a class="reference external" href="https://github.com/tiangolo/fastapi/issues/2253">#2253</a>. Returning <code class="docutils literal notranslate"><span class="pre">None</span></code> has content-length 4 which seems to be the root cause of the error. A fix seems to be to return a response model with status 204. This has content-length 0.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>It’s important to understand that this option to override the status code is
+only useful when everything goes well. If your input data was invalid, you would still get
+a 422 status error response.</p>
+</div>
+</div>
+<div class="section" id="the-response-model">
+<h4>The response model<a class="headerlink" href="#the-response-model" title="Permalink to this headline">¶</a></h4>
+<p>The main use case in FastAPI is to directly return a pydantic model
+that automatically gets turned into properly formatted JSON. Quite often, you’ll
+find that there are some differences between the input data, the data you store in your
+database, and the data you want to show to the end user. The <strong>response model</strong> allows us to specify the pydantic model for the response.</p>
+<p>Suppose we have a Pydantic model <code class="docutils literal notranslate"><span class="pre">Post</span></code> which which has
+fields <code class="docutils literal notranslate"><span class="pre">title</span></code> and <code class="docutils literal notranslate"><span class="pre">nb_views</span></code>. If we want to hide <code class="docutils literal notranslate"><span class="pre">nb_views</span></code> in a response, we
+can create a new Pydantic model <code class="docutils literal notranslate"><span class="pre">PublicPost</span></code> that inherits from <code class="docutils literal notranslate"><span class="pre">Post</span></code> which does not include <code class="docutils literal notranslate"><span class="pre">nb_views</span></code> in its fields. Then, we set <code class="docutils literal notranslate"><span class="pre">response_model=PublicPost</span></code> in the
+path decorator.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># chapter3/path_response_model.py</span>
+<span class="kn">from</span> <span class="nn">fastapi</span> <span class="kn">import</span> <span class="n">FastAPI</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
+<span class="n">app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">()</span>
+
+<span class="k">class</span> <span class="nc">Post</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">title</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">nb_views</span><span class="p">:</span> <span class="nb">int</span>
+
+<span class="k">class</span> <span class="nc">PublicPost</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">title</span><span class="p">:</span> <span class="nb">str</span>
+
+<span class="c1"># Dummy database. Database models.</span>
+<span class="n">posts</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="mi">1</span><span class="p">:</span> <span class="n">Post</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;Post #1&quot;</span><span class="p">,</span> <span class="n">nb_views</span><span class="o">=</span><span class="mi">100</span><span class="p">),</span>
+<span class="p">}</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/posts/</span><span class="si">{id}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">PublicPost</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">get_post</span><span class="p">(</span><span class="nb">id</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">posts</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span> <span class="c1"># Public-facing model</span>
+</pre></div>
+</div>
+<p>Note that <code class="docutils literal notranslate"><span class="pre">posts[id]</span></code> is an instance of the pydantic model <code class="docutils literal notranslate"><span class="pre">Post</span></code> which has <code class="docutils literal notranslate"><span class="pre">nb_views</span></code>. However, the resulting JSON only shows title in the public post and not the number of views.</p>
+<p>The good thing is that this option is also considered by the interactive documentation,
+which will show the correct output schema to the end user — hiding <code class="docutils literal notranslate"><span class="pre">nb_views</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>http :8000/posts/1 # does not show nb_views
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Blue">HTTP</span>/<span class=" -Color -Color-Blue">1.1</span> <span class=" -Color -Color-Blue">200</span> <span class=" -Color -Color-Cyan">OK</span>
+<span class=" -Color -Color-Cyan">content-length</span>: 19
+<span class=" -Color -Color-Cyan">content-type</span>: application/json
+<span class=" -Color -Color-Cyan">date</span>: Sun, 26 Dec 2021 18:03:35 GMT
+<span class=" -Color -Color-Cyan">server</span>: uvicorn
+
+{
+    &quot;title&quot;: <span class=" -Color -Color-Yellow">&quot;Post #1&quot;</span>
+}
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="injecting-the-response-object">
+<h3>Injecting the response object<a class="headerlink" href="#injecting-the-response-object" title="Permalink to this headline">¶</a></h3>
+<p>The body and status code are not the only interesting parts of an HTTP response.
+Sometimes, it might be useful to return some custom headers or set cookies. This can be
+done dynamically using FastAPI directly within the path operation logic by
+<strong>injecting</strong> the <code class="docutils literal notranslate"><span class="pre">Response</span></code> object as an argument of the path operation function.</p>
+<div class="section" id="setting-headers-and-cookies">
+<h4>Setting headers and cookies<a class="headerlink" href="#setting-headers-and-cookies" title="Permalink to this headline">¶</a></h4>
+<p>Sometimes, it might be useful to return some custom headers or set
+cookies. The good thing about this approach is that it’s within your
+path operation logic. That means you can dynamically set headers depending on what’s
+happening in your business logic.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># chapter3/response_object.py</span>
+<span class="kn">from</span> <span class="nn">fastapi</span> <span class="kn">import</span> <span class="n">FastAPI</span><span class="p">,</span> <span class="n">Response</span><span class="p">,</span> <span class="n">Request</span>
+<span class="n">app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">()</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/custom-header&quot;</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">custom_header</span><span class="p">(</span><span class="n">response</span><span class="p">:</span> <span class="n">Response</span><span class="p">):</span>
+    <span class="n">response</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s2">&quot;Custom-Header&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Custom-Header-Value&quot;</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;hello&quot;</span><span class="p">:</span> <span class="s2">&quot;world&quot;</span><span class="p">}</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/custom-cookie&quot;</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">custom_cookie</span><span class="p">(</span><span class="n">response</span><span class="p">:</span> <span class="n">Response</span><span class="p">):</span>
+    <span class="n">response</span><span class="o">.</span><span class="n">set_cookie</span><span class="p">(</span><span class="s2">&quot;cookie-name&quot;</span><span class="p">,</span> <span class="s2">&quot;cookie-value&quot;</span><span class="p">,</span> <span class="n">max_age</span><span class="o">=</span><span class="mi">86400</span><span class="p">)</span> <span class="c1"># -&gt; name value pair</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;hello&quot;</span><span class="p">:</span> <span class="s2">&quot;world&quot;</span><span class="p">}</span>
+</pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>http :8000/custom-header
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Blue">HTTP</span>/<span class=" -Color -Color-Blue">1.1</span> <span class=" -Color -Color-Blue">200</span> <span class=" -Color -Color-Cyan">OK</span>
+<span class=" -Color -Color-Cyan">content-length</span>: 17
+<span class=" -Color -Color-Cyan">content-type</span>: application/json
+<span class=" -Color -Color-Cyan">custom-header</span>: Custom-Header-Value
+<span class=" -Color -Color-Cyan">date</span>: Sun, 26 Dec 2021 18:07:24 GMT
+<span class=" -Color -Color-Cyan">server</span>: uvicorn
+
+{
+    &quot;hello&quot;: <span class=" -Color -Color-Yellow">&quot;world&quot;</span>
+}
+</pre></div>
+</div>
+</div>
+</div>
+<p>Note you don’t have to return <code class="docutils literal notranslate"><span class="pre">response</span></code> (though this is the natural thing to do). You can
+still return JSON-encodable data and FastAPI will take care of forming a proper response,
+including the headers you’ve set. Therefore, the <code class="docutils literal notranslate"><span class="pre">response_model</span></code> and <code class="docutils literal notranslate"><span class="pre">status_code</span></code> options
+we discussed are still honored <a class="footnote-reference brackets" href="#ref" id="id2">1</a>.</p>
+<p>Cookies can also be particularly useful when you want to maintain the
+user’s state within the browser between each of their visits. The <code class="docutils literal notranslate"><span class="pre">Response</span></code> object above exposes
+a convenient <code class="docutils literal notranslate"><span class="pre">set_cookie</span></code> method. We will see the ff. header added to the response:
+<code class="docutils literal notranslate"><span class="pre">set-cookie:</span> <span class="pre">cookie-name=cookie-value;</span> <span class="pre">Max-Age=86400;</span> <span class="pre">Path=/;</span> <span class="pre">SameSite=lax</span></code></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>http :8000/custom-cookie
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Blue">HTTP</span>/<span class=" -Color -Color-Blue">1.1</span> <span class=" -Color -Color-Blue">200</span> <span class=" -Color -Color-Cyan">OK</span>
+<span class=" -Color -Color-Cyan">Set-Cookie</span>: cookie-name=cookie-value; Max-Age=86400; Path=/; SameSite=lax
+<span class=" -Color -Color-Cyan">content-length</span>: 17
+<span class=" -Color -Color-Cyan">content-type</span>: application/json
+<span class=" -Color -Color-Cyan">date</span>: Sun, 26 Dec 2021 18:08:10 GMT
+<span class=" -Color -Color-Cyan">server</span>: uvicorn
+<span class=" -Color -Color-Cyan">set-cookie</span>: cookie-name=cookie-value; Max-Age=86400; Path=/; SameSite=lax
+
+{
+    &quot;hello&quot;: <span class=" -Color -Color-Yellow">&quot;world&quot;</span>
+}
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="setting-status-code-dynamically">
+<h4>Setting status code dynamically<a class="headerlink" href="#setting-status-code-dynamically" title="Permalink to this headline">¶</a></h4>
+<p>Recall we set the <code class="docutils literal notranslate"><span class="pre">status_code</span></code> parameter in the
+path function decorator. The drawback to this approach is that it’ll always be the same
+no matter what’s happening inside. This can be set dynamically in the <code class="docutils literal notranslate"><span class="pre">response</span></code> object. Again, this overrides the corresponding parameter in the decorator.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># chapter3/response_object_dynamic_status_code.py</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;/posts/</span><span class="si">{id}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">update_or_create_post</span><span class="p">(</span><span class="nb">id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">post</span><span class="p">:</span> <span class="n">Post</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="n">Response</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">posts</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">=</span> <span class="n">status</span><span class="o">.</span><span class="n">HTTP_201_CREATED</span>
+    <span class="n">posts</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">post</span>
+</pre></div>
+</div>
+<p>Creating a new post should result in status <code class="docutils literal notranslate"><span class="pre">201</span> <span class="pre">Created</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>http PUT :8000/posts/2 <span class="nv">title</span><span class="o">=</span><span class="s2">&quot;Post #2&quot;</span> <span class="nv">nb_views</span><span class="o">=</span><span class="m">1</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Blue">HTTP</span>/<span class=" -Color -Color-Blue">1.1</span> <span class=" -Color -Color-Blue">201</span> <span class=" -Color -Color-Cyan">Created</span>
+<span class=" -Color -Color-Cyan">content-length</span>: 4
+<span class=" -Color -Color-Cyan">content-type</span>: application/json
+<span class=" -Color -Color-Cyan">date</span>: Sun, 26 Dec 2021 18:11:43 GMT
+<span class=" -Color -Color-Cyan">server</span>: uvicorn
+
+<span class=" -Color -Color-Blue">null</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Updating an old post results in vanilla <code class="docutils literal notranslate"><span class="pre">200</span> <span class="pre">OK</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>http PUT :8000/posts/1 <span class="nv">title</span><span class="o">=</span><span class="s2">&quot;Post #1&quot;</span> <span class="nv">nb_views</span><span class="o">=</span><span class="m">2</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Blue">HTTP</span>/<span class=" -Color -Color-Blue">1.1</span> <span class=" -Color -Color-Blue">200</span> <span class=" -Color -Color-Cyan">OK</span>
+<span class=" -Color -Color-Cyan">content-length</span>: 4
+<span class=" -Color -Color-Cyan">content-type</span>: application/json
+<span class=" -Color -Color-Cyan">date</span>: Sun, 26 Dec 2021 18:11:45 GMT
+<span class=" -Color -Color-Cyan">server</span>: uvicorn
+
+<span class=" -Color -Color-Blue">null</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Note: don’t use this pattern to set error status code, e.g. <code class="docutils literal notranslate"><span class="pre">404</span> <span class="pre">Not</span> <span class="pre">Found</span></code>. See next
+section. Also, dynamic status codes are not detected by the automatic documentation.</p>
+</div>
+</div>
+<div class="section" id="raising-http-errors">
+<h3>Raising HTTP errors<a class="headerlink" href="#raising-http-errors" title="Permalink to this headline">¶</a></h3>
+<p>Errors can happen for a lot of reasons: wrong parameters, invalid
+payloads, or objects that don’t exist anymore. That’s why it’s critical to detect them and
+raise a clear and unambiguous error message to the end user so that they can correct their
+mistake. Two places to return error: payload and status code.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># chapter3/raise_errors.py</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/password&quot;</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">check_password</span><span class="p">(</span><span class="n">password</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Body</span><span class="p">(</span><span class="o">...</span><span class="p">),</span> <span class="n">password_confirm</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Body</span><span class="p">(</span><span class="o">...</span><span class="p">)):</span>
+    <span class="k">if</span> <span class="n">password</span> <span class="o">!=</span> <span class="n">password_confirm</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">HTTP_400_BAD_REQUEST</span><span class="p">,</span>
+            <span class="n">detail</span><span class="o">=</span><span class="s2">&quot;Passwords don&#39;t match.&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Passwords match.&quot;</span><span class="p">}</span>
+</pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>http :8000/password <span class="nv">password</span><span class="o">=</span>a123 <span class="nv">password_confirm</span><span class="o">=</span>A123
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Blue">HTTP</span>/<span class=" -Color -Color-Blue">1.1</span> <span class=" -Color -Color-Blue">400</span> <span class=" -Color -Color-Cyan">Bad Request</span>
+<span class=" -Color -Color-Cyan">content-length</span>: 34
+<span class=" -Color -Color-Cyan">content-type</span>: application/json
+<span class=" -Color -Color-Cyan">date</span>: Sun, 26 Dec 2021 18:13:40 GMT
+<span class=" -Color -Color-Cyan">server</span>: uvicorn
+
+{
+    &quot;detail&quot;: <span class=" -Color -Color-Yellow">&quot;Password don&#39;t match.&quot;</span>
+}
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here, we do get a 400 status code and our error message has been wrapped nicely in a
+JSON object with the detail key. This is how FastAPI handles errors by default. We can
+make a more detailed description by returning a dictionary for the <code class="docutils literal notranslate"><span class="pre">detail</span></code> parameter:</p>
+<div class="highlight-PYTHON notranslate"><div class="highlight"><pre><span></span><span class="n">detail</span><span class="o">=</span><span class="p">{</span>
+    <span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Passwords don&#39;t match.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;hints&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;Check the caps lock on your keyboard&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Try to make the password visible by clicking on the eye icon to check your typing&quot;</span><span class="p">,</span>
+        <span class="p">],</span>
+<span class="p">},</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="building-a-custom-response">
+<h3>Building a custom response<a class="headerlink" href="#building-a-custom-response" title="Permalink to this headline">¶</a></h3>
+<p>So far, all of the methods you have seen should cover the majority of cases you’ll
+encounter during the development of an API. Sometimes, however, you’ll have scenarios
+where you’ll need to build a complete HTTP response yourself. This is the subject of the
+next section</p>
+<p>Under the hood, FastAPI uses a subclass of <code class="docutils literal notranslate"><span class="pre">Response</span></code>, called
+<code class="docutils literal notranslate"><span class="pre">JSONResponse</span></code>. Quite predictably, this response class takes care of serializing some
+data to JSON and adding the correct <code class="docutils literal notranslate"><span class="pre">Content-Type</span></code> header.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">HTMLResponse</span></code>: This can be used to return an HTML response.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PlainTextResponse</span></code>: This can be used to return raw text.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">RedirectResponse</span></code>: This can be used to make a redirection.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">StreamingResponse</span></code>: This can be used to stream a flow of bytes.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">FileResponse</span></code>: This can be used to automatically build a proper file response given
+the path of a file on the local disk.</p></li>
+</ul>
+<p>You have two ways of using them: either setting the <code class="docutils literal notranslate"><span class="pre">response_class</span></code> argument on the
+path decorator or directly returning a response instance.</p>
+<div class="section" id="using-the-response-class-argument">
+<h4>Using the response_class argument<a class="headerlink" href="#using-the-response-class-argument" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/html&quot;</span><span class="p">,</span> <span class="n">response_class</span><span class="o">=</span><span class="n">HTMLResponse</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">get_html</span><span class="p">():</span>
+    <span class="k">return</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    &lt;html&gt;</span>
+<span class="s2">        &lt;head&gt;</span>
+<span class="s2">            &lt;title&gt;Hello world!&lt;/title&gt;</span>
+<span class="s2">        &lt;/head&gt;</span>
+<span class="s2">        &lt;body&gt;</span>
+<span class="s2">            &lt;h1&gt;Hello world!&lt;/h1&gt;</span>
+<span class="s2">        &lt;/body&gt;</span>
+<span class="s2">    &lt;/html&gt;</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/text&quot;</span><span class="p">,</span> <span class="n">response_class</span><span class="o">=</span><span class="n">PlainTextResponse</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">text</span><span class="p">():</span>
+    <span class="k">return</span> <span class="s2">&quot;Hello world!&quot;</span> 
+</pre></div>
+</div>
+</div>
+<div class="section" id="making-a-redirection">
+<h4>Making a redirection<a class="headerlink" href="#making-a-redirection" title="Permalink to this headline">¶</a></h4>
+<p>For the rest of responses class, we have to build the response
+instance. <code class="docutils literal notranslate"><span class="pre">RedirectResponse</span></code> is a class that helps you build an HTTP redirection, which
+simply is an HTTP response with a Location header pointing to the new URL and a status
+code in the <code class="docutils literal notranslate"><span class="pre">3XX</span></code> range. It simply expects the URL you wish to redirect to as the first
+argument:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/redirect&quot;</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">redirect</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">RedirectResponse</span><span class="p">(</span><span class="s2">&quot;/new-url&quot;</span><span class="p">)</span> <span class="c1"># 307 Temporary Redirect</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="serving-a-file">
+<h4>Serving a file<a class="headerlink" href="#serving-a-file" title="Permalink to this headline">¶</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">FileResponse</span></code> will be useful for downloading files. This response class will automatically take care of
+opening the file on disk and streaming the bytes along with the proper HTTP headers. We may need to install <code class="docutils literal notranslate"><span class="pre">aiofiles</span></code> as a dependency.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip install aiofiles
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: aiofiles in /Users/particle1331/miniforge3/envs/ml-cpu/lib/python3.9/site-packages (0.8.0)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># chapter3/file_response.py</span>
+<span class="kn">from</span> <span class="nn">fastapi</span> <span class="kn">import</span> <span class="n">FastAPI</span>
+<span class="kn">from</span> <span class="nn">fastapi.responses</span> <span class="kn">import</span> <span class="n">FileResponse</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="n">app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">()</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/dog&quot;</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">get_dog</span><span class="p">():</span>
+    <span class="n">root_directory</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">absolute</span><span class="p">()</span><span class="o">.</span><span class="n">parents</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">img_path</span> <span class="o">=</span> <span class="n">root_directory</span> <span class="o">/</span> <span class="s2">&quot;assets&quot;</span> <span class="o">/</span> <span class="s2">&quot;dog.jpeg&quot;</span>
+    <span class="k">return</span> <span class="n">FileResponse</span><span class="p">(</span><span class="n">img_path</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>http :8000/dog
+<span class="c1"># --download to download image</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Blue">HTTP</span>/<span class=" -Color -Color-Blue">1.1</span> <span class=" -Color -Color-Blue">200</span> <span class=" -Color -Color-Cyan">OK</span>
+<span class=" -Color -Color-Cyan">content-length</span>: 255436
+<span class=" -Color -Color-Cyan">content-type</span>: image/jpeg
+<span class=" -Color -Color-Cyan">date</span>: Sun, 26 Dec 2021 18:15:24 GMT
+<span class=" -Color -Color-Cyan">etag</span>: fff0e1b86216561e2e7a9e5d2c06f930
+<span class=" -Color -Color-Cyan">last-modified</span>: Fri, 24 Dec 2021 11:32:45 GMT
+<span class=" -Color -Color-Cyan">server</span>: uvicorn
+
+
+
++-----------------------------------------+
+| NOTE: binary data not shown in terminal |
++-----------------------------------------+
+</pre></div>
+</div>
+</div>
+</div>
+<p>In the browser, the image can be displayed:</p>
+<div class="figure align-default" id="dog">
+<a class="reference internal image-reference" href="../../_images/dog.png"><img alt="../../_images/dog.png" src="../../_images/dog.png" style="width: 40em;" /></a>
+</div>
+</div>
+<div class="section" id="custom-responses">
+<h4>Custom responses<a class="headerlink" href="#custom-responses" title="Permalink to this headline">¶</a></h4>
+<p>Finally, if you really have a case that’s not covered by the provided
+classes, you always have the option to use the <code class="docutils literal notranslate"><span class="pre">Response</span></code> class to build exactly what you
+need. With this class, you can set everything, including the body content and the headers.
+The following example shows you how to return an XML response:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/xml&quot;</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">get_xml</span><span class="p">():</span>
+    <span class="n">content</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="s2">        &lt;Hello&gt;World&lt;/Hello&gt;</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="n">content</span><span class="p">,</span> <span class="n">media_type</span><span class="o">=</span><span class="s2">&quot;application/xml&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Bear in mind that when you directly return a <code class="docutils literal notranslate"><span class="pre">Response</span></code> class (or one of
+its subclasses), the parameters you set on the decorator won’t have any effect. They are completely overridden by the
+<code class="docutils literal notranslate"><span class="pre">Response</span></code> object you return. If you need to customize the status code or the headers, then use the <code class="docutils literal notranslate"><span class="pre">status_code</span></code> and
+<code class="docutils literal notranslate"><span class="pre">headers</span></code> arguments when instantiating the response object.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="structuring-a-bigger-project-with-multiple-routers">
+<h2>Structuring a bigger project with multiple routers<a class="headerlink" href="#structuring-a-bigger-project-with-multiple-routers" title="Permalink to this headline">¶</a></h2>
+<p>When building a real-world web
+application, you’re likely to have lot of code and logic: data models, API endpoints, and
+services. Of course, all of those can’t live in a single file; we have to structure the
+project so that it’s easy to maintain and evolve.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>.
+└── chapter3_project/
+    ├── models/
+    │ ├── __init__.py
+    │ ├── post.py
+    │ └── user.py
+    ├── routers/
+    │ ├── __init__.py
+    │ ├── posts.py
+    │ └── users.py
+    ├── __init__.py
+    ├── app.py
+    └── db.py
+</pre></div>
+</div>
+<p>Everything is the same, but you separate functionality into separate files each can be thought of as a subapplications, then connect everything together by using <strong>routers</strong>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># chapter3_project/routers/users.py</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+<span class="kn">from</span> <span class="nn">fastapi</span> <span class="kn">import</span> <span class="n">APIRouter</span><span class="p">,</span> <span class="n">HTTPException</span><span class="p">,</span> <span class="n">status</span>
+<span class="kn">from</span> <span class="nn">chapter3_project.models.user</span> <span class="kn">import</span> <span class="n">User</span><span class="p">,</span> <span class="n">UserCreate</span>
+<span class="kn">from</span> <span class="nn">chapter3_project.db</span> <span class="kn">import</span> <span class="n">db</span>
+<span class="n">router</span> <span class="o">=</span> <span class="n">APIRouter</span><span class="p">()</span>
+
+<span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">all</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">User</span><span class="p">]:</span>
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">users</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>As you can see here, instead of instantiating the FastAPI class, you instantiate the
+APIRouter class. Then, you can use it exactly the same way to decorate your path
+operation functions. Now, let’s take a look at how to import this router and include it
+within a FastAPI application:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">fastapi</span> <span class="kn">import</span> <span class="n">FastAPI</span>
+<span class="kn">from</span> <span class="nn">chapter3_project.routers.posts</span> <span class="kn">import</span> <span class="n">router</span> <span class="k">as</span> <span class="n">posts_router</span>
+<span class="kn">from</span> <span class="nn">chapter3_project.routers.users</span> <span class="kn">import</span> <span class="n">router</span> <span class="k">as</span> <span class="n">users_router</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">()</span>
+
+<span class="n">app</span><span class="o">.</span><span class="n">include_router</span><span class="p">(</span><span class="n">posts_router</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;/posts&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;posts&quot;</span><span class="p">])</span>
+<span class="n">app</span><span class="o">.</span><span class="n">include_router</span><span class="p">(</span><span class="n">users_router</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;/users&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;users&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Prefixes can also be used to provide versioned paths of your API, such as <code class="docutils literal notranslate"><span class="pre">/v1</span></code>. The
+tags argument helps you to group endpoints in the interactive documentation for better
+readability. By doing this, the posts and users endpoints will be clearly separated in
+the documentation.</p>
+<p>Once again, you can see that FastAPI is both powerful and very lightweight to use. The
+good thing about routers is that you can even nest them, that include sub-routers in
+routers that include other routers themselves. Therefore, you can have a quite complex
+routing hierarchy with very low effort.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">router</span><span class="o">.</span><span class="n">include_router</span><span class="p">(</span><span class="n">subrouter</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;/subrouter-url&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;router&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+<hr class="footnotes docutils" />
+<dl class="footnote brackets">
+<dt class="label" id="ref"><span class="brackets"><a class="fn-backref" href="#id2">1</a></span></dt>
+<dd><p>Assuming these are not set in the response object! The attributes of the response object <strong>overrides</strong> the corresponding parameters in the decorator. See warning at the end of the <em>Building a custom response</em> section.</p>
+</dd>
+</dl>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./notebooks/fastapi"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+        <div class='prev-next-bottom'>
+            
+    <a class='left-prev' id="prev-link" href="../pytorch-activation.html" title="previous page">Activation Functions</a>
+    <a class='right-next' id="next-link" href="ch4.html" title="next page">Managing Pydantic Data Models</a>
+
+        </div>
+        
+        </div>
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By 𝗥𝗼𝗻 𝗠𝗲𝗱𝗶𝗻𝗮. Powered by <a href="https://jupyterbook.org">Jupyter Book</a>.<br/>
+        
+            &copy; Copyright 2021.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  
+  </body>
+</html>
