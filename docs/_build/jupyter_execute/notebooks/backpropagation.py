@@ -11,11 +11,11 @@
 
 # ## Gradient descent on the loss surface
 
-# Training neural networks is done by minimizing a **loss function** which is an almost everywhere differentiable function $\ell\colon \mathbb R \times \mathbb R \to [0, +\infty).$ If we assume that an underlying distribution generates the data, then the the expected loss with the current weights is
+# Training neural nets is an optimization problem, i.e. we want to minimize a function $\ell$ called the **loss function** over the data which quantifies the difference between the network prediction and the ground truth. In theory, $\ell\colon \mathbb R \times \mathbb R \to [0, +\infty)$ can be any almost everywhere differentiable function where $\ell$ is close to zero whenever its arguments are close to each other. In practice, the function $\ell$ is a surrogate objective that we want to minimize in order to minimize (on expectation) some metric that we care about but which cannot be optimized directly, e.g. accuracy. If we assume that an underlying distribution generates the data, then the expected loss with the current weights is
 # 
 # $$\mathcal L  (\mathbf w) = \mathbb E_{(\mathbf x, y)} \ell(y, f(\mathbf x; \mathbf w)).$$ 
 # 
-# But what motivates the choice of loss function? In practice, the function $\ell$ is a surrogate objective that we want to minimize in order to minimize (on expectation) some metric that we care about (such as accuracy). In practical deep learning tasks where we have a dataset $\mathcal X$ of independently sampled data points $\mathbf x_1, \ldots, \mathbf x_N$, we use the following approximation as our optimization objective:
+# In practical deep learning tasks, where we only have samples $\mathcal X = \{(\mathbf x_i, y_i )\}_{i=1}^N$ from the distribution, we use the following approximation as our optimization objective:
 #   
 # $$\mathcal L(\mathbf w; \mathcal X) = \frac{1}{N}\sum_{i=1}^N \ell (y, f(\mathbf x_i; \mathbf w)).$$
 
