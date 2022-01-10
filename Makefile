@@ -12,15 +12,14 @@ clean:
 	rm -f .coverage
 
 .ONESHELL:
-commit: docs clean
+commit: clean
 	git add .
 	git commit -m "${m}"
 	git push
 
 .ONESHELL:
-commit-deploy: commit
-	ghp-import -n -p -f docs/_build/html
+commit-deploy: commit deploy
 
-.ONESHELL:
+.ONESHELL: docs
 deploy:
 	ghp-import -n -p -f docs/_build/html
