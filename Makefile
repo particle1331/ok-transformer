@@ -1,5 +1,6 @@
 .PHONY: docs
 docs:
+	rm -rf docs/_build
 	jupyter-book build docs
 
 .PHONY: clean
@@ -15,8 +16,7 @@ git: docs clean
 	git add .
 	git commit -m "${m}"
 	git push
-	ghp-import -n -p -f docs/_build/html
-
+	
 .ONESHELL:
-ghp: docs clean
-	ghp-import -n -p -f docs/_build/html
+ghp: git
+	ghp-import -n -p -f docs/_build/htmlss
