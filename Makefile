@@ -17,7 +17,7 @@ commit: clean
 	git push
 
 .ONESHELL:
-deploy: docs commit
+deploy: commit
 	rm -rf docs/_build
 	jupyter-book build docs
 	ghp-import -n -p -f docs/_build/html
