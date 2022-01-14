@@ -1,6 +1,5 @@
 .PHONY: docs
 docs:
-	rm -rf docs/_build
 	jupyter-book build docs
 
 .ONESHELL: clean
@@ -19,4 +18,6 @@ commit: clean
 
 .ONESHELL:
 deploy: docs commit
+	rm -rf docs/_build
+	jupyter-book build docs
 	ghp-import -n -p -f docs/_build/html
