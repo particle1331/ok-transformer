@@ -18,13 +18,9 @@ parts:
 
 - caption: PYTORCH TUTORIALS
   chapters:
-  # - file: notebooks/pytorch-uva/pytorch-intro
-  # - file: notebooks/pytorch-uva/pytorch-activation
-  # - file: notebooks/pytorch-uva/pytorch-optim-init
-  - file: notebooks/pytorch-intro
-  - file: notebooks/pytorch-activation
-  - file: notebooks/pytorch-optim-init
-
+  - file: notebooks/pytorch-uva/pytorch-intro
+  - file: notebooks/pytorch-uva/pytorch-activation
+  - file: notebooks/pytorch-uva/pytorch-optim-init
 
 - caption: REST APIs with FASTAPI
   chapters:
