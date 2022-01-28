@@ -2,6 +2,10 @@
 docs:
 	jupyter-book build docs
 
+docs-all:
+	rm -rf docs/_build
+	make docs
+
 .ONESHELL: clean
 clean:
 	find . -type f -name "*.DS_Store" -ls -delete
@@ -17,13 +21,11 @@ commit: clean
 	git push
 
 .ONESHELL:
-push:
-	rm -rf docs/_build
-	jupyter-book build docs
+push: docs-all
 	ghp-import -n -p -f docs/_build/html
+	git status
 
 .ONESHELL:
-deploy: commit
-	rm -rf docs/_build
-	jupyter-book build docs
+deploy: commit docs-all
 	ghp-import -n -p -f docs/_build/html
+	git status

@@ -13,14 +13,14 @@ parts:
 - caption: DEEP LEARNING
   chapters:
   - file: notebooks/backpropagation
-  - file: notebooks/seb3/tensorflow-nn
-  - file: notebooks/seb3/tensorflow-mechanics
+  - file: notebooks/seb3/01-tensorflow-nn
+  - file: notebooks/seb3/02-tensorflow-mechanics
 
-- caption: PYTORCH TUTORIALS
-  chapters:
-  - file: notebooks/pytorch-uva/01-pytorch-intro
-  - file: notebooks/pytorch-uva/02-pytorch-activation
-  - file: notebooks/pytorch-uva/03-pytorch-optim-init
+# - caption: PYTORCH TUTORIALS
+#   chapters:
+#   - file: notebooks/pytorch-uva/01-pytorch-intro
+#   - file: notebooks/pytorch-uva/02-pytorch-activation
+#   - file: notebooks/pytorch-uva/03-pytorch-optim-init
 
 - caption: REST APIs with FASTAPI
   chapters:
