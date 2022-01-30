@@ -2,7 +2,7 @@
 docs:
 	jupyter-book build docs
 
-docs-all:
+docs-rm:
 	rm -rf docs/_build
 	make docs
 
@@ -21,11 +21,11 @@ commit: clean
 	git push
 
 .ONESHELL:
-push: docs-all
+push: docs-rm
 	ghp-import -n -p -f docs/_build/html
 	git status
 
 .ONESHELL:
-deploy: commit docs-all
+deploy: commit docs-rm
 	ghp-import -n -p -f docs/_build/html
 	git status
