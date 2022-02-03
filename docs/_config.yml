@@ -23,9 +23,6 @@ html:
   use_repository_button: true
   extra_navbar: ""
   favicon: "img/loss_surface.png"
-  comments:
-    utterances:
-      repo: "github-org/github-repo"
 
 sphinx:
   config:
