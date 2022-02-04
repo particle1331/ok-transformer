@@ -14,6 +14,9 @@ clean:
 	find . | grep -E ".ipynb_checkpoints" | xargs rm -rf
 	rm -f .coverage
 
+# Default: Each line in a recipe for a rule will execute in a separate sub-shell.
+# Using .ONESHELL executes all steps in a single shell.
+# .ONESHELL:
 commit: clean
 	git add .
 	git commit -m "${m}"
@@ -28,8 +31,6 @@ deploy: commit docsrm
 	git status
 
 
-# Default: Each line in a recipe for a rule will execute in a separate sub-shell.
-# Using .ONESHELL executes all steps in a single shell, e.g. commands for a venv.
 # .ONESHELL:
 # venv:
 #     python3 -m venv ${name}
