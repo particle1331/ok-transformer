@@ -9,7 +9,7 @@ docs-rm:
 
 # Default: Each line in a recipe for a rule will execute in a separate sub-shell.
 # Using .ONESHELL executes all steps in a single shell.
-.ONESHELL: clean
+.ONESHELL:
 clean:
 	find . -type f -name "*.DS_Store" -ls -delete
 	find . | grep -E "(__pycache__|\.pyc|\.pyo)" | xargs rm -rf
