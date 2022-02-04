@@ -15,6 +15,7 @@ clean:
 	find . | grep -E ".ipynb_checkpoints" | xargs rm -rf
 	rm -f .coverage
 
+.ONESHELL:
 commit: clean
 	git add .
 	git commit -m "${m}"
