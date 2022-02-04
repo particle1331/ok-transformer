@@ -1,3 +1,4 @@
+# See https://madewithml.com/courses/mlops/makefile/
 # Need .PHONY since `docs` is already taken
 .PHONY: docs
 docs:
