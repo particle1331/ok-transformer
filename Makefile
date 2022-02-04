@@ -1,4 +1,4 @@
-# Since docs is taken as folder name, we use .PHONY
+# Need .PHONY since `docs` is already taken
 .PHONY: docs
 docs:
 	jupyter-book build docs
@@ -14,9 +14,6 @@ clean:
 	find . | grep -E ".ipynb_checkpoints" | xargs rm -rf
 	rm -f .coverage
 
-# Default: Each line in a recipe for a rule will execute in a separate sub-shell.
-# Using .ONESHELL executes all steps in a single shell.
-# .ONESHELL:
 commit: clean
 	git add .
 	git commit -m "${m}"
@@ -31,6 +28,8 @@ deploy: commit docsrm
 	git status
 
 
+# # Each line in a recipe will execute in a separate sub-shell.
+# # Using .ONESHELL executes all steps in a single shell.
 # .ONESHELL:
 # venv:
 #     python3 -m venv ${name}
