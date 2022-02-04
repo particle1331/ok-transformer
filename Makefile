@@ -1,15 +1,12 @@
-# Since docs is unavailable (already used for a folder name), we have to use .PHONY
+# Since docs is taken as folder name, we use .PHONY
 .PHONY: docs
 docs:
 	jupyter-book build docs
 
-docs-rm:
+docsrm:
 	rm -rf docs/_build
 	make docs
 
-# Default: Each line in a recipe for a rule will execute in a separate sub-shell.
-# Using .ONESHELL executes all steps in a single shell.
-.ONESHELL:
 clean:
 	find . -type f -name "*.DS_Store" -ls -delete
 	find . | grep -E "(__pycache__|\.pyc|\.pyo)" | xargs rm -rf
@@ -22,10 +19,23 @@ commit: clean
 	git commit -m "${m}"
 	git push
 
-push: docs-rm
+push: docsrm
 	ghp-import -n -p -f docs/_build/html
 	git status
 
-deploy: commit docs-rm
+deploy: commit docsrm
 	ghp-import -n -p -f docs/_build/html
 	git status
+
+
+# Default: Each line in a recipe for a rule will execute in a separate sub-shell.
+# Using .ONESHELL executes all steps in a single shell, e.g. commands for a venv.
+# .ONESHELL:
+# venv:
+#     python3 -m venv ${name}
+#     source ${name}/bin/activate
+#     python -m pip install --upgrade pip setuptools wheel
+#     python -m pip install -e ".[dev]" --no-cache-dir
+#     pre-commit install
+#     pre-commit autoupdate
+#     pip uninstall dataclasses -y
