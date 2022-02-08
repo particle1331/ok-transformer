@@ -16,6 +16,7 @@ parts:
   - file: notebooks/seb3/01-tensorflow-nn
   - file: notebooks/seb3/02-tensorflow-mechanics
   - file: notebooks/seb3/03-tensorflow-activations
+  - file: notebooks/seb3/04-tensorflow-optim-init
 
 # - caption: PYTORCH TUTORIALS
 #   chapters:
