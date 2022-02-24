@@ -9,6 +9,7 @@ parts:
   - file: notebooks/house-prices
   - file: notebooks/blending-stacking
   - file: notebooks/optuna
+  - file: notebooks/mlspace/missing
 
 - caption: DEEP LEARNING
   chapters:
