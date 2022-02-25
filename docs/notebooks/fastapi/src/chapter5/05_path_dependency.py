@@ -23,6 +23,7 @@ async def router_route_2():
 
 # Version 2
 router2 = APIRouter()
+
 @router2.get("/route-1")
 async def router_route_1():
     return {"route": "route-1"}
