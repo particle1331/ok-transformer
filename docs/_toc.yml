@@ -9,7 +9,7 @@ parts:
   - file: notebooks/fundamentals/house-prices
   - file: notebooks/fundamentals/blending-stacking
   - file: notebooks/fundamentals/optuna
-  - file: notebooks/mlspace/missing
+  - file: notebooks/fundamentals/missing
 
 - caption: DEEP LEARNING
   chapters:
@@ -32,3 +32,8 @@ parts:
   - file: notebooks/fastapi/ch3
   - file: notebooks/fastapi/ch4
   - file: notebooks/fastapi/ch5
+
+
+- caption: PRACTICAL TIME SERIES
+  chapters:
+  - file: notebooks/time-series/ts0-basics

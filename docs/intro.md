@@ -25,6 +25,7 @@ optuna==2.10.0
 pandas==1.3.5
 scikit-learn==1.0.1
 scipy==1.7.3
+statsmodels==0.13.2
 tensorflow-datasets==4.4.0
 tensorflow==2.7.0
 torch==1.10.0
