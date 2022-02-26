@@ -21,19 +21,8 @@ parts:
   - file: notebooks/seb3/05-tensorflow-cnn
   - file: notebooks/seb3/06-tensorflow-inception
 
-# - caption: PYTORCH TUTORIALS
-#   chapters:
-#   - file: notebooks/pytorch-uva/01-pytorch-intro
-#   - file: notebooks/pytorch-uva/02-pytorch-activation
-#   - file: notebooks/pytorch-uva/03-pytorch-optim-init
-
 - caption: REST APIs with FASTAPI
   chapters:
   - file: notebooks/fastapi/ch3
   - file: notebooks/fastapi/ch4
   - file: notebooks/fastapi/ch5
-
-
-- caption: PRACTICAL TIME SERIES
-  chapters:
-  - file: notebooks/time-series/ts0-basics
