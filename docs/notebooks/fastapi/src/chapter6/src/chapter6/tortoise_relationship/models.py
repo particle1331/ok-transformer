@@ -77,25 +77,3 @@ class PostTortoise(Model):
 
     class Meta:
         table = "posts"
-
-
-class PostTortoise(Model):
-    id = fields.IntField(pk=True, generated=True)
-    publication_date = fields.DatetimeField(null=False)
-    title = fields.CharField(max_length=255, null=False)
-    content = fields.TextField(null=False)
-
-    class Meta:
-        table = "posts"
-
-class CommentTortoise(Model):
-    id = fields.IntField(pk=True, generated=True)
-    post = fields.ForeignKeyField(
-        "models.PostTortoise", 
-        related_name="comments", null=False
-    )
-    publication_date = fields.DatetimeField(null=False)
-    content = fields.TextField(null=False)
-
-    class Meta:
-        table = "comments"

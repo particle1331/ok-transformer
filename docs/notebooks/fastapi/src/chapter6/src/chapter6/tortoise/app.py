@@ -8,7 +8,6 @@ from chapter6.tortoise.models import (
     PostCreate,
     PostDB,
     PostPartialUpdate,
-    PostPublic,
     PostTortoise,
 )
 
@@ -31,16 +30,16 @@ async def get_post_or_404(id: int) -> PostTortoise:
 
 
 @app.get("/posts")
-async def list_posts(pagination: Tuple[int, int] = Depends(pagination)) -> List[PostPublic]:
+async def list_posts(pagination: Tuple[int, int] = Depends(pagination)) -> List[PostDB]:
     skip, limit = pagination
     posts = await PostTortoise.all().offset(skip).limit(limit)
-    results = [PostPublic.from_orm(post) for post in posts]
+    results = [PostDB.from_orm(post) for post in posts]
     return results
 
 
-@app.get("/posts/{id}", response_model=PostPublic)
-async def get_post(post: PostTortoise = Depends(get_post_or_404)) -> PostPublic:
-    return PostPublic.from_orm(post)
+@app.get("/posts/{id}", response_model=PostDB)
+async def get_post(post: PostTortoise = Depends(get_post_or_404)) -> PostDB:
+    return PostDB.from_orm(post)
 
 
 @app.post("/posts", response_model=PostDB, status_code=status.HTTP_201_CREATED)
