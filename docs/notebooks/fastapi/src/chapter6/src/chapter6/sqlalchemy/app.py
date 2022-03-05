@@ -5,7 +5,7 @@ import sqlalchemy
 from typing import Tuple, List
 from databases import Database
 from chapter6.sqlalchemy.database import database, sqlalchemy_engine, get_database
-from chapter6.sqlalchemy.models import posts, comments, metadata, CommentDB, CommentCreate, PostDB, PostCreate, PostPublic
+from chapter6.sqlalchemy.models import posts, metadata, PostDB, PostCreate
 from chapter6.sqlalchemy.models import PostPartialUpdate
 
 app = FastAPI()
@@ -16,19 +16,14 @@ app = FastAPI()
 async def get_post_or_404(
     id: int,
     database: Database=Depends(get_database) 
-) -> PostPublic:
+) -> PostDB:
 
     select_query = posts.select().where(posts.c.id == id) # overloaded
     raw_post = await database.fetch_one(select_query)
     if raw_post is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
 
-    # Here we add querying all comments for the post
-    select_post_comments_query = comments.select().where(comments.c.post_id == id)
-    raw_comments = await database.fetch_all(select_post_comments_query) # list
-    comments_list = [CommentDB(**comment) for comment in raw_comments]
-
-    return PostPublic(**raw_post, comments=comments_list)
+    return PostDB(**raw_post)
 
 
 async def pagination(skip: int=Query(0, ge=0), limit: int=Query(10, ge=0)) -> Tuple[int, int]:
@@ -104,29 +99,3 @@ async def delete_post(
 ):
     delete_query = posts.delete().where(posts.c.id == post.id)
     await database.execute(delete_query)
-
-
-@app.post("/comments", response_model=CommentDB, status_code=status.HTTP_201_CREATED)
-async def create_comment(
-    comment: CommentCreate,
-    database: Database=Depends(get_database),
-) -> CommentDB:
-
-    # First, we must make sure posts exist before making comment
-    select_post_query = posts.select().where(posts.c.id == comment.post_id)
-    post = await database.fetch(select_post_query)
-
-    if post is None:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, 
-            detail=f"Post {comment.post_id} does not exist."
-        )
-    
-    # Now, create comment in the database
-    insert_query = comments.insert().values(comment.dict())
-    comment_id = await database.execute(insert_query)
-
-    # Build the endpoint response
-    select_query = comments.select().where(comments.c.id == comment_id)
-    raw_comment = await database.fetch_one(select_query)
-    return CommentDB(**raw_comment)

@@ -5,9 +5,6 @@ from tortoise.contrib.fastapi import register_tortoise
 from tortoise.exceptions import DoesNotExist
 
 from chapter6.tortoise.models import (
-    CommentBase,
-    CommentDB,
-    CommentTortoise,
     PostCreate,
     PostDB,
     PostPartialUpdate,
@@ -28,7 +25,7 @@ async def pagination(
 
 async def get_post_or_404(id: int) -> PostTortoise:
     try:
-        return await PostTortoise.get(id=id).prefetch_related("comments")
+        return await PostTortoise.get(id=id)
     except DoesNotExist:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
 
@@ -36,7 +33,7 @@ async def get_post_or_404(id: int) -> PostTortoise:
 @app.get("/posts")
 async def list_posts(pagination: Tuple[int, int] = Depends(pagination)) -> List[PostPublic]:
     skip, limit = pagination
-    posts = await PostTortoise.all().prefetch_related("comments").offset(skip).limit(limit)
+    posts = await PostTortoise.all().offset(skip).limit(limit)
     results = [PostPublic.from_orm(post) for post in posts]
     return results
 
@@ -68,23 +65,11 @@ async def delete_post(post: PostTortoise = Depends(get_post_or_404)):
     await post.delete()
 
 
-@app.post("/comments", response_model=CommentDB, status_code=status.HTTP_201_CREATED)
-async def create_comment(comment: CommentBase) -> CommentDB:
-    try:
-        await PostTortoise.get(id=comment.post_id)
-    except DoesNotExist:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, detail=f"Post {id} does not exist"
-        )
-    comment_tortoise = await CommentTortoise.create(**comment.dict())
-    return CommentDB.from_orm(comment_tortoise)
-
-
 TORTOISE_ORM = {
     "connections": {"default": "sqlite://chapter6_tortoise.db"},
     "apps": {
         "models": {
-            "models": ["chapter6.tortoise.models", "aerich.models"],
+            "models": ["chapter6.tortoise.models"],
             "default_connection": "default",
         },
     },

@@ -4,7 +4,7 @@ from fastapi import Depends, FastAPI, HTTPException, Query, status
 from tortoise.contrib.fastapi import register_tortoise
 from tortoise.exceptions import DoesNotExist
 
-from chapter6.tortoise.models import (
+from chapter6.tortoise_relationship.models import (
     CommentBase,
     CommentDB,
     CommentTortoise,
@@ -84,7 +84,7 @@ TORTOISE_ORM = {
     "connections": {"default": "sqlite://chapter6_tortoise.db"},
     "apps": {
         "models": {
-            "models": ["chapter6.tortoise.models", "aerich.models"],
+            "models": ["chapter6.tortoise_relationship.models", "aerich.models"],
             "default_connection": "default",
         },
     },

@@ -4,9 +4,9 @@ from soupsieve import select
 import sqlalchemy
 from typing import Tuple, List
 from databases import Database
-from chapter6.sqlalchemy.database import database, sqlalchemy_engine, get_database
-from chapter6.sqlalchemy.models import posts, comments, metadata, CommentDB, CommentCreate, PostDB, PostCreate, PostPublic
-from chapter6.sqlalchemy.models import PostPartialUpdate
+from chapter6.sqlalchemy_relationship.database import database, sqlalchemy_engine, get_database
+from chapter6.sqlalchemy_relationship.models import posts, comments, metadata, CommentDB, CommentCreate, PostDB, PostCreate, PostPublic
+from chapter6.sqlalchemy_relationship.models import PostPartialUpdate
 
 app = FastAPI()
 
