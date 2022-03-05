@@ -1,7 +1,4 @@
 from fastapi import FastAPI, status, Depends, HTTPException, Query
-from h11 import Data
-from soupsieve import select
-import sqlalchemy
 from typing import Tuple, List
 from databases import Database
 from chapter6.sqlalchemy.database import database, sqlalchemy_engine, get_database
