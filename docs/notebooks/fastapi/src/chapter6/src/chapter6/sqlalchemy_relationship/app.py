@@ -58,8 +58,8 @@ async def create_post(
     return post_db
 
 
-@app.get("/posts/{id}", response_model=PostDB)
-async def get_post(post: PostDB=Depends(get_post_or_404)) -> PostDB:
+@app.get("/posts/{id}", response_model=PostPublic)
+async def get_post(post: PostPublic=Depends(get_post_or_404)) -> PostPublic:
     return post
 
 
@@ -111,7 +111,7 @@ async def create_comment(
 
     # First, we must make sure posts exist before making comment
     select_post_query = posts.select().where(posts.c.id == comment.post_id)
-    post = await database.fetch(select_post_query)
+    post = await database.fetch_one(select_post_query)
 
     if post is None:
         raise HTTPException(
