@@ -1,42 +1,42 @@
-from datetime import datetime
-from typing import Optional, List
+# from datetime import datetime
+# from typing import Optional, List
 
-from pydantic import BaseModel, Field, validator
-from tortoise.models import Model
-from tortoise import fields
-
-
-#### Pydantic models #### 
-
-class PostBase(BaseModel):
-    title: str
-    content: str
-    publication_date: datetime = Field(default_factory=datetime.now)
-
-    class Config:
-        orm_mode = True
+# from pydantic import BaseModel, Field, validator
+# from tortoise.models import Model
+# from tortoise import fields
 
 
-class PostPartialUpdate(BaseModel):
-    title: Optional[str] = None
-    content: Optional[str] = None
+# #### Pydantic models #### 
+
+# class PostBase(BaseModel):
+#     title: str
+#     content: str
+#     publication_date: datetime = Field(default_factory=datetime.now)
+
+#     class Config:
+#         orm_mode = True
 
 
-class PostCreate(PostBase):
-    pass
+# class PostPartialUpdate(BaseModel):
+#     title: Optional[str] = None
+#     content: Optional[str] = None
 
 
-class PostDB(PostBase):
-    id: int
+# class PostCreate(PostBase):
+#     pass
 
 
-#### Database entities ####
+# class PostDB(PostBase):
+#     id: int
 
-class PostTortoise(Model):
-    id = fields.IntField(pk=True, generated=True)
-    publication_date = fields.DatetimeField(null=False)
-    title = fields.CharField(max_length=255, null=False)
-    content = fields.TextField(null=False)
 
-    class Meta:
-        table = "posts"
+# #### Database entities ####
+
+# class PostTortoise(Model):
+#     id = fields.IntField(pk=True, generated=True)
+#     publication_date = fields.DatetimeField(null=False)
+#     title = fields.CharField(max_length=255, null=False)
+#     content = fields.TextField(null=False)
+
+#     class Meta:
+#         table = "posts"
