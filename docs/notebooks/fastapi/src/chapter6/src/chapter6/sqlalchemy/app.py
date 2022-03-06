@@ -8,27 +8,30 @@ from chapter6.sqlalchemy.models import PostPartialUpdate
 app = FastAPI()
 
 
-########################### Dependencies #################################
+# ########################### Dependencies #################################
 
 async def get_post_or_404(
     id: int,
-    database: Database=Depends(get_database) 
+    database: Database=Depends(get_database)
 ) -> PostDB:
 
     select_query = posts.select().where(posts.c.id == id) # overloaded
     raw_post = await database.fetch_one(select_query)
+
     if raw_post is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
+    return PostDB(**raw_post) # raw_post is of type dict
 
-    return PostDB(**raw_post)
 
-
-async def pagination(skip: int=Query(0, ge=0), limit: int=Query(10, ge=0)) -> Tuple[int, int]:
+async def pagination(
+    skip: int=Query(0, ge=0), limit: int=Query(10, ge=0)
+) -> Tuple[int, int]:
+    
     capped_limit = min(100, limit)
     return (skip, capped_limit)
 
 
-############################# Endpoints ##################################
+# ############################# Endpoints ##################################
 
 @app.on_event("startup")
 async def startup():
@@ -40,16 +43,16 @@ async def startup():
 async def shutdown():
     await database.disconnect()
 
-
 @app.post("/posts", response_model=PostDB, status_code=status.HTTP_201_CREATED)
 async def create_post(
-    post: PostCreate,
+    post: PostCreate, 
     database: Database=Depends(get_database)
 ) -> PostDB:
-
+    
     insert_query = posts.insert().values(post.dict())
     post_id = await database.execute(insert_query)
     post_db = await get_post_or_404(post_id, database)
+    
     return post_db
 
 
@@ -68,6 +71,7 @@ async def list_posts(
     select_query = posts.select().offset(skip).limit(limit)
     rows = await database.fetch_all(select_query)
     results = [PostDB(**row) for row in rows]
+    
     return results
 
 
@@ -80,8 +84,8 @@ async def update_post(
 
     update_query = (
         posts.update()
-        .where(posts.c.id == post.id)
-        .values(post_update.dict(exclude_unset=True))
+        .where(posts.c.id == post.id)                 # match post in db
+        .values(post_update.dict(exclude_unset=True)) # set update values
     )
 
     post_id = await database.execute(update_query)
@@ -94,5 +98,5 @@ async def delete_post(
     post: PostDB=Depends(get_post_or_404),
     database: Database=Depends(get_database)
 ):
-    delete_query = posts.delete().where(posts.c.id == post.id)
+    delete_query = posts.delete().where(posts.c.id == post.id) # match post to delete
     await database.execute(delete_query)

@@ -1,6 +1,5 @@
-from databases import Database
 from sqlalchemy import create_engine
-import pandas as pd
+from databases import Database
 
 
 DATABASE_URL = "sqlite:///chapter6_sqlalchemy.db"
