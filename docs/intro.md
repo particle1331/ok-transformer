@@ -5,7 +5,10 @@
 <!-- Place this tag in your head or just before your close body tag. -->
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 
-This repo contains a collection of Jupyter notebooks on some machine learning topic that run end-to-end after some minimal initial setup (such as setting up the directory structure and downloading the required datasets). The name of this collection is inspired by the following study:
+This repository contains a collection of Jupyter notebooks on some machine learning topic that run end-to-end after some minimal initial setup, such as setting up the directory structure, downloading the required datasets, and setting up the environment. 
+
+The name of this collection is from the following study which I found to be inspiring,
+or at least, reassuring:
 
 ```text
 Brackbill D, Centola D (2020) Impact of network structure on collective 
