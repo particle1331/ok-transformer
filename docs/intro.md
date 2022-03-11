@@ -7,8 +7,7 @@
 
 This repository contains a collection of Jupyter notebooks on some machine learning topic that run end-to-end after some minimal initial setup, such as setting up the directory structure, downloading the required datasets, and setting up the environment. 
 
-The name of this collection is from the following study which I found to be inspiring,
-or at least, reassuring:
+The name of this collection is inspired by the following study which has changed my approach to problem solving as part of a larger group of problem solvers:
 
 ```text
 Brackbill D, Centola D (2020) Impact of network structure on collective 
