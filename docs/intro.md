@@ -5,25 +5,13 @@
 <!-- Place this tag in your head or just before your close body tag. -->
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 
-This repo contains a collection of Jupyter notebooks that run end-to-end after some minimal initial setup (e.g. setting up the directory structure and downloading the required datasets). The name of this collection is inspired by the following study:
+This repo contains a collection of Jupyter notebooks on some machine learning topic that run end-to-end after some minimal initial setup (such as setting up the directory structure, and downloading the required datasets). The name of this collection is inspired by the following study:
 
-```
+```text
 Brackbill D, Centola D (2020) Impact of network structure on collective 
 learning: An experimental study in a data science competition. PLoS ONE 
 15(9): e0237978. https://doi.org/10.1371/journal.pone.0237978
 ```
-
-Below is one of the interesting results of this study:
-
-```{figure} img/pone.0237978.g004.png
----
-width: 40em
-name: study
----
-**Time series showing the tradeoff between diffusion and diversity.**
-The dynamics of solution discovery in groups with efficient (blue dashed) and inefficient (orange solid) networks shows that inefficient groups performed better in terms of solution diversity (A and B) and solution quality (C and D). All panels plot the average values for each experimental condition over all eight trials. In groups with efficient networks, good solutions rapidly spread to other group members, whereas diffusion was slower in inefficient groups (A). Diffusion is measured by the fraction of individuals who adopted the best available solution in the group over time. Due to this slower rate of diffusion, groups with inefficient networks discovered more distinct solutions (B), and the quality of the best solutions in these groups was much higher, both in terms of the value of the best solution found (C) and the fraction of the population that adopted a solution that was better than the best available solution from the other network (D). (**Fig. 4** from the [[Brackbill & Centola (2020)]](https://doi.org/10.1371/journal.pone.0237978)  study.)
-```
-
 
 
 ## Requirements
