@@ -1,6 +1,6 @@
-title: "𝗦𝘁𝗲𝗲𝗽𝗲𝘀𝘁 𝗔𝘀𝗰𝗲𝗻𝘁 ⛰️"
+title: "𝗜𝗻𝗲𝗳𝗳𝗶𝗰𝗶𝗲𝗻𝘁 𝗡𝗲𝘁𝘄𝗼𝗿𝗸𝘀"
 author: 𝗥𝗼𝗻 𝗠𝗲𝗱𝗶𝗻𝗮. Powered by <a href="https://jupyterbook.org">Jupyter Book</a>.
-logo: img/loss_surface.png
+logo: img/pone.0237978.g001.png
 
 execute:
   execute_notebooks: 'off'
@@ -13,7 +13,7 @@ bibtex_bibfiles:
   - references.bib
 
 repository:
-  url: https://github.com/particle1331/steepest-ascent
+  url: https://github.com/particle1331/inefficient-networks
   path_to_book: docs  # Path to book relative to repository root
   branch: master      # Branch of repo to use when creating links
 
@@ -22,7 +22,7 @@ html:
   use_issues_button: true
   use_repository_button: true
   extra_navbar: ""
-  favicon: "img/loss_surface.png"
+  favicon: "img/pone.0237978.g001.png"
 
 sphinx:
   config:

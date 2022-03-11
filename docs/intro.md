@@ -1,12 +1,29 @@
-# 𝗦𝘁𝗲𝗲𝗽𝗲𝘀𝘁 𝗔𝘀𝗰𝗲𝗻𝘁 ⛰️
-𝘌𝘹𝘱𝘦𝘥𝘪𝘵𝘪𝘰𝘯𝘴 𝘵𝘩𝘳𝘰𝘶𝘨𝘩 𝘵𝘩𝘦 𝘮𝘰𝘶𝘯𝘵𝘢𝘪𝘯𝘴 𝘰𝘧 𝘮𝘢𝘤𝘩𝘪𝘯𝘦 𝘭𝘦𝘢𝘳𝘯𝘪𝘯𝘨 𝘵𝘩𝘦𝘰𝘳𝘺 𝘢𝘯𝘥 𝘦𝘯𝘨𝘪𝘯𝘦𝘦𝘳𝘪𝘯𝘨.
+# 𝗜𝗻𝗲𝗳𝗳𝗶𝗰𝗶𝗲𝗻𝘁 𝗡𝗲𝘁𝘄𝗼𝗿𝗸𝘀
 
 <!-- Place this tag where you want the button to render. -->
 <a class="github-button" href="https://github.com/particle1331/steepest-ascent" data-color-scheme="no-preference: dark; light: light; dark: dark;" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star particle1331/steepest-ascent on GitHub">Star</a>
 <!-- Place this tag in your head or just before your close body tag. -->
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 
-This is a collection notebooks that run end-to-end after some minimal initial setup: setting up the directory structure, and downloading the datasets. The datasets used either come from Kaggle or available as part of open-source libraries.
+This repo contains a collection of Jupyter notebooks that run end-to-end after some minimal initial setup (e.g. setting up the directory structure and downloading the required datasets). The name of this collection is inspired by the following study:
+
+```
+Brackbill D, Centola D (2020) Impact of network structure on collective 
+learning: An experimental study in a data science competition. PLoS ONE 
+15(9): e0237978. https://doi.org/10.1371/journal.pone.0237978
+```
+
+Below is one of the interesting results of this study:
+
+```{figure} img/pone.0237978.g004.png
+---
+width: 40em
+name: study
+---
+**Time series showing the tradeoff between diffusion and diversity.**
+The dynamics of solution discovery in groups with efficient (blue dashed) and inefficient (orange solid) networks shows that inefficient groups performed better in terms of solution diversity (A and B) and solution quality (C and D). All panels plot the average values for each experimental condition over all eight trials. In groups with efficient networks, good solutions rapidly spread to other group members, whereas diffusion was slower in inefficient groups (A). Diffusion is measured by the fraction of individuals who adopted the best available solution in the group over time. Due to this slower rate of diffusion, groups with inefficient networks discovered more distinct solutions (B), and the quality of the best solutions in these groups was much higher, both in terms of the value of the best solution found (C) and the fraction of the population that adopted a solution that was better than the best available solution from the other network (D). (**Fig. 4** from the [[Brackbill & Centola (2020)]](https://doi.org/10.1371/journal.pone.0237978)  study.)
+```
+
 
 
 ## Requirements

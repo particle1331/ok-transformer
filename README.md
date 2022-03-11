@@ -1,6 +1,7 @@
 # inefficient-networks
 
-This repo contains a collection of notebooks that run end-to-end after some minimal initial setup (e.g. setting up the directory structure and downloading the required datasets). The name of this collection is inspired by the following study:
+This repo contains a collection of Jupyter notebooks that run end-to-end after some minimal initial setup (e.g. setting up the directory structure and downloading the required datasets). The name of this collection is inspired by the following study:
+
 
 ```
 Brackbill D, Centola D (2020) Impact of network structure on collective 
