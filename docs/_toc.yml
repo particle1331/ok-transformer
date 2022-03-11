@@ -9,7 +9,7 @@ parts:
   # - file: notebooks/fundamentals/house-prices
   - file: notebooks/fundamentals/blending-stacking
   - file: notebooks/fundamentals/optuna
-  # - file: notebooks/fundamentals/missing
+  - file: notebooks/fundamentals/missing
 
 - caption: DEEP LEARNING
   chapters:
