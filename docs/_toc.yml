@@ -6,28 +6,28 @@ root: intro
 parts:
 - caption: FUNDAMENTALS
   chapters:
-  - file: notebooks/fundamentals/house-prices
-  - file: notebooks/fundamentals/blending-stacking
+  # - file: notebooks/fundamentals/house-prices
+  # - file: notebooks/fundamentals/blending-stacking
   - file: notebooks/fundamentals/optuna
-  - file: notebooks/fundamentals/missing
+  # - file: notebooks/fundamentals/missing
 
 - caption: DEEP LEARNING
   chapters:
   - file: notebooks/fundamentals/backpropagation
-  - file: notebooks/seb3/01-tensorflow-nn
-  - file: notebooks/seb3/02-tensorflow-mechanics
+  # - file: notebooks/seb3/01-tensorflow-nn
+  # - file: notebooks/seb3/02-tensorflow-mechanics
   - file: notebooks/seb3/03-tensorflow-activations
   - file: notebooks/seb3/04-tensorflow-optim-init
-  - file: notebooks/seb3/05-tensorflow-cnn
-  - file: notebooks/seb3/06-tensorflow-inception
+  # - file: notebooks/seb3/05-tensorflow-cnn
+  # - file: notebooks/seb3/06-tensorflow-inception
 
-- caption: REST APIs with FASTAPI
-  chapters:
-  - file: notebooks/fastapi/chapter3
-  - file: notebooks/fastapi/chapter4
-  - file: notebooks/fastapi/chapter5
-  - file: notebooks/fastapi/chapter6
-  - file: notebooks/fastapi/chapter7
+# - caption: REST APIs with FASTAPI
+#   chapters:
+  # - file: notebooks/fastapi/chapter3
+  # - file: notebooks/fastapi/chapter4
+  # - file: notebooks/fastapi/chapter5
+  # - file: notebooks/fastapi/chapter6
+  # - file: notebooks/fastapi/chapter7
 
 - caption: MODEL DEPLOYMENT
   chapters:
