@@ -15,11 +15,11 @@ parts:
   chapters:
   - file: notebooks/fundamentals/backpropagation
   - file: notebooks/tensorflow/01-tensorflow-nn
-  - file: notebooks/tensorflow/02-tensorflow-mechanics
+  # - file: notebooks/tensorflow/02-tensorflow-mechanics
   - file: notebooks/tensorflow/03-tensorflow-activations
   - file: notebooks/tensorflow/04-tensorflow-optim-init
-  - file: notebooks/tensorflow/05-tensorflow-cnn
-  - file: notebooks/tensorflow/06-tensorflow-inception
+  # - file: notebooks/tensorflow/05-tensorflow-cnn
+  # - file: notebooks/tensorflow/06-tensorflow-inception
 
 # - caption: REST APIs with FASTAPI
 #   chapters:
@@ -29,9 +29,9 @@ parts:
   # - file: notebooks/fastapi/chapter6
   # - file: notebooks/fastapi/chapter7
 
-- caption: MODEL DEPLOYMENT
-  chapters:
-  - file: notebooks/deployment/production-code
+# - caption: MODEL DEPLOYMENT
+#   chapters:
+  # - file: notebooks/deployment/production-code
   # - file: notebooks/deployment
   # - file: notebooks/deployment
   # - file: notebooks/deployment
