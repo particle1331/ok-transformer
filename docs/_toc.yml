@@ -15,7 +15,7 @@ parts:
   chapters:
   - file: notebooks/fundamentals/backpropagation
   - file: notebooks/tensorflow/01-tensorflow-nn
-  # - file: notebooks/tensorflow/02-tensorflow-mechanics
+  - file: notebooks/tensorflow/02-tensorflow-mechanics
   - file: notebooks/tensorflow/03-tensorflow-activations
   - file: notebooks/tensorflow/04-tensorflow-optim-init
   # - file: notebooks/tensorflow/05-tensorflow-cnn
