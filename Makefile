@@ -21,8 +21,9 @@ commit: clean
 	git commit -m "${m}"
 	git push
 
-push: docsrm
+push:
 	git pull
+	docsrm
 	ghp-import -n -p -f docs/_build/html
 	git status
 
