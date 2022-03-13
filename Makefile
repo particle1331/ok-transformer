@@ -23,7 +23,7 @@ commit: clean
 
 push:
 	git pull
-	docsrm
+	make docsrm
 	ghp-import -n -p -f docs/_build/html
 	git status
 
