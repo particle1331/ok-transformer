@@ -3,7 +3,7 @@
 docs:
 	jupyter-book build docs
 
-docsrm:
+rmdocs:
 	rm -rf docs/_build
 	make docs
 
@@ -23,10 +23,6 @@ commit: clean
 
 push:
 	git pull
-	make docsrm
-	ghp-import -n -p -f docs/_build/html
-	git status
-
-deploy: commit docsrm
+	make rmdocs
 	ghp-import -n -p -f docs/_build/html
 	git status
