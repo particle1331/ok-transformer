@@ -29,9 +29,9 @@ parts:
   # - file: notebooks/fastapi/chapter6
   # - file: notebooks/fastapi/chapter7
 
-# - caption: MODEL DEPLOYMENT
-#   chapters:
-  # - file: notebooks/deployment/production-code
+- caption: MODEL DEPLOYMENT
+  chapters:
+  - file: notebooks/deployment/production-code
   # - file: notebooks/deployment
   # - file: notebooks/deployment
   # - file: notebooks/deployment
