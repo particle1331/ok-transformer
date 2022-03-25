@@ -23,7 +23,6 @@ name: study
 [Fig. 3 of the above study]. Evolution of solution discovery for members of the two groups. The efficient network converged on a small set of solutions, whereas individuals in the inefficient network explored a greater diversity of solutions, and eventually converged on the best solution.
 ```
 
-
 ## Requirements
 
 ```
