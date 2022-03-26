@@ -29,9 +29,3 @@ jobs:
     - name: Build Jupyter book with tox
       if: ${{ github.ref == 'refs/heads/master' }}
       run: tox -e buildbook
-
-    - name: Commit build to master
-      run: |
-        git add -A
-        git commit -m "Commit docs build from Actions."
-        git push origin master

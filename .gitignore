@@ -4,5 +4,7 @@
 *.h5
 
 data/*
+docs/_build/*
+.tox
 __pycache__
 docs/notebooks/seb3/models/*
