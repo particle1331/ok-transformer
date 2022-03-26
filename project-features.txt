@@ -3,3 +3,9 @@
 - automatic deployment to gh-pages
 - diff tracking between builds (uploaded _build directory)
 - uses automation tools tox, makefiles
+- note that GitHub runner makes the build, so we won't be able
+  to see diffs with builds (e.g. different metadata) if we don't
+  persist the build made by the runner.
+
+  solution: add commit step to runner so it also persists the
+  build made in the actions pipeline.

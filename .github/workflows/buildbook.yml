@@ -32,6 +32,6 @@ jobs:
 
     - name: Commit build to master
       run: |
-        git add docs/_build/*
+        git add -A
         git commit -m "Commit docs build from Actions."
         git push origin master
