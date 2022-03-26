@@ -17,7 +17,7 @@ def set_tf_seeds(seed=0):
 
 def set_matplotlib():
     from IPython.display import set_matplotlib_formats
-    set_matplotlib_formats('svg', 'pdf') # <!>
+    set_matplotlib_formats('svg', 'pdf')
 
 
 def set_ignore_warnings():
