@@ -1,0 +1,5 @@
+- version controlled with git
+- automatic builds with GitHub actions with push and PR
+- automatic deployment to gh-pages
+- diff tracking between builds (uploaded _build directory)
+- uses automation tools tox, makefiles
