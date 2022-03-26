@@ -1,8 +1,9 @@
 name: build-jupyter-book
 
 on:
-  - push
-  - pull_request
+  push:
+    branches:
+      - master
 
 jobs:
   build:
