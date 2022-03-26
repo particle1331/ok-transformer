@@ -1,8 +1,0 @@
-- version controlled with git
-- automatic builds with GitHub actions with push and PR
-- automatic deployment to gh-pages
-- uses automation tools tox, makefiles
-- issue: note that GitHub runner makes the build, so we won't be 
-  able to see diffs between each builds. Runners make fresh build
-  each time. "solution" is to just monitor diffs in the code base 
-  and trust that the deployed page is faithful to the codebase.
