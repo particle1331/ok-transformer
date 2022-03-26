@@ -14,15 +14,24 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
+    
     - name: Install dependencies
       if: ${{ github.ref == 'refs/heads/master' }}
       run: |
         python -m pip install --upgrade pip
         pip install tox tox-gh-actions
+    
     - name: Build Jupyter book with tox
       if: ${{ github.ref == 'refs/heads/master' }}
       run: tox -e buildbook
+
+    - name: Commit build to master
+      run: |
+        git add docs/_build/*
+        git commit -m "Commit docs build from Actions."
+        git push origin master
