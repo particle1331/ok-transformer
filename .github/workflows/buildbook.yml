@@ -28,9 +28,7 @@ jobs:
     
     - name: Build Jupyter book with tox
       if: ${{ github.ref == 'refs/heads/master' }}
-      run: |
-        jupyter-book build docs
-	      ghp-import -n -p -f docs/_build/html
+      run: tox -e buildbook
 
     - name: Commit build to master
       run: |
