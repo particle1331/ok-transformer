@@ -1,0 +1,1452 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Packaging Production Code &#8212; 𝗜𝗻𝗲𝗳𝗳𝗶𝗰𝗶𝗲𝗻𝘁 𝗡𝗲𝘁𝘄𝗼𝗿𝗸𝘀</title>
+    
+  <link href="../../_static/css/theme.css" rel="stylesheet">
+  <link href="../../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
+    <script>
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="shortcut icon" href="../../_static/pone.0237978.g001.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="prev" title="Initialization and Optimization" href="../tensorflow/04-tensorflow-optim-init.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../../_static/pone.0237978.g001.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">𝗜𝗻𝗲𝗳𝗳𝗶𝗰𝗶𝗲𝗻𝘁 𝗡𝗲𝘁𝘄𝗼𝗿𝗸𝘀</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  FUNDAMENTALS
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../fundamentals/house-prices.html">
+   Pipelines in
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     scikit-learn
+    </span>
+   </code>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../fundamentals/blending-stacking.html">
+   Blending and Stacking
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../fundamentals/optuna.html">
+   Model Tuning with Optuna
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../fundamentals/missing.html">
+   Handling Missing Values
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  DEEP LEARNING
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../fundamentals/backpropagation.html">
+   Backpropagation on DAGs
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../tensorflow/01-tensorflow-nn.html">
+   TensorFlow Datasets
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../tensorflow/02-tensorflow-mechanics.html">
+   Mechanics of TensorFlow
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../tensorflow/03-tensorflow-activations.html">
+   Activation Functions
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../tensorflow/04-tensorflow-optim-init.html">
+   Initialization and Optimization
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  MODEL DEPLOYMENT
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Packaging Production Code
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../../_sources/notebooks/deployment/production-code.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/particle1331/inefficient-networks"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/particle1331/inefficient-networks/issues/new?title=Issue%20on%20page%20%2Fnotebooks/deployment/production-code.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/particle1331/inefficient-networks/master?urlpath=tree/docs/notebooks/deployment/production-code.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#code-overview">
+   Code overview
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#package-requirements">
+   Package requirements
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#working-with-tox">
+   Working with tox
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#package-config">
+   Package config
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#model-training-pipeline">
+   Model training pipeline
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#feature-engineering">
+   Feature engineering
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#testing-our-feature-transformation">
+     Testing our feature transformation
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#input-validation-and-prediction-pipeline">
+   Input validation and prediction pipeline
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#testing-predictions">
+     Testing predictions
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#versioning-and-packaging">
+   Versioning and packaging
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#tooling">
+   Tooling
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Packaging Production Code</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#code-overview">
+   Code overview
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#package-requirements">
+   Package requirements
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#working-with-tox">
+   Working with tox
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#package-config">
+   Package config
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#model-training-pipeline">
+   Model training pipeline
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#feature-engineering">
+   Feature engineering
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#testing-our-feature-transformation">
+     Testing our feature transformation
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#input-validation-and-prediction-pipeline">
+   Input validation and prediction pipeline
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#testing-predictions">
+     Testing predictions
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#versioning-and-packaging">
+   Versioning and packaging
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#tooling">
+   Tooling
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="packaging-production-code">
+<h1>Packaging Production Code<a class="headerlink" href="#packaging-production-code" title="Permalink to this headline">¶</a></h1>
+<p><img alt="Status" src="https://img.shields.io/static/v1.svg?label=Status&amp;message=Ongoing&amp;color=orange" /></p>
+<p>Production code is designed to be deployed to end users as opposed to research code, which
+is for experimentation, building proof of concepts. Moreover, research code tends to be more short term in nature. On the other hand, with production code, we have some new considerations:</p>
+<ul class="simple">
+<li><p><strong>Testability and maintainability</strong> are huge.
+We want to divide up our code into modules which are more extensible and easier to test.
+We separate config from code where possible, and ensure that functionality is tested and documented. We also look to ensure that our code adheres to standards like PEP 8 so that it’s easy for others to read and maintain.</p></li>
+</ul>
+<ul class="simple">
+<li><p><strong>Scalability and performance</strong> are also important areas to consider.
+With our production code, the code needs to be ready to be deployed to infrastructure that can be scaled. And in modern web applications, this typically means containerisation for vertical or horizontal scaling.
+Where appropriate, we might also refactor inefficient parts of the code base.</p></li>
+</ul>
+<ul class="simple">
+<li><p><strong>Finally, we have to look at reproducibility</strong>.
+The code resides under version control with clear processes for tracking releases and release versions, requirements, files, mark which dependencies and which versions are used by the code.</p></li>
+</ul>
+<div class="margin sidebar">
+<p class="sidebar-title"></p>
+<p>A <strong>module</strong> is basically just a Python file and a <strong>package</strong> is a
+collection of modules.</p>
+</div>
+<p>That is a quick overview of some of the key considerations with production code. In this article, we will be packaging up our machine learning model into a Python <strong>package</strong>. A package has certain standardized files which have to be present so that it can be published and then installed in other Python applications.
+Packaging allows us to wrap our train model and make it available to other consuming applications as a dependency, but with the additional benefits of version control, clear metadata and reproducibility.
+Note that <a class="reference external" href="https://pypi.org/">PyPI distributions</a> have a 60MB limit after compression, so large models can’t be published there. <a class="reference external" href="https://www.dampfkraft.com/code/distributing-large-files-with-pypi.html">This article</a> provides multiple ways on how to overcome this size limitation for distributing Python packages.</p>
+<div class="section" id="code-overview">
+<h2>Code overview<a class="headerlink" href="#code-overview" title="Permalink to this headline">¶</a></h2>
+<p>In order to create a package, we’ll have to follow certain Python standards and conventions and
+we’ll go into those in detail in this section. The structure of the resulting package looks like this.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>.
+├── regression_model
+│   ├── config
+│   ├── datasets
+│   ├── processing
+│   │   ├── __init__.py
+│   │   ├── data_manager.py
+│   │   ├── features.py
+│   │   └── validation.py
+│   ├── trained_models
+│   ├── pipeline.py
+│   ├── predict.py
+│   ├── train_pipeline.py
+│   ├── config.yml
+│   └── VERSION
+├── requirements
+│   ├── requirements.txt
+│   └── test_requirements.txt
+├── tests
+│   ├── conftest.py
+│   ├── test_features.py
+│   └── test_prediction.py
+├── MANIFEST.in
+├── mypy.ini
+├── pyproject.toml
+├── setup.py
+└── tox.ini
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">MANIFEST.in</span></code>, <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code>, <code class="docutils literal notranslate"><span class="pre">setup.py</span></code>, <code class="docutils literal notranslate"><span class="pre">mypy.ini</span></code> and <code class="docutils literal notranslate"><span class="pre">tox.ini</span></code> are configurations either for packaging or for tooling like linting and type checking. We will be coming back to discuss these in more detail below. We have a <code class="docutils literal notranslate"><span class="pre">requirements/</span></code> directory, which is where we formalize the dependencies for our package and also for testing it. And we have a couple of sample tests in the <code class="docutils literal notranslate"><span class="pre">tests/</span></code> directory.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">regression_model/</span></code> directory is where the majority of our functionality is located. In this directory, we have three key files <code class="docutils literal notranslate"><span class="pre">train_pipeline.py</span></code>, <code class="docutils literal notranslate"><span class="pre">predict.py</span></code> and <code class="docutils literal notranslate"><span class="pre">pipeline.py</span></code>.
+These are sort of top level files for the key bits of functionality of the package. The <code class="docutils literal notranslate"><span class="pre">processing/</span></code> directory contains different helper functions. We have the datasets that we need to train and test the models in the <code class="docutils literal notranslate"><span class="pre">datasets/</span></code> directory. The <code class="docutils literal notranslate"><span class="pre">trained_models/</span></code> directory is where we save the models that we’re persisting
+here as a pickle file so that it can be loaded in and accessed in the future. Finally, <code class="docutils literal notranslate"><span class="pre">config/</span></code> contains the core configurations module which reads the <code class="docutils literal notranslate"><span class="pre">config.yml</span></code> file.</p>
+</div>
+<div class="section" id="package-requirements">
+<h2>Package requirements<a class="headerlink" href="#package-requirements" title="Permalink to this headline">¶</a></h2>
+<p>Note that the <code class="docutils literal notranslate"><span class="pre">requirements/</span></code> directory has two requirements files. One for development, and one for the regression model. The versions listed in these files all adhere to <a class="reference external" href="https://www.geeksforgeeks.org/introduction-semantic-versioning/">semantic versioning</a>. Ranges are specified instead of exact versions since we assume that a minor version increment will not break the API. So what we’ve done in our requirements file is play it quite conservatively, taking advantage of bug fixes but also risking breaking the code in case the developers do not adhere to semantic versioning.</p>
+<div class="margin sidebar">
+<p class="sidebar-title"></p>
+<p><a class="reference external" href="https://github.com/particle1331/model-deployment/blob/main/packages/regression_model/requirements/requirements.txt"><code class="docutils literal notranslate"><span class="pre">requirements/requirements.txt</span></code></a></p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">numpy</span><span class="o">&gt;=</span><span class="mf">1.22.0</span><span class="p">,</span><span class="o">&lt;</span><span class="mf">1.23.0</span>
+<span class="n">pandas</span><span class="o">&gt;=</span><span class="mf">1.4.0</span><span class="p">,</span><span class="o">&lt;</span><span class="mf">1.5.0</span>
+<span class="n">pydantic</span><span class="o">&gt;=</span><span class="mf">1.8.1</span><span class="p">,</span><span class="o">&lt;</span><span class="mf">1.9.0</span>
+<span class="n">scikit</span><span class="o">-</span><span class="n">learn</span><span class="o">&gt;=</span><span class="mf">1.0.0</span><span class="p">,</span><span class="o">&lt;</span><span class="mf">1.1.0</span>
+<span class="n">strictyaml</span><span class="o">&gt;=</span><span class="mf">1.3.2</span><span class="p">,</span><span class="o">&lt;</span><span class="mf">1.4.0</span>
+<span class="n">ruamel</span><span class="o">.</span><span class="n">yaml</span><span class="o">==</span><span class="mf">0.16.12</span>
+<span class="n">feature</span><span class="o">-</span><span class="n">engine</span><span class="o">&gt;=</span><span class="mf">1.0.2</span><span class="p">,</span><span class="o">&lt;</span><span class="mf">1.1.0</span>
+<span class="n">joblib</span><span class="o">&gt;=</span><span class="mf">1.0.1</span><span class="p">,</span><span class="o">&lt;</span><span class="mf">1.1.0</span>
+</pre></div>
+</div>
+<p>The additional packages in the test requirements are only required when we want to test our package, or when we want to run style checks, linting and type checks:</p>
+<div class="margin sidebar">
+<p class="sidebar-title"></p>
+<p><a class="reference external" href="https://github.com/particle1331/model-deployment/blob/main/packages/regression_model/requirements/test_requirements.txt"><code class="docutils literal notranslate"><span class="pre">requirements/test_requirements.txt</span></code></a></p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install requirements.txt along with others</span>
+<span class="o">-</span><span class="n">r</span> <span class="n">requirements</span><span class="o">.</span><span class="n">txt</span>
+
+<span class="c1"># Testing requirements</span>
+<span class="n">pytest</span><span class="o">&gt;=</span><span class="mf">6.2.3</span><span class="p">,</span><span class="o">&lt;</span><span class="mf">6.3.0</span>
+
+<span class="c1"># Repo maintenance tooling</span>
+<span class="n">black</span><span class="o">==</span><span class="mf">20.8</span><span class="n">b1</span>
+<span class="n">flake8</span><span class="o">&gt;=</span><span class="mf">3.9.0</span><span class="p">,</span><span class="o">&lt;</span><span class="mf">3.10.0</span>
+<span class="n">mypy</span><span class="o">==</span><span class="mf">0.812</span>
+<span class="n">isort</span><span class="o">==</span><span class="mf">5.8.0</span>
+</pre></div>
+</div>
+<p>This <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> approach to managing our projects dependencies is probably the most basic way of doing dependency management in Python.
+Nothing wrong with it at all. Many of the biggest python open source projects out there use this exact approach. There are other dependency managers out there such as Poetry and Pipenv. But the principle of defining your dependencies and specifying the version ranges remains the same across all of the tools.</p>
+</div>
+<div class="section" id="working-with-tox">
+<h2>Working with tox<a class="headerlink" href="#working-with-tox" title="Permalink to this headline">¶</a></h2>
+<p>Now what we’re going to do is see our package in action on some of its main commands.
+To start, if we’ve just cloned the repository and we have a look at our <code class="docutils literal notranslate"><span class="pre">trained_models/</span></code> directory you can see that its empty. There are no other files inside train models right now. We can generate a trained model serialized as a <code class="docutils literal notranslate"><span class="pre">.pkl</span></code> file by running:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tox</span> <span class="o">-</span><span class="n">e</span> <span class="n">train</span>
+</pre></div>
+</div>
+<p>Here we’ve used <code class="docutils literal notranslate"><span class="pre">tox</span></code> to trigger our train pipeline script. So what’s <code class="docutils literal notranslate"><span class="pre">tox</span></code>? How does it work? <code class="docutils literal notranslate"><span class="pre">tox</span></code> is a generic virtual environment management and test command line tool. For our purposes here, this means that with <code class="docutils literal notranslate"><span class="pre">tox</span></code>, we don’t have to worry about different operating systems. We don’t have to worry about things like setting up Python paths, configuring environment variables. We do all of that stuff inside our <code class="docutils literal notranslate"><span class="pre">tox.ini</span></code> file.
+This is a great tool, and it’s worth adding to your toolbox to get started with tox.</p>
+<div class="margin sidebar">
+<p class="sidebar-title"></p>
+<p><a class="reference external" href="https://github.com/particle1331/model-deployment/blob/main/packages/regression_model/tox.ini"><code class="docutils literal notranslate"><span class="pre">tox.ini</span></code></a></p>
+</div>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="c1"># Tox is a generic virtualenv management and test command line tool. Its goal is to</span><span class="w"></span>
+<span class="c1"># standardize testing in Python. We will be using it extensively in this course.</span><span class="w"></span>
+
+<span class="c1"># Using Tox we can (on multiple operating systems):</span><span class="w"></span>
+<span class="c1"># + Eliminate PYTHONPATH challenges when running scripts/tests</span><span class="w"></span>
+<span class="c1"># + Eliminate virtualenv setup confusion</span><span class="w"></span>
+<span class="c1"># + Streamline steps such as model training, model publishing</span><span class="w"></span>
+
+
+<span class="k">[tox]</span><span class="w"></span>
+<span class="na">envlist</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">test_package, typechecks, stylechecks, lint</span><span class="w"></span>
+<span class="na">skipsdist</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">True</span><span class="w"></span>
+
+
+<span class="k">[testenv]</span><span class="w"></span>
+<span class="na">install_command</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">pip install {opts} {packages}</span><span class="w"></span>
+
+
+<span class="k">[testenv:test_package]</span><span class="w"></span>
+<span class="na">deps</span><span class="w"> </span><span class="o">=</span><span class="w"></span>
+<span class="w">	</span><span class="na">-rrequirements/test_requirements.txt</span><span class="w"></span>
+
+<span class="na">setenv</span><span class="w"> </span><span class="o">=</span><span class="w"></span>
+<span class="w">	</span><span class="na">PYTHONPATH</span><span class="o">=</span><span class="s">.</span><span class="w"></span>
+<span class="w">	</span><span class="na">PYTHONHASHSEED</span><span class="o">=</span><span class="s">0</span><span class="w"></span>
+
+<span class="na">commands</span><span class="w"> </span><span class="o">=</span><span class="w"></span>
+<span class="w">	</span><span class="na">python regression_model/train_pipeline.py</span><span class="w"></span>
+<span class="w">	</span><span class="na">pytest -s -v tests/</span><span class="w"></span>
+
+
+<span class="k">[testenv:train]</span><span class="w"></span>
+<span class="na">envdir</span><span class="w"> 	 </span><span class="o">=</span><span class="w"> </span><span class="s">{toxworkdir}/test_package</span><span class="w"></span>
+<span class="na">deps</span><span class="w"> 	 </span><span class="o">=</span><span class="w"> </span><span class="s">{[testenv:test_package]deps}</span><span class="w"></span>
+<span class="na">setenv</span><span class="w"> 	 </span><span class="o">=</span><span class="w"> </span><span class="s">{[testenv:test_package]setenv}</span><span class="w"></span>
+<span class="na">commands</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>
+<span class="w">	</span><span class="na">python regression_model/train_pipeline.py</span><span class="w"></span>
+
+<span class="c1"># ...</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Every time you see something in square brackets like this, this is a different tox environment and an environment is something which is going to set up a virtual environment in your <code class="docutils literal notranslate"><span class="pre">.tox</span></code> hidden directory. We can run commands within a specific environment, and we can also inherit commands and dependencies from other environments. This is a sort of foundational unit when we’re working with tox.</p>
+<p>Here, we have the default <code class="docutils literal notranslate"><span class="pre">tox</span></code> environment and a default <code class="docutils literal notranslate"><span class="pre">testenv</span></code> environment.
+And what this means is that if we just run the <code class="docutils literal notranslate"><span class="pre">tox</span></code> command on its own, it’s going to run all the commands in these different environments (<code class="docutils literal notranslate"><span class="pre">test_package</span></code>, <code class="docutils literal notranslate"><span class="pre">typechecks</span></code>, <code class="docutils literal notranslate"><span class="pre">stylechecks</span></code>, and <code class="docutils literal notranslate"><span class="pre">lint</span></code>). You will see that these names corresponds to environments defined further in the file. Continuing, we set <code class="docutils literal notranslate"><span class="pre">skipsdist=True</span></code> since we don’t want to build the package when using tox. The <code class="docutils literal notranslate"><span class="pre">testenv</span></code> is almost like a base class, if you think of inheritance (using the <code class="docutils literal notranslate"><span class="pre">:</span></code> syntax). And so this <code class="docutils literal notranslate"><span class="pre">install_command</span></code> is going to be consistent whenever we inherit from this base environment.</p>
+<p>For <code class="docutils literal notranslate"><span class="pre">test_package</span></code> environment which inherits from <code class="docutils literal notranslate"><span class="pre">testenv</span></code>, we define <code class="docutils literal notranslate"><span class="pre">deps</span></code> and that tells <code class="docutils literal notranslate"><span class="pre">tox</span></code> that for this particular environment, we’re going to need to install <code class="docutils literal notranslate"><span class="pre">requirements/test_requirements.txt</span></code> with flag <code class="docutils literal notranslate"><span class="pre">-r</span></code>. This also sets environmental variables <code class="docutils literal notranslate"><span class="pre">PYTHONPATH=.</span></code> for the root directory and <code class="docutils literal notranslate"><span class="pre">PYTHONHASHSEED=0</span></code> to disable setting hash seed to a random integer for test commands. Finally, the following two commands are run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ python regression_model/train_pipeline.py
+$ pytest -s -v tests
+</pre></div>
+</div>
+<p>Here <code class="docutils literal notranslate"><span class="pre">-s</span></code> means to disable all capturing and <code class="docutils literal notranslate"><span class="pre">-v</span></code> to get verbose outputs. You can test this by running the following script in the terminal:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ tox -e test_package
+test_package installed: appdirs==1.4.4,attrs==21.4.0,black==20.8b1,click==8.0.4,feature-engine==1.0.2,flake8==3.9.2,iniconfig==1.1.1,isort==5.8.0,joblib==1.0.1,mccabe==0.6.1,mypy==0.812,mypy-extensions==0.4.3,numpy==1.22.3,packaging==21.3,pandas==1.4.1,pathspec==0.9.0,patsy==0.5.2,pluggy==1.0.0,py==1.11.0,pycodestyle==2.7.0,pydantic==1.8.2,pyflakes==2.3.1,pyparsing==3.0.7,pytest==6.2.5,python-dateutil==2.8.2,pytz==2021.3,regex==2022.3.2,ruamel.yaml==0.16.12,ruamel.yaml.clib==0.2.6,scikit-learn==1.0.2,scipy==1.8.0,six==1.16.0,statsmodels==0.13.2,strictyaml==1.3.2,threadpoolctl==3.1.0,toml==0.10.2,typed-ast==1.4.3,typing_extensions==4.1.1
+test_package run-test-pre: PYTHONHASHSEED=&#39;0&#39;
+test_package run-test: commands[0] | python regression_model/train_pipeline.py
+test_package run-test: commands[1] | pytest -s -v tests/
+============================= test session starts ==============================
+platform darwin -- Python 3.8.12, pytest-6.2.5, py-1.11.0, pluggy-1.0.0 -- /Users/particle1331/code/model-deployment/packages/regression_model.tox/test_package/bin/python
+cachedir: .tox/test_package/.pytest_cache
+rootdir: /Users/particle1331/code/model-deployment/production, configfile: pyproject.toml
+collected 2 items
+
+tests/test_features.py::test_temporal_variable_transformer PASSED
+tests/test_prediction.py::test_make_prediction PASSED
+
+============================== 2 passed in 0.19s ===============================
+___________________________________ summary ____________________________________
+  test_package: commands succeeded
+  congratulations :)
+</pre></div>
+</div>
+<p>Next, we have the <code class="docutils literal notranslate"><span class="pre">train</span></code> environment. Notice that we set <code class="docutils literal notranslate"><span class="pre">envdir={toxworkdir}/test_package</span></code> which tells tox to recreate the <code class="docutils literal notranslate"><span class="pre">test_package</span></code> environment in the hidden <code class="docutils literal notranslate"><span class="pre">.tox</span></code> directory. This is to save time as setting up a new virtual environment takes a while. Furthermore, setting <code class="docutils literal notranslate"><span class="pre">deps={[testenv:test_package]deps}</span></code> installs <code class="docutils literal notranslate"><span class="pre">test_requirements.txt</span></code> instead of <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code>. Again this saves time, though the train script should not require tooling libraries. After setting up the environment, the training pipeline is triggered without running the tests:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ tox -e train
+train installed: appdirs==1.4.4,attrs==21.4.0,black==20.8b1,click==8.0.4,feature-engine==1.0.2,flake8==3.9.2,iniconfig==1.1.1,isort==5.8.0,joblib==1.0.1,mccabe==0.6.1,mypy==0.812,mypy-extensions==0.4.3,numpy==1.22.3,packaging==21.3,pandas==1.4.1,pathspec==0.9.0,patsy==0.5.2,pluggy==1.0.0,py==1.11.0,pycodestyle==2.7.0,pydantic==1.8.2,pyflakes==2.3.1,pyparsing==3.0.7,pytest==6.2.5,python-dateutil==2.8.2,pytz==2021.3,regex==2022.3.2,ruamel.yaml==0.16.12,ruamel.yaml.clib==0.2.6,scikit-learn==1.0.2,scipy==1.8.0,six==1.16.0,statsmodels==0.13.2,strictyaml==1.3.2,threadpoolctl==3.1.0,toml==0.10.2,typed-ast==1.4.3,typing_extensions==4.1.1
+train run-test-pre: PYTHONHASHSEED=&#39;0&#39;
+train run-test: commands[0] | python regression_model/train_pipeline.py
+___________________________________ summary ____________________________________
+  train: commands succeeded
+  congratulations :)
+</pre></div>
+</div>
+<p>If you look at the <code class="docutils literal notranslate"><span class="pre">tox.ini</span></code> source file, we also have tox commands for running our type checks, style checks, and linting. These are defined following the same pattern as the <code class="docutils literal notranslate"><span class="pre">train</span></code> environment.</p>
+</div>
+<div class="section" id="package-config">
+<h2>Package config<a class="headerlink" href="#package-config" title="Permalink to this headline">¶</a></h2>
+<p>In this section, we are going to talk about how we structure our config. You may have noticed that we have a <code class="docutils literal notranslate"><span class="pre">config.yml</span></code> file here inside the <code class="docutils literal notranslate"><span class="pre">regression_model/</span></code> directory. A good rule of thumb is that you want to limit the amount of power that your config files have. If you write them in Python, it’ll be tempting to add small bits of Python code and that can cause bugs. Moreover, config files in standard formats like YAML or JSON can also be edited by developers who don’t know Python. For our purposes, we have taken all those global constants and hyperparameters, and put them in YAML format in the <code class="docutils literal notranslate"><span class="pre">config.yml</span></code> file.</p>
+<div class="margin sidebar">
+<p class="sidebar-title"></p>
+<p><a class="reference external" href="https://github.com/particle1331/model-deployment/blob/main/packages/regression_model/regression_model/config.yml"><code class="docutils literal notranslate"><span class="pre">regression_model/config.yml</span></code></a></p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you’re not familiar with YAML syntax, we explain its most relevant features here. Key-value pairs corresponds to an assignment operation: <code class="docutils literal notranslate"><span class="pre">package_name:</span> <span class="pre">regression_model</span></code> will be loaded as <code class="docutils literal notranslate"><span class="pre">package_name</span> <span class="pre">=</span> <span class="pre">&quot;regression_model&quot;</span></code> in Python. Nested keys with indentation will be read as keys of a dictionary:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">variables_to_rename</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">1stFlrSF</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">FirstFlrSF</span><span class="w"></span>
+<span class="w">  </span><span class="nt">2ndFlrSF</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SecondFlrSF</span><span class="w"></span>
+<span class="w">  </span><span class="nt">3SsnPorch</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ThreeSsnPortch</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">variables_to_rename</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;1stFlrSF&#39;</span><span class="p">:</span> <span class="s1">&#39;FirstFlrSF&#39;</span><span class="p">,</span> <span class="s1">&#39;2ndFlrSF&#39;</span><span class="p">:</span> <span class="s1">&#39;SecondFlrSF&#39;</span><span class="p">,</span> <span class="s1">&#39;3SsnPorch&#39;</span><span class="p">:</span> <span class="s1">&#39;ThreeSsnPortch&#39;</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Finally, we have the indented hyphen syntax which is going to be a list.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">numericals_log_vars</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">LotFrontage</span><span class="w"></span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">FirstFlrSF</span><span class="w"></span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GrLivArea</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">numericals_log_vars</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;LotFrontage&#39;</span><span class="p">,</span> <span class="s1">&#39;FirstFlrSF&#39;</span><span class="p">,</span> <span class="s1">&#39;GrLivArea&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<p>If we head over to the <code class="docutils literal notranslate"><span class="pre">config/</span></code> directory, we have our <code class="docutils literal notranslate"><span class="pre">core.py</span></code> file, there are a few things that are happening here. First, we are using <code class="docutils literal notranslate"><span class="pre">pathlib</span></code> to define the location of files and directories that we’re interested in using. Here <code class="docutils literal notranslate"><span class="pre">regression_model.__file__</span></code> refers to the <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code> file in <code class="docutils literal notranslate"><span class="pre">regression_model/</span></code>, so that <code class="docutils literal notranslate"><span class="pre">PACKAGE_ROOT</span></code> refers to the path of <code class="docutils literal notranslate"><span class="pre">regression_model/</span></code>. We also define the paths of the config YAML file, the datasets, and trained models.</p>
+<div class="margin sidebar">
+<p class="sidebar-title"></p>
+<p><a class="reference external" href="https://github.com/particle1331/model-deployment/blob/main/packages/regression_model/regression_model/config/core.py"><code class="docutils literal notranslate"><span class="pre">regression_model/config/core.py</span></code></a></p>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Project Directories</span>
+<span class="n">PACKAGE_ROOT</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">regression_model</span><span class="o">.</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span>
+<span class="n">ROOT</span> <span class="o">=</span> <span class="n">PACKAGE_ROOT</span><span class="o">.</span><span class="n">parent</span>
+<span class="n">CONFIG_FILE_PATH</span> <span class="o">=</span> <span class="n">PACKAGE_ROOT</span> <span class="o">/</span> <span class="s2">&quot;config.yml&quot;</span>
+<span class="n">DATASET_DIR</span> <span class="o">=</span> <span class="n">PACKAGE_ROOT</span> <span class="o">/</span> <span class="s2">&quot;datasets&quot;</span>
+<span class="n">TRAINED_MODEL_DIR</span> <span class="o">=</span> <span class="n">PACKAGE_ROOT</span> <span class="o">/</span> <span class="s2">&quot;trained_models&quot;</span>
+
+
+<span class="k">class</span> <span class="nc">AppConfig</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Application-level config.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">package_name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">training_data_file</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">test_data_file</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">pipeline_save_file</span><span class="p">:</span> <span class="nb">str</span>
+
+
+<span class="k">class</span> <span class="nc">ModelConfig</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    All configuration relevant to model training and feature engineering.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">target</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">variables_to_rename</span><span class="p">:</span> <span class="n">Dict</span>
+    <span class="n">features</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">test_size</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">random_state</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">categorical_vars_with_na_frequent</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">categorical_vars_with_na_missing</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">numerical_vars_with_na</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">temporal_vars</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">ref_var</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">numericals_log_vars</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">binarize_vars</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">qual_vars</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">exposure_vars</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">finish_vars</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">garage_vars</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">categorical_vars</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">qual_mappings</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span>
+    <span class="n">exposure_mappings</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span>
+    <span class="n">garage_mappings</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span>
+    <span class="n">finish_mappings</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Here we use <code class="docutils literal notranslate"><span class="pre">BaseModel</span></code> from <code class="docutils literal notranslate"><span class="pre">pydantic</span></code> to define our config classes.
+Pydantic is an excellent library for data validation and settings management using Python type annotations. This is really powerful because it means we don’t have to learn a new sort of micro language for data parsing and schema validation.
+We can just use Pydantic and our existing knowledge of Python type hints.
+And so, this gives us a really clear and powerful way to understand and
+potentially test our config, and to prevent introducing bugs into our model.</p>
+<p>For the sake of separating concerns, we define two subconfigs: everything to do with our
+model, and then everything to do with our package. Developmental concerns, like the package name and
+the location of the pipeline, go into the <code class="docutils literal notranslate"><span class="pre">AppConfig</span></code> data model. The data science configs
+go into <code class="docutils literal notranslate"><span class="pre">ModelConfig</span></code>. Then, we wrap it in an overall config:</p>
+<div class="margin sidebar">
+<p class="sidebar-title"></p>
+<p><a class="reference external" href="https://github.com/particle1331/model-deployment/blob/main/packages/regression_model/regression_model/config/core.py"><code class="docutils literal notranslate"><span class="pre">regression_model/config/core.py</span></code></a></p>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Config</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Master config object.&quot;&quot;&quot;</span>
+
+    <span class="n">app_config</span><span class="p">:</span> <span class="n">AppConfig</span>
+    <span class="n">model_config</span><span class="p">:</span> <span class="n">ModelConfig</span>
+</pre></div>
+</div>
+<p>At the bottom of the <code class="docutils literal notranslate"><span class="pre">core</span></code> config module, we have three helper functions. Our <code class="docutils literal notranslate"><span class="pre">config</span></code> object,
+which is what we’re going to be importing in other modules, is defined through this
+<code class="docutils literal notranslate"><span class="pre">create_and_validate_config</span></code> function.
+This uses our <code class="docutils literal notranslate"><span class="pre">parse_config_from_yaml</span></code> function, which using <code class="docutils literal notranslate"><span class="pre">CONFIG_FILE_PATH</span></code> specified above
+will check that the file exists, and then attempt to load it using the <code class="docutils literal notranslate"><span class="pre">strictyaml</span></code> load function.</p>
+<div class="margin sidebar">
+<p class="sidebar-title"></p>
+<p><a class="reference external" href="https://github.com/particle1331/model-deployment/blob/main/packages/regression_model/regression_model/config/core.py"><code class="docutils literal notranslate"><span class="pre">regression_model/config/core.py</span></code></a></p>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">validate_config_file_path</span><span class="p">(</span><span class="n">cfg_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Locate the configuration file.&quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">cfg_path</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>
+        <span class="k">raise</span> <span class="ne">OSError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Config not found at </span><span class="si">{</span><span class="n">cfg_path</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">cfg_path</span>
+
+
+<span class="k">def</span> <span class="nf">parse_config_from_yaml</span><span class="p">(</span><span class="n">cfg_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">YAML</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Parse YAML containing the package configuration.&quot;&quot;&quot;</span>
+
+    <span class="n">cfg_path</span> <span class="o">=</span> <span class="n">validate_config_file_path</span><span class="p">(</span><span class="n">cfg_path</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">cfg_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">conf_file</span><span class="p">:</span>
+        <span class="n">parsed_config</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="n">conf_file</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+
+    <span class="k">return</span> <span class="n">parsed_config</span>
+
+
+<span class="k">def</span> <span class="nf">create_and_validate_config</span><span class="p">(</span><span class="n">parsed_config</span><span class="p">:</span> <span class="n">YAML</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Config</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Run validation on config values.&quot;&quot;&quot;</span>
+
+    <span class="k">return</span> <span class="n">Config</span><span class="p">(</span>
+        <span class="n">app_config</span><span class="o">=</span><span class="n">AppConfig</span><span class="p">(</span><span class="o">**</span><span class="n">parsed_config</span><span class="o">.</span><span class="n">data</span><span class="p">),</span>
+        <span class="n">model_config</span><span class="o">=</span><span class="n">ModelConfig</span><span class="p">(</span><span class="o">**</span><span class="n">parsed_config</span><span class="o">.</span><span class="n">data</span><span class="p">),</span>
+    <span class="p">)</span>
+
+
+<span class="n">_parsed_config</span> <span class="o">=</span> <span class="n">parse_config_from_yaml</span><span class="p">(</span><span class="n">CONFIG_FILE_PATH</span><span class="p">)</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">create_and_validate_config</span><span class="p">(</span><span class="n">_parsed_config</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>And once we load it in our YAML file, we then unpack the key value
+pairs here and pass them to <code class="docutils literal notranslate"><span class="pre">AppConfig</span></code> and <code class="docutils literal notranslate"><span class="pre">ModelConfig</span></code> as keyword arguments
+to instantiate these classes.
+And that results in us having this <code class="docutils literal notranslate"><span class="pre">config</span></code> object, which is what we are going to be importing around our package.</p>
+</div>
+<div class="section" id="model-training-pipeline">
+<h2>Model training pipeline<a class="headerlink" href="#model-training-pipeline" title="Permalink to this headline">¶</a></h2>
+<p>Now that we’ve looked at our config, let’s dig into the main <code class="docutils literal notranslate"><span class="pre">regression/train_pipeline.py</span></code> scripts. This is what we’ve been running in our tox commands.
+If we open up this file, you can see we have one function, which is <code class="docutils literal notranslate"><span class="pre">run_training</span></code>.
+And if we step through what’s happening here, we are loading in the training data and we’ve created
+some utility functions like this <code class="docutils literal notranslate"><span class="pre">load_dataset</span></code> function, which comes from our <code class="docutils literal notranslate"><span class="pre">data_manager/</span></code> module. After loading, we use the standard scikit <code class="docutils literal notranslate"><span class="pre">train_test_split</span></code>. The test set obtained here can be used to evaluate the model (which can be part of the automated tests). Here we are making use of our config object to specify the parameters of this function.
+It’s important to note that we log-transform our targets prior to training.</p>
+<div class="margin sidebar">
+<p class="sidebar-title"></p>
+<p><a class="reference external" href="https://github.com/particle1331/model-deployment/blob/main/packages/regression_model/regression_model/train_pipeline.py"><code class="docutils literal notranslate"><span class="pre">regression_model/train_pipeline.py</span></code></a></p>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">config.core</span> <span class="kn">import</span> <span class="n">config</span>
+<span class="kn">from</span> <span class="nn">pipeline</span> <span class="kn">import</span> <span class="n">price_pipe</span>
+<span class="kn">from</span> <span class="nn">processing.data_manager</span> <span class="kn">import</span> <span class="n">load_dataset</span><span class="p">,</span> <span class="n">save_pipeline</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+
+
+<span class="k">def</span> <span class="nf">run_training</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Train the model.&quot;&quot;&quot;</span>
+
+    <span class="c1"># Read training data</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">load_dataset</span><span class="p">(</span><span class="n">file_name</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">app_config</span><span class="o">.</span><span class="n">training_data_file</span><span class="p">)</span>
+
+    <span class="c1"># Divide train and test</span>
+    <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+        <span class="n">data</span><span class="p">[</span><span class="n">config</span><span class="o">.</span><span class="n">model_config</span><span class="o">.</span><span class="n">features</span><span class="p">],</span>
+        <span class="n">data</span><span class="p">[</span><span class="n">config</span><span class="o">.</span><span class="n">model_config</span><span class="o">.</span><span class="n">target</span><span class="p">],</span>
+        <span class="n">test_size</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">model_config</span><span class="o">.</span><span class="n">test_size</span><span class="p">,</span>
+        <span class="n">random_state</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">model_config</span><span class="o">.</span><span class="n">random_state</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">y_train</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span>   <span class="c1"># &lt;-- ⚠ Invert before serving preds</span>
+
+    <span class="c1"># Fit model</span>
+    <span class="n">price_pipe</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+    <span class="c1"># Persist trained model</span>
+    <span class="n">save_pipeline</span><span class="p">(</span><span class="n">pipeline_to_persist</span><span class="o">=</span><span class="n">price_pipe</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">run_training</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The load function is defined as follows. In the <code class="docutils literal notranslate"><span class="pre">clean_inputs</span></code> helper function, we perform some basic preprocessing such as converting <code class="docutils literal notranslate"><span class="pre">MSSubClass</span></code> to type <code class="docutils literal notranslate"><span class="pre">object</span></code> since its a categorical variable (see <code class="docutils literal notranslate"><span class="pre">config.yml</span></code>), although the values are numeric.
+We also rename variables beginning with numbers in to avoid syntax errors. The <code class="docutils literal notranslate"><span class="pre">*</span></code> syntax forces zero positional arguments so that all arguments are named when passed.  These are technical fixes that should not affect the quality of the model.</p>
+<div class="margin sidebar">
+<p class="sidebar-title"></p>
+<p><a class="reference external" href="https://github.com/particle1331/model-deployment/blob/main/packages/regression_model/regression_model/processing/data_manager.py"><code class="docutils literal notranslate"><span class="pre">regression_model/processing/data_manager.py</span></code></a></p>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">clean_inputs</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">input_data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Clean data to avoid syntax errors later.&quot;&quot;&quot;</span>
+    
+    <span class="n">input_data</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">model_config</span><span class="o">.</span><span class="n">variables_to_rename</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">input_data</span><span class="p">[</span><span class="s2">&quot;MSSubClass&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">input_data</span><span class="p">[</span><span class="s2">&quot;MSSubClass&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;O&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">input_data</span>
+
+
+<span class="k">def</span> <span class="nf">load_dataset</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">file_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Load and clean dataset.&quot;&quot;&quot;</span>
+    
+    <span class="n">dataframe</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">DATASET_DIR</span> <span class="o">/</span> <span class="n">file_name</span><span class="p">)</span>
+    <span class="n">dataframe</span> <span class="o">=</span> <span class="n">clean_inputs</span><span class="p">(</span><span class="n">input_data</span><span class="o">=</span><span class="n">dataframe</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">dataframe</span>
+</pre></div>
+</div>
+<p>Next, we have our <code class="docutils literal notranslate"><span class="pre">price_pipe</span></code> which is a <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> pipeline object and we’ll look at the <code class="docutils literal notranslate"><span class="pre">pipeline</span></code> module in a moment, in the next section. But you can see here how we use it to fit the data. After fitting the pipeline, we use the <code class="docutils literal notranslate"><span class="pre">save_pipeline</span></code> function to persist it. This also takes care of naming the pipeline which depends on the current package version.
+The other nontrivial part of the save function is the <code class="docutils literal notranslate"><span class="pre">remove_old_pipelines</span></code> which deletes all files inside <code class="docutils literal notranslate"><span class="pre">trained_models/</span></code> so long as the file is not the init file. This ensures that there is always precisely one model inside the storage directory minimizing the chance of making a mistake.</p>
+<div class="margin sidebar">
+<p class="sidebar-title"></p>
+<p><a class="reference external" href="https://github.com/particle1331/model-deployment/blob/main/packages/regression_model/regression_model/processing/data_manager.py"><code class="docutils literal notranslate"><span class="pre">regression_model/processing/data_manager.py</span></code></a></p>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">save_pipeline</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">pipeline_to_persist</span><span class="p">:</span> <span class="n">Pipeline</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Persist the pipeline.</span>
+<span class="sd">    Saves the versioned model, and overwrites any previous saved models.</span>
+<span class="sd">    This ensures that when the package is published, there is only one</span>
+<span class="sd">    trained model that can be called, and we know exactly how it was built.&quot;&quot;&quot;</span>
+    
+    <span class="c1"># Prepare versioned save file name</span>
+    <span class="n">save_file_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">config</span><span class="o">.</span><span class="n">app_config</span><span class="o">.</span><span class="n">pipeline_save_file</span><span class="si">}{</span><span class="n">_version</span><span class="si">}</span><span class="s2">.pkl&quot;</span>
+    <span class="n">save_path</span> <span class="o">=</span> <span class="n">TRAINED_MODEL_DIR</span> <span class="o">/</span> <span class="n">save_file_name</span>
+
+    <span class="n">remove_old_pipelines</span><span class="p">()</span>
+    <span class="n">joblib</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">pipeline_to_persist</span><span class="p">,</span> <span class="n">save_path</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">remove_old_pipelines</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Remove old model pipelines.</span>
+<span class="sd">    This is to ensure there is a simple one-to-one mapping between </span>
+<span class="sd">    the package version and the model version to be imported and </span>
+<span class="sd">    used by other applications.&quot;&quot;&quot;</span>
+    
+    <span class="n">do_not_delete</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;__init__.py&quot;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">model_file</span> <span class="ow">in</span> <span class="n">TRAINED_MODEL_DIR</span><span class="o">.</span><span class="n">iterdir</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">model_file</span><span class="o">.</span><span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">do_not_delete</span><span class="p">:</span>
+            <span class="n">model_file</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span>  <span class="c1"># Delete</span>
+</pre></div>
+</div>
+<p>And then the last step in our save pipeline function is to use the job serialisation library to persist
+the pipeline to the save path that we’ve defined. And that’s how our <code class="docutils literal notranslate"><span class="pre">regression_model_output_version_v0.0.1.pkl</span></code> ends up here in <code class="docutils literal notranslate"><span class="pre">trained_models/</span></code>.</p>
+</div>
+<div class="section" id="feature-engineering">
+<h2>Feature engineering<a class="headerlink" href="#feature-engineering" title="Permalink to this headline">¶</a></h2>
+<p>In this section we will look at our feature engineering pipeline. Looking at the code, we’re applying transformations sequentially to preprocess and feature engineer our data. Thanks to the <code class="docutils literal notranslate"><span class="pre">feature_engine</span></code> API each step is almost human readable, we only have to set the variables where we apply the transformations.</p>
+<div class="margin sidebar">
+<p class="sidebar-title"></p>
+<p><a class="reference external" href="https://github.com/particle1331/model-deployment/blob/main/packages/regression_model/regression_model/pipeline.py"><code class="docutils literal notranslate"><span class="pre">regression_model/pipeline.py</span></code></a></p>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">feature_engine.encoding</span> <span class="kn">import</span> <span class="n">OrdinalEncoder</span><span class="p">,</span> <span class="n">RareLabelEncoder</span>
+<span class="kn">from</span> <span class="nn">feature_engine.imputation</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">AddMissingIndicator</span><span class="p">,</span>
+    <span class="n">CategoricalImputer</span><span class="p">,</span>
+    <span class="n">MeanMedianImputer</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">feature_engine.selection</span> <span class="kn">import</span> <span class="n">DropFeatures</span>
+<span class="kn">from</span> <span class="nn">feature_engine.transformation</span> <span class="kn">import</span> <span class="n">LogTransformer</span>
+<span class="kn">from</span> <span class="nn">feature_engine.wrappers</span> <span class="kn">import</span> <span class="n">SklearnTransformerWrapper</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">Lasso</span>
+<span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">Binarizer</span><span class="p">,</span> <span class="n">MinMaxScaler</span>
+
+<span class="kn">from</span> <span class="nn">regression_model.config.core</span> <span class="kn">import</span> <span class="n">config</span>
+<span class="kn">from</span> <span class="nn">regression_model.processing</span> <span class="kn">import</span> <span class="n">features</span> <span class="k">as</span> <span class="n">pp</span>
+
+<span class="n">price_pipe</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="c1"># ===== IMPUTATION =====</span>
+        <span class="c1"># Impute categorical variables with string missing</span>
+        <span class="p">(</span>
+            <span class="s2">&quot;missing_imputation&quot;</span><span class="p">,</span>
+            <span class="n">CategoricalImputer</span><span class="p">(</span>
+                <span class="n">imputation_method</span><span class="o">=</span><span class="s2">&quot;missing&quot;</span><span class="p">,</span>
+                <span class="n">variables</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">model_config</span><span class="o">.</span><span class="n">categorical_vars_with_na_missing</span><span class="p">,</span>
+            <span class="p">),</span>
+        <span class="p">),</span>
+        <span class="c1"># Impute categorical variables with most frequent category</span>
+        <span class="p">(</span>
+            <span class="s2">&quot;frequent_imputation&quot;</span><span class="p">,</span>
+            <span class="n">CategoricalImputer</span><span class="p">(</span>
+                <span class="n">imputation_method</span><span class="o">=</span><span class="s2">&quot;frequent&quot;</span><span class="p">,</span>
+                <span class="n">variables</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">model_config</span><span class="o">.</span><span class="n">categorical_vars_with_na_frequent</span><span class="p">,</span>
+            <span class="p">),</span>
+        <span class="p">),</span>
+        <span class="c1"># Add missing indicator</span>
+        <span class="p">(</span>
+            <span class="s2">&quot;missing_indicator&quot;</span><span class="p">,</span>
+            <span class="n">AddMissingIndicator</span><span class="p">(</span><span class="n">variables</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">model_config</span><span class="o">.</span><span class="n">numerical_vars_with_na</span><span class="p">),</span>
+        <span class="p">),</span>
+        <span class="c1"># Impute numerical variables with the mean</span>
+        <span class="p">(</span>
+            <span class="s2">&quot;mean_imputation&quot;</span><span class="p">,</span>
+            <span class="n">MeanMedianImputer</span><span class="p">(</span>
+                <span class="n">imputation_method</span><span class="o">=</span><span class="s2">&quot;mean&quot;</span><span class="p">,</span>
+                <span class="n">variables</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">model_config</span><span class="o">.</span><span class="n">numerical_vars_with_na</span><span class="p">,</span>
+            <span class="p">),</span>
+        <span class="p">),</span>
+        
+        <span class="c1"># == TEMPORAL VARIABLES ====</span>
+        <span class="p">(</span>
+            <span class="s2">&quot;elapsed_time&quot;</span><span class="p">,</span>
+            <span class="n">pp</span><span class="o">.</span><span class="n">TemporalVariableTransformer</span><span class="p">(</span>
+                <span class="n">variables</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">model_config</span><span class="o">.</span><span class="n">temporal_vars</span><span class="p">,</span>
+                <span class="n">reference_variable</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">model_config</span><span class="o">.</span><span class="n">ref_var</span><span class="p">,</span>
+            <span class="p">),</span>
+        <span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;drop_features&quot;</span><span class="p">,</span> <span class="n">DropFeatures</span><span class="p">(</span><span class="n">features_to_drop</span><span class="o">=</span><span class="p">[</span><span class="n">config</span><span class="o">.</span><span class="n">model_config</span><span class="o">.</span><span class="n">ref_var</span><span class="p">])),</span>
+        
+        <span class="c1"># ==== VARIABLE TRANSFORMATION =====</span>
+        <span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">,</span> <span class="n">LogTransformer</span><span class="p">(</span><span class="n">variables</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">model_config</span><span class="o">.</span><span class="n">numericals_log_vars</span><span class="p">)),</span>
+        <span class="p">(</span>
+            <span class="s2">&quot;binarizer&quot;</span><span class="p">,</span>
+            <span class="n">SklearnTransformerWrapper</span><span class="p">(</span>
+                <span class="n">transformer</span><span class="o">=</span><span class="n">Binarizer</span><span class="p">(</span><span class="n">threshold</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+                <span class="n">variables</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">model_config</span><span class="o">.</span><span class="n">binarize_vars</span><span class="p">,</span>
+            <span class="p">),</span>
+        <span class="p">),</span>
+        
+        <span class="c1"># === MAPPERS ===</span>
+        <span class="p">(</span>
+            <span class="s2">&quot;mapper_qual&quot;</span><span class="p">,</span>
+            <span class="n">pp</span><span class="o">.</span><span class="n">Mapper</span><span class="p">(</span>
+                <span class="n">variables</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">model_config</span><span class="o">.</span><span class="n">qual_vars</span><span class="p">,</span>
+                <span class="n">mappings</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">model_config</span><span class="o">.</span><span class="n">qual_mappings</span><span class="p">,</span>
+            <span class="p">),</span>
+        <span class="p">),</span>
+        <span class="p">(</span>
+            <span class="s2">&quot;mapper_exposure&quot;</span><span class="p">,</span>
+            <span class="n">pp</span><span class="o">.</span><span class="n">Mapper</span><span class="p">(</span>
+                <span class="n">variables</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">model_config</span><span class="o">.</span><span class="n">exposure_vars</span><span class="p">,</span>
+                <span class="n">mappings</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">model_config</span><span class="o">.</span><span class="n">exposure_mappings</span><span class="p">,</span>
+            <span class="p">),</span>
+        <span class="p">),</span>
+        <span class="p">(</span>
+            <span class="s2">&quot;mapper_finish&quot;</span><span class="p">,</span>
+            <span class="n">pp</span><span class="o">.</span><span class="n">Mapper</span><span class="p">(</span>
+                <span class="n">variables</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">model_config</span><span class="o">.</span><span class="n">finish_vars</span><span class="p">,</span>
+                <span class="n">mappings</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">model_config</span><span class="o">.</span><span class="n">finish_mappings</span><span class="p">,</span>
+            <span class="p">),</span>
+        <span class="p">),</span>
+        <span class="p">(</span>
+            <span class="s2">&quot;mapper_garage&quot;</span><span class="p">,</span>
+            <span class="n">pp</span><span class="o">.</span><span class="n">Mapper</span><span class="p">(</span>
+                <span class="n">variables</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">model_config</span><span class="o">.</span><span class="n">garage_vars</span><span class="p">,</span>
+                <span class="n">mappings</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">model_config</span><span class="o">.</span><span class="n">garage_mappings</span><span class="p">,</span>
+            <span class="p">),</span>
+        <span class="p">),</span>
+        
+        <span class="c1"># == CATEGORICAL ENCODING</span>
+        <span class="c1"># Encode infrequent categorical variable with category &quot;Rare&quot;</span>
+        <span class="p">(</span>
+            <span class="s2">&quot;rare_label_encoder&quot;</span><span class="p">,</span>
+            <span class="n">RareLabelEncoder</span><span class="p">(</span>
+                <span class="n">tol</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">n_categories</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">variables</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">model_config</span><span class="o">.</span><span class="n">categorical_vars</span>
+            <span class="p">),</span>
+        <span class="p">),</span>        
+        <span class="c1"># Encode categorical variables using the target mean</span>
+        <span class="p">(</span>
+            <span class="s2">&quot;categorical_encoder&quot;</span><span class="p">,</span>
+            <span class="n">OrdinalEncoder</span><span class="p">(</span>
+                <span class="n">encoding_method</span><span class="o">=</span><span class="s2">&quot;ordered&quot;</span><span class="p">,</span>
+                <span class="n">variables</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">model_config</span><span class="o">.</span><span class="n">categorical_vars</span><span class="p">,</span>
+            <span class="p">),</span>
+        <span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;scaler&quot;</span><span class="p">,</span> <span class="n">MinMaxScaler</span><span class="p">()),</span>
+
+        <span class="c1"># == REGRESSION MODEL (LASSO)</span>
+        <span class="p">(</span>
+            <span class="s2">&quot;Lasso&quot;</span><span class="p">,</span>
+            <span class="n">Lasso</span><span class="p">(</span>
+                <span class="n">alpha</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">model_config</span><span class="o">.</span><span class="n">alpha</span><span class="p">,</span>
+                <span class="n">random_state</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">model_config</span><span class="o">.</span><span class="n">random_state</span><span class="p">,</span>
+            <span class="p">),</span>
+        <span class="p">),</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Note that although we’re using a lot of transformers from the <code class="docutils literal notranslate"><span class="pre">feature_engine</span></code> library, we also have some custom ones that we’ve created
+in the <code class="docutils literal notranslate"><span class="pre">processing.features</span></code> module of our package. First, we have <code class="docutils literal notranslate"><span class="pre">TemporalVariableTransformer</span></code> which inherits from <code class="docutils literal notranslate"><span class="pre">BaseEstimator</span></code> and <code class="docutils literal notranslate"><span class="pre">TransformerMixin</span></code> in <code class="docutils literal notranslate"><span class="pre">sklearn.base</span></code>.
+By doing this, and also ensuring that we specify a <code class="docutils literal notranslate"><span class="pre">fit</span></code> and a <code class="docutils literal notranslate"><span class="pre">transform</span></code> method, we’re able to use this to transform variables and it’s compatible with our <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> pipeline.</p>
+<p>The transformation defined in <code class="docutils literal notranslate"><span class="pre">TemporalVariableTransformer</span></code> replaces any temporal variable <code class="docutils literal notranslate"><span class="pre">t</span></code> with <code class="docutils literal notranslate"><span class="pre">t0</span> <span class="pre">-</span> <span class="pre">t</span></code> for some reference variable <code class="docutils literal notranslate"><span class="pre">t0</span></code>. From expericen, intervals work better for linear models than specific values (such as years). Then, the variable <code class="docutils literal notranslate"><span class="pre">t0</span></code> is dropped since its information has been incorporated in the other temporal variables.</p>
+<div class="margin sidebar">
+<p class="sidebar-title"></p>
+<p><a class="reference external" href="https://github.com/particle1331/model-deployment/blob/main/packages/regression_model/regression_model/processing/features.py"><code class="docutils literal notranslate"><span class="pre">regression_model/processing/features.py</span></code></a></p>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">TemporalVariableTransformer</span><span class="p">(</span><span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">TransformerMixin</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Temporal elapsed time transformer.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variables</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">reference_variable</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">variables</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;variables should be a list&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">variables</span> <span class="o">=</span> <span class="n">variables</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reference_variable</span> <span class="o">=</span> <span class="n">reference_variable</span>
+
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+        <span class="c1"># So that we do not over-write the original DataFrame</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">feature</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">variables</span><span class="p">:</span>
+            <span class="n">X</span><span class="p">[</span><span class="n">feature</span><span class="p">]</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">reference_variable</span><span class="p">]</span> <span class="o">-</span> <span class="n">X</span><span class="p">[</span><span class="n">feature</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">X</span>
+</pre></div>
+</div>
+<p>Next, we have the <code class="docutils literal notranslate"><span class="pre">Mapper</span></code> class which simply maps features to other values as specified in the <code class="docutils literal notranslate"><span class="pre">mappings</span></code> dictionary argument. The mappings and the mapped variables are specified in the config file.</p>
+<div class="margin sidebar">
+<p class="sidebar-title"></p>
+<p><a class="reference external" href="https://github.com/particle1331/model-deployment/blob/main/packages/regression_model/regression_model/processing/features.py"><code class="docutils literal notranslate"><span class="pre">regression_model/processing/features.py</span></code></a></p>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Mapper</span><span class="p">(</span><span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">TransformerMixin</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Categorical variable mapper.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variables</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">mappings</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">variables</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;variables should be a list&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">variables</span> <span class="o">=</span> <span class="n">variables</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mappings</span> <span class="o">=</span> <span class="n">mappings</span>
+
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">feature</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">variables</span><span class="p">:</span>
+            <span class="n">X</span><span class="p">[</span><span class="n">feature</span><span class="p">]</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">feature</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mappings</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">X</span>
+</pre></div>
+</div>
+<p>We could easily create additional feature engineering steps here by adding transformations that adhere to this structure (defining custom <code class="docutils literal notranslate"><span class="pre">sklearn</span></code> transformers), then adding
+it to our pipeline at whatever point in the pipeline it made sense, and specifying which variables the transformers apply to by implementing a <code class="docutils literal notranslate"><span class="pre">variables</span></code> attribute. Note that each step takes the whole output of the previous step as input which is why we implement this attribute.</p>
+<div class="section" id="testing-our-feature-transformation">
+<h3>Testing our feature transformation<a class="headerlink" href="#testing-our-feature-transformation" title="Permalink to this headline">¶</a></h3>
+<p>Here we show how you can test specific steps in the pipeline. In particular, those that are defined in the <code class="docutils literal notranslate"><span class="pre">processing.features</span></code> module. From the <code class="docutils literal notranslate"><span class="pre">test.csv</span></code> dataset, we can see in the first line that the <code class="docutils literal notranslate"><span class="pre">YrRemodAdd</span></code> is 1961 and <code class="docutils literal notranslate"><span class="pre">YrSold</span></code> is 2010. Thus, we expect the transformed <code class="docutils literal notranslate"><span class="pre">YrRemodAdd</span></code> value to be 49. This is reflected in the following test. Take note of the structure of the test where we specify the context, conditions, and expectations.</p>
+<div class="margin sidebar">
+<p class="sidebar-title"></p>
+<p><a class="reference external" href="https://github.com/particle1331/model-deployment/blob/main/packages/regression_model/tests/test_features.py"><code class="docutils literal notranslate"><span class="pre">tests/test_features.py</span></code></a></p>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">test_temporal_variable_transformer</span><span class="p">(</span><span class="n">sample_input_data</span><span class="p">):</span>
+    <span class="c1"># Given</span>
+    <span class="n">transformer</span> <span class="o">=</span> <span class="n">TemporalVariableTransformer</span><span class="p">(</span>
+        <span class="n">variables</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">model_config</span><span class="o">.</span><span class="n">temporal_vars</span><span class="p">,</span>  <span class="c1"># YearRemodAdd</span>
+        <span class="n">reference_variable</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">model_config</span><span class="o">.</span><span class="n">ref_var</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">assert</span> <span class="n">sample_input_data</span><span class="p">[</span><span class="s2">&quot;YearRemodAdd&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">iat</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1961</span>
+
+    <span class="c1"># When</span>
+    <span class="n">subject</span> <span class="o">=</span> <span class="n">transformer</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">sample_input_data</span><span class="p">)</span>
+
+    <span class="c1"># Then</span>
+    <span class="k">assert</span> <span class="n">subject</span><span class="p">[</span><span class="s2">&quot;YearRemodAdd&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">iat</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">49</span>
+</pre></div>
+</div>
+<p>Note that fixture <code class="docutils literal notranslate"><span class="pre">sample_input_data</span></code> is the <code class="docutils literal notranslate"><span class="pre">test.csv</span></code> dataset loaded in the <a class="reference external" href="https://github.com/particle1331/model-deployment/blob/main/packages/regression_model/tests/conftest.py"><code class="docutils literal notranslate"><span class="pre">conftest</span></code> module</a>. Here replacing the test with any integer other than 49 will break the test. In an actual project, we should have unit tests here for every bit of feature engineering that we will do. As well as some more complex tests that go along with the spirit of the feature engineering and feature transformation pipeline.</p>
+</div>
+</div>
+<div class="section" id="input-validation-and-prediction-pipeline">
+<h2>Input validation and prediction pipeline<a class="headerlink" href="#input-validation-and-prediction-pipeline" title="Permalink to this headline">¶</a></h2>
+<p>For the final piece of functionality, we take a look at the prediction pipeline of our regression model. The concerned functions live in the <code class="docutils literal notranslate"><span class="pre">predict</span></code> and <code class="docutils literal notranslate"><span class="pre">validation</span></code> modules. We also use our load function in <code class="docutils literal notranslate"><span class="pre">data_manager/</span></code> which simply implements <code class="docutils literal notranslate"><span class="pre">joblib.load</span></code> to work with our package structure.</p>
+<div class="margin sidebar">
+<p class="sidebar-title"></p>
+<p><a class="reference external" href="https://github.com/particle1331/model-deployment/blob/main/packages/regression_model/regression_model/processing/data_manager.py"><code class="docutils literal notranslate"><span class="pre">regression_model/processing/data_manager.py</span></code></a></p>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">load_pipeline</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">file_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Pipeline</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Load a persisted pipeline.&quot;&quot;&quot;</span>
+    
+    <span class="n">file_path</span> <span class="o">=</span> <span class="n">TRAINED_MODEL_DIR</span> <span class="o">/</span> <span class="n">file_name</span>
+    <span class="n">trained_model</span> <span class="o">=</span> <span class="n">joblib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">file_path</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">trained_model</span>
+</pre></div>
+</div>
+<p>Now let’s look at the <code class="docutils literal notranslate"><span class="pre">make_prediction</span></code> function. This function expects a pandas <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> or a dictionary, validates the data, then makes a prediction only when the data is valid. Note that the return value has the same format for all branches of the function. Moreover, the transformation <code class="docutils literal notranslate"><span class="pre">np.exp</span></code> is applied on the model outputs since the model is trained to have outputs in logarithmic scale.</p>
+<div class="margin sidebar">
+<p class="sidebar-title"></p>
+<p><a class="reference external" href="https://github.com/particle1331/model-deployment/blob/main/packages/regression_model/regression_model/predict.py"><code class="docutils literal notranslate"><span class="pre">regression_model/predict.py</span></code></a></p>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pipeline_file_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">config</span><span class="o">.</span><span class="n">app_config</span><span class="o">.</span><span class="n">pipeline_save_file</span><span class="si">}{</span><span class="n">_version</span><span class="si">}</span><span class="s2">.pkl&quot;</span>
+<span class="n">_price_pipe</span> <span class="o">=</span> <span class="n">load_pipeline</span><span class="p">(</span><span class="n">file_name</span><span class="o">=</span><span class="n">pipeline_file_name</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">make_prediction</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">input_data</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="nb">dict</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Make a prediction using a saved model pipeline.&quot;&quot;&quot;</span>
+
+    <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">input_data</span><span class="p">)</span>
+    <span class="n">validated_data</span><span class="p">,</span> <span class="n">errors</span> <span class="o">=</span> <span class="n">validate_inputs</span><span class="p">(</span><span class="n">input_data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;predictions&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="n">_version</span><span class="p">,</span> <span class="s2">&quot;errors&quot;</span><span class="p">:</span> <span class="n">errors</span><span class="p">}</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">errors</span><span class="p">:</span>
+        <span class="n">predictions</span> <span class="o">=</span> <span class="n">_price_pipe</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span>
+            <span class="n">X</span><span class="o">=</span><span class="n">validated_data</span><span class="p">[</span><span class="n">config</span><span class="o">.</span><span class="n">model_config</span><span class="o">.</span><span class="n">features</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;predictions&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">pred</span><span class="p">)</span> <span class="k">for</span> <span class="n">pred</span> <span class="ow">in</span> <span class="n">predictions</span><span class="p">],</span>  <span class="c1"># type: ignore</span>
+            <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="n">_version</span><span class="p">,</span>
+            <span class="s2">&quot;errors&quot;</span><span class="p">:</span> <span class="n">errors</span><span class="p">,</span>
+        <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">results</span>
+</pre></div>
+</div>
+<p>Testing the actual function:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">regression_model</span> <span class="kn">import</span> <span class="n">datasets</span>
+<span class="kn">from</span> <span class="nn">regression_model.processing.validation</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">regression_model.config.core</span> <span class="kn">import</span> <span class="n">config</span>
+<span class="kn">from</span> <span class="nn">regression_model.predict</span> <span class="kn">import</span> <span class="n">make_prediction</span>
+
+<span class="n">test</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">datasets</span><span class="o">.</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="o">/</span> <span class="s2">&quot;test.csv&quot;</span><span class="p">)</span>
+<span class="n">make_prediction</span><span class="p">(</span><span class="n">input_data</span><span class="o">=</span><span class="n">test</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="mi">5</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;predictions&#39;: [113422.55344864173,
+  154886.2295077972,
+  176126.49442740786,
+  198221.6639722352,
+  211386.1496188777],
+ &#39;version&#39;: &#39;0.0.1&#39;,
+ &#39;errors&#39;: None}
+</pre></div>
+</div>
+</div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">make_prediction</span></code> function depends heavily on the <code class="docutils literal notranslate"><span class="pre">validate_inputs</span></code> function defined below.</p>
+<div class="margin sidebar">
+<p class="sidebar-title"></p>
+<p><a class="reference external" href="https://github.com/particle1331/model-deployment/blob/main/packages/regression_model/regression_model/processing/validation.py"><code class="docutils literal notranslate"><span class="pre">regression_model/processing/validation.py</span></code></a></p>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">validate_inputs</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">input_data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]]:</span>
+    <span class="sd">&quot;&quot;&quot;Check model inputs for unprocessable values.&quot;&quot;&quot;</span>
+
+    <span class="n">input_data</span> <span class="o">=</span> <span class="n">clean_inputs</span><span class="p">(</span><span class="n">input_data</span><span class="o">=</span><span class="n">input_data</span><span class="p">)</span>
+    <span class="n">relevant_data</span> <span class="o">=</span> <span class="n">input_data</span><span class="p">[</span><span class="n">config</span><span class="o">.</span><span class="n">model_config</span><span class="o">.</span><span class="n">features</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">validated_data</span> <span class="o">=</span> <span class="n">drop_na_inputs</span><span class="p">(</span><span class="n">input_data</span><span class="o">=</span><span class="n">relevant_data</span><span class="p">)</span>
+    <span class="n">errors</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Replace numpy nans with None so that pydantic can validate</span>
+        <span class="n">MultipleHouseDataInputs</span><span class="p">(</span>
+            <span class="n">inputs</span><span class="o">=</span><span class="n">validated_data</span><span class="o">.</span><span class="n">replace</span><span class="p">({</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">:</span> <span class="kc">None</span><span class="p">})</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(</span><span class="n">orient</span><span class="o">=</span><span class="s2">&quot;records&quot;</span><span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+        <span class="n">errors</span> <span class="o">=</span> <span class="n">error</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">validated_data</span><span class="p">,</span> <span class="n">errors</span>
+</pre></div>
+</div>
+<p>First, this function loads and cleans the input dataset. Then, the function applies <code class="docutils literal notranslate"><span class="pre">drop_na_inputs</span></code> which is defined below. This function looks at the features that were never missing on any of the training examples, but for some reason are missing on some examples in the test set. In our implementation, we simply skip making predictions on such examples. (How to exactly handle this would depend on the actual use case.)</p>
+<div class="margin sidebar">
+<p class="sidebar-title"></p>
+<p><a class="reference external" href="https://github.com/particle1331/model-deployment/blob/main/packages/regression_model/regression_model/processing/validation.py"><code class="docutils literal notranslate"><span class="pre">regression_model/processing/validation.py</span></code></a></p>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">drop_na_inputs</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">input_data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Check model inputs for na values and filter.&quot;&quot;&quot;</span>
+    
+    <span class="n">validated_data</span> <span class="o">=</span> <span class="n">input_data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">new_vars_with_na</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">var</span>
+        <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">config</span><span class="o">.</span><span class="n">model_config</span><span class="o">.</span><span class="n">features</span>
+        <span class="k">if</span> <span class="n">var</span>
+        <span class="ow">not</span> <span class="ow">in</span> <span class="n">config</span><span class="o">.</span><span class="n">model_config</span><span class="o">.</span><span class="n">categorical_vars_with_na_frequent</span>
+        <span class="o">+</span> <span class="n">config</span><span class="o">.</span><span class="n">model_config</span><span class="o">.</span><span class="n">categorical_vars_with_na_missing</span>
+        <span class="o">+</span> <span class="n">config</span><span class="o">.</span><span class="n">model_config</span><span class="o">.</span><span class="n">numerical_vars_with_na</span>
+        <span class="ow">and</span> <span class="n">validated_data</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+        <span class="o">&gt;</span> <span class="mi">0</span>  <span class="c1"># at least one missing example has missing var</span>
+    <span class="p">]</span>
+    <span class="n">validated_data</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">subset</span><span class="o">=</span><span class="n">new_vars_with_na</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># drop rows</span>
+
+    <span class="k">return</span> <span class="n">validated_data</span>
+</pre></div>
+</div>
+<p>Finally, <code class="docutils literal notranslate"><span class="pre">validate_inputs</span></code> uses the Pydantic model <code class="docutils literal notranslate"><span class="pre">HouseDataInputSchema</span></code> to check whether the input date have the expected types. Note, if you look at the source code, the input schema defines type for each possible feature — not just the selected features. This can be useful if ever we change the selected features. The <code class="docutils literal notranslate"><span class="pre">MultipleHouseDataInputs</span></code> is simply a wrapper so we can apply validation on a list of inputs. Also <code class="docutils literal notranslate"><span class="pre">.to_dict(orient=&quot;records&quot;)</span></code> means to transform the data to a list of dictionaries with column as keys.</p>
+<div class="margin sidebar">
+<p class="sidebar-title"></p>
+<p><a class="reference external" href="https://github.com/particle1331/model-deployment/blob/main/packages/regression_model/regression_model/processing/validation.py"><code class="docutils literal notranslate"><span class="pre">regression_model/processing/validation.py</span></code></a></p>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">HouseDataInputSchema</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">Alley</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">BedroomAbvGr</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
+    <span class="n">BldgType</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">BsmtCond</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">BsmtExposure</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">BsmtFinSF1</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">BsmtFinSF2</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">BsmtFinType1</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">BsmtFinType2</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">BsmtFullBath</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">BsmtHalfBath</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">BsmtQual</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">BsmtUnfSF</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">CentralAir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">Condition1</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">Condition2</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">Electrical</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">EnclosedPorch</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
+    <span class="n">ExterCond</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">ExterQual</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">Exterior1st</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">Exterior2nd</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">Fence</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">FireplaceQu</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">Fireplaces</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
+    <span class="n">Foundation</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">FullBath</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
+    <span class="n">Functional</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">GarageArea</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">GarageCars</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">GarageCond</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">GarageFinish</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">GarageQual</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">GarageType</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">GarageYrBlt</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">GrLivArea</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
+    <span class="n">HalfBath</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
+    <span class="n">Heating</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">HeatingQC</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">HouseStyle</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">Id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
+    <span class="n">KitchenAbvGr</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
+    <span class="n">KitchenQual</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">LandContour</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">LandSlope</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">LotArea</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
+    <span class="n">LotConfig</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">LotFrontage</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">LotShape</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">LowQualFinSF</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
+    <span class="n">MSSubClass</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
+    <span class="n">MSZoning</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">MasVnrArea</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">MasVnrType</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">MiscFeature</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">MiscVal</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
+    <span class="n">MoSold</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
+    <span class="n">Neighborhood</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">OpenPorchSF</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
+    <span class="n">OverallCond</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
+    <span class="n">OverallQual</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
+    <span class="n">PavedDrive</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">PoolArea</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
+    <span class="n">PoolQC</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">RoofMatl</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">RoofStyle</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">SaleCondition</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">SaleType</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">ScreenPorch</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
+    <span class="n">Street</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">TotRmsAbvGrd</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
+    <span class="n">TotalBsmtSF</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">Utilities</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">WoodDeckSF</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
+    <span class="n">YearBuilt</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
+    <span class="n">YearRemodAdd</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
+    <span class="n">YrSold</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
+    <span class="n">FirstFlrSF</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>  <span class="c1"># renamed</span>
+    <span class="n">SecondFlrSF</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>  <span class="c1"># renamed</span>
+    <span class="n">ThreeSsnPortch</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>  <span class="c1"># renamed</span>
+
+
+<span class="k">class</span> <span class="nc">MultipleHouseDataInputs</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">inputs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">HouseDataInputSchema</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">validate_inputs</span></code> function only uses the input schema to retrieve errors, the data it returns is still the filtered output <code class="docutils literal notranslate"><span class="pre">drop_na_inputs</span></code>. This makes sense because has pandas already inferred the types, and we are only confirming whether it has inferred the correct types. Finally, note that even a single type error for one row (here out of more than a thousand) would make the prediction function fail. This behavior can be devastating in a production environment if not expected by the devs.</p>
+<div class="section" id="testing-predictions">
+<h3>Testing predictions<a class="headerlink" href="#testing-predictions" title="Permalink to this headline">¶</a></h3>
+<p>Let us try to make predictions on the first 5 test examples. Then, we print the number of expected predictions from the test set. Note that this also checks the validity of our test data (not just the regression model).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">make_prediction</span><span class="p">(</span><span class="n">input_data</span><span class="o">=</span><span class="n">test</span><span class="p">)</span>
+<span class="n">predictions</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;predictions&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;First 5 predictions:</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">predictions</span><span class="p">[:</span><span class="mi">5</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Expected no. of predictions:</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">validate_inputs</span><span class="p">(</span><span class="n">input_data</span><span class="o">=</span><span class="n">test</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>First 5 predictions:
+ [113422.55344864173, 154886.2295077972, 176126.49442740786, 198221.6639722352, 211386.1496188777]
+Expected no. of predictions:
+ 1449
+</pre></div>
+</div>
+</div>
+</div>
+<p>These facts make up our tests for the prediction pipeline. Again the fixture <code class="docutils literal notranslate"><span class="pre">sample_input_data</span></code> is actually <code class="docutils literal notranslate"><span class="pre">test.csv</span></code> loaded in the <a class="reference external" href="https://github.com/particle1331/model-deployment/blob/main/packages/regression_model/tests/conftest.py"><code class="docutils literal notranslate"><span class="pre">conftest</span></code> module</a>. Recall that with the train-test split in <code class="docutils literal notranslate"><span class="pre">run_training</span></code>, we can add the validation performance of the trained model as part of automated tests.</p>
+<div class="margin sidebar">
+<p class="sidebar-title"></p>
+<p><a class="reference external" href="https://github.com/particle1331/model-deployment/blob/main/packages/regression_model/tests/test_prediction.py"><code class="docutils literal notranslate"><span class="pre">tests/test_prediction.py</span></code></a></p>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">test_make_prediction</span><span class="p">(</span><span class="n">sample_input_data</span><span class="p">):</span>
+    <span class="c1"># Given</span>
+    <span class="n">expected_first_prediction_value</span> <span class="o">=</span> <span class="mi">113422</span>
+    <span class="n">expected_no_predictions</span> <span class="o">=</span> <span class="mi">1449</span>
+
+    <span class="c1"># When</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">make_prediction</span><span class="p">(</span><span class="n">input_data</span><span class="o">=</span><span class="n">sample_input_data</span><span class="p">)</span>
+
+    <span class="c1"># Then</span>
+    <span class="n">predictions</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;predictions&quot;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">predictions</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;errors&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span> <span class="o">==</span> <span class="n">expected_no_predictions</span>
+    <span class="k">assert</span> <span class="n">math</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">predictions</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">expected_first_prediction_value</span><span class="p">,</span> <span class="n">abs_tol</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="versioning-and-packaging">
+<h2>Versioning and packaging<a class="headerlink" href="#versioning-and-packaging" title="Permalink to this headline">¶</a></h2>
+<p>For packaging we have to look at a couple of files. You should not expect to write these files from scratch. Usually, these are automatically generated, or copied from projects you trust. First of these is <a class="reference external" href="https://github.com/particle1331/model-deployment/blob/main/packages/regression_model/pyproject.toml"><code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code></a>. Here we specify our build system, as well as settings for <code class="docutils literal notranslate"><span class="pre">pytest</span></code>, <code class="docutils literal notranslate"><span class="pre">black</span></code>, and <code class="docutils literal notranslate"><span class="pre">isort</span></code>.</p>
+<p>Next up is <a class="reference external" href="https://github.com/particle1331/model-deployment/blob/main/packages/regression_model/setup.py"><code class="docutils literal notranslate"><span class="pre">setup.py</span></code></a>. For this module we only usually just touch the package metadata. The file has some helpful comments on how to modify it. This module automatically sets the correct version from the <code class="docutils literal notranslate"><span class="pre">VERSION</span></code> file.</p>
+<div class="margin sidebar">
+<p class="sidebar-title"></p>
+<p><a class="reference external" href="https://github.com/particle1331/model-deployment/blob/main/packages/regression_model/setup.py"><code class="docutils literal notranslate"><span class="pre">setup.py</span></code></a></p>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Package meta-data.</span>
+<span class="n">NAME</span> <span class="o">=</span> <span class="s1">&#39;regression-model&#39;</span>
+<span class="n">DESCRIPTION</span> <span class="o">=</span> <span class="s2">&quot;Example regression model package for house prices.&quot;</span>
+<span class="n">URL</span> <span class="o">=</span> <span class="s2">&quot;https://github.com/particle1331/model-deployment&quot;</span>
+<span class="n">EMAIL</span> <span class="o">=</span> <span class="s2">&quot;particle1331@gmail.com&quot;</span>
+<span class="n">AUTHOR</span> <span class="o">=</span> <span class="s2">&quot;particle1331&quot;</span>
+<span class="n">REQUIRES_PYTHON</span> <span class="o">=</span> <span class="s2">&quot;&gt;=3.6.0&quot;</span>
+</pre></div>
+</div>
+<p>Finally, we have <a class="reference external" href="https://github.com/particle1331/model-deployment/blob/main/packages/regression_model/MANIFEST.in"><code class="docutils literal notranslate"><span class="pre">MANIFEST.in</span></code></a> which specifies which files to include and which files to exclude when building the package. The syntax should give you a general idea of what’s happening.</p>
+<div class="margin sidebar">
+<p class="sidebar-title"></p>
+<p><a class="reference external" href="https://github.com/particle1331/model-deployment/blob/main/packages/regression_model/MANIFEST.in"><code class="docutils literal notranslate"><span class="pre">MANIFEST.in</span></code></a></p>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">include</span> <span class="o">*.</span><span class="n">txt</span>
+<span class="n">include</span> <span class="o">*.</span><span class="n">md</span>
+<span class="n">include</span> <span class="o">*.</span><span class="n">pkl</span>
+<span class="n">recursive</span><span class="o">-</span><span class="n">include</span> <span class="o">./</span><span class="n">regression_model</span><span class="o">/*</span>
+
+<span class="n">include</span> <span class="n">regression_model</span><span class="o">/</span><span class="n">datasets</span><span class="o">/</span><span class="n">train</span><span class="o">.</span><span class="n">csv</span>
+<span class="n">include</span> <span class="n">regression_model</span><span class="o">/</span><span class="n">datasets</span><span class="o">/</span><span class="n">test</span><span class="o">.</span><span class="n">csv</span>
+<span class="n">include</span> <span class="n">regression_model</span><span class="o">/</span><span class="n">trained_models</span><span class="o">/*.</span><span class="n">pkl</span>
+<span class="n">include</span> <span class="n">regression_model</span><span class="o">/</span><span class="n">VERSION</span>
+<span class="n">include</span> <span class="n">regression_model</span><span class="o">/</span><span class="n">config</span><span class="o">.</span><span class="n">yml</span>
+
+<span class="n">include</span> <span class="o">./</span><span class="n">requirements</span><span class="o">/</span><span class="n">requirements</span><span class="o">.</span><span class="n">txt</span>
+<span class="n">include</span> <span class="o">./</span><span class="n">requirements</span><span class="o">/</span><span class="n">test_requirements</span><span class="o">.</span><span class="n">txt</span>
+<span class="n">exclude</span> <span class="o">*.</span><span class="n">log</span>
+<span class="n">exclude</span> <span class="o">*.</span><span class="n">cfg</span>
+
+<span class="n">recursive</span><span class="o">-</span><span class="n">exclude</span> <span class="o">*</span> <span class="n">__pycache__</span>
+<span class="n">recursive</span><span class="o">-</span><span class="n">exclude</span> <span class="o">*</span> <span class="o">*.</span><span class="n">py</span><span class="p">[</span><span class="n">co</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Now, let us try building the package.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ python3 -m pip install --upgrade build
+$ python3 -m build
+</pre></div>
+</div>
+<p>This command should output a lot of text and once completed should generate two files in the <code class="docutils literal notranslate"><span class="pre">dist/</span></code> directory: a build distribution <code class="docutils literal notranslate"><span class="pre">.whl</span></code> file, and a source archive <code class="docutils literal notranslate"><span class="pre">tar.gz</span></code> for legacy builds. You should also see a <code class="docutils literal notranslate"><span class="pre">regression_model.egg-info/</span></code> directory which means the package has been successfully built.</p>
+</div>
+<div class="section" id="tooling">
+<h2>Tooling<a class="headerlink" href="#tooling" title="Permalink to this headline">¶</a></h2>
+<p>In addition to <code class="docutils literal notranslate"><span class="pre">pytest</span></code>, we have the following tooling: <code class="docutils literal notranslate"><span class="pre">black</span></code> for opinionated styling, <code class="docutils literal notranslate"><span class="pre">flake8</span></code> for linting, <code class="docutils literal notranslate"><span class="pre">mypy</span></code> for type-checking, and <code class="docutils literal notranslate"><span class="pre">isort</span></code> for sorting imports. These are tools you should be familiar with by now by using <code class="docutils literal notranslate"><span class="pre">tox</span></code>. Styling makes the code easy to read, which links to maintainability. Automatic type checking reduces the possibility of bugs and mistakes that is more likely with a dynamically typed language such as Python.</p>
+<p>The settings for <code class="docutils literal notranslate"><span class="pre">mypy</span></code> is straightforward and can be found in <a class="reference external" href="https://github.com/particle1331/model-deployment/blob/main/packages/regression_model/mypy.ini"><code class="docutils literal notranslate"><span class="pre">mypy.ini</span></code></a>. Settings for <code class="docutils literal notranslate"><span class="pre">flake8</span></code> can be found in <a class="reference external" href="https://github.com/particle1331/model-deployment/blob/main/packages/regression_model/tox.ini"><code class="docutils literal notranslate"><span class="pre">tox.ini</span></code></a>. Finally, the settings for <code class="docutils literal notranslate"><span class="pre">pytest</span></code>, <code class="docutils literal notranslate"><span class="pre">black</span></code>, and <code class="docutils literal notranslate"><span class="pre">isort</span></code> can be found in <a class="reference external" href="https://github.com/particle1331/model-deployment/blob/main/packages/regression_model/pyproject.toml"><code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code></a>. This concludes the discussion on production code. On the next notebook, we will look at a FastAPI application that consumes this package as a dependency.</p>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./notebooks/deployment"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="../tensorflow/04-tensorflow-optim-init.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Initialization and Optimization</p>
+        </div>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By 𝗥𝗼𝗻 𝗠𝗲𝗱𝗶𝗻𝗮. Powered by <a href="https://jupyterbook.org">Jupyter Book</a>.<br/>
+    
+        &copy; Copyright 2021.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

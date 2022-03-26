@@ -1,0 +1,572 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Backpropagation on DAGs &#8212; 𝗜𝗻𝗲𝗳𝗳𝗶𝗰𝗶𝗲𝗻𝘁 𝗡𝗲𝘁𝘄𝗼𝗿𝗸𝘀</title>
+    
+  <link href="../../_static/css/theme.css" rel="stylesheet">
+  <link href="../../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
+    <script>
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="shortcut icon" href="../../_static/pone.0237978.g001.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="TensorFlow Datasets" href="../tensorflow/01-tensorflow-nn.html" />
+    <link rel="prev" title="Handling Missing Values" href="missing.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../../_static/pone.0237978.g001.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">𝗜𝗻𝗲𝗳𝗳𝗶𝗰𝗶𝗲𝗻𝘁 𝗡𝗲𝘁𝘄𝗼𝗿𝗸𝘀</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  FUNDAMENTALS
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="house-prices.html">
+   Pipelines in
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     scikit-learn
+    </span>
+   </code>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="blending-stacking.html">
+   Blending and Stacking
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="optuna.html">
+   Model Tuning with Optuna
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="missing.html">
+   Handling Missing Values
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  DEEP LEARNING
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Backpropagation on DAGs
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../tensorflow/01-tensorflow-nn.html">
+   TensorFlow Datasets
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../tensorflow/02-tensorflow-mechanics.html">
+   Mechanics of TensorFlow
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../tensorflow/03-tensorflow-activations.html">
+   Activation Functions
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../tensorflow/04-tensorflow-optim-init.html">
+   Initialization and Optimization
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  MODEL DEPLOYMENT
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../deployment/production-code.html">
+   Packaging Production Code
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../../_sources/notebooks/fundamentals/backpropagation.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/particle1331/inefficient-networks"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/particle1331/inefficient-networks/issues/new?title=Issue%20on%20page%20%2Fnotebooks/fundamentals/backpropagation.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/particle1331/inefficient-networks/master?urlpath=tree/docs/notebooks/fundamentals/backpropagation.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#gradient-descent-on-the-loss-surface">
+   Gradient descent on the loss surface
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#backpropagation-on-computational-graphs">
+   Backpropagation on Computational Graphs
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#autodifferentiation-with-pytorch-autograd">
+   Autodifferentiation with PyTorch
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     autograd
+    </span>
+   </code>
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Backpropagation on DAGs</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#gradient-descent-on-the-loss-surface">
+   Gradient descent on the loss surface
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#backpropagation-on-computational-graphs">
+   Backpropagation on Computational Graphs
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#autodifferentiation-with-pytorch-autograd">
+   Autodifferentiation with PyTorch
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     autograd
+    </span>
+   </code>
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="backpropagation-on-dags">
+<h1>Backpropagation on DAGs<a class="headerlink" href="#backpropagation-on-dags" title="Permalink to this headline">¶</a></h1>
+<p><img alt="Status" src="https://img.shields.io/static/v1.svg?label=Status&amp;message=Finished&amp;color=green" /></p>
+<p>In this notebook, we will look at <strong>backpropagation</strong> (BP) on <strong>directed acyclic computational graphs</strong> (DAG). Our main result is that a single training step for a single data point (consisting of both a forward and a backward pass) has a time complexity that is linear in the number of edges of the network. In the last section, we take a closer look at the implementation of <code class="docutils literal notranslate"><span class="pre">.backward</span></code> in PyTorch.</p>
+<p><strong>Readings</strong></p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://timvieira.github.io/blog/post/2016/09/25/evaluating-fx-is-as-fast-as-fx/">Evaluating <span class="math notranslate nohighlight">\(\nabla f(x)\)</span> is as fast as <span class="math notranslate nohighlight">\(f(x)\)</span></a></p></li>
+<li><p><a class="reference external" href="http://www.offconvex.org/2016/12/20/backprop/">Back-propagation, an introduction</a></p></li>
+</ul>
+<div class="section" id="gradient-descent-on-the-loss-surface">
+<h2>Gradient descent on the loss surface<a class="headerlink" href="#gradient-descent-on-the-loss-surface" title="Permalink to this headline">¶</a></h2>
+<div class="margin sidebar">
+<p class="sidebar-title"></p>
+<p><strong>Constructing the loss surface</strong>. The loss function <span class="math notranslate nohighlight">\(\ell\)</span> acts as an almost-everywhere differentiable surrogate to the true objective. The empirical loss surface will generally vary for different samples drawn. But we except these surfaces to be very similar, assuming the samples are drawn from the same distribution.</p>
+</div>
+<p>For every data point <span class="math notranslate nohighlight">\((\mathbf x, y)\)</span>, the loss function <span class="math notranslate nohighlight">\(\ell\)</span> assigns a nonnegative number <span class="math notranslate nohighlight">\(\ell(y, f_{\mathbf w}(\mathbf x))\)</span> that approaches zero whenever the predictions <span class="math notranslate nohighlight">\(f_{\mathbf w}(\mathbf x)\)</span> approach the target values <span class="math notranslate nohighlight">\(y\)</span>. Given the current parameters <span class="math notranslate nohighlight">\(\mathbf w \in \mathbb R^d\)</span> of a neural network <span class="math notranslate nohighlight">\(f\)</span>, we can imagine the network to be at a certain point <span class="math notranslate nohighlight">\((\mathbf w, \mathcal L_{\mathcal X}(\mathbf w))\)</span> on a surface in <span class="math notranslate nohighlight">\(\mathbb R^d \times \mathbb R\)</span> where <span class="math notranslate nohighlight">\(\mathcal L_{\mathcal X}(\mathbf w)\)</span> is the average loss over the dataset:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal L_{\mathcal X}(\mathbf w) = \frac{1}{|\mathcal X|} \sum_{(\mathbf x, y) \in \mathcal X} \ell(y, f_{\mathbf w}(\mathbf x)).
+\]</div>
+<p>So training a neural network is equivalent to finding the minimum of this surface. In practice, we use variants of gradient descent, characterized by the update rule <span class="math notranslate nohighlight">\(\mathbf w \leftarrow \mathbf w - \varepsilon \nabla_{\mathbf w} \mathcal L_{\mathcal X}\)</span>, to find a local minimum. Here <span class="math notranslate nohighlight">\(-\nabla_{\mathbf w} \mathcal L_{\mathcal X}\)</span> is the direction of steepest descent at <span class="math notranslate nohighlight">\(\mathbf w\)</span> and the learning rate <span class="math notranslate nohighlight">\(\varepsilon &gt; 0\)</span> is a constant that controls the step size.</p>
+<div class="figure align-default" id="loss-surface-resnet">
+<a class="reference internal image-reference" href="../../_images/loss_surface_resnet.png"><img alt="../../_images/loss_surface_resnet.png" src="../../_images/loss_surface_resnet.png" style="width: 35em;" /></a>
+<p class="caption"><span class="caption-number">Fig. 7 </span><span class="caption-text">Much of deep learning research is dedicated to studying the geometry of loss surfaces and its effect on optimization. <strong>Source</strong>: Visualizing the Loss Landscape of Neural Nets
+[<a class="reference external" href="https://arxiv.org/abs/1712.09913">arxiv.org/abs/1712.09913</a>]</span><a class="headerlink" href="#loss-surface-resnet" title="Permalink to this image">¶</a></p>
+</div>
+<div class="margin sidebar">
+<p class="sidebar-title"></p>
+<p><strong>Derivatives of comp. graphs</strong></p>
+</div>
+<p>In principle, we can perturb the current state of the network (obtained during forward pass) by perturbing the network weights / parameters. This results in perturbations flowing up to the final loss node (assuming each computation is differentiable). So it’s not a mystery that we can compute derivatives of computational graphs which may appear, at first glance, as “discrete” objects. Another perspective is that a computational DAG essentially models a a sequence of function compositions which can be easily differentiated using chain rule. However, looking at the network structure allows us to easily code the computation into a computer, exploit modularity, and efficiently compute the flow of derivatives at each layer. This is further discussed below.</p>
+<div class="margin sidebar">
+<p class="sidebar-title"></p>
+<p><strong>The need for efficient BP</strong></p>
+</div>
+<p>Observe that <span class="math notranslate nohighlight">\(\nabla_\mathbf w \mathcal L_{\mathcal X}\)</span> consists of partial derivatives for each weight in the network. This can easily number in millions. So this backward pass operation can be huge. To compute these values efficiently, we will perform both forward and backward passes in a dynamic programming fashion to avoid recomputing any known value. As an aside, this improvement in time complexity turns out to be insufficient for pratical uses, and is supplemented with sophisticated hardware for parallel computation (GPUs / TPUs) which can reduce training time by some factor, e.g. from days to hours.</p>
+</div>
+<div class="section" id="backpropagation-on-computational-graphs">
+<h2>Backpropagation on Computational Graphs<a class="headerlink" href="#backpropagation-on-computational-graphs" title="Permalink to this headline">¶</a></h2>
+<div class="margin sidebar">
+<p class="sidebar-title"></p>
+<p><strong>Forward pass</strong></p>
+</div>
+<p>A neural network can be modelled as a <strong>directed acyclic graph</strong> (DAG) of compute and parameter nodes that implements a function <span class="math notranslate nohighlight">\(f\)</span> and can be extended to implement the calculation of the loss value for each training example and parameter values. In computing <span class="math notranslate nohighlight">\(f(\mathbf x)\)</span>, the input <span class="math notranslate nohighlight">\(\mathbf x\)</span> is passed to the first layer and propagated forward through the network, computing the output value of each node. Every value in the nodes is stored to preserve the current state for backward pass, as well as to avoid recomputation for the nodes in the next layer. Assuming a node with <span class="math notranslate nohighlight">\(n\)</span> inputs require <span class="math notranslate nohighlight">\(n\)</span> operations, then one forward pass takes <span class="math notranslate nohighlight">\(O(E)\)</span> calculations were <span class="math notranslate nohighlight">\(E\)</span> is the number of edges of the graph.</p>
+<div class="figure align-default" id="backprop-compgraph2">
+<a class="reference internal image-reference" href="../../_images/backprop-compgraph2.png"><img alt="../../_images/backprop-compgraph2.png" src="../../_images/backprop-compgraph2.png" style="width: 35em;" /></a>
+<p class="caption"><span class="caption-number">Fig. 8 </span><span class="caption-text">Backpropagation through a single layer neural network with weights <span class="math notranslate nohighlight">\(w_0\)</span> and <span class="math notranslate nohighlight">\(w_1\)</span>, and input-output pair <span class="math notranslate nohighlight">\((x, y).\)</span> Shown here is the gradient flowing from the loss node <span class="math notranslate nohighlight">\(\mathcal L\)</span> to the weight <span class="math notranslate nohighlight">\(w_0.\)</span> <a class="reference external" href="https://drive.google.com/file/d/1JCWTApGieKZmFW4RjCANZM8J6igcsdYg/view">[source]</a></span><a class="headerlink" href="#backprop-compgraph2" title="Permalink to this image">¶</a></p>
+</div>
+<div class="margin sidebar">
+<p class="sidebar-title"></p>
+<p><strong>Backward pass</strong></p>
+</div>
+<p>During backward pass, we divide gradients into two groups: <strong>local gradients</strong> <span class="math notranslate nohighlight">\({\frac{\partial{\mathcal u}}{\partial w}}\)</span> between connected nodes <span class="math notranslate nohighlight">\(u\)</span> and <span class="math notranslate nohighlight">\(w,\)</span> and <strong>backpropagated gradients</strong> <span class="math notranslate nohighlight">\({\frac{\partial{\mathcal L}}{\partial u}}\)</span> for each node <span class="math notranslate nohighlight">\({u}.\)</span> Our goal is to calculate the backpropagated gradient of the loss with respect to parameter nodes. Note that parameter nodes have zero fan-in (<a class="reference internal" href="#backprop-compgraph2"><span class="std std-numref">Fig. 8</span></a>). BP proceeds inductively. First, <span class="math notranslate nohighlight">\(\frac{\partial{\mathcal L}}{\partial \mathcal L} = 1\)</span> is stored as gradient of the node which computes the loss value. If the backpropagated gradient <span class="math notranslate nohighlight">\({\frac{\partial{\mathcal L}}{\partial u}}\)</span> is stored for each compute node <span class="math notranslate nohighlight">\(u\)</span> in the upper layer, then after computing local gradients <span class="math notranslate nohighlight">\({\frac{\partial{u}}{\partial w}}\)</span>, the backpropagated gradient <span class="math notranslate nohighlight">\({\frac{\partial{\mathcal L}}{\partial w}}\)</span> for compute node <span class="math notranslate nohighlight">\(w\)</span> can be calculated via the chain rule:</p>
+<div class="math notranslate nohighlight" id="equation-backprop">
+<span class="eqno">(1)<a class="headerlink" href="#equation-backprop" title="Permalink to this equation">¶</a></span>\[{\frac{\partial\mathcal L}{\partial w} } = \sum_{ {u} }\left( {{\frac{\partial\mathcal L}{\partial u}}} \right)\left( {{\frac{\partial{u}}{\partial w}}} \right).\]</div>
+<div class="margin sidebar">
+<p class="sidebar-title"></p>
+<p>BP is a useful tool for understanding how derivatives flow through a model. This can be extremely helpful in reasoning about why some models are difficult to optimize. Classic examples are vanishing or exploding gradients as we go into deeper layers of the network.</p>
+</div>
+<p>Thus, continuing the “flow” of gradients to the current layer. The process ends on  nodes with zero fan-in. Note that the partial derivatives are evaluated on the current network state — these values are stored during forward pass which precedes backward pass. Analogously, all backpropagated gradients are stored in each compute node for use by the next layer. On the other hand, there is no need to store local gradients; these are computed as needed. Hence, it suffices to compute all gradients with respect to compute nodes to get all gradients with respect to the weights of the network.</p>
+<div class="figure align-default" id="backprop-compgraph">
+<a class="reference internal image-reference" href="../../_images/backprop-compgraph.png"><img alt="../../_images/backprop-compgraph.png" src="../../_images/backprop-compgraph.png" style="width: 30em;" /></a>
+<p class="caption"><span class="caption-number">Fig. 9 </span><span class="caption-text">BP on a generic comp. graph with fan out &gt; 1 on node <code>y</code>. Each backpropagated gradient computation is stored in the corresponding node. For node <code>y</code> to calculate the backpropagated gradient we have to sum over the two incoming gradients which can be implemented using matrix multiplication of the gradient vectors. <a class="reference external" href="https://drive.google.com/file/d/1JCWTApGieKZmFW4RjCANZM8J6igcsdYg/view">[source]</a></span><a class="headerlink" href="#backprop-compgraph" title="Permalink to this image">¶</a></p>
+</div>
+<p><strong>Backpropagation algorithm.</strong> Now that we know how to compute each backpropagated gradient implemented as <code class="docutils literal notranslate"><span class="pre">u.backward()</span></code> for node <code class="docutils literal notranslate"><span class="pre">u</span></code> which sends its gradient <span class="math notranslate nohighlight">\(\frac{\partial \mathcal L}{\partial u}\)</span> to all its parent nodes (nodes on the lower layer connected to <code class="docutils literal notranslate"><span class="pre">u</span></code>). The complete recursive algorithm with SGD is implemented below. Note that this abstracts away autodifferentiation.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">Forward</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">compute</span><span class="p">:</span> 
+        <span class="n">c</span><span class="o">.</span><span class="n">forward</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">Backward</span><span class="p">(</span><span class="n">loss</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">compute</span><span class="p">:</span> <span class="n">c</span><span class="o">.</span><span class="n">grad</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">params</span><span class="p">:</span>  <span class="n">c</span><span class="o">.</span><span class="n">grad</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">inputs</span><span class="p">:</span>  <span class="n">c</span><span class="o">.</span><span class="n">grad</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">loss</span><span class="o">.</span><span class="n">grad</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">compute</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span> 
+        <span class="n">c</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">SGD</span><span class="p">(</span><span class="n">eta</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">params</span><span class="p">:</span>
+        <span class="n">w</span><span class="o">.</span><span class="n">value</span> <span class="o">-=</span> <span class="n">eta</span> <span class="o">*</span> <span class="n">w</span><span class="o">.</span><span class="n">grad</span>
+</pre></div>
+</div>
+<br><p>Two important properties of the algorithm which makes it the practical choice for training huge neural networks are as follows:</p>
+<ul class="simple">
+<li><p><strong>Modularity.</strong> The dependence only on nodes belonging to the upper layer suggests a modularity in the computation, e.g. we can connect DAG subnetworks with possibly distinct network architectures by only connecting nodes that are exposed between layers.</p></li>
+</ul>
+<br>
+<ul class="simple">
+<li><p><strong>Efficiency.</strong> From the backpropagation equation <a class="reference internal" href="#equation-backprop">(1)</a>, the backpropagated gradient <span class="math notranslate nohighlight">\(\frac{\partial \mathcal L}{\partial w}\)</span> for node <span class="math notranslate nohighlight">\(w\)</span> is computed by a sum that is indexed by <span class="math notranslate nohighlight">\(u\)</span> for every node connected to <span class="math notranslate nohighlight">\(w\)</span>. Iterating over all nodes <span class="math notranslate nohighlight">\(w\)</span> in the network, we cover all the edges in the network with no edge counted twice. Assuming computing local gradients take constant time, then backward pass requires <span class="math notranslate nohighlight">\(O(E)\)</span> computations.</p></li>
+</ul>
+<p><span class="math notranslate nohighlight">\(\phantom{3}\)</span></p>
+<div class="admonition-bp-equations-for-mlps admonition">
+<p class="admonition-title">BP equations for MLPs</p>
+<p>Consider an MLP which can be modelled as a computational DAG with edges between preactivation and activation values, as well as edges from weights and input values that fan into preactivations (<a class="reference internal" href="#backprop-compgraph2"><span class="std std-numref">Fig. 8</span></a>). Let <span class="math notranslate nohighlight">\({z_j}^{[t]} = \sum_k {w_{jk}}^{[t]}{a_k}^{[t-1]}\)</span> and <span class="math notranslate nohighlight">\({\mathbf a}^{[t]} = \phi^{[t]}({\mathbf z}^{[t]})\)</span> be the values of compute nodes at the <span class="math notranslate nohighlight">\(t\)</span>-th layer of the network. The backpropagated gradients for the compute nodes of the current layer are given by</p>
+<div class="math notranslate nohighlight">
+\[\begin{aligned}
+        \dfrac{\partial \mathcal L}{\partial {a_j}^{[t]}} 
+        &amp;= \sum_{k}\dfrac{\partial \mathcal L}{\partial {z_k}^{[t+1]}} \dfrac{\partial {z_k}^{[t+1]}}{\partial {a_j}^{[t]}} = \sum_{k}\dfrac{\partial \mathcal L}{\partial {z_k}^{[t+1]}} {w_{kj}}^{[t+1]}
+    \end{aligned}\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[\begin{aligned}
+    \dfrac{\partial \mathcal L}{\partial {z_j}^{[t]}} 
+    &amp;= \sum_{l}\dfrac{\partial \mathcal L}{\partial {a_l}^{[t]}} \dfrac{\partial {a_l}^{[t]}}{\partial {z_j}^{[t]}}.
+\end{aligned}\]</div>
+<p>This sum typically reduces to a single term for activations such as ReLU, but not for activations which depend on multiple preactivations such as softmax. Similarly, the backpropagated gradients for the parameter nodes (weights and biases) are given by</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+    \dfrac{\partial \mathcal L}{\partial {w_{jk}}^{[t]}} 
+    &amp;= \dfrac{\partial \mathcal L}{\partial {z_j}^{[t]}} \dfrac{\partial {z_j}^{[t]}}{\partial {w_{jk}}^{[t]}} = \dfrac{\partial \mathcal L}{\partial {z_j}^{[t]}} {a^{[t-1]}_k} \\
+    \text{and}\qquad\dfrac{\partial \mathcal L}{\partial {b_{j}}^{[t]}} 
+    &amp;= \dfrac{\partial \mathcal L}{\partial {z_j}^{[t]}} \dfrac{\partial {z_j}^{[t]}}{\partial {b_{j}}^{[t]}} = \dfrac{\partial \mathcal L}{\partial {z_j}^{[t]}}.
+\end{aligned}\end{split}\]</div>
+<p>Backpropagated gradients for compute nodes are stored until the weights are updated, e.g. <span class="math notranslate nohighlight">\(\frac{\partial \mathcal L}{\partial {z_k}^{[t+1]}}\)</span> are retrieved in the compute nodes of the <span class="math notranslate nohighlight">\(t+1\)</span>-layer to compute gradients in the <span class="math notranslate nohighlight">\(t\)</span>-layer. On the other hand, the local gradients <span class="math notranslate nohighlight">\(\frac{\partial {a_k}^{[t]}}{\partial {z_j}^{[t]}}\)</span> are computed directly using autodifferentiation and evaluated with the current network state obtained during forward pass.</p>
+</div>
+</div>
+<div class="section" id="autodifferentiation-with-pytorch-autograd">
+<h2>Autodifferentiation with PyTorch <code class="docutils literal notranslate"><span class="pre">autograd</span></code><a class="headerlink" href="#autodifferentiation-with-pytorch-autograd" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">autograd</span></code> package allows automatic differentiation by building computational graphs on the fly every time we pass data through our model. Autograd tracks which data combined through which operations to produce the output. This allows us to take derivatives over ordinary imperative code. This functionality is consistent with the memory and time requirements outlined in above for BP.</p>
+<br>
+<p><strong>Backward for scalars.</strong> Let <span class="math notranslate nohighlight">\(y = \mathbf x^\top \mathbf x = \sum_i {x_i}^2.\)</span> In this example, we initialize a tensor <code class="docutils literal notranslate"><span class="pre">x</span></code> which initially has no gradient. Calling backward on <code class="docutils literal notranslate"><span class="pre">y</span></code> results in gradients being stored on the leaf tensor <code class="docutils literal notranslate"><span class="pre">x</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">x</span> 
+
+<span class="n">y</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span> 
+<span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">grad</span> <span class="o">==</span> <span class="mi">2</span><span class="o">*</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor(True)
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Backward for vectors.</strong> Let <span class="math notranslate nohighlight">\(\mathbf y = g(\mathbf x)\)</span> and let <span class="math notranslate nohighlight">\(\mathbf v\)</span> be a vector having the same length as <span class="math notranslate nohighlight">\(\mathbf y.\)</span> Then <code class="docutils literal notranslate"><span class="pre">y.backward(v)</span></code> implements</p>
+<div class="math notranslate nohighlight">
+\[\sum_i v_i \left(\frac{\partial y_i}{\partial x_j}\right)\]</div>
+<p>resulting in a vector of same length as <code class="docutils literal notranslate"><span class="pre">x</span></code> that is stored in <code class="docutils literal notranslate"><span class="pre">x.grad</span></code>. Note that the terms on the right are the local gradients in backprop. Hence, if <code class="docutils literal notranslate"><span class="pre">v</span></code> contains backpropagated gradients of nodes that depend on <code class="docutils literal notranslate"><span class="pre">y</span></code>, then this operation gives us the backpropagated gradients with respect to <code class="docutils literal notranslate"><span class="pre">x</span></code>, i.e. setting <span class="math notranslate nohighlight">\(v_i = \frac{\partial \mathcal{L} }{\partial y_i}\)</span> gives us the vector <span class="math notranslate nohighlight">\(\frac{\partial \mathcal{L} }{\partial x_j}.\)</span></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">v</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
+
+<span class="c1"># Computing the Jacobian by hand</span>
+<span class="n">J</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span>
+    <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float</span>
+<span class="p">)</span>
+
+<span class="c1"># Confirming the above formula</span>
+<span class="n">y</span><span class="o">.</span><span class="n">backward</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+<span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">grad</span> <span class="o">==</span> <span class="n">v</span> <span class="o">@</span> <span class="n">J</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor(True)
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Locally disabling gradient tracking.</strong> Disabling gradient computation is useful when computing values, e.g. accuracy, whose gradients will not be backpropagated into the network. To stop PyTorch from building computational graphs, we can put the code inside a <code class="docutils literal notranslate"><span class="pre">torch.no_grad()</span></code> context or inside a function with a <code class="docutils literal notranslate"><span class="pre">&#64;torch.no_grad()</span></code> decorator.</p>
+<p>Another technique is to use the <code class="docutils literal notranslate"><span class="pre">.detach()</span></code> method which returns a new tensor detached from the current graph but shares the same storage with the original one. In-place modifications on either of them will be seen, and may trigger errors in correctness checks.</p>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./notebooks/fundamentals"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="missing.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Handling Missing Values</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="../tensorflow/01-tensorflow-nn.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">TensorFlow Datasets</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By 𝗥𝗼𝗻 𝗠𝗲𝗱𝗶𝗻𝗮. Powered by <a href="https://jupyterbook.org">Jupyter Book</a>.<br/>
+    
+        &copy; Copyright 2021.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>
