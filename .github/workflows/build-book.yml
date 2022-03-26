@@ -27,4 +27,4 @@ jobs:
         pip install tox tox-gh-actions
     
     - name: Build Jupyter book with tox
-      run: tox -e buildbook
+      run: tox -e build_book

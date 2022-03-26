@@ -3,7 +3,7 @@
 *.tsv
 *.h5
 
-data/*
+data/
 docs/_build/*
 .tox
 __pycache__
