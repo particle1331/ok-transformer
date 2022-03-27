@@ -5,7 +5,14 @@
 <!-- Place this tag in your head or just before your close body tag. -->
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 
-This is a collection of notebooks on machine learning theory and engineering. Each notebook should run end-to-end after some minimal initial setup (setting up the directory structure, downloading the datasets, and setting up the environment). The name of this collection is inspired by the following study:
+This is a collection of notebooks on machine learning theory and engineering. 
+Each notebook should run end-to-end after installing the [`inefficient_networks`](https://github.com/particle1331/inefficient-networks/tree/dev/package) utilities library.
+Datasets come from [Kaggle](https://www.kaggle.com/) or as part of some open-source library such as
+[`torchvision`](https://pytorch.org/vision/stable/index.html) and [`tensorflow_datasets`](https://www.tensorflow.org/datasets). 
+
+<br>
+
+The name of this collection comes from the following study which changed my mental model on the pursuit of "best" solutions. Results of the study suggest that one should pursue unique and novel solutions to problems &mdash; even if these solutions may seem to be suboptimal at the first iterations.
 
 ```text
 Brackbill D, Centola D (2020) Impact of network structure on collective 
@@ -23,31 +30,19 @@ name: study
 [Fig. 3 of the above study]. Evolution of solution discovery for members of the two groups. The efficient network converged on a small set of solutions, whereas individuals in the inefficient network explored a greater diversity of solutions, and eventually converged on the best solution.
 ```
 
-## Requirements
+## Installation
+
+The package [`inefficient_networks`](https://github.com/particle1331/inefficient-networks/tree/dev/package) provides functions for downloading data from Kaggle and a [`config`](https://github.com/particle1331/inefficient-networks/blob/dev/package/inefficient_networks/config.py) object to reduce boilerplate code in setting up the coding environment. 
+To install:
 
 ```
-# Python 3.8.12
-fastapi==0.70.1
-httpie==2.6.0
-joblib==1.0.1
-jupyter-book==0.12.1
-lightgbm==3.3.1
-matplotlib==3.5.1
-mlxtend==0.19.0
-numpy==1.19.5
-optuna==2.10.0
-pandas==1.3.5
-scikit-learn==1.0.1
-scipy==1.7.3
-statsmodels==0.13.2
-tensorflow-datasets==4.4.0
-tensorflow==2.7.0
-torch==1.10.0
-torchvision==0.2.2
-tqdm==4.62.3
-uvicorn==0.16.0
-xgboost==1.5.1
+$ git clone git@github.com:particle1331/inefficient-networks.git
+$ cd inefficient-networks
+$ cd package
+$ pip install -e .
 ```
+
+Note that the [`requirements.txt`](https://github.com/particle1331/inefficient-networks/blob/dev/package/requirements/requirements.txt) file has TensorFlow commented out. The installation can be different for each operating system and available hardware, so I leave installation of TensorFlow to the reader.
 
 
 ## References 
