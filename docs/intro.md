@@ -31,7 +31,8 @@ name: study
 
 ## Installation
 
-The custom package [`inefficient_networks`](https://github.com/particle1331/inefficient-networks/tree/dev/package) contains functions which standardize setups and configs across notebooks. To install:
+The package [`inefficient_networks`](https://github.com/particle1331/inefficient-networks/tree/dev/package) sets up the directory structure and provides functions for downloading data from Kaggle, as well as other utility functions. 
+To install:
 
 ```
 $ git clone git@github.com:particle1331/inefficient-networks.git
@@ -40,7 +41,7 @@ $ cd package
 $ pip install -e .
 ```
 
-The package sets up the directory structure and provides functions for downloading data from Kaggle. Note that the [`requirements.txt`](https://github.com/particle1331/inefficient-networks/blob/dev/package/requirements/requirements.txt) file has TensorFlow commented out. The installation can be different for each operating system and available hardware, so I leave installation of TensorFlow to the reader.
+Note that the [`requirements.txt`](https://github.com/particle1331/inefficient-networks/blob/dev/package/requirements/requirements.txt) file has TensorFlow commented out. The installation can be different for each operating system and available hardware, so I leave installation of TensorFlow to the reader.
 
 
 ## References 
