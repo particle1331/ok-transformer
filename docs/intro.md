@@ -6,7 +6,7 @@
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 
 This is a collection of notebooks on machine learning theory and engineering. 
-Each notebook should run end-to-end after installing the `inefficient_networks` utilities library.
+Each notebook should run end-to-end after installing the [`inefficient_networks`](https://github.com/particle1331/inefficient-networks/tree/dev/package) utilities library.
 Datasets come from [Kaggle](https://www.kaggle.com/) or as part of some open-source library such as
 [`torchvision`](https://pytorch.org/vision/stable/index.html) and [`tensorflow_datasets`](https://www.tensorflow.org/datasets). 
 
