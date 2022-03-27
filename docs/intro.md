@@ -6,7 +6,7 @@
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 
 This is a collection of notebooks on machine learning theory and engineering. 
-Each notebook should run end-to-end after installing the `inefficient_networks` utilities library (see below).
+Each notebook should run end-to-end after installing the `inefficient_networks` utilities library.
 Datasets come from [Kaggle](https://www.kaggle.com/) or as part of some open-source library such as
 [`torchvision`](https://pytorch.org/vision/stable/index.html) and [`tensorflow_datasets`](https://www.tensorflow.org/datasets). 
 
@@ -31,14 +31,16 @@ name: study
 
 ## Installation
 
-The custom package [`inefficient_networks`](https://github.com/particle1331/inefficient-networks/tree/dev/package) contains functions which standardize setups and configs across notebooks. To install this package, simply run: 
+The custom package [`inefficient_networks`](https://github.com/particle1331/inefficient-networks/tree/dev/package) contains functions which standardize setups and configs across notebooks. To install:
+
 ```
+$ git clone git@github.com:particle1331/inefficient-networks.git
+$ cd inefficient-networks
 $ cd package
 $ pip install -e .
 ```
 
-One benefit of this approach is that the directory structure is automatically setup for us. Moreover, the package  provides functions for downloading data from Kaggle, so that we won't have to search and download the datasets manually when trying to reproduce a notebook.
-Note that the [`requirements.txt`](https://github.com/particle1331/inefficient-networks/blob/dev/package/requirements/requirements.txt) file does not include TensorFlow. The installation can be different for each operating system, so I will leave installation of TensorFlow to the reader.
+The package sets up the directory structure and provides functions for downloading data from Kaggle. Note that the [`requirements.txt`](https://github.com/particle1331/inefficient-networks/blob/dev/package/requirements/requirements.txt) file has TensorFlow commented out. The installation can be different for each operating system and available hardware, so I leave installation of TensorFlow to the reader.
 
 
 ## References 
