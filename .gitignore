@@ -114,9 +114,12 @@ venv.bak/
 *.pptx
 *.pkl
 *.h5
+*.zip
+*.tgz
 
 # Specific
-inefficient_networks/inefficient_networks/data/
+package/inefficient_networks/data/
+package/inefficient_networks/trained_models/
 docs/_build/*
 .tox
 __pycache__
