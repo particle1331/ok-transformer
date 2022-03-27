@@ -12,7 +12,7 @@ Datasets come from [Kaggle](https://www.kaggle.com/) or as part of some open-sou
 
 <br>
 
-The name of this collection comes from the following study which changed my mental model on the pursuit of "best" solutions. The results of the study suggest that one should pursue unique and novel solutions to problems &mdash; even if these solutions may seem to be suboptimal at the first iterations.
+The name of this collection comes from the following study which changed my mental model on the pursuit of "best" solutions. Results of the study suggest that one should pursue unique and novel solutions to problems &mdash; even if these solutions may seem to be suboptimal at the first iterations.
 
 ```text
 Brackbill D, Centola D (2020) Impact of network structure on collective 
