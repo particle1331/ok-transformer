@@ -10,8 +10,9 @@ Each notebook should run end-to-end after installing the [`inefficient_networks`
 Datasets come from [Kaggle](https://www.kaggle.com/) or as part of some open-source library such as
 [`torchvision`](https://pytorch.org/vision/stable/index.html) and [`tensorflow_datasets`](https://www.tensorflow.org/datasets). 
 
+<br>
 
-The name of this collection is inspired by the following study which should inspire one to pursue unique and novel solutions to problems &mdash; even if seemingly suboptimal.
+The name of this collection comes from the following study which changed my mental model on the pursuit of "best" solutions. The results of the study suggest that one should pursue unique and novel solutions to problems &mdash; even if these solutions may seem to be suboptimal at the first iterations.
 
 ```text
 Brackbill D, Centola D (2020) Impact of network structure on collective 
