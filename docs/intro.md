@@ -6,13 +6,11 @@
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 
 This is a collection of notebooks on machine learning theory and engineering. 
-Each notebook should run end-to-end after installing the [`inefficient_networks`](https://github.com/particle1331/inefficient-networks/tree/dev/package) utilities library.
+Each notebook should run end-to-end after installing the [`inefficient_networks`](https://github.com/particle1331/inefficient-networks/tree/dev/package) utilities library (see below).
 Datasets come from [Kaggle](https://www.kaggle.com/) or as part of some open-source library such as
 [`torchvision`](https://pytorch.org/vision/stable/index.html) and [`tensorflow_datasets`](https://www.tensorflow.org/datasets). 
 
-<br>
-
-The name of this collection comes from the following study which changed my mental model on the pursuit of "best" solutions. Results of the study suggest that one should pursue unique and novel solutions to problems &mdash; even if these solutions may seem to be suboptimal at the first iterations.
+The name of this collection comes from the following study which changed my mental model on the pursuit of "best" solutions. The results suggest that one should pursue unique and novel solutions to problems &mdash; even if these solutions may seem to be suboptimal at the first iterations.
 
 ```text
 Brackbill D, Centola D (2020) Impact of network structure on collective 

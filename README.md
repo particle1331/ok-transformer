@@ -1,6 +1,9 @@
 # inefficient-networks
 
-This repo contains a collection of Jupyter notebooks that run end-to-end after some minimal initial setup (e.g. setting up the directory structure and downloading the required datasets). The name of this collection is inspired by the following study:
+This is a collection of notebooks on machine learning theory and engineering. 
+Each notebook should run end-to-end after installing the [`inefficient_networks`](https://github.com/particle1331/inefficient-networks/tree/dev/package) utilities library (see below).
+Datasets come from [Kaggle](https://www.kaggle.com/) or as part of some open-source library such as
+[`torchvision`](https://pytorch.org/vision/stable/index.html) and [`tensorflow_datasets`](https://www.tensorflow.org/datasets). The name of this collection is inspired by the following study:
 
 
 ```
