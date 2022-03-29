@@ -1,6 +1,9 @@
 # inefficient-networks
 
-This repo contains a collection of Jupyter notebooks that run end-to-end after some minimal initial setup (e.g. setting up the directory structure and downloading the required datasets). The name of this collection is inspired by the following study:
+This is a collection of notebooks on machine learning theory and engineering. 
+Each notebook should run end-to-end after installing the [`inefficient_networks`](https://github.com/particle1331/inefficient-networks/tree/dev/package) utilities library (see below).
+Datasets come from [Kaggle](https://www.kaggle.com/) or as part of some open-source library such as
+[`torchvision`](https://pytorch.org/vision/stable/index.html) and [`tensorflow_datasets`](https://www.tensorflow.org/datasets). The name of this collection is inspired by the following study:
 
 
 ```
@@ -22,4 +25,5 @@ $ cd package
 $ pip install -e .
 ```
 
-Note that [`requirements.txt`](https://github.com/particle1331/inefficient-networks/blob/dev/package/requirements/requirements.txt) has TensorFlow commented out &mdash; this only serves to specify the version used in the notebooks. How to install TensorFlow depends on the operating system and available hardware, so I leave this task to the reader.
+Note that TensorFlow has been commented out in [`requirements.txt`](https://github.com/particle1331/inefficient-networks/blob/dev/package/requirements/requirements.txt) &mdash; this only serves to specify the version used in the notebooks. Installing TensorFlow depends on the specific operating system and available 
+hardware, so I leave this task to the reader.
