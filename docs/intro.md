@@ -10,7 +10,7 @@ Each notebook should run end-to-end after installing the [`inefficient_networks`
 Datasets come from [Kaggle](https://www.kaggle.com/) or as part of some open-source library such as
 [`torchvision`](https://pytorch.org/vision/stable/index.html) and [`tensorflow_datasets`](https://www.tensorflow.org/datasets). 
 
-The name of this collection comes from the following study which changed my mental model on the pursuit of "best" solutions. The results suggest that one should pursue unique and novel solutions to problems &mdash; even if these solutions may seem to be suboptimal at the first iterations.
+The name of this collection comes from the following study: 
 
 ```text
 Brackbill D, Centola D (2020) Impact of network structure on collective 
@@ -25,7 +25,7 @@ learning: An experimental study in a data science competition. PLoS ONE
 width: 30em
 name: study
 ---
-[Fig. 3 of the above study]. Evolution of solution discovery for members of the two groups. The efficient network converged on a small set of solutions, whereas individuals in the inefficient network explored a greater diversity of solutions, and eventually converged on the best solution.
+[Fig. 3 in the above study]. **Evolution of solution discovery for members of the two groups.** The efficient network converged on a small set of solutions, whereas individuals in the inefficient network explored a greater diversity of solutions, and eventually converged on the best solution.
 ```
 
 ## Installation
@@ -40,7 +40,8 @@ $ cd package
 $ pip install -e .
 ```
 
-Note that [`requirements.txt`](https://github.com/particle1331/inefficient-networks/blob/dev/package/requirements/requirements.txt) has TensorFlow commented out &mdash; this only serves to specify the version used in the notebooks. How to install TensorFlow depends on the operating system and available hardware, so I leave this task to the reader.
+Note that TensorFlow has been commented out in [`requirements.txt`](https://github.com/particle1331/inefficient-networks/blob/dev/package/requirements/requirements.txt) &mdash; this only serves to specify the version used in the notebooks. Installing TensorFlow depends on the specific operating system and available 
+hardware, so I leave this task to the reader.
 
 
 ## References 
