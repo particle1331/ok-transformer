@@ -6,11 +6,9 @@
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 
 This is a collection of notebooks on machine learning theory and engineering. 
-Each notebook should run end-to-end after installing the [`inefficient_networks`](https://github.com/particle1331/inefficient-networks/tree/dev/package) utilities library (see below).
+Each notebook should run end-to-end after [installing](https://particle1331.github.io/inefficient-networks/intro.html#installation) the [`inefficient_networks`](https://github.com/particle1331/inefficient-networks/tree/dev/package) helper library.
 Datasets come from [Kaggle](https://www.kaggle.com/) or as part of some open-source library such as
-[`torchvision`](https://pytorch.org/vision/stable/index.html) and [`tensorflow_datasets`](https://www.tensorflow.org/datasets). 
-
-The name of this collection comes from the following study: 
+[`torchvision`](https://pytorch.org/vision/stable/index.html) and [`tensorflow_datasets`](https://www.tensorflow.org/datasets). The name of this collection is a reference to the following study: 
 
 ```text
 Brackbill D, Centola D (2020) Impact of network structure on collective 
