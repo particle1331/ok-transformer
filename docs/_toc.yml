@@ -32,6 +32,7 @@ parts:
 - caption: MODEL DEPLOYMENT
   chapters:
   - file: notebooks/deployment/production-code
+  - file: notebooks/deployment/model-serving-api
   # - file: notebooks/deployment
   # - file: notebooks/deployment
   # - file: notebooks/deployment
