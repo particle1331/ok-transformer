@@ -1,0 +1,1575 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Model Tuning with Optuna &#8212; 𝗜𝗻𝗲𝗳𝗳𝗶𝗰𝗶𝗲𝗻𝘁 𝗡𝗲𝘁𝘄𝗼𝗿𝗸𝘀</title>
+    
+  <link href="../../_static/css/theme.css" rel="stylesheet">
+  <link href="../../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="shortcut icon" href="../../_static/pone.0237978.g001.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Handling Missing Values" href="missing.html" />
+    <link rel="prev" title="Blending and Stacking" href="blending-stacking.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../../_static/pone.0237978.g001.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">𝗜𝗻𝗲𝗳𝗳𝗶𝗰𝗶𝗲𝗻𝘁 𝗡𝗲𝘁𝘄𝗼𝗿𝗸𝘀</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  FUNDAMENTALS
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="house-prices.html">
+   Modelling with Pipelines
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="blending-stacking.html">
+   Blending and Stacking
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Model Tuning with Optuna
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="missing.html">
+   Handling Missing Values
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  DEEP LEARNING
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="backpropagation.html">
+   Backpropagation on DAGs
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../tensorflow/01-tensorflow-nn.html">
+   TensorFlow Datasets
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../tensorflow/02-tensorflow-mechanics.html">
+   Mechanics of TensorFlow
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../tensorflow/03-tensorflow-activations.html">
+   Activation Functions
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../tensorflow/04-tensorflow-optim-init.html">
+   Initialization and Optimization
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  MODEL DEPLOYMENT
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../deployment/production-code.html">
+   Packaging Production Code
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../deployment/model-serving-api.html">
+   Prediction Serving REST API
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../../_sources/notebooks/fundamentals/optuna.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/particle1331/inefficient-networks"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/particle1331/inefficient-networks/issues/new?title=Issue%20on%20page%20%2Fnotebooks/fundamentals/optuna.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/particle1331/inefficient-networks/master?urlpath=tree/docs/notebooks/fundamentals/optuna.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#basics-with-scikit-learn">
+   Basics with scikit-learn
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#fine-tuning-random-forest">
+     Fine tuning Random Forest
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#sampling-algorithms">
+     Sampling algorithms
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#results-visualization">
+   Results visualization
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#neural-networks">
+   Neural networks
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#pruning-trials-based-on-intermediate-values">
+     Pruning trials based on intermediate values
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#hyperparameter-interactions">
+     Hyperparameter interactions
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#appendix-hyperparameters-of-commonly-used-models">
+   Appendix: Hyperparameters of commonly used models
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#xgboost-parameter-space">
+     XGBoost parameter space
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Model Tuning with Optuna</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#basics-with-scikit-learn">
+   Basics with scikit-learn
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#fine-tuning-random-forest">
+     Fine tuning Random Forest
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#sampling-algorithms">
+     Sampling algorithms
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#results-visualization">
+   Results visualization
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#neural-networks">
+   Neural networks
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#pruning-trials-based-on-intermediate-values">
+     Pruning trials based on intermediate values
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#hyperparameter-interactions">
+     Hyperparameter interactions
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#appendix-hyperparameters-of-commonly-used-models">
+   Appendix: Hyperparameters of commonly used models
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#xgboost-parameter-space">
+     XGBoost parameter space
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="model-tuning-with-optuna">
+<h1>Model Tuning with Optuna<a class="headerlink" href="#model-tuning-with-optuna" title="Permalink to this headline">¶</a></h1>
+<p><img alt="Status" src="https://img.shields.io/static/v1.svg?label=Status&amp;message=Finished&amp;color=green" /></p>
+<p>Hyperparameters are non-learnable parameters of a model that determine its architecture and configuration. Properly tuning
+the hyperparameters of a model could mean the difference between convergence to or divergence from a
+solution, e.g. choosing the proper learning rate size in a model that trains with gradient descent. In this notebook, we will explore <i><strong>Optuna</strong></i>: an open source hyperparameter optimization framework for automating hyperparameter search.</p>
+<div class="margin sidebar">
+<p class="sidebar-title"></p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://optuna.readthedocs.io/en/stable/faq.html">Optuna docs</a></p></li>
+<li><p><a class="reference external" href="https://optuna.readthedocs.io/en/stable/index.html">Optuna FAQ</a></p></li>
+<li><p><a class="reference external" href="https://arxiv.org/abs/1907.10902">Optuna paper</a></p></li>
+</ul>
+</div>
+<p>Optuna is a framework agnostic black-box optimizer. This means it only needs a real-valued objective function which returns an evaluation of the hyperparameters and it works with any machine learning or deep learning package such as scikit-learn, PyTorch, and XGBoost. Our main task as developers would be to write a suitable objective function, define the search space, and to interpret results. These correspond to manipulating the <code class="docutils literal notranslate"><span class="pre">study</span></code> and the <code class="docutils literal notranslate"><span class="pre">trial</span></code> objects as we will show in the following section.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">optuna</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">optuna</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+
+<span class="c1"># Experiment config</span>
+<span class="n">RF_NTRIALS</span> <span class="o">=</span> <span class="mi">60</span>
+<span class="n">VGG_NTRIALS</span> <span class="o">=</span> <span class="mi">40</span>
+<span class="n">CIFAR10_SAMPLE_RATIO</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="n">CIFAR10_RESIZE</span> <span class="o">=</span> <span class="mi">32</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3.0.0a2
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="basics-with-scikit-learn">
+<h2>Basics with scikit-learn<a class="headerlink" href="#basics-with-scikit-learn" title="Permalink to this headline">¶</a></h2>
+<p>The example below should serve as an archetype for all use-cases of Optuna.
+Observe that code for defining the search space via the <code class="docutils literal notranslate"><span class="pre">trial</span></code> object can be highly modular:
+the user can dynamically construct the search spaces for the hyperparameters within imperative Python code such as conditionals or loops, as well as
+define functions as subroutines for handling trials. Even the problem of model selection (choosing between SVM or Random Forest)
+is framed as a
+hyperparameter optimization problem.
+This is in contrast to the <code class="docutils literal notranslate"><span class="pre">GridSearchCV</span></code>
+and <code class="docutils literal notranslate"><span class="pre">RandomSearchCV</span></code> APIs in scikit-learn where we had to define the entire
+search space before running the search algorithm for a single model.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">ensemble</span><span class="p">,</span> <span class="n">svm</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">datasets</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">model_selection</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">import</span> <span class="nn">joblib</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">FutureWarning</span><span class="p">)</span> <span class="c1"># https://github.com/optuna/optuna/releases/tag/v3.0.0-a1</span>
+
+
+<span class="c1"># (1) Define an objective function to be maximized.</span>
+<span class="k">def</span> <span class="nf">objective</span><span class="p">(</span><span class="n">trial</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    
+    <span class="c1"># (2) Suggest values for the hyperparameters using trial object.</span>
+    <span class="n">clf_name</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_categorical</span><span class="p">(</span><span class="s1">&#39;classifier&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;SVC&#39;</span><span class="p">,</span> <span class="s1">&#39;RandomForest&#39;</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">clf_name</span> <span class="o">==</span> <span class="s1">&#39;SVC&#39;</span><span class="p">:</span>
+        <span class="n">svc_c</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_float</span><span class="p">(</span><span class="s1">&#39;svc_c&#39;</span><span class="p">,</span> <span class="mf">1e-10</span><span class="p">,</span> <span class="mf">1e10</span><span class="p">,</span> <span class="n">log</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">clf</span> <span class="o">=</span> <span class="n">svm</span><span class="o">.</span><span class="n">SVC</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="n">svc_c</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">rf_max_depth</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_int</span><span class="p">(</span><span class="s1">&#39;rf_max_depth&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>
+        <span class="n">clf</span> <span class="o">=</span> <span class="n">ensemble</span><span class="o">.</span><span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="n">rf_max_depth</span><span class="p">,</span> <span class="n">n_estimators</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+    <span class="c1"># Always cross-validate!</span>
+    <span class="n">score</span> <span class="o">=</span> <span class="n">model_selection</span><span class="o">.</span><span class="n">cross_val_score</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">score</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+<span class="c1"># (3) Create a study object and optimize the objective function.</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">load_breast_cancer</span><span class="p">(</span><span class="n">return_X_y</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">study</span> <span class="o">=</span> <span class="n">optuna</span><span class="o">.</span><span class="n">create_study</span><span class="p">(</span><span class="n">direction</span><span class="o">=</span><span class="s2">&quot;maximize&quot;</span><span class="p">)</span>
+<span class="n">study</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">partial</span><span class="p">(</span><span class="n">objective</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">),</span> <span class="n">n_trials</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">[I 2022-03-29 05:49:19,400]</span> A new study created in memory with name: no-name-db4d1464-6be9-4b89-8b54-9ff08d7bad92
+<span class=" -Color -Color-Green">[I 2022-03-29 05:49:20,516]</span> Trial 1 finished with value: 0.6274181027790716 and parameters: {&#39;classifier&#39;: &#39;SVC&#39;, &#39;svc_c&#39;: 1.9922389105979842e-09}. Best is trial 1 with value: 0.6274181027790716.
+<span class=" -Color -Color-Green">[I 2022-03-29 05:49:20,541]</span> Trial 0 finished with value: 0.6274181027790716 and parameters: {&#39;classifier&#39;: &#39;SVC&#39;, &#39;svc_c&#39;: 2.9385606975026297e-09}. Best is trial 1 with value: 0.6274181027790716.
+<span class=" -Color -Color-Green">[I 2022-03-29 05:49:20,740]</span> Trial 2 finished with value: 0.956078248719143 and parameters: {&#39;classifier&#39;: &#39;RandomForest&#39;, &#39;rf_max_depth&#39;: 5}. Best is trial 2 with value: 0.956078248719143.
+<span class=" -Color -Color-Green">[I 2022-03-29 05:49:20,754]</span> Trial 3 finished with value: 0.9455364073901567 and parameters: {&#39;classifier&#39;: &#39;RandomForest&#39;, &#39;rf_max_depth&#39;: 4}. Best is trial 2 with value: 0.956078248719143.
+<span class=" -Color -Color-Green">[I 2022-03-29 05:49:20,845]</span> Trial 4 finished with value: 0.9490451793199813 and parameters: {&#39;classifier&#39;: &#39;RandomForest&#39;, &#39;rf_max_depth&#39;: 32}. Best is trial 2 with value: 0.956078248719143.
+</pre></div>
+</div>
+</div>
+</div>
+<p>The result of each trial can be accessed in the study object:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">study</span><span class="o">.</span><span class="n">trials_dataframe</span><span class="p">()</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>number</th>
+      <th>value</th>
+      <th>datetime_start</th>
+      <th>datetime_complete</th>
+      <th>duration</th>
+      <th>params_classifier</th>
+      <th>params_rf_max_depth</th>
+      <th>params_svc_c</th>
+      <th>state</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>0.627418</td>
+      <td>2022-03-29 05:49:19.404269</td>
+      <td>2022-03-29 05:49:20.541145</td>
+      <td>0 days 00:00:01.136876</td>
+      <td>SVC</td>
+      <td>NaN</td>
+      <td>2.938561e-09</td>
+      <td>COMPLETE</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>0.627418</td>
+      <td>2022-03-29 05:49:19.408069</td>
+      <td>2022-03-29 05:49:20.515667</td>
+      <td>0 days 00:00:01.107598</td>
+      <td>SVC</td>
+      <td>NaN</td>
+      <td>1.992239e-09</td>
+      <td>COMPLETE</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>0.956078</td>
+      <td>2022-03-29 05:49:20.521504</td>
+      <td>2022-03-29 05:49:20.740331</td>
+      <td>0 days 00:00:00.218827</td>
+      <td>RandomForest</td>
+      <td>5.0</td>
+      <td>NaN</td>
+      <td>COMPLETE</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3</td>
+      <td>0.945536</td>
+      <td>2022-03-29 05:49:20.545865</td>
+      <td>2022-03-29 05:49:20.753829</td>
+      <td>0 days 00:00:00.207964</td>
+      <td>RandomForest</td>
+      <td>4.0</td>
+      <td>NaN</td>
+      <td>COMPLETE</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4</td>
+      <td>0.949045</td>
+      <td>2022-03-29 05:49:20.745194</td>
+      <td>2022-03-29 05:49:20.845302</td>
+      <td>0 days 00:00:00.100108</td>
+      <td>RandomForest</td>
+      <td>32.0</td>
+      <td>NaN</td>
+      <td>COMPLETE</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="section" id="fine-tuning-random-forest">
+<h3>Fine tuning Random Forest<a class="headerlink" href="#fine-tuning-random-forest" title="Permalink to this headline">¶</a></h3>
+<p>Here we focus on tuning a single Random Forest model. Then, plot the accuracy for each pair of hyperparameters.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">objective</span><span class="p">(</span><span class="n">trial</span><span class="p">):</span>
+    
+    <span class="n">max_depth</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_int</span><span class="p">(</span><span class="s1">&#39;max_depth&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="n">log</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>    
+    <span class="n">max_features</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_float</span><span class="p">(</span><span class="s1">&#39;max_features&#39;</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+    <span class="n">n_estimators</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_int</span><span class="p">(</span><span class="s1">&#39;n_estimators&#39;</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">800</span><span class="p">,</span> <span class="n">log</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">criterion</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_categorical</span><span class="p">(</span><span class="s1">&#39;criterion&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;gini&#39;</span><span class="p">,</span> <span class="s1">&#39;entropy&#39;</span><span class="p">])</span>
+    
+    <span class="n">clf</span> <span class="o">=</span> <span class="n">ensemble</span><span class="o">.</span><span class="n">RandomForestClassifier</span><span class="p">(</span>
+        <span class="n">max_depth</span><span class="o">=</span><span class="n">max_depth</span><span class="p">,</span>
+        <span class="n">n_estimators</span><span class="o">=</span><span class="n">n_estimators</span><span class="p">,</span>
+        <span class="n">max_features</span><span class="o">=</span><span class="n">max_features</span><span class="p">,</span>
+        <span class="n">criterion</span><span class="o">=</span><span class="n">criterion</span><span class="p">,</span>
+        <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>   
+    
+    <span class="n">score</span> <span class="o">=</span> <span class="n">model_selection</span><span class="o">.</span><span class="n">cross_val_score</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">score</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+
+<span class="n">study</span> <span class="o">=</span> <span class="n">optuna</span><span class="o">.</span><span class="n">create_study</span><span class="p">(</span><span class="n">direction</span><span class="o">=</span><span class="s2">&quot;maximize&quot;</span><span class="p">)</span>
+<span class="n">study</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">objective</span><span class="p">,</span> <span class="n">n_trials</span><span class="o">=</span><span class="n">RF_NTRIALS</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">[I 2022-03-29 05:49:20,893]</span> A new study created in memory with name: no-name-4432a1a2-3048-489e-9eb1-cbb932038608
+<span class=" -Color -Color-Green">[I 2022-03-29 05:49:27,847]</span> Trial 0 finished with value: 0.95960254618848 and parameters: {&#39;max_depth&#39;: 13, &#39;max_features&#39;: 0.5094176098270098, &#39;n_estimators&#39;: 125, &#39;criterion&#39;: &#39;entropy&#39;}. Best is trial 0 with value: 0.95960254618848.
+<span class=" -Color -Color-Green">[I 2022-03-29 05:49:29,586]</span> Trial 1 finished with value: 0.9648657040832169 and parameters: {&#39;max_depth&#39;: 4, &#39;max_features&#39;: 0.3088112226520346, &#39;n_estimators&#39;: 642, &#39;criterion&#39;: &#39;entropy&#39;}. Best is trial 1 with value: 0.9648657040832169.
+<span class=" -Color -Color-Green">[I 2022-03-29 05:49:30,058]</span> Trial 2 finished with value: 0.9578481602235678 and parameters: {&#39;max_depth&#39;: 10, &#39;max_features&#39;: 0.10310188914369661, &#39;n_estimators&#39;: 172, &#39;criterion&#39;: &#39;gini&#39;}. Best is trial 1 with value: 0.9648657040832169.
+<span class=" -Color -Color-Green">[I 2022-03-29 05:49:36,248]</span> Trial 3 finished with value: 0.968390001552554 and parameters: {&#39;max_depth&#39;: 5, &#39;max_features&#39;: 0.7519175565437778, &#39;n_estimators&#39;: 228, &#39;criterion&#39;: &#39;entropy&#39;}. Best is trial 3 with value: 0.968390001552554.
+<span class=" -Color -Color-Green">[I 2022-03-29 05:49:36,395]</span> Trial 4 finished with value: 0.9648657040832169 and parameters: {&#39;max_depth&#39;: 7, &#39;max_features&#39;: 0.8407189874103727, &#39;n_estimators&#39;: 192, &#39;criterion&#39;: &#39;entropy&#39;}. Best is trial 3 with value: 0.968390001552554.
+<span class=" -Color -Color-Green">[I 2022-03-29 05:49:45,412]</span> Trial 6 finished with value: 0.9631268436578171 and parameters: {&#39;max_depth&#39;: 36, &#39;max_features&#39;: 0.3757224553187931, &#39;n_estimators&#39;: 117, &#39;criterion&#39;: &#39;entropy&#39;}. Best is trial 3 with value: 0.968390001552554.
+<span class=" -Color -Color-Green">[I 2022-03-29 05:49:48,408]</span> Trial 5 finished with value: 0.9683744760130415 and parameters: {&#39;max_depth&#39;: 31, &#39;max_features&#39;: 0.8810015878437337, &#39;n_estimators&#39;: 546, &#39;criterion&#39;: &#39;entropy&#39;}. Best is trial 3 with value: 0.968390001552554.
+<span class=" -Color -Color-Green">[I 2022-03-29 05:49:49,400]</span> Trial 7 finished with value: 0.9596180717279925 and parameters: {&#39;max_depth&#39;: 12, &#39;max_features&#39;: 0.4714270367165365, &#39;n_estimators&#39;: 233, &#39;criterion&#39;: &#39;gini&#39;}. Best is trial 3 with value: 0.968390001552554.
+<span class=" -Color -Color-Green">[I 2022-03-29 05:49:55,272]</span> Trial 9 finished with value: 0.9595870206489675 and parameters: {&#39;max_depth&#39;: 4, &#39;max_features&#39;: 0.7976868876721476, &#39;n_estimators&#39;: 102, &#39;criterion&#39;: &#39;entropy&#39;}. Best is trial 3 with value: 0.968390001552554.
+<span class=" -Color -Color-Green">[I 2022-03-29 05:49:56,447]</span> Trial 8 finished with value: 0.9613724576929048 and parameters: {&#39;max_depth&#39;: 8, &#39;max_features&#39;: 0.33324453529856735, &#39;n_estimators&#39;: 515, &#39;criterion&#39;: &#39;gini&#39;}. Best is trial 3 with value: 0.968390001552554.
+<span class=" -Color -Color-Green">[I 2022-03-29 05:50:08,011]</span> Trial 11 finished with value: 0.947290793355069 and parameters: {&#39;max_depth&#39;: 2, &#39;max_features&#39;: 0.6837574040990039, &#39;n_estimators&#39;: 352, &#39;criterion&#39;: &#39;entropy&#39;}. Best is trial 3 with value: 0.968390001552554.
+<span class=" -Color -Color-Green">[I 2022-03-29 05:50:08,641]</span> Trial 10 finished with value: 0.9613879832324173 and parameters: {&#39;max_depth&#39;: 7, &#39;max_features&#39;: 0.6237304688049746, &#39;n_estimators&#39;: 728, &#39;criterion&#39;: &#39;gini&#39;}. Best is trial 3 with value: 0.968390001552554.
+<span class=" -Color -Color-Green">[I 2022-03-29 05:50:21,547]</span> Trial 12 finished with value: 0.9666200900481291 and parameters: {&#39;max_depth&#39;: 47, &#39;max_features&#39;: 0.9906269903709292, &#39;n_estimators&#39;: 358, &#39;criterion&#39;: &#39;entropy&#39;}. Best is trial 3 with value: 0.968390001552554.
+<span class=" -Color -Color-Green">[I 2022-03-29 05:50:21,902]</span> Trial 13 finished with value: 0.9683744760130415 and parameters: {&#39;max_depth&#39;: 43, &#39;max_features&#39;: 0.9922799550866502, &#39;n_estimators&#39;: 375, &#39;criterion&#39;: &#39;entropy&#39;}. Best is trial 3 with value: 0.968390001552554.
+<span class=" -Color -Color-Green">[I 2022-03-29 05:50:36,010]</span> Trial 14 finished with value: 0.9648657040832169 and parameters: {&#39;max_depth&#39;: 103, &#39;max_features&#39;: 0.9651255850233413, &#39;n_estimators&#39;: 424, &#39;criterion&#39;: &#39;entropy&#39;}. Best is trial 3 with value: 0.968390001552554.
+<span class=" -Color -Color-Green">[I 2022-03-29 05:50:36,199]</span> Trial 15 finished with value: 0.9666200900481291 and parameters: {&#39;max_depth&#39;: 123, &#39;max_features&#39;: 0.812192973684417, &#39;n_estimators&#39;: 483, &#39;criterion&#39;: &#39;entropy&#39;}. Best is trial 3 with value: 0.968390001552554.
+<span class=" -Color -Color-Green">[I 2022-03-29 05:50:44,412]</span> Trial 17 finished with value: 0.9648812296227295 and parameters: {&#39;max_depth&#39;: 24, &#39;max_features&#39;: 0.7040046129318576, &#39;n_estimators&#39;: 284, &#39;criterion&#39;: &#39;entropy&#39;}. Best is trial 3 with value: 0.968390001552554.
+<span class=" -Color -Color-Green">[I 2022-03-29 05:50:44,498]</span> Trial 16 finished with value: 0.9666200900481291 and parameters: {&#39;max_depth&#39;: 25, &#39;max_features&#39;: 0.829568309509727, &#39;n_estimators&#39;: 274, &#39;criterion&#39;: &#39;entropy&#39;}. Best is trial 3 with value: 0.968390001552554.
+<span class=" -Color -Color-Green">[I 2022-03-29 05:50:55,197]</span> Trial 18 finished with value: 0.9631113181183046 and parameters: {&#39;max_depth&#39;: 21, &#39;max_features&#39;: 0.8635357923806442, &#39;n_estimators&#39;: 279, &#39;criterion&#39;: &#39;entropy&#39;}. Best is trial 3 with value: 0.968390001552554.
+<span class=" -Color -Color-Green">[I 2022-03-29 05:50:55,880]</span> Trial 19 finished with value: 0.9543238627542306 and parameters: {&#39;max_depth&#39;: 2, &#39;max_features&#39;: 0.8837415351148565, &#39;n_estimators&#39;: 600, &#39;criterion&#39;: &#39;gini&#39;}. Best is trial 3 with value: 0.968390001552554.
+<span class=" -Color -Color-Green">[I 2022-03-29 05:50:57,255]</span> Trial 20 finished with value: 0.9473063188945815 and parameters: {&#39;max_depth&#39;: 2, &#39;max_features&#39;: 0.6989806741416981, &#39;n_estimators&#39;: 188, &#39;criterion&#39;: &#39;gini&#39;}. Best is trial 3 with value: 0.968390001552554.
+<span class=" -Color -Color-Green">[I 2022-03-29 05:51:13,568]</span> Trial 22 finished with value: 0.9648657040832169 and parameters: {&#39;max_depth&#39;: 59, &#39;max_features&#39;: 0.9308345165809533, &#39;n_estimators&#39;: 397, &#39;criterion&#39;: &#39;entropy&#39;}. Best is trial 3 with value: 0.968390001552554.
+<span class=" -Color -Color-Green">[I 2022-03-29 05:51:15,152]</span> Trial 21 finished with value: 0.9666356155876418 and parameters: {&#39;max_depth&#39;: 71, &#39;max_features&#39;: 0.6820155904416294, &#39;n_estimators&#39;: 772, &#39;criterion&#39;: &#39;entropy&#39;}. Best is trial 3 with value: 0.968390001552554.
+<span class=" -Color -Color-Green">[I 2022-03-29 05:51:34,819]</span> Trial 23 finished with value: 0.9631113181183046 and parameters: {&#39;max_depth&#39;: 75, &#39;max_features&#39;: 0.7412331377106783, &#39;n_estimators&#39;: 780, &#39;criterion&#39;: &#39;entropy&#39;}. Best is trial 3 with value: 0.968390001552554.
+<span class=" -Color -Color-Green">[I 2022-03-29 05:51:35,316]</span> Trial 24 finished with value: 0.9648657040832169 and parameters: {&#39;max_depth&#39;: 34, &#39;max_features&#39;: 0.9179233904283126, &#39;n_estimators&#39;: 533, &#39;criterion&#39;: &#39;entropy&#39;}. Best is trial 3 with value: 0.968390001552554.
+<span class=" -Color -Color-Green">[I 2022-03-29 05:51:47,070]</span> Trial 26 finished with value: 0.9648812296227295 and parameters: {&#39;max_depth&#39;: 4, &#39;max_features&#39;: 0.6111660166726554, &#39;n_estimators&#39;: 344, &#39;criterion&#39;: &#39;entropy&#39;}. Best is trial 3 with value: 0.968390001552554.
+<span class=" -Color -Color-Green">[I 2022-03-29 05:51:48,504]</span> Trial 25 finished with value: 0.9631113181183046 and parameters: {&#39;max_depth&#39;: 36, &#39;max_features&#39;: 0.926677151176416, &#39;n_estimators&#39;: 519, &#39;criterion&#39;: &#39;entropy&#39;}. Best is trial 3 with value: 0.968390001552554.
+<span class=" -Color -Color-Green">[I 2022-03-29 05:51:56,707]</span> Trial 27 finished with value: 0.9683744760130415 and parameters: {&#39;max_depth&#39;: 17, &#39;max_features&#39;: 0.9928312565897552, &#39;n_estimators&#39;: 234, &#39;criterion&#39;: &#39;entropy&#39;}. Best is trial 3 with value: 0.968390001552554.
+<span class=" -Color -Color-Green">[I 2022-03-29 05:51:58,136]</span> Trial 28 finished with value: 0.9666356155876418 and parameters: {&#39;max_depth&#39;: 17, &#39;max_features&#39;: 0.7734265469384697, &#39;n_estimators&#39;: 311, &#39;criterion&#39;: &#39;entropy&#39;}. Best is trial 3 with value: 0.968390001552554.
+<span class=" -Color -Color-Green">[I 2022-03-29 05:51:59,772]</span> Trial 29 finished with value: 0.9560627231796305 and parameters: {&#39;max_depth&#39;: 3, &#39;max_features&#39;: 0.7685895974183001, &#39;n_estimators&#39;: 152, &#39;criterion&#39;: &#39;entropy&#39;}. Best is trial 3 with value: 0.968390001552554.
+<span class=" -Color -Color-Green">[I 2022-03-29 05:52:04,583]</span> Trial 30 finished with value: 0.9666356155876418 and parameters: {&#39;max_depth&#39;: 15, &#39;max_features&#39;: 0.5403246080217083, &#39;n_estimators&#39;: 229, &#39;criterion&#39;: &#39;entropy&#39;}. Best is trial 3 with value: 0.968390001552554.
+<span class=" -Color -Color-Green">[I 2022-03-29 05:52:05,182]</span> Trial 31 finished with value: 0.9648812296227295 and parameters: {&#39;max_depth&#39;: 14, &#39;max_features&#39;: 0.5420560172475967, &#39;n_estimators&#39;: 226, &#39;criterion&#39;: &#39;entropy&#39;}. Best is trial 3 with value: 0.968390001552554.
+<span class=" -Color -Color-Green">[I 2022-03-29 05:52:13,185]</span> Trial 32 finished with value: 0.9666200900481291 and parameters: {&#39;max_depth&#39;: 28, &#39;max_features&#39;: 0.9769786961346034, &#39;n_estimators&#39;: 243, &#39;criterion&#39;: &#39;entropy&#39;}. Best is trial 3 with value: 0.968390001552554.
+<span class=" -Color -Color-Green">[I 2022-03-29 05:52:13,788]</span> Trial 33 finished with value: 0.9683744760130415 and parameters: {&#39;max_depth&#39;: 28, &#39;max_features&#39;: 0.9820769878888297, &#39;n_estimators&#39;: 255, &#39;criterion&#39;: &#39;entropy&#39;}. Best is trial 3 with value: 0.968390001552554.
+<span class=" -Color -Color-Green">[I 2022-03-29 05:52:18,260]</span> Trial 34 finished with value: 0.9666200900481293 and parameters: {&#39;max_depth&#39;: 47, &#39;max_features&#39;: 0.8726531014779693, &#39;n_estimators&#39;: 150, &#39;criterion&#39;: &#39;entropy&#39;}. Best is trial 3 with value: 0.968390001552554.
+<span class=" -Color -Color-Green">[I 2022-03-29 05:52:18,865]</span> Trial 35 finished with value: 0.9648657040832169 and parameters: {&#39;max_depth&#39;: 10, &#39;max_features&#39;: 0.8858707574090151, &#39;n_estimators&#39;: 157, &#39;criterion&#39;: &#39;entropy&#39;}. Best is trial 3 with value: 0.968390001552554.
+<span class=" -Color -Color-Green">[I 2022-03-29 05:52:20,024]</span> Trial 36 finished with value: 0.9666356155876417 and parameters: {&#39;max_depth&#39;: 10, &#39;max_features&#39;: 0.10195093816216305, &#39;n_estimators&#39;: 200, &#39;criterion&#39;: &#39;entropy&#39;}. Best is trial 3 with value: 0.968390001552554.
+<span class=" -Color -Color-Green">[I 2022-03-29 05:52:22,872]</span> Trial 37 finished with value: 0.956078248719143 and parameters: {&#39;max_depth&#39;: 5, &#39;max_features&#39;: 0.13211927548144897, &#39;n_estimators&#39;: 195, &#39;criterion&#39;: &#39;entropy&#39;}. Best is trial 3 with value: 0.968390001552554.
+<span class=" -Color -Color-Green">[I 2022-03-29 05:52:22,936]</span> Trial 38 finished with value: 0.9560937742586555 and parameters: {&#39;max_depth&#39;: 19, &#39;max_features&#39;: 0.19254721705379074, &#39;n_estimators&#39;: 199, &#39;criterion&#39;: &#39;gini&#39;}. Best is trial 3 with value: 0.968390001552554.
+<span class=" -Color -Color-Green">[I 2022-03-29 05:52:32,082]</span> Trial 40 finished with value: 0.9578792113025927 and parameters: {&#39;max_depth&#39;: 29, &#39;max_features&#39;: 0.9494638239097379, &#39;n_estimators&#39;: 256, &#39;criterion&#39;: &#39;gini&#39;}. Best is trial 3 with value: 0.968390001552554.
+<span class=" -Color -Color-Green">[I 2022-03-29 05:52:32,103]</span> Trial 39 finished with value: 0.95960254618848 and parameters: {&#39;max_depth&#39;: 19, &#39;max_features&#39;: 0.4337862033083003, &#39;n_estimators&#39;: 435, &#39;criterion&#39;: &#39;gini&#39;}. Best is trial 3 with value: 0.968390001552554.
+<span class=" -Color -Color-Green">[I 2022-03-29 05:52:38,509]</span> Trial 41 finished with value: 0.9631113181183046 and parameters: {&#39;max_depth&#39;: 6, &#39;max_features&#39;: 0.897070652000433, &#39;n_estimators&#39;: 129, &#39;criterion&#39;: &#39;entropy&#39;}. Best is trial 3 with value: 0.968390001552554.
+<span class=" -Color -Color-Green">[I 2022-03-29 05:52:40,144]</span> Trial 42 finished with value: 0.9666200900481291 and parameters: {&#39;max_depth&#39;: 50, &#39;max_features&#39;: 0.9975256770349493, &#39;n_estimators&#39;: 306, &#39;criterion&#39;: &#39;entropy&#39;}. Best is trial 3 with value: 0.968390001552554.
+<span class=" -Color -Color-Green">[I 2022-03-29 05:52:53,389]</span> Trial 43 finished with value: 0.9666200900481291 and parameters: {&#39;max_depth&#39;: 12, &#39;max_features&#39;: 0.9990985906531077, &#39;n_estimators&#39;: 311, &#39;criterion&#39;: &#39;entropy&#39;}. Best is trial 3 with value: 0.968390001552554.
+<span class=" -Color -Color-Green">[I 2022-03-29 05:52:56,449]</span> Trial 44 finished with value: 0.9666356155876418 and parameters: {&#39;max_depth&#39;: 35, &#39;max_features&#39;: 0.8428891666474216, &#39;n_estimators&#39;: 644, &#39;criterion&#39;: &#39;entropy&#39;}. Best is trial 3 with value: 0.968390001552554.
+<span class=" -Color -Color-Green">[I 2022-03-29 05:53:08,109]</span> Trial 46 finished with value: 0.9631113181183046 and parameters: {&#39;max_depth&#39;: 42, &#39;max_features&#39;: 0.9464943640499718, &#39;n_estimators&#39;: 219, &#39;criterion&#39;: &#39;entropy&#39;}. Best is trial 3 with value: 0.968390001552554.
+<span class=" -Color -Color-Green">[I 2022-03-29 05:53:10,708]</span> Trial 45 finished with value: 0.9648657040832169 and parameters: {&#39;max_depth&#39;: 42, &#39;max_features&#39;: 0.8372455583439697, &#39;n_estimators&#39;: 656, &#39;criterion&#39;: &#39;entropy&#39;}. Best is trial 3 with value: 0.968390001552554.
+<span class=" -Color -Color-Green">[I 2022-03-29 05:53:15,658]</span> Trial 47 finished with value: 0.9666200900481291 and parameters: {&#39;max_depth&#39;: 8, &#39;max_features&#39;: 0.825299680449171, &#39;n_estimators&#39;: 378, &#39;criterion&#39;: &#39;entropy&#39;}. Best is trial 3 with value: 0.968390001552554.
+<span class=" -Color -Color-Green">[I 2022-03-29 05:53:24,153]</span> Trial 49 finished with value: 0.9631113181183046 and parameters: {&#39;max_depth&#39;: 22, &#39;max_features&#39;: 0.9611756988522804, &#39;n_estimators&#39;: 173, &#39;criterion&#39;: &#39;entropy&#39;}. Best is trial 3 with value: 0.968390001552554.
+<span class=" -Color -Color-Green">[I 2022-03-29 05:53:25,016]</span> Trial 48 finished with value: 0.9631113181183046 and parameters: {&#39;max_depth&#39;: 23, &#39;max_features&#39;: 0.9604160114012898, &#39;n_estimators&#39;: 376, &#39;criterion&#39;: &#39;entropy&#39;}. Best is trial 3 with value: 0.968390001552554.
+<span class=" -Color -Color-Green">[I 2022-03-29 05:53:32,699]</span> Trial 50 finished with value: 0.956078248719143 and parameters: {&#39;max_depth&#39;: 3, &#39;max_features&#39;: 0.9138827053747727, &#39;n_estimators&#39;: 249, &#39;criterion&#39;: &#39;entropy&#39;}. Best is trial 3 with value: 0.968390001552554.
+<span class=" -Color -Color-Green">[I 2022-03-29 05:53:33,630]</span> Trial 51 finished with value: 0.9648657040832169 and parameters: {&#39;max_depth&#39;: 84, &#39;max_features&#39;: 0.900504154731479, &#39;n_estimators&#39;: 270, &#39;criterion&#39;: &#39;entropy&#39;}. Best is trial 3 with value: 0.968390001552554.
+<span class=" -Color -Color-Green">[I 2022-03-29 05:53:44,237]</span> Trial 53 finished with value: 0.9666200900481293 and parameters: {&#39;max_depth&#39;: 16, &#39;max_features&#39;: 0.6271394785779766, &#39;n_estimators&#39;: 222, &#39;criterion&#39;: &#39;entropy&#39;}. Best is trial 3 with value: 0.968390001552554.
+<span class=" -Color -Color-Green">[I 2022-03-29 05:53:46,441]</span> Trial 52 finished with value: 0.9648657040832169 and parameters: {&#39;max_depth&#39;: 32, &#39;max_features&#39;: 0.8526111740593754, &#39;n_estimators&#39;: 591, &#39;criterion&#39;: &#39;entropy&#39;}. Best is trial 3 with value: 0.968390001552554.
+<span class=" -Color -Color-Green">[I 2022-03-29 05:53:49,903]</span> Trial 54 finished with value: 0.9631268436578171 and parameters: {&#39;max_depth&#39;: 17, &#39;max_features&#39;: 0.7568650577613237, &#39;n_estimators&#39;: 294, &#39;criterion&#39;: &#39;entropy&#39;}. Best is trial 3 with value: 0.968390001552554.
+<span class=" -Color -Color-Green">[I 2022-03-29 05:53:59,342]</span> Trial 55 finished with value: 0.968390001552554 and parameters: {&#39;max_depth&#39;: 28, &#39;max_features&#39;: 0.779569789008321, &#39;n_estimators&#39;: 320, &#39;criterion&#39;: &#39;entropy&#39;}. Best is trial 3 with value: 0.968390001552554.
+<span class=" -Color -Color-Green">[I 2022-03-29 05:53:59,396]</span> Trial 56 finished with value: 0.9666356155876418 and parameters: {&#39;max_depth&#39;: 59, &#39;max_features&#39;: 0.7791821158833071, &#39;n_estimators&#39;: 321, &#39;criterion&#39;: &#39;entropy&#39;}. Best is trial 3 with value: 0.968390001552554.
+<span class=" -Color -Color-Green">[I 2022-03-29 05:54:09,532]</span> Trial 58 finished with value: 0.959633597267505 and parameters: {&#39;max_depth&#39;: 28, &#39;max_features&#39;: 0.7274422790820981, &#39;n_estimators&#39;: 264, &#39;criterion&#39;: &#39;gini&#39;}. Best is trial 3 with value: 0.968390001552554.
+<span class=" -Color -Color-Green">[I 2022-03-29 05:54:10,544]</span> Trial 57 finished with value: 0.959633597267505 and parameters: {&#39;max_depth&#39;: 59, &#39;max_features&#39;: 0.7943264732963365, &#39;n_estimators&#39;: 477, &#39;criterion&#39;: &#39;gini&#39;}. Best is trial 3 with value: 0.968390001552554.
+<span class=" -Color -Color-Green">[I 2022-03-29 05:54:16,832]</span> Trial 59 finished with value: 0.9666356155876418 and parameters: {&#39;max_depth&#39;: 57, &#39;max_features&#39;: 0.7998452220483194, &#39;n_estimators&#39;: 453, &#39;criterion&#39;: &#39;entropy&#39;}. Best is trial 3 with value: 0.968390001552554.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">study</span><span class="o">.</span><span class="n">best_params</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;max_depth&#39;: 5,
+ &#39;max_features&#39;: 0.7519175565437778,
+ &#39;n_estimators&#39;: 228,
+ &#39;criterion&#39;: &#39;entropy&#39;}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">study</span><span class="o">.</span><span class="n">best_value</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.968390001552554
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="sampling-algorithms">
+<h3>Sampling algorithms<a class="headerlink" href="#sampling-algorithms" title="Permalink to this headline">¶</a></h3>
+<p>Optuna uses  <strong>Tree-structured Parzen Estimater</strong> (<strong>TPE</strong>) <span id="id1">[<a class="reference internal" href="../../intro.html#id11" title="J. S. Bergstra, R. Bardenet, Y. Bengio, and B. Kégl. Algorithms for Hyper-Parameter Optimization. Advances in Neural Information Processing Systems 24, 2011.">BBBK11</a>]</span> as the default sampler which is a form of Bayesian optimization. Observe that the hyperparameter space is searched more efficiently than random search with the sampler choosing points closer to previous good results. Samplers are specified when creating a study:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">study</span> <span class="o">=</span> <span class="n">create_study</span><span class="p">(</span><span class="n">direction</span><span class="o">=</span><span class="s2">&quot;maximize&quot;</span><span class="p">,</span> <span class="n">sampler</span><span class="o">=</span><span class="n">optuna</span><span class="o">.</span><span class="n">samplers</span><span class="o">.</span><span class="n">TPESampler</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>TPE samples every hyperparameter independently. From the <a class="reference external" href="https://optuna.readthedocs.io/en/stable/reference/generated/optuna.samplers.TPESampler.html#optuna.samplers.TPESampler">docs</a>:</p>
+<blockquote>
+<div><p>On each trial, for each parameter, TPE fits one Gaussian Mixture Model (GMM) <code class="docutils literal notranslate"><span class="pre">l(x)</span></code> to the set of parameter values associated with the best objective values, and another GMM <code class="docutils literal notranslate"><span class="pre">g(x)</span></code> to the remaining parameter values. It chooses the parameter value <code class="docutils literal notranslate"><span class="pre">x</span></code> that maximizes the ratio <code class="docutils literal notranslate"><span class="pre">l(x)/g(x)</span></code>.</p>
+</div></blockquote>
+<p>The following plot shows the difference between TPE with grid and random sampling:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib_inline</span>
+<span class="n">matplotlib_inline</span><span class="o">.</span><span class="n">backend_inline</span><span class="o">.</span><span class="n">set_matplotlib_formats</span><span class="p">(</span><span class="s2">&quot;svg&quot;</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">plot_results</span><span class="p">(</span><span class="n">study</span><span class="p">,</span> <span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">cb</span><span class="p">):</span>
+    <span class="n">study</span><span class="o">.</span><span class="n">trials_dataframe</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+        <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;scatter&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">x</span><span class="o">=</span><span class="n">p1</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">p2</span><span class="p">,</span>
+        <span class="n">c</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="s2">&quot;jet&quot;</span><span class="p">),</span> 
+        <span class="n">colorbar</span><span class="o">=</span><span class="n">cb</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;accuracy&quot;</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+    <span class="p">)</span>
+
+<span class="n">plot_results</span><span class="p">(</span><span class="n">study</span><span class="p">,</span> <span class="s1">&#39;params_max_depth&#39;</span><span class="p">,</span>    <span class="s1">&#39;params_n_estimators&#39;</span><span class="p">,</span> <span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">cb</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plot_results</span><span class="p">(</span><span class="n">study</span><span class="p">,</span> <span class="s1">&#39;params_max_depth&#39;</span><span class="p">,</span>    <span class="s1">&#39;params_max_features&#39;</span><span class="p">,</span> <span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">cb</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plot_results</span><span class="p">(</span><span class="n">study</span><span class="p">,</span> <span class="s1">&#39;params_n_estimators&#39;</span><span class="p">,</span> <span class="s1">&#39;params_max_features&#39;</span><span class="p">,</span> <span class="n">j</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">cb</span><span class="o">=</span><span class="kc">True</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/optuna_19_0.png" src="../../_images/optuna_19_0.png" />
+</div>
+</div>
+<p><span class="math notranslate nohighlight">\( \)</span></p>
+<div class="figure align-default" id="optuna-samplers">
+<img alt="../../_images/optuna-samplers.png" src="../../_images/optuna-samplers.png" />
+<p class="caption"><span class="caption-number">Fig. 5 </span><span class="caption-text">List of all <a class="reference external" href="https://optuna.readthedocs.io/en/stable/reference/samplers.html">sampling algorithms</a> as of version 2.10.0.</span><a class="headerlink" href="#optuna-samplers" title="Permalink to this image">¶</a></p>
+</div>
+<p>Another sampling algorithm implemented is <strong>Covariance Matrix Adaptation Evolution Strategy</strong> (<strong>CMA-ES</strong>) <span id="id2">[<a class="reference internal" href="../../intro.html#id3" title="Nikolaus Hansen. The cma evolution strategy: a tutorial. 2016. arXiv:1604.00772.">Han16</a>]</span>. This algorithm is designed to tackle ill-conditioned, non-separable problems, i.e. cannot be solved by solving several 1-dimensional problems. CMA-ES is typically implemented along with TPE whenever the former algorithm is not applicable, e.g. for searching dynamically constructed hyperparameters (as CMA-ES requires that parameters are specified statically prior to the optimization) or for searching categorical parameters, as CMA-ES is designed to search real parameters on a continuous domain. TPE + CMA-ES sampling can be implemented as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">sampler</span> <span class="o">=</span> <span class="n">optuna</span><span class="o">.</span><span class="n">samplers</span><span class="o">.</span><span class="n">CmaEsSampler</span><span class="p">(</span>
+    <span class="n">warn_independent_sampling</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">independent_sampler</span><span class="o">=</span><span class="n">optuna</span><span class="o">.</span><span class="n">samplers</span><span class="o">.</span><span class="n">TPESampler</span><span class="p">()</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Results from the paper <span id="id3">[<a class="reference internal" href="../../intro.html#id5" title="Takuya Akiba, Shotaro Sano, Toshihiko Yanase, Takeru Ohta, and Masanori Koyama. Optuna: a next-generation hyperparameter optimization framework. 2019. arXiv:1907.10902.">ASY+19</a>]</span> show that TPE + CMA-ES works better than counterparts of the same time complexity:</p>
+<div class="figure align-default" id="fig9-optuna">
+<a class="reference internal image-reference" href="../../_images/fig9-optuna.png"><img alt="../../_images/fig9-optuna.png" src="../../_images/fig9-optuna.png" style="width: 35em;" /></a>
+</div>
+<div class="figure align-default" id="fig10-optuna">
+<a class="reference internal image-reference" href="../../_images/fig10-optuna.png"><img alt="../../_images/fig10-optuna.png" src="../../_images/fig10-optuna.png" style="width: 35em;" /></a>
+</div>
+</div>
+</div>
+<div class="section" id="results-visualization">
+<h2>Results visualization<a class="headerlink" href="#results-visualization" title="Permalink to this headline">¶</a></h2>
+<p><strong>History.</strong> Optuna provides visualization functions in the <code class="docutils literal notranslate"><span class="pre">optuna.visualization</span></code> library<a class="footnote-reference brackets" href="#ref4" id="id4">1</a>. The following plot shows the best objective value found as the trials progress. The increasing trend in accuracy indicates that the TPE sampler is working well, i.e. the search algorithm learns from previous trials.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">optuna</span><span class="o">.</span><span class="n">visualization</span><span class="o">.</span><span class="n">plot_optimization_history</span><span class="p">(</span><span class="n">study</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">600</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">renderer</span><span class="o">=</span><span class="s2">&quot;svg&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/optuna_27_0.svg" src="../../_images/optuna_27_0.svg" /></div>
+</div>
+<p><strong>Parallel coordinate plot.</strong> The parallel coordinate plot gives us a feel of how the hyperparameters interact. To isolate subsets of lines, we can use the interactive capabilities of the plots by dragging on each axis to restrict it. The resulting purple bars can be disjoint.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">optuna</span><span class="o">.</span><span class="n">visualization</span><span class="o">.</span><span class="n">plot_parallel_coordinate</span><span class="p">(</span><span class="n">study</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">900</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">600</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">renderer</span><span class="o">=</span><span class="s2">&quot;svg&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/optuna_29_0.svg" src="../../_images/optuna_29_0.svg" /></div>
+</div>
+<p><strong>Slice plots.</strong> Slice plots show the projections of the sampler’s path in the hyperparameter space in each individual dimension, then shifts each point along the vertical axis based on the its objective value.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">optuna</span><span class="o">.</span><span class="n">visualization</span><span class="o">.</span><span class="n">plot_slice</span><span class="p">(</span><span class="n">study</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">900</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">400</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">renderer</span><span class="o">=</span><span class="s2">&quot;svg&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/optuna_31_0.svg" src="../../_images/optuna_31_0.svg" /></div>
+</div>
+<p><strong>Hyperparameter importance.</strong> The default importance evaluator is <code class="docutils literal notranslate"><span class="pre">FanovaImportanceEvaluator</span></code>. This takes as input performance data gathered with different hyperparameter settings of the algorithm, fits a random forest to capture the relationship between hyperparameters and performance, and then applies functional ANOVA to assess how important each of the hyperparameters and each low-order interaction of hyperparameters is to performance <span id="id5">[<a class="reference internal" href="../../intro.html#id2" title="Frank Hutter, Holger Hoos, and Kevin Leyton-Brown. An efficient approach for assessing hyperparameter importance. In Eric P. Xing and Tony Jebara, editors, Proceedings of the 31st International Conference on Machine Learning, volume 32 of Proceedings of Machine Learning Research, 754–762. Bejing, China, 22–24 Jun 2014. PMLR. URL: https://proceedings.mlr.press/v32/hutter14.html.">HHLB14</a>]</span>. From the <a class="reference external" href="https://optuna.readthedocs.io/en/stable/reference/generated/optuna.importance.FanovaImportanceEvaluator.html">docs</a>:</p>
+<blockquote>
+<div><p>The performance of fANOVA depends on the prediction performance of the underlying random forest model. In order to obtain high prediction performance, it is necessary to cover a wide range of the hyperparameter search space. It is recommended to use an exploration-oriented sampler such as <code class="docutils literal notranslate"><span class="pre">RandomSampler</span></code>.</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">optuna</span><span class="o">.</span><span class="n">visualization</span><span class="o">.</span><span class="n">plot_param_importances</span><span class="p">(</span><span class="n">study</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">600</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">400</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">renderer</span><span class="o">=</span><span class="s2">&quot;svg&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/optuna_33_0.svg" src="../../_images/optuna_33_0.svg" /></div>
+</div>
+<p><strong>Contour plots.</strong> To visualize interactions between any pair of hyperparameters spatially, we can generate contour plots where regions of <em>low</em> objective value are darker in color.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">optuna</span><span class="o">.</span><span class="n">visualization</span><span class="o">.</span><span class="n">plot_contour</span><span class="p">(</span><span class="n">study</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;max_depth&quot;</span><span class="p">,</span> <span class="s2">&quot;max_features&quot;</span><span class="p">])</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">650</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">600</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">renderer</span><span class="o">=</span><span class="s2">&quot;svg&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/optuna_35_0.svg" src="../../_images/optuna_35_0.svg" /></div>
+</div>
+</div>
+<div class="section" id="neural-networks">
+<h2>Neural networks<a class="headerlink" href="#neural-networks" title="Permalink to this headline">¶</a></h2>
+<p>As noted above, we should always perform tuning within a cross-validation framework. However, with neural networks, performing 5-fold cross validation would require too much compute time and resources. Instead, we minimize the loss on a hold-out validation set. Note that Optuna provides multi-objective optimization, for example, <a class="reference external" href="https://optuna.readthedocs.io/en/stable/tutorial/20_recipes/002_multi_objective.html">minimizing FLOPS while maximizing accuracy</a>. Multi-objective optimization uses the <a class="reference external" href="https://en.wikipedia.org/wiki/Pareto_front">Pareto front</a> to determine optimal solutions.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+<span class="kn">import</span> <span class="nn">torch.optim</span> <span class="k">as</span> <span class="nn">optim</span>
+<span class="kn">import</span> <span class="nn">torchvision.transforms</span> <span class="k">as</span> <span class="nn">transforms</span>
+<span class="kn">import</span> <span class="nn">torchvision.datasets</span> <span class="k">as</span> <span class="nn">datasets</span>
+<span class="kn">from</span> <span class="nn">torch.utils</span> <span class="kn">import</span> <span class="n">data</span>
+
+<span class="kn">from</span> <span class="nn">tqdm.notebook</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">import</span> <span class="nn">optuna</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">PATIENCE</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">EPOCHS</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">DEVICE</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;cuda&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;cpu&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Define a convolutional network with a smaller version of the VGG architecture.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># https://d2l.ai/chapter_convolutional-modern/vgg.html</span>
+
+<span class="k">def</span> <span class="nf">vgg_block</span><span class="p">(</span><span class="n">num_convs</span><span class="p">,</span> <span class="n">in_channels</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">):</span>
+    <span class="n">layers</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_convs</span><span class="p">):</span>
+        <span class="n">layers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">in_channels</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">,</span>
+                                <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">layers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">())</span>
+        <span class="n">in_channels</span> <span class="o">=</span> <span class="n">out_channels</span>
+    <span class="n">layers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">MaxPool2d</span><span class="p">(</span><span class="n">kernel_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="o">*</span><span class="n">layers</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">vgg</span><span class="p">(</span><span class="n">conv_arch</span><span class="p">,</span> <span class="n">linear_width</span><span class="p">,</span> <span class="n">dropout</span><span class="p">,</span> <span class="n">in_channels</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+    <span class="n">conv_blks</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="c1"># The convolutional part</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">num_convs</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">)</span> <span class="ow">in</span> <span class="n">conv_arch</span><span class="p">:</span>
+        <span class="n">conv_blks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vgg_block</span><span class="p">(</span><span class="n">num_convs</span><span class="p">,</span> <span class="n">in_channels</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">))</span>
+        <span class="n">in_channels</span> <span class="o">=</span> <span class="n">out_channels</span>
+
+    <span class="n">height</span><span class="p">,</span> <span class="n">width</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">6</span>
+    <span class="n">dense_layers</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">nn</span><span class="o">.</span><span class="n">AdaptiveAvgPool2d</span><span class="p">((</span><span class="n">height</span><span class="p">,</span> <span class="n">width</span><span class="p">)),</span>
+        <span class="n">nn</span><span class="o">.</span><span class="n">Flatten</span><span class="p">(),</span>
+        <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">out_channels</span> <span class="o">*</span> <span class="n">height</span> <span class="o">*</span> <span class="n">width</span><span class="p">,</span> <span class="n">linear_width</span><span class="p">),</span>
+        <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span> <span class="n">nn</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="n">dropout</span><span class="p">),</span>
+        <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">linear_width</span><span class="p">,</span> <span class="n">linear_width</span><span class="p">),</span>
+        <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span> <span class="n">nn</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="n">dropout</span><span class="p">),</span>
+        <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">linear_width</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+    <span class="p">]</span>
+    <span class="k">return</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">conv_blks</span> <span class="o">+</span> <span class="n">dense_layers</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We also define a <code class="docutils literal notranslate"><span class="pre">Dataset</span></code> class for CIFAR-10.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">transform</span> <span class="o">=</span> <span class="p">[</span><span class="n">transforms</span><span class="o">.</span><span class="n">ToTensor</span><span class="p">()]</span>
+<span class="k">if</span> <span class="n">CIFAR10_RESIZE</span><span class="p">:</span>
+    <span class="n">transform</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">transforms</span><span class="o">.</span><span class="n">Resize</span><span class="p">(</span><span class="n">CIFAR10_RESIZE</span><span class="p">))</span>
+<span class="n">transform</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">Compose</span><span class="p">(</span><span class="n">transform</span><span class="p">)</span>
+
+<span class="n">mnist_train</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">CIFAR10</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">,</span> <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">mnist_valid</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">CIFAR10</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">,</span> <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">get_cifar10_dataloaders</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">resize</span><span class="p">,</span> <span class="n">sample_ratio</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+    <span class="n">train_loader</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span><span class="n">mnist_train</span><span class="p">,</span> 
+                                   <span class="n">batch_size</span><span class="p">,</span> 
+                                   <span class="n">drop_last</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
+                                   <span class="n">sampler</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mnist_train</span><span class="p">)</span><span class="o">*</span><span class="n">sample_ratio</span><span class="p">)))</span>
+    
+    <span class="n">valid_loader</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span><span class="n">mnist_valid</span><span class="p">,</span> 
+                                   <span class="n">batch_size</span><span class="p">,</span> 
+                                   <span class="n">drop_last</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
+                                   <span class="n">sampler</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mnist_valid</span><span class="p">)</span><span class="o">*</span><span class="n">sample_ratio</span><span class="p">)))</span>
+    
+    <span class="k">return</span> <span class="n">train_loader</span><span class="p">,</span> <span class="n">valid_loader</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading https://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz to ./cifar-10-python.tar.gz
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "de35ac772729466ca4ff72c636e8411a", "version_major": 2, "version_minor": 0}
+</script><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Extracting ./cifar-10-python.tar.gz to .
+Files already downloaded and verified
+</pre></div>
+</div>
+</div>
+</div>
+<p>Define a trainer for the neural network model. This will handle all loss and metric evaluation, as well as backpropagation.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Engine</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Facilitate neural network training and evaluation.&quot;&quot;&quot;</span>
+    
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">device</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="n">device</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">optimizer</span> <span class="o">=</span> <span class="n">optimizer</span> 
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">loss_fn</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">targets</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">nn</span><span class="o">.</span><span class="n">CrossEntropyLoss</span><span class="p">()(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">targets</span><span class="p">)</span>
+        
+    <span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_loader</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Train model on one epoch. Return train loss.&quot;&quot;&quot;</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">targets</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">data_loader</span><span class="p">):</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">()</span>
+            <span class="n">targets</span> <span class="o">=</span> <span class="n">targets</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span><span class="o">.</span><span class="n">long</span><span class="p">()</span>
+            
+            <span class="c1"># Forward pass</span>
+            <span class="n">outputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+            <span class="n">J</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">targets</span><span class="p">)</span>
+            
+            <span class="c1"># Backward pass</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+            <span class="n">J</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+
+            <span class="c1"># Cumulative loss</span>
+            <span class="n">loss</span> <span class="o">+=</span> <span class="p">(</span><span class="n">J</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="o">-</span> <span class="n">loss</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">loss</span>
+
+
+    <span class="k">def</span> <span class="nf">eval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_loader</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return validation loss and validation accuracy.&quot;&quot;&quot;</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+        <span class="n">num_correct</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">num_samples</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">targets</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">data_loader</span><span class="p">):</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">()</span>
+                <span class="n">targets</span> <span class="o">=</span> <span class="n">targets</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+                
+                <span class="c1"># Forward pass</span>
+                <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+                <span class="n">J</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">targets</span><span class="p">)</span>
+                <span class="n">_</span><span class="p">,</span> <span class="n">preds</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+                <span class="c1"># Cumulative metrics</span>
+                <span class="n">loss</span> <span class="o">+=</span> <span class="p">(</span><span class="n">J</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="o">-</span> <span class="n">loss</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">num_correct</span> <span class="o">+=</span> <span class="p">(</span><span class="n">preds</span> <span class="o">==</span> <span class="n">targets</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+                <span class="n">num_samples</span> <span class="o">+=</span> <span class="n">preds</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="n">acc</span> <span class="o">=</span> <span class="n">num_correct</span> <span class="o">/</span> <span class="n">num_samples</span>
+        <span class="k">return</span> <span class="n">loss</span><span class="p">,</span> <span class="n">acc</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="pruning-trials-based-on-intermediate-values">
+<h3>Pruning trials based on intermediate values<a class="headerlink" href="#pruning-trials-based-on-intermediate-values" title="Permalink to this headline">¶</a></h3>
+<p>Finally, we set up the <code class="docutils literal notranslate"><span class="pre">study</span></code> instance and its objective function. Note that the search space is dynamically constructed depending on the number of layers (i.e. an earlier suggestion for a hyperparameter). During training, we perform early stopping on validation loss. If no new minimum val. loss is found after 5 epochs, then the minimum val. loss is returned as the objective<a class="footnote-reference brackets" href="#ref3" id="id6">2</a>.</p>
+<p>Computing intermediate values allow us to <strong>prune</strong> unpromising trials to conserve resources. We use the default pruner <a class="reference external" href="https://optuna.readthedocs.io/en/stable/reference/generated/optuna.pruners.MedianPruner.html"><code class="docutils literal notranslate"><span class="pre">MedianPruner</span></code></a> which prunes a trial if its best intermediate result as of the current step (e.g. current best valid loss) is worse than the median of all intermediate results of previous trials <em>at the current step</em>. Hence, the best intermediate result of a pruned trial is less than the best intermediate result of 1/2 of the other trials as of that step. In our case, if the minimum validation loss does not improve too quickly, then the trial is pruned. Of course, the validation loss could descend rapidly at later steps, but the median pruner does not bet on this happening.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">run_training</span><span class="p">(</span><span class="n">trial</span><span class="p">,</span> <span class="n">train_loader</span><span class="p">,</span> <span class="n">valid_loader</span><span class="p">,</span> <span class="n">engine</span><span class="p">):</span>
+    <span class="c1"># Run training</span>
+    <span class="n">best_loss</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+    <span class="n">patience</span> <span class="o">=</span> <span class="n">PATIENCE</span>
+    <span class="n">loop</span> <span class="o">=</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">EPOCHS</span><span class="p">),</span> <span class="n">total</span><span class="o">=</span><span class="n">EPOCHS</span><span class="p">,</span> <span class="n">leave</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="n">loop</span><span class="p">:</span>
+
+        <span class="c1"># Train and validation step</span>
+        <span class="n">train_loss</span> <span class="o">=</span> <span class="n">engine</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">train_loader</span><span class="p">)</span>
+        <span class="n">valid_loss</span><span class="p">,</span> <span class="n">valid_acc</span> <span class="o">=</span> <span class="n">engine</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">valid_loader</span><span class="p">)</span>
+            
+        <span class="c1"># Early stopping</span>
+        <span class="k">if</span> <span class="n">valid_loss</span> <span class="o">&lt;</span> <span class="n">best_loss</span><span class="p">:</span>
+            <span class="n">best_loss</span> <span class="o">=</span> <span class="n">valid_loss</span>
+            <span class="n">patience</span> <span class="o">=</span> <span class="n">PATIENCE</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">patience</span> <span class="o">-=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">patience</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">break</span>
+    
+        <span class="c1"># Pruning unpromising trials</span>
+        <span class="n">trial</span><span class="o">.</span><span class="n">report</span><span class="p">(</span><span class="n">valid_loss</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="n">epoch</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">trial</span><span class="o">.</span><span class="n">should_prune</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="n">optuna</span><span class="o">.</span><span class="n">TrialPruned</span><span class="p">()</span>
+            
+        <span class="n">loop</span><span class="o">.</span><span class="n">set_description</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Epoch [</span><span class="si">{</span><span class="n">epoch</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">EPOCHS</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span>
+        <span class="n">loop</span><span class="o">.</span><span class="n">set_postfix</span><span class="p">(</span>
+            <span class="n">val_loss</span><span class="o">=</span><span class="n">valid_loss</span><span class="p">,</span> 
+            <span class="n">acc</span><span class="o">=</span><span class="n">valid_acc</span><span class="p">,</span> 
+            <span class="n">patience</span><span class="o">=</span><span class="n">patience</span><span class="p">,</span>
+            <span class="n">lr</span><span class="o">=</span><span class="n">engine</span><span class="o">.</span><span class="n">optimizer</span><span class="o">.</span><span class="n">param_groups</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;lr&#39;</span><span class="p">])</span>
+        
+    <span class="k">return</span> <span class="n">best_loss</span>
+
+
+<span class="k">def</span> <span class="nf">objective</span><span class="p">(</span><span class="n">trial</span><span class="p">):</span>
+    <span class="c1"># Setup model architecture</span>
+    <span class="n">conv_arch</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_int</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;vgg_b1&quot;</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">512</span><span class="p">,</span> <span class="n">log</span><span class="o">=</span><span class="kc">True</span><span class="p">)),</span>
+        <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_int</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;vgg_b2&quot;</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">512</span><span class="p">,</span> <span class="n">log</span><span class="o">=</span><span class="kc">True</span><span class="p">)),</span>
+        <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_int</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;vgg_b3&quot;</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">512</span><span class="p">,</span> <span class="n">log</span><span class="o">=</span><span class="kc">True</span><span class="p">)),</span>
+    <span class="p">]</span>
+    <span class="n">dense_width</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_int</span><span class="p">(</span><span class="s2">&quot;dense&quot;</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="n">log</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">dropout</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_float</span><span class="p">(</span><span class="s2">&quot;dropout&quot;</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+    <span class="n">learning_rate</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_float</span><span class="p">(</span><span class="s2">&quot;lr&quot;</span><span class="p">,</span> <span class="mf">1e-5</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="n">log</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">batch_size</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_int</span><span class="p">(</span><span class="s1">&#39;batch_size&#39;</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="n">log</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Initialize engine</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">vgg</span><span class="p">(</span><span class="n">conv_arch</span><span class="p">,</span> <span class="n">dense_width</span><span class="p">,</span> <span class="n">dropout</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">DEVICE</span><span class="p">)</span>
+    <span class="n">optimizer</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="n">learning_rate</span><span class="p">)</span>    
+    <span class="n">engine</span> <span class="o">=</span> <span class="n">Engine</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">DEVICE</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">)</span>
+    
+    <span class="c1"># Initalize data loaders</span>
+    <span class="n">train_loader</span><span class="p">,</span> <span class="n">valid_loader</span> <span class="o">=</span> <span class="n">get_cifar10_dataloaders</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">resize</span><span class="o">=</span><span class="mi">28</span><span class="p">,</span> <span class="n">sample_ratio</span><span class="o">=</span><span class="n">CIFAR10_SAMPLE_RATIO</span><span class="p">)</span>
+    
+    <span class="c1"># Start training run</span>
+    <span class="n">score</span> <span class="o">=</span> <span class="n">run_training</span><span class="p">(</span><span class="n">trial</span><span class="p">,</span> <span class="n">train_loader</span><span class="p">,</span> <span class="n">valid_loader</span><span class="p">,</span> <span class="n">engine</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">score</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>This study looks rather complicated, with a lot of moving parts. We can test the objective using a <code class="docutils literal notranslate"><span class="pre">FixedTrial</span></code> which suggests fixed parameter values based on a given dictionary of parameters:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">trial</span> <span class="o">=</span> <span class="n">FixedTrial</span><span class="p">(</span><span class="n">param_dict</span><span class="p">)</span>
+<span class="n">objective</span><span class="p">(</span><span class="n">trial</span><span class="p">)</span> 
+</pre></div>
+</div>
+<p>Running the minimization problem with <code class="docutils literal notranslate"><span class="pre">MedianPruner</span></code>. The parameters of the pruner will be explained below.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pruner</span> <span class="o">=</span> <span class="n">optuna</span><span class="o">.</span><span class="n">pruners</span><span class="o">.</span><span class="n">MedianPruner</span><span class="p">(</span><span class="n">n_startup_trials</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">n_warmup_steps</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">n_min_trials</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">study</span> <span class="o">=</span> <span class="n">optuna</span><span class="o">.</span><span class="n">create_study</span><span class="p">(</span><span class="n">direction</span><span class="o">=</span><span class="s2">&quot;minimize&quot;</span><span class="p">,</span> <span class="n">pruner</span><span class="o">=</span><span class="n">pruner</span><span class="p">)</span>
+<span class="n">study</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">objective</span><span class="p">,</span> <span class="n">n_trials</span><span class="o">=</span><span class="n">VGG_NTRIALS</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">[I 2022-03-29 05:56:29,769]</span> A new study created in memory with name: no-name-7a289cf4-0c0a-4863-85b9-9ad2a39a5da3
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "0d329e107885409aa28a92b4f36dd854", "version_major": 2, "version_minor": 0}
+</script><script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "93622fac624e4b08a89941513e91c82b", "version_major": 2, "version_minor": 0}
+</script><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">[I 2022-03-29 06:01:01,693]</span> Trial 0 finished with value: 2.316252053607994 and parameters: {&#39;vgg_b1&#39;: 364, &#39;vgg_b2&#39;: 232, &#39;vgg_b3&#39;: 226, &#39;dense&#39;: 294, &#39;dropout&#39;: 0.8, &#39;lr&#39;: 0.08796261436213096, &#39;batch_size&#39;: 23}. Best is trial 0 with value: 2.316252053607994.
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "d767b9cfec524b76b5d60a8dbfdc5329", "version_major": 2, "version_minor": 0}
+</script><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">[I 2022-03-29 06:02:59,187]</span> Trial 1 finished with value: 1.013104486019433 and parameters: {&#39;vgg_b1&#39;: 358, &#39;vgg_b2&#39;: 429, &#39;vgg_b3&#39;: 243, &#39;dense&#39;: 471, &#39;dropout&#39;: 0.1, &#39;lr&#39;: 0.00037818973842870097, &#39;batch_size&#39;: 34}. Best is trial 1 with value: 1.013104486019433.
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "09d9483924414d8d982d3c3dfb74aea2", "version_major": 2, "version_minor": 0}
+</script><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">[I 2022-03-29 06:05:37,313]</span> Trial 3 finished with value: 2.3039556230817517 and parameters: {&#39;vgg_b1&#39;: 504, &#39;vgg_b2&#39;: 275, &#39;vgg_b3&#39;: 174, &#39;dense&#39;: 273, &#39;dropout&#39;: 0.8, &#39;lr&#39;: 0.018555785345731025, &#39;batch_size&#39;: 89}. Best is trial 1 with value: 1.013104486019433.
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "16930b22db0e4984b853887dc258c938", "version_major": 2, "version_minor": 0}
+</script><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">[I 2022-03-29 06:10:45,462]</span> Trial 2 finished with value: 0.9313148994897976 and parameters: {&#39;vgg_b1&#39;: 427, &#39;vgg_b2&#39;: 509, &#39;vgg_b3&#39;: 356, &#39;dense&#39;: 346, &#39;dropout&#39;: 0.2, &#39;lr&#39;: 5.56165039904537e-05, &#39;batch_size&#39;: 43}. Best is trial 2 with value: 0.9313148994897976.
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "02ac2e29bd3e485280d6064c1480201b", "version_major": 2, "version_minor": 0}
+</script><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">[I 2022-03-29 06:13:22,302]</span> Trial 4 finished with value: 1.0084284386584457 and parameters: {&#39;vgg_b1&#39;: 433, &#39;vgg_b2&#39;: 398, &#39;vgg_b3&#39;: 428, &#39;dense&#39;: 591, &#39;dropout&#39;: 0.5, &#39;lr&#39;: 0.000528391956405014, &#39;batch_size&#39;: 35}. Best is trial 2 with value: 0.9313148994897976.
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "e434d10e46554e8db968f4ae881c49e6", "version_major": 2, "version_minor": 0}
+</script><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">[I 2022-03-29 06:15:13,956]</span> Trial 5 finished with value: 2.319244773299605 and parameters: {&#39;vgg_b1&#39;: 133, &#39;vgg_b2&#39;: 208, &#39;vgg_b3&#39;: 315, &#39;dense&#39;: 967, &#39;dropout&#39;: 0.30000000000000004, &#39;lr&#39;: 0.1590032094640455, &#39;batch_size&#39;: 46}. Best is trial 2 with value: 0.9313148994897976.
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "fd0459cc3bec433780cdef31a437e097", "version_major": 2, "version_minor": 0}
+</script><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">[I 2022-03-29 06:17:20,709]</span> Trial 7 finished with value: 2.302876393000285 and parameters: {&#39;vgg_b1&#39;: 226, &#39;vgg_b2&#39;: 204, &#39;vgg_b3&#39;: 245, &#39;dense&#39;: 618, &#39;dropout&#39;: 0.7000000000000001, &#39;lr&#39;: 0.009413255560568766, &#39;batch_size&#39;: 127}. Best is trial 2 with value: 0.9313148994897976.
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "d52232785b104bbfaaee4ea0870c7373", "version_major": 2, "version_minor": 0}
+</script><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">[I 2022-03-29 06:17:23,146]</span> Trial 6 finished with value: 2.3103526428844154 and parameters: {&#39;vgg_b1&#39;: 451, &#39;vgg_b2&#39;: 274, &#39;vgg_b3&#39;: 156, &#39;dense&#39;: 452, &#39;dropout&#39;: 0.7000000000000001, &#39;lr&#39;: 0.05088166598995448, &#39;batch_size&#39;: 28}. Best is trial 2 with value: 0.9313148994897976.
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "b70f0251e4d441cdac45a76cc25ae844", "version_major": 2, "version_minor": 0}
+</script><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">[I 2022-03-29 06:19:45,462]</span> Trial 9 finished with value: 2.3064239837906575 and parameters: {&#39;vgg_b1&#39;: 152, &#39;vgg_b2&#39;: 291, &#39;vgg_b3&#39;: 231, &#39;dense&#39;: 730, &#39;dropout&#39;: 0.7000000000000001, &#39;lr&#39;: 0.09125708904050722, &#39;batch_size&#39;: 113}. Best is trial 2 with value: 0.9313148994897976.
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "cb149400b4e143aaaa5b3dbc891a0d74", "version_major": 2, "version_minor": 0}
+</script><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">[I 2022-03-29 06:25:01,791]</span> Trial 10 finished with value: 1.0533342144706033 and parameters: {&#39;vgg_b1&#39;: 201, &#39;vgg_b2&#39;: 142, &#39;vgg_b3&#39;: 172, &#39;dense&#39;: 692, &#39;dropout&#39;: 0.8, &#39;lr&#39;: 0.000996510894859714, &#39;batch_size&#39;: 113}. Best is trial 2 with value: 0.9313148994897976.
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "fc39474017e9499fbd269b368fed790e", "version_major": 2, "version_minor": 0}
+</script><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">[I 2022-03-29 06:31:17,986]</span> Trial 8 finished with value: 2.3026085709914184 and parameters: {&#39;vgg_b1&#39;: 334, &#39;vgg_b2&#39;: 444, &#39;vgg_b3&#39;: 200, &#39;dense&#39;: 577, &#39;dropout&#39;: 0.7000000000000001, &#39;lr&#39;: 0.00037459233700737105, &#39;batch_size&#39;: 32}. Best is trial 2 with value: 0.9313148994897976.
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "6cf7bc3c37cb49198c1987917b716c32", "version_major": 2, "version_minor": 0}
+</script><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">[I 2022-03-29 06:52:27,916]</span> Trial 12 finished with value: 0.8811799085140226 and parameters: {&#39;vgg_b1&#39;: 288, &#39;vgg_b2&#39;: 499, &#39;vgg_b3&#39;: 500, &#39;dense&#39;: 387, &#39;dropout&#39;: 0.4, &#39;lr&#39;: 2.0136577114284386e-05, &#39;batch_size&#39;: 50}. Best is trial 12 with value: 0.8811799085140226.
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "4d04e6fe5afd4fdc8273af8512be8736", "version_major": 2, "version_minor": 0}
+</script><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">[I 2022-03-29 07:01:11,039]</span> Trial 11 finished with value: 0.9711254999901239 and parameters: {&#39;vgg_b1&#39;: 302, &#39;vgg_b2&#39;: 480, &#39;vgg_b3&#39;: 505, &#39;dense&#39;: 355, &#39;dropout&#39;: 0.1, &#39;lr&#39;: 1.5001965117390995e-05, &#39;batch_size&#39;: 16}. Best is trial 12 with value: 0.8811799085140226.
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "c902323413a2438987ba47cbd303539a", "version_major": 2, "version_minor": 0}
+</script><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">[I 2022-03-29 07:22:57,323]</span> Trial 13 finished with value: 0.8948011627030928 and parameters: {&#39;vgg_b1&#39;: 281, &#39;vgg_b2&#39;: 502, &#39;vgg_b3&#39;: 506, &#39;dense&#39;: 356, &#39;dropout&#39;: 0.30000000000000004, &#39;lr&#39;: 1.2559454185870841e-05, &#39;batch_size&#39;: 58}. Best is trial 12 with value: 0.8811799085140226.
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "a1ae0aa05c36422e9e8865dc21e8feb7", "version_major": 2, "version_minor": 0}
+</script><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">[I 2022-03-29 07:31:35,969]</span> Trial 14 finished with value: 0.9343924910523173 and parameters: {&#39;vgg_b1&#39;: 266, &#39;vgg_b2&#39;: 351, &#39;vgg_b3&#39;: 335, &#39;dense&#39;: 369, &#39;dropout&#39;: 0.4, &#39;lr&#39;: 1.5342748829780214e-05, &#39;batch_size&#39;: 58}. Best is trial 12 with value: 0.8811799085140226.
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "46bf32a2055a42db8806d31efa306ffc", "version_major": 2, "version_minor": 0}
+</script><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">[I 2022-03-29 07:32:01,407]</span> Trial 15 pruned. 
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "e9da6e9438dd4030bd42a6f4150bd558", "version_major": 2, "version_minor": 0}
+</script><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">[I 2022-03-29 07:39:44,372]</span> Trial 17 pruned. 
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "61dbe6f12a634c3e9bfad8ae259d313f", "version_major": 2, "version_minor": 0}
+</script><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">[I 2022-03-29 07:40:33,812]</span> Trial 16 finished with value: 0.8866717630708719 and parameters: {&#39;vgg_b1&#39;: 187, &#39;vgg_b2&#39;: 347, &#39;vgg_b3&#39;: 487, &#39;dense&#39;: 420, &#39;dropout&#39;: 0.4, &#39;lr&#39;: 8.465099244708627e-05, &#39;batch_size&#39;: 70}. Best is trial 12 with value: 0.8811799085140226.
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "239bb7891f4348479f88625de47a6ae0", "version_major": 2, "version_minor": 0}
+</script><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">[I 2022-03-29 07:48:07,560]</span> Trial 19 finished with value: 0.8862666321582481 and parameters: {&#39;vgg_b1&#39;: 183, &#39;vgg_b2&#39;: 392, &#39;vgg_b3&#39;: 128, &#39;dense&#39;: 429, &#39;dropout&#39;: 0.5, &#39;lr&#39;: 0.00010595241532158906, &#39;batch_size&#39;: 81}. Best is trial 12 with value: 0.8811799085140226.
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "5cba7a1bbea44ca29d5657fa0619bff1", "version_major": 2, "version_minor": 0}
+</script><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">[I 2022-03-29 07:48:56,255]</span> Trial 18 finished with value: 0.8876643880553865 and parameters: {&#39;vgg_b1&#39;: 291, &#39;vgg_b2&#39;: 155, &#39;vgg_b3&#39;: 298, &#39;dense&#39;: 439, &#39;dropout&#39;: 0.30000000000000004, &#39;lr&#39;: 7.92154723361856e-05, &#39;batch_size&#39;: 54}. Best is trial 12 with value: 0.8811799085140226.
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "6214b49ec1c848be8a8ba98d69c29e51", "version_major": 2, "version_minor": 0}
+</script><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">[I 2022-03-29 07:51:55,077]</span> Trial 20 finished with value: 2.302641837685197 and parameters: {&#39;vgg_b1&#39;: 162, &#39;vgg_b2&#39;: 135, &#39;vgg_b3&#39;: 137, &#39;dense&#39;: 510, &#39;dropout&#39;: 0.5, &#39;lr&#39;: 0.002573859740446051, &#39;batch_size&#39;: 91}. Best is trial 12 with value: 0.8811799085140226.
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "f59c46d945084c57a4473447200315d3", "version_major": 2, "version_minor": 0}
+</script><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">[I 2022-03-29 07:55:06,501]</span> Trial 21 finished with value: 2.302688035097989 and parameters: {&#39;vgg_b1&#39;: 164, &#39;vgg_b2&#39;: 403, &#39;vgg_b3&#39;: 129, &#39;dense&#39;: 527, &#39;dropout&#39;: 0.5, &#39;lr&#39;: 0.003535472267373363, &#39;batch_size&#39;: 90}. Best is trial 12 with value: 0.8811799085140226.
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "3c53d40a18034f21b1b6bd874757fffa", "version_major": 2, "version_minor": 0}
+</script><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">[I 2022-03-29 07:58:48,849]</span> Trial 22 finished with value: 0.8941466410954795 and parameters: {&#39;vgg_b1&#39;: 183, &#39;vgg_b2&#39;: 397, &#39;vgg_b3&#39;: 425, &#39;dense&#39;: 423, &#39;dropout&#39;: 0.4, &#39;lr&#39;: 0.0001658684650550255, &#39;batch_size&#39;: 79}. Best is trial 12 with value: 0.8811799085140226.
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "7d70e45227a847e49bb0ed59e75bef33", "version_major": 2, "version_minor": 0}
+</script><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">[I 2022-03-29 08:01:39,865]</span> Trial 23 finished with value: 0.9267186846051896 and parameters: {&#39;vgg_b1&#39;: 224, &#39;vgg_b2&#39;: 312, &#39;vgg_b3&#39;: 428, &#39;dense&#39;: 415, &#39;dropout&#39;: 0.4, &#39;lr&#39;: 0.00014031598587285684, &#39;batch_size&#39;: 71}. Best is trial 12 with value: 0.8811799085140226.
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "ca5d938ce0ef4150abf9970709b5269c", "version_major": 2, "version_minor": 0}
+</script><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">[I 2022-03-29 08:05:07,802]</span> Trial 24 pruned. 
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "1360c0180e554a87aa41a0bae2278995", "version_major": 2, "version_minor": 0}
+</script><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">[I 2022-03-29 08:09:48,482]</span> Trial 25 pruned. 
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "0fe3f0f29d2849cc876d5efdb1f86c24", "version_major": 2, "version_minor": 0}
+</script><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">[I 2022-03-29 08:12:53,749]</span> Trial 26 pruned. 
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "a7c4d03c40e34e5da85f0ca064891836", "version_major": 2, "version_minor": 0}
+</script><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">[I 2022-03-29 08:15:50,025]</span> Trial 27 finished with value: 0.9048153119087218 and parameters: {&#39;vgg_b1&#39;: 134, &#39;vgg_b2&#39;: 374, &#39;vgg_b3&#39;: 458, &#39;dense&#39;: 488, &#39;dropout&#39;: 0.30000000000000004, &#39;lr&#39;: 0.0001476572944160441, &#39;batch_size&#39;: 40}. Best is trial 12 with value: 0.8811799085140226.
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "6b4b2d1ffd7647fea280d55b2e221074", "version_major": 2, "version_minor": 0}
+</script><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">[I 2022-03-29 08:18:50,224]</span> Trial 28 finished with value: 0.9440316341351718 and parameters: {&#39;vgg_b1&#39;: 185, &#39;vgg_b2&#39;: 376, &#39;vgg_b3&#39;: 463, &#39;dense&#39;: 498, &#39;dropout&#39;: 0.2, &#39;lr&#39;: 0.00016912119734762215, &#39;batch_size&#39;: 39}. Best is trial 12 with value: 0.8811799085140226.
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "2a6a4df5c0fb4a038758b8e5c13bd7b8", "version_major": 2, "version_minor": 0}
+</script><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">[I 2022-03-29 08:19:54,004]</span> Trial 29 finished with value: 1.086020887682313 and parameters: {&#39;vgg_b1&#39;: 187, &#39;vgg_b2&#39;: 421, &#39;vgg_b3&#39;: 268, &#39;dense&#39;: 389, &#39;dropout&#39;: 0.2, &#39;lr&#39;: 0.0009947891959525377, &#39;batch_size&#39;: 65}. Best is trial 12 with value: 0.8811799085140226.
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "743347db0a714e069d36ab24af533a4b", "version_major": 2, "version_minor": 0}
+</script><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">[I 2022-03-29 08:24:07,526]</span> Trial 30 finished with value: 1.081628870505553 and parameters: {&#39;vgg_b1&#39;: 153, &#39;vgg_b2&#39;: 240, &#39;vgg_b3&#39;: 268, &#39;dense&#39;: 398, &#39;dropout&#39;: 0.5, &#39;lr&#39;: 0.0010766573035746946, &#39;batch_size&#39;: 64}. Best is trial 12 with value: 0.8811799085140226.
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "2017a05cbe634535af8989c30be96bef", "version_major": 2, "version_minor": 0}
+</script><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">[I 2022-03-29 08:30:39,562]</span> Trial 32 finished with value: 0.8700614416080973 and parameters: {&#39;vgg_b1&#39;: 306, &#39;vgg_b2&#39;: 174, &#39;vgg_b3&#39;: 352, &#39;dense&#39;: 449, &#39;dropout&#39;: 0.30000000000000004, &#39;lr&#39;: 9.153843325718859e-05, &#39;batch_size&#39;: 54}. Best is trial 32 with value: 0.8700614416080973.
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "2f9ea29812c444c7bd646fb3917f93a8", "version_major": 2, "version_minor": 0}
+</script><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">[I 2022-03-29 08:36:52,543]</span> Trial 33 pruned. 
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "31ffe1baeb7c41e7832d22744492e1f6", "version_major": 2, "version_minor": 0}
+</script><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">[I 2022-03-29 08:39:32,841]</span> Trial 31 finished with value: 0.8902921310663222 and parameters: {&#39;vgg_b1&#39;: 324, &#39;vgg_b2&#39;: 257, &#39;vgg_b3&#39;: 361, &#39;dense&#39;: 555, &#39;dropout&#39;: 0.5, &#39;lr&#39;: 2.7921317122125132e-05, &#39;batch_size&#39;: 20}. Best is trial 32 with value: 0.8700614416080973.
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "6d130b5a71614d99ac879392ce360af8", "version_major": 2, "version_minor": 0}
+</script><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">[I 2022-03-29 08:41:05,808]</span> Trial 34 finished with value: 0.9589584899730369 and parameters: {&#39;vgg_b1&#39;: 386, &#39;vgg_b2&#39;: 175, &#39;vgg_b3&#39;: 199, &#39;dense&#39;: 459, &#39;dropout&#39;: 0.30000000000000004, &#39;lr&#39;: 0.00034718748555983105, &#39;batch_size&#39;: 81}. Best is trial 32 with value: 0.8700614416080973.
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "e08a9acc1bf84e5ca88cf93925412803", "version_major": 2, "version_minor": 0}
+</script><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">[I 2022-03-29 08:45:24,073]</span> Trial 35 finished with value: 0.9580405403356084 and parameters: {&#39;vgg_b1&#39;: 389, &#39;vgg_b2&#39;: 177, &#39;vgg_b3&#39;: 206, &#39;dense&#39;: 459, &#39;dropout&#39;: 0.2, &#39;lr&#39;: 0.00027177652407138996, &#39;batch_size&#39;: 81}. Best is trial 32 with value: 0.8700614416080973.
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "d429e784b2b74e848645ba8b339c070c", "version_major": 2, "version_minor": 0}
+</script><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">[I 2022-03-29 08:52:40,663]</span> Trial 36 finished with value: 0.9425479064182358 and parameters: {&#39;vgg_b1&#39;: 249, &#39;vgg_b2&#39;: 468, &#39;vgg_b3&#39;: 464, &#39;dense&#39;: 469, &#39;dropout&#39;: 0.1, &#39;lr&#39;: 8.340984637665178e-05, &#39;batch_size&#39;: 102}. Best is trial 32 with value: 0.8700614416080973.
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "20aa1b5f0710419bad895894066c8f43", "version_major": 2, "version_minor": 0}
+</script><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">[I 2022-03-29 08:54:21,369]</span> Trial 37 pruned. 
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "9b18a6b07d984be7a9d7b73e10c0abff", "version_major": 2, "version_minor": 0}
+</script><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">[I 2022-03-29 09:00:47,815]</span> Trial 39 finished with value: 1.0189804366204587 and parameters: {&#39;vgg_b1&#39;: 312, &#39;vgg_b2&#39;: 507, &#39;vgg_b3&#39;: 150, &#39;dense&#39;: 631, &#39;dropout&#39;: 0.4, &#39;lr&#39;: 0.0006578090901232402, &#39;batch_size&#39;: 44}. Best is trial 32 with value: 0.8700614416080973.
+<span class=" -Color -Color-Green">[I 2022-03-29 09:02:58,766]</span> Trial 38 finished with value: 0.9041590550998312 and parameters: {&#39;vgg_b1&#39;: 311, &#39;vgg_b2&#39;: 223, &#39;vgg_b3&#39;: 339, &#39;dense&#39;: 324, &#39;dropout&#39;: 0.4, &#39;lr&#39;: 5.229926907878646e-05, &#39;batch_size&#39;: 45}. Best is trial 32 with value: 0.8700614416080973.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">optuna.trial</span> <span class="kn">import</span> <span class="n">TrialState</span>
+
+<span class="n">pruned_trials</span> <span class="o">=</span> <span class="n">study</span><span class="o">.</span><span class="n">get_trials</span><span class="p">(</span><span class="n">deepcopy</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">states</span><span class="o">=</span><span class="p">[</span><span class="n">TrialState</span><span class="o">.</span><span class="n">PRUNED</span><span class="p">])</span>
+<span class="n">complete_trials</span> <span class="o">=</span> <span class="n">study</span><span class="o">.</span><span class="n">get_trials</span><span class="p">(</span><span class="n">deepcopy</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">states</span><span class="o">=</span><span class="p">[</span><span class="n">TrialState</span><span class="o">.</span><span class="n">COMPLETE</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Study statistics: &quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  Number of finished trials:</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">study</span><span class="o">.</span><span class="n">trials</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  Number of pruned trials:</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">pruned_trials</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  Number of complete trials:</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">complete_trials</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Best trial:&quot;</span><span class="p">)</span>
+<span class="n">best_trial</span> <span class="o">=</span> <span class="n">study</span><span class="o">.</span><span class="n">best_trial</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  Number:&quot;</span><span class="p">,</span> <span class="n">best_trial</span><span class="o">.</span><span class="n">number</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  Value: &quot;</span><span class="p">,</span> <span class="n">best_trial</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  Params: &quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">best_trial</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;    </span><span class="si">{}</span><span class="s2">: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Study statistics: 
+  Number of finished trials:	 40
+  Number of pruned trials:	 7
+  Number of complete trials:	 33
+
+Best trial:
+  Number: 32
+  Value:  0.8700614416080973
+  Params: 
+    vgg_b1: 306
+    vgg_b2: 174
+    vgg_b3: 352
+    dense: 449
+    dropout: 0.30000000000000004
+    lr: 9.153843325718859e-05
+    batch_size: 54
+</pre></div>
+</div>
+</div>
+</div>
+<p>Comparing the best result with some hand-designed network that resembles the <a class="reference external" href="https://d2l.ai/chapter_convolutional-modern/vgg.html#vgg-network">VGG architecture</a>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">param_dict</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;vgg_b1&quot;</span><span class="p">:</span> <span class="mi">64</span><span class="p">,</span>
+    <span class="s2">&quot;vgg_b2&quot;</span><span class="p">:</span> <span class="mi">128</span><span class="p">,</span>
+    <span class="s2">&quot;vgg_b3&quot;</span><span class="p">:</span> <span class="mi">256</span><span class="p">,</span>
+    <span class="s2">&quot;dense&quot;</span><span class="p">:</span> <span class="mi">1024</span><span class="p">,</span>
+    <span class="s2">&quot;dropout&quot;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span>
+    <span class="s2">&quot;lr&quot;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>
+    <span class="s2">&quot;batch_size&quot;</span><span class="p">:</span> <span class="mi">32</span>
+<span class="p">}</span>
+
+<span class="n">trial</span> <span class="o">=</span> <span class="n">optuna</span><span class="o">.</span><span class="n">trial</span><span class="o">.</span><span class="n">FixedTrial</span><span class="p">(</span><span class="n">param_dict</span><span class="p">)</span>
+<span class="n">objective</span><span class="p">(</span><span class="n">trial</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "66f60da5dda04d538024ac8f3ac2dff6", "version_major": 2, "version_minor": 0}
+</script><div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2.3142308332981214
+</pre></div>
+</div>
+</div>
+</div>
+<p>Trials either early stops (starts overfitting) or gets pruned (expected to not improve even if gradient descent continues). Pruning starts after 10 trials are completed, i.e. <code class="docutils literal notranslate"><span class="pre">n_startup_trials=10</span></code>. This is so that the pruner obtains enough information about the general behavior of the gradient descent optimizer before starting to prune.</p>
+<p>We set <code class="docutils literal notranslate"><span class="pre">n_warmup_steps=15</span></code> allowing each trial to train the network for 16 epochs before pruning, so that the completed trials will not be dominated by networks that descend quickly, but to shallow minimas. For example, shallow networks that possibly overfits the validation set. However, this comes at the price of wasting resources for training 16 epochs for around half of the number of trials. Finally, we set <code class="docutils literal notranslate"><span class="pre">n_min_trials=5</span></code> so that a higher number of trials at later steps can continue until it early stops or reaches max epochs.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">optuna</span><span class="o">.</span><span class="n">visualization</span><span class="o">.</span><span class="n">plot_intermediate_values</span><span class="p">(</span><span class="n">study</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">900</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">600</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">renderer</span><span class="o">=</span><span class="s2">&quot;svg&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/optuna_55_0.svg" src="../../_images/optuna_55_0.svg" /></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">optuna</span><span class="o">.</span><span class="n">visualization</span><span class="o">.</span><span class="n">plot_optimization_history</span><span class="p">(</span><span class="n">study</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">900</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">400</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">renderer</span><span class="o">=</span><span class="s2">&quot;svg&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/optuna_56_0.svg" src="../../_images/optuna_56_0.svg" /></div>
+</div>
+<p>We can look at the distribution of best validation losses.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">80</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">distplot</span><span class="p">(</span><span class="n">study</span><span class="o">.</span><span class="n">trials_dataframe</span><span class="p">()</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">30</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/optuna_58_0.svg" src="../../_images/optuna_58_0.svg" /></div>
+</div>
+</div>
+<div class="section" id="hyperparameter-interactions">
+<h3>Hyperparameter interactions<a class="headerlink" href="#hyperparameter-interactions" title="Permalink to this headline">¶</a></h3>
+<p>The parallel coordinate plot below shows which combination of hyperparameters work. We can also use this to select low complexity models with similar performance to the best performance.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">optuna</span><span class="o">.</span><span class="n">visualization</span><span class="o">.</span><span class="n">plot_parallel_coordinate</span><span class="p">(</span><span class="n">study</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">900</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">renderer</span><span class="o">=</span><span class="s2">&quot;svg&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/optuna_61_0.svg" src="../../_images/optuna_61_0.svg" /></div>
+</div>
+<p>Slice plots can be used as guide to parameter ranges to search when making an updated study, i.e. re-running the experiment with tighter ranges.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">optuna</span><span class="o">.</span><span class="n">visualization</span><span class="o">.</span><span class="n">plot_slice</span><span class="p">(</span><span class="n">study</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">1200</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">450</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">renderer</span><span class="o">=</span><span class="s2">&quot;svg&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/optuna_63_0.svg" src="../../_images/optuna_63_0.svg" /></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">optuna</span><span class="o">.</span><span class="n">visualization</span><span class="o">.</span><span class="n">plot_param_importances</span><span class="p">(</span><span class="n">study</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">renderer</span><span class="o">=</span><span class="s2">&quot;svg&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/optuna_64_0.svg" src="../../_images/optuna_64_0.svg" /></div>
+</div>
+<p>Let us look at how learning rate, batch size, and the size upper block of the network affects the loss value.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">optuna</span><span class="o">.</span><span class="n">visualization</span><span class="o">.</span><span class="n">plot_contour</span><span class="p">(</span><span class="n">study</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;lr&#39;</span><span class="p">,</span> <span class="s1">&#39;batch_size&#39;</span><span class="p">,</span> <span class="s1">&#39;vgg_b1&#39;</span><span class="p">])</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">autosize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">900</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">850</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">renderer</span><span class="o">=</span><span class="s2">&quot;svg&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/optuna_66_0.svg" src="../../_images/optuna_66_0.svg" /></div>
+</div>
+<p>Finally, we look at the contour plot for the hyperparameters on the bottom architecture.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">optuna</span><span class="o">.</span><span class="n">visualization</span><span class="o">.</span><span class="n">plot_contour</span><span class="p">(</span><span class="n">study</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;vgg_b3&#39;</span><span class="p">,</span> <span class="s1">&#39;dense&#39;</span><span class="p">,</span> <span class="s1">&#39;dropout&#39;</span><span class="p">])</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">autosize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">900</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">850</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">renderer</span><span class="o">=</span><span class="s1">&#39;svg&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/optuna_68_0.svg" src="../../_images/optuna_68_0.svg" /></div>
+</div>
+</div>
+</div>
+<div class="section" id="appendix-hyperparameters-of-commonly-used-models">
+<h2>Appendix: Hyperparameters of commonly used models<a class="headerlink" href="#appendix-hyperparameters-of-commonly-used-models" title="Permalink to this headline">¶</a></h2>
+<br><div class="figure align-default" id="hyp">
+<img alt="../../_images/hyp.png" src="../../_images/hyp.png" />
+<p class="caption"><span class="caption-number">Fig. 6 </span><span class="caption-text">Table from p. 184 of <span id="id7">[<a class="reference internal" href="../../intro.html#id10" title="Abishek Thakur. Approaching (Almost) Any Machine Learning Problem. Abhishek Thakur, 2020. ISBN B089P13QHT.">Tha20</a>]</span>. <strong>RS</strong><span class="math notranslate nohighlight">\(^*\)</span> implies random search should be better.</span><a class="headerlink" href="#hyp" title="Permalink to this image">¶</a></p>
+</div>
+<div class="section" id="xgboost-parameter-space">
+<h3>XGBoost parameter space<a class="headerlink" href="#xgboost-parameter-space" title="Permalink to this headline">¶</a></h3>
+<p>The following search space is used to tune XGBoost in the <a class="reference external" href="https://github.com/abhishekkrthakur/autoxgb">autoxgb</a> package:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">#https://github.com/abhishekkrthakur/autoxgb/blob/main/src/autoxgb/params.py</span>
+<span class="k">def</span> <span class="nf">get_params</span><span class="p">(</span><span class="n">trial</span><span class="p">,</span> <span class="n">model_config</span><span class="p">):</span>
+    
+    <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;learning_rate&quot;</span><span class="p">:</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_float</span><span class="p">(</span><span class="s2">&quot;learning_rate&quot;</span><span class="p">,</span> <span class="mf">1e-2</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="n">log</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+        <span class="s2">&quot;reg_lambda&quot;</span><span class="p">:</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_float</span><span class="p">(</span><span class="s2">&quot;reg_lambda&quot;</span><span class="p">,</span> <span class="mf">1e-8</span><span class="p">,</span> <span class="mf">100.0</span><span class="p">,</span> <span class="n">log</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+        <span class="s2">&quot;reg_alpha&quot;</span><span class="p">:</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_float</span><span class="p">(</span><span class="s2">&quot;reg_alpha&quot;</span><span class="p">,</span> <span class="mf">1e-8</span><span class="p">,</span> <span class="mf">100.0</span><span class="p">,</span> <span class="n">log</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+        <span class="s2">&quot;subsample&quot;</span><span class="p">:</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_float</span><span class="p">(</span><span class="s2">&quot;subsample&quot;</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span>
+        <span class="s2">&quot;colsample_bytree&quot;</span><span class="p">:</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_float</span><span class="p">(</span><span class="s2">&quot;colsample_bytree&quot;</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span>
+        <span class="s2">&quot;max_depth&quot;</span><span class="p">:</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_int</span><span class="p">(</span><span class="s2">&quot;max_depth&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">9</span><span class="p">),</span>
+        <span class="s2">&quot;early_stopping_rounds&quot;</span><span class="p">:</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_int</span><span class="p">(</span><span class="s2">&quot;early_stopping_rounds&quot;</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">500</span><span class="p">),</span>
+        <span class="s2">&quot;n_estimators&quot;</span><span class="p">:</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_categorical</span><span class="p">(</span><span class="s2">&quot;n_estimators&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">7000</span><span class="p">,</span> <span class="mi">15000</span><span class="p">,</span> <span class="mi">20000</span><span class="p">]),</span>
+    <span class="p">}</span>
+    
+    <span class="k">if</span> <span class="n">model_config</span><span class="o">.</span><span class="n">use_gpu</span><span class="p">:</span>
+        <span class="n">params</span><span class="p">[</span><span class="s2">&quot;tree_method&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;gpu_hist&quot;</span>
+        <span class="n">params</span><span class="p">[</span><span class="s2">&quot;gpu_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">params</span><span class="p">[</span><span class="s2">&quot;predictor&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;gpu_predictor&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">params</span><span class="p">[</span><span class="s2">&quot;tree_method&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_categorical</span><span class="p">(</span><span class="s2">&quot;tree_method&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;exact&quot;</span><span class="p">,</span> <span class="s2">&quot;approx&quot;</span><span class="p">,</span> <span class="s2">&quot;hist&quot;</span><span class="p">])</span>
+        <span class="n">params</span><span class="p">[</span><span class="s2">&quot;booster&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_categorical</span><span class="p">(</span><span class="s2">&quot;booster&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;gbtree&quot;</span><span class="p">,</span> <span class="s2">&quot;gblinear&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="s2">&quot;booster&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;gbtree&quot;</span><span class="p">:</span>
+            <span class="n">params</span><span class="p">[</span><span class="s2">&quot;gamma&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_float</span><span class="p">(</span><span class="s2">&quot;gamma&quot;</span><span class="p">,</span> <span class="mf">1e-8</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">log</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">params</span><span class="p">[</span><span class="s2">&quot;grow_policy&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_categorical</span><span class="p">(</span><span class="s2">&quot;grow_policy&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;depthwise&quot;</span><span class="p">,</span> <span class="s2">&quot;lossguide&quot;</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">params</span>
+</pre></div>
+</div>
+<hr class="footnotes docutils" />
+<dl class="footnote brackets">
+<dt class="label" id="ref4"><span class="brackets"><a class="fn-backref" href="#id4">1</a></span></dt>
+<dd><p>The plots are displayed in SVG format due to technical difficulties. Running them locally with the default renderer results in <a class="reference external" href="https://plotly.com/python/getting-started/">interactive plotly plots</a>.</p>
+</dd>
+<dt class="label" id="ref3"><span class="brackets"><a class="fn-backref" href="#id6">2</a></span></dt>
+<dd><p>In practice, we save the best model parameters at this point.</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./notebooks/fundamentals"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="blending-stacking.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Blending and Stacking</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="missing.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Handling Missing Values</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By 𝗥𝗼𝗻 𝗠𝗲𝗱𝗶𝗻𝗮. Powered by <a href="https://jupyterbook.org">Jupyter Book</a>.<br/>
+    
+        &copy; Copyright 2021.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

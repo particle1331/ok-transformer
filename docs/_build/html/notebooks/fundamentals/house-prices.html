@@ -1,0 +1,1379 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Modelling with Pipelines &#8212; 𝗜𝗻𝗲𝗳𝗳𝗶𝗰𝗶𝗲𝗻𝘁 𝗡𝗲𝘁𝘄𝗼𝗿𝗸𝘀</title>
+    
+  <link href="../../_static/css/theme.css" rel="stylesheet">
+  <link href="../../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="shortcut icon" href="../../_static/pone.0237978.g001.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Blending and Stacking" href="blending-stacking.html" />
+    <link rel="prev" title="𝗜𝗻𝗲𝗳𝗳𝗶𝗰𝗶𝗲𝗻𝘁 𝗡𝗲𝘁𝘄𝗼𝗿𝗸𝘀" href="../../intro.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../../_static/pone.0237978.g001.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">𝗜𝗻𝗲𝗳𝗳𝗶𝗰𝗶𝗲𝗻𝘁 𝗡𝗲𝘁𝘄𝗼𝗿𝗸𝘀</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  FUNDAMENTALS
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Modelling with Pipelines
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="blending-stacking.html">
+   Blending and Stacking
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="optuna.html">
+   Model Tuning with Optuna
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="missing.html">
+   Handling Missing Values
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  DEEP LEARNING
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="backpropagation.html">
+   Backpropagation on DAGs
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../tensorflow/01-tensorflow-nn.html">
+   TensorFlow Datasets
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../tensorflow/02-tensorflow-mechanics.html">
+   Mechanics of TensorFlow
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../tensorflow/03-tensorflow-activations.html">
+   Activation Functions
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../tensorflow/04-tensorflow-optim-init.html">
+   Initialization and Optimization
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  MODEL DEPLOYMENT
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../deployment/production-code.html">
+   Packaging Production Code
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../deployment/model-serving-api.html">
+   Prediction Serving REST API
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../../_sources/notebooks/fundamentals/house-prices.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/particle1331/inefficient-networks"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/particle1331/inefficient-networks/issues/new?title=Issue%20on%20page%20%2Fnotebooks/fundamentals/house-prices.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/particle1331/inefficient-networks/master?urlpath=tree/docs/notebooks/fundamentals/house-prices.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#house-prices-dataset">
+   House prices dataset
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#downloading-the-dataset">
+     Downloading the dataset
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#quick-look-at-the-data">
+     Quick look at the data
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#feature-transformation-pipeline">
+   Feature transformation pipeline
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#custom-transformers">
+     Custom transformers
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#arranging-the-pipeline">
+     Arranging the pipeline
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#optimizing-the-prediction-pipeline">
+   Optimizing the prediction pipeline
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#inference-using-the-pipeline">
+   Inference using the pipeline
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#conclusion">
+   Conclusion
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Modelling with Pipelines</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#house-prices-dataset">
+   House prices dataset
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#downloading-the-dataset">
+     Downloading the dataset
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#quick-look-at-the-data">
+     Quick look at the data
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#feature-transformation-pipeline">
+   Feature transformation pipeline
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#custom-transformers">
+     Custom transformers
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#arranging-the-pipeline">
+     Arranging the pipeline
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#optimizing-the-prediction-pipeline">
+   Optimizing the prediction pipeline
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#inference-using-the-pipeline">
+   Inference using the pipeline
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#conclusion">
+   Conclusion
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="modelling-with-pipelines">
+<h1>Modelling with Pipelines<a class="headerlink" href="#modelling-with-pipelines" title="Permalink to this headline">¶</a></h1>
+<p><img alt="Status" src="https://img.shields.io/static/v1.svg?label=Status&amp;message=Finished&amp;color=green" /></p>
+<p>Pipelines in the <a class="reference external" href="https://scikit-learn.org/stable/modules/classes.html"><code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> API</a> allow us to apply a sequence of transformers and a final estimator on our dataset. Since each intermediate step implements a <code class="docutils literal notranslate"><span class="pre">fit</span></code> and <code class="docutils literal notranslate"><span class="pre">transform</span></code> method, while the final estimator implements a <code class="docutils literal notranslate"><span class="pre">fit</span></code> method, this setup allows us to recursively fit of all transformations on the dataset in a single step. Another advantage is that the pipeline can be cross-validated as a whole while setting different parameters.</p>
+<p>From the perspective of code maintainability and testability, pipelines are easier to work with because they allow us to separate declarative from imperative code as shown in <a class="reference internal" href="#pipelines"><span class="std std-numref">Fig. 2</span></a>. In the last section of this notebook, we will show that we can easily load pipelines to make inference on test data with little to no preprocessing.</p>
+<div class="figure align-default" id="pipelines">
+<a class="reference internal image-reference" href="../../_images/pipelines.png"><img alt="../../_images/pipelines.png" src="../../_images/pipelines.png" style="width: 40em;" /></a>
+<p class="caption"><span class="caption-number">Fig. 2 </span><span class="caption-text">Pipelines allow us to cleanly separate declarative from imperative code. <a class="reference external" href="https://gh.mltrainings.ru/presentations/LopuhinJankiewicz_KaggleMercari.pdf">[source]</a></span><a class="headerlink" href="#pipelines" title="Permalink to this image">¶</a></p>
+</div>
+<p>In this notebook, we will look at how to create a complete pipeline in scikit-learn that performs feature engineering, and inference for predicting house prices. We will show how to fine-tune this pipeline as a whole, then perform inference without further modification.</p>
+<div class="section" id="house-prices-dataset">
+<h2>House prices dataset<a class="headerlink" href="#house-prices-dataset" title="Permalink to this headline">¶</a></h2>
+<p>Our task is to use California census data to build a model of housing prices. This data includes metrics such as the population, median income, and median housing price for each district in California. This is a regression problem and will use <strong>root mean squared error</strong> as our evaluation metric.</p>
+<div class="section" id="downloading-the-dataset">
+<h3>Downloading the dataset<a class="headerlink" href="#downloading-the-dataset" title="Permalink to this headline">¶</a></h3>
+<p>Here we download the data using the <code class="docutils literal notranslate"><span class="pre">request.urlretrieve</span></code> function from <code class="docutils literal notranslate"><span class="pre">urllib</span></code>. This function takes a URL where the data is hosted and a save path where the data will be stored on the local disk.</p>
+<div class="margin sidebar">
+<p class="sidebar-title"></p>
+<p>⚠️ <strong>Attribution:</strong> This notebook follows <a class="reference external" href="https://github.com/ageron/handson-ml2/blob/master/02_end_to_end_machine_learning_project.ipynb">Chapter 2</a> of <span id="id1">[<a class="reference internal" href="../../intro.html#id6" title="Aurélien Géron. Hands-on machine learning with Scikit-Learn and TensorFlow : concepts, tools, and techniques to build intelligent systems, Second Edition. O'Reilly Media, Sebastopol, CA, 2019. ISBN 978-1491962299.">Geron19</a>]</span> released under <a class="reference external" href="https://github.com/ageron/handson-ml2/blob/master/LICENSE">Apache License 2.0</a> for obtaining and preprocessing of the dataset, and feature engineering.</p>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">tarfile</span>
+<span class="kn">import</span> <span class="nn">urllib.request</span>
+
+<span class="kn">from</span> <span class="nn">inefficient_networks.config</span> <span class="kn">import</span> <span class="n">config</span>
+<span class="n">config</span><span class="o">.</span><span class="n">set_matplotlib</span><span class="p">()</span>
+<span class="n">config</span><span class="o">.</span><span class="n">set_ignore_warnings</span><span class="p">()</span>
+
+
+<span class="k">def</span> <span class="nf">fetch_housing_data</span><span class="p">(</span><span class="n">housing_url</span><span class="p">,</span> <span class="n">housing_path</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Download data from `housing_url` and save it to `housing_path`.&#39;&#39;&#39;</span>
+    
+    <span class="c1"># Make directory</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">housing_path</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">tgz_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">housing_path</span><span class="p">,</span> <span class="s2">&quot;housing.tgz&quot;</span><span class="p">)</span>
+    
+    <span class="c1"># Download data in housing_url to tgz_path</span>
+    <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlretrieve</span><span class="p">(</span><span class="n">housing_url</span><span class="p">,</span> <span class="n">tgz_path</span><span class="p">)</span>
+    
+    <span class="c1"># Extract tar file</span>
+    <span class="n">housing_tgz</span> <span class="o">=</span> <span class="n">tarfile</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">tgz_path</span><span class="p">)</span>
+    <span class="n">housing_tgz</span><span class="o">.</span><span class="n">extractall</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">housing_path</span><span class="p">)</span>
+    <span class="n">housing_tgz</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Downloading the dataset:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Dataset URL</span>
+<span class="n">DOWNLOAD_ROOT</span> <span class="o">=</span> <span class="s2">&quot;https://raw.githubusercontent.com/ageron/handson-ml/master/&quot;</span>
+<span class="n">HOUSING_URL</span> <span class="o">=</span> <span class="n">DOWNLOAD_ROOT</span> <span class="o">+</span> <span class="s2">&quot;datasets/housing/housing.tgz&quot;</span>
+
+<span class="c1"># Local save path</span>
+<span class="n">HOUSING_PATH</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">DATASET_DIR</span> <span class="o">/</span> <span class="s2">&quot;housing&quot;</span>
+
+<span class="c1"># Downloading the data</span>
+<span class="n">fetch_housing_data</span><span class="p">(</span><span class="n">HOUSING_URL</span><span class="p">,</span> <span class="n">HOUSING_PATH</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="quick-look-at-the-data">
+<h3>Quick look at the data<a class="headerlink" href="#quick-look-at-the-data" title="Permalink to this headline">¶</a></h3>
+<p>Let us load the data using pandas.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">housing</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">HOUSING_PATH</span> <span class="o">/</span> <span class="s2">&quot;housing.csv&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">housing</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
+<span class="n">housing</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+RangeIndex: 20640 entries, 0 to 20639
+Data columns (total 10 columns):
+ #   Column              Non-Null Count  Dtype  
+---  ------              --------------  -----  
+ 0   longitude           20640 non-null  float64
+ 1   latitude            20640 non-null  float64
+ 2   housing_median_age  20640 non-null  float64
+ 3   total_rooms         20640 non-null  float64
+ 4   total_bedrooms      20433 non-null  float64
+ 5   population          20640 non-null  float64
+ 6   households          20640 non-null  float64
+ 7   median_income       20640 non-null  float64
+ 8   median_house_value  20640 non-null  float64
+ 9   ocean_proximity     20640 non-null  object 
+dtypes: float64(9), object(1)
+memory usage: 1.6+ MB
+None
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>longitude</th>
+      <th>latitude</th>
+      <th>housing_median_age</th>
+      <th>total_rooms</th>
+      <th>total_bedrooms</th>
+      <th>population</th>
+      <th>households</th>
+      <th>median_income</th>
+      <th>median_house_value</th>
+      <th>ocean_proximity</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>-122.23</td>
+      <td>37.88</td>
+      <td>41.0</td>
+      <td>880.0</td>
+      <td>129.0</td>
+      <td>322.0</td>
+      <td>126.0</td>
+      <td>8.3252</td>
+      <td>452600.0</td>
+      <td>NEAR BAY</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>-122.22</td>
+      <td>37.86</td>
+      <td>21.0</td>
+      <td>7099.0</td>
+      <td>1106.0</td>
+      <td>2401.0</td>
+      <td>1138.0</td>
+      <td>8.3014</td>
+      <td>358500.0</td>
+      <td>NEAR BAY</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>-122.24</td>
+      <td>37.85</td>
+      <td>52.0</td>
+      <td>1467.0</td>
+      <td>190.0</td>
+      <td>496.0</td>
+      <td>177.0</td>
+      <td>7.2574</td>
+      <td>352100.0</td>
+      <td>NEAR BAY</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>-122.25</td>
+      <td>37.85</td>
+      <td>52.0</td>
+      <td>1274.0</td>
+      <td>235.0</td>
+      <td>558.0</td>
+      <td>219.0</td>
+      <td>5.6431</td>
+      <td>341300.0</td>
+      <td>NEAR BAY</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>-122.25</td>
+      <td>37.85</td>
+      <td>52.0</td>
+      <td>1627.0</td>
+      <td>280.0</td>
+      <td>565.0</td>
+      <td>259.0</td>
+      <td>3.8462</td>
+      <td>342200.0</td>
+      <td>NEAR BAY</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>The feature <code class="docutils literal notranslate"><span class="pre">total_bedrooms</span></code> is sometimes missing. All features are numerical except <code class="docutils literal notranslate"><span class="pre">ocean_proximity</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">housing</span><span class="o">.</span><span class="n">ocean_proximity</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;1H OCEAN     9136
+INLAND        6551
+NEAR OCEAN    2658
+NEAR BAY      2290
+ISLAND           5
+Name: ocean_proximity, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<p>The following plot shows how median house value is generally higher near the ocean. Moreover, prices seem to depend on population density.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">housing</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s2">&quot;scatter&quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;longitude&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;latitude&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span>
+             <span class="n">s</span><span class="o">=</span><span class="n">housing</span><span class="p">[</span><span class="s2">&quot;population&quot;</span><span class="p">]</span><span class="o">/</span><span class="mi">100</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;population&quot;</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">7</span><span class="p">),</span>
+             <span class="n">c</span><span class="o">=</span><span class="n">housing</span><span class="p">[</span><span class="s2">&quot;median_house_value&quot;</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="s2">&quot;jet&quot;</span><span class="p">),</span> <span class="n">colorbar</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/house-prices_16_0.svg" src="../../_images/house-prices_16_0.svg" /></div>
+</div>
+<p>Looking at distribution of values. Distributions are tail-heavy; transforming the data to make it more bell-shaped may help some algorithms. Housing median age and house prices are capped.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="n">housing</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">15</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/house-prices_18_0.svg" src="../../_images/house-prices_18_0.svg" /></div>
+</div>
+<p>Checking for missing values:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">housing</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>longitude               0
+latitude                0
+housing_median_age      0
+total_rooms             0
+total_bedrooms        207
+population              0
+households              0
+median_income           0
+median_house_value      0
+ocean_proximity         0
+dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="feature-transformation-pipeline">
+<h2>Feature transformation pipeline<a class="headerlink" href="#feature-transformation-pipeline" title="Permalink to this headline">¶</a></h2>
+<p>In this section we design two pipelines for separate preprocessing of categorical and numerical features of the dataset. These two pipelines will be combined in a feature transformation pipeline for the dataset. For numerical data, we perform simple imputation of missing values with the median value. For the categorical feature <code class="docutils literal notranslate"><span class="pre">ocean_proximity</span></code>, we perform one-hot encoding.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.impute</span> <span class="kn">import</span> <span class="n">SimpleImputer</span>
+
+<span class="c1"># Fitting the imputer on numerical fetures</span>
+<span class="n">housing_num</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">housing</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">f</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;ocean_proximity&#39;</span><span class="p">,</span> <span class="s1">&#39;median_house_value&#39;</span><span class="p">]]</span>
+<span class="n">imputer</span> <span class="o">=</span> <span class="n">SimpleImputer</span><span class="p">(</span><span class="n">strategy</span><span class="o">=</span><span class="s1">&#39;median&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Note that we set <code class="docutils literal notranslate"><span class="pre">categories</span></code> in the encoder since a fold during cross-validation may contain less than all possible categories, resulting in fewer columns after being transformed.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">OneHotEncoder</span>
+
+<span class="n">housing_cat</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;ocean_proximity&#39;</span><span class="p">]</span>
+<span class="n">categories</span> <span class="o">=</span> <span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">housing</span><span class="p">[</span><span class="n">cat</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span> <span class="k">for</span> <span class="n">cat</span> <span class="ow">in</span> <span class="n">housing_cat</span><span class="p">]</span>
+<span class="n">cat_encoder</span> <span class="o">=</span> <span class="n">OneHotEncoder</span><span class="p">(</span><span class="n">categories</span><span class="o">=</span><span class="n">categories</span><span class="p">,</span> <span class="n">sparse</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">cat_encoder</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">housing</span><span class="p">[</span><span class="n">housing_cat</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="mi">10</span><span class="p">,</span> <span class="p">:])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[1., 0., 0., 0., 0.],
+       [1., 0., 0., 0., 0.],
+       [1., 0., 0., 0., 0.],
+       [1., 0., 0., 0., 0.],
+       [1., 0., 0., 0., 0.],
+       [1., 0., 0., 0., 0.],
+       [1., 0., 0., 0., 0.],
+       [1., 0., 0., 0., 0.],
+       [1., 0., 0., 0., 0.],
+       [1., 0., 0., 0., 0.]])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cat_encoder</span><span class="o">.</span><span class="n">categories_</span> <span class="c1"># All categories even if fitted on subset of data</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[array([&#39;NEAR BAY&#39;, &#39;&lt;1H OCEAN&#39;, &#39;INLAND&#39;, &#39;NEAR OCEAN&#39;, &#39;ISLAND&#39;],
+       dtype=object)]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="custom-transformers">
+<h3>Custom transformers<a class="headerlink" href="#custom-transformers" title="Permalink to this headline">¶</a></h3>
+<p>Although scikit-learn provides many useful transformers, we will need to write own for tasks such as custom cleanup operations or combining specific
+attributes. Custom transformers work seamlessly with existing scikit-learn functionalities, all we need to do is create a class and implement three methods: <code class="docutils literal notranslate"><span class="pre">fit()</span></code> (that returns <code class="docutils literal notranslate"><span class="pre">self</span></code>) and <code class="docutils literal notranslate"><span class="pre">transform()</span></code> (we get <code class="docutils literal notranslate"><span class="pre">fit_transform</span></code> for free from the <code class="docutils literal notranslate"><span class="pre">TransformerMixin</span></code> as a base class). If we add <code class="docutils literal notranslate"><span class="pre">BaseEstimator</span></code> as a base class, we will also get two extra methods <code class="docutils literal notranslate"><span class="pre">get_params()</span></code> and <code class="docutils literal notranslate"><span class="pre">set_params()</span></code> that will be useful for automatic hyperparameter tuning. Here we create a transformer for adding new features.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.base</span> <span class="kn">import</span> <span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">TransformerMixin</span>
+
+<span class="k">class</span> <span class="nc">CombinedFeaturesAdder</span><span class="p">(</span><span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">TransformerMixin</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Transformer for adding feature combinations discussed above.&quot;&quot;&quot;</span>
+    
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">add_bedrooms_per_room</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span> <span class="c1"># No *args, **kwargs (!)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_bedrooms_per_room</span> <span class="o">=</span> <span class="n">add_bedrooms_per_room</span>
+        
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span>
+    
+    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">rooms_per_household</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="s2">&quot;total_rooms&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">X</span><span class="p">[</span><span class="s2">&quot;households&quot;</span><span class="p">]</span>
+        <span class="n">population_per_household</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="s2">&quot;population&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">X</span><span class="p">[</span><span class="s2">&quot;households&quot;</span><span class="p">]</span>
+        <span class="n">X</span><span class="p">[</span><span class="s2">&quot;rooms_per_household&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rooms_per_household</span>
+        <span class="n">X</span><span class="p">[</span><span class="s2">&quot;population_per_household&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">population_per_household</span>
+        
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_bedrooms_per_room</span><span class="p">:</span>
+            <span class="n">bedrooms_per_room</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="s2">&quot;total_bedrooms&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">X</span><span class="p">[</span><span class="s2">&quot;total_rooms&quot;</span><span class="p">]</span>
+            <span class="n">X</span><span class="p">[</span><span class="s2">&quot;bedrooms_per_room&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">bedrooms_per_room</span>
+        
+        <span class="k">return</span> <span class="n">X</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>In this example the transformer has one hyperparameter, <code class="docutils literal notranslate"><span class="pre">add_bedrooms_per_room</span></code>,
+set to <code class="docutils literal notranslate"><span class="pre">False</span></code> by default (we don’t want the default behavior to change the column count). This hyperparameter will allow us to easily find out whether adding this attribute helps the
+ML algorithms or not.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">feature_adder</span> <span class="o">=</span> <span class="n">CombinedFeaturesAdder</span><span class="p">(</span><span class="n">add_bedrooms_per_room</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">housing_extra_features</span> <span class="o">=</span> <span class="n">feature_adder</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">housing</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Checking the shapes, the <code class="docutils literal notranslate"><span class="pre">feature_adder</span></code> should add two columns to the feature set.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">housing</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">housing_extra_features</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">housing_extra_features</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(20640, 10)
+(20640, 13)
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>longitude</th>
+      <th>latitude</th>
+      <th>housing_median_age</th>
+      <th>total_rooms</th>
+      <th>total_bedrooms</th>
+      <th>population</th>
+      <th>households</th>
+      <th>median_income</th>
+      <th>median_house_value</th>
+      <th>ocean_proximity</th>
+      <th>rooms_per_household</th>
+      <th>population_per_household</th>
+      <th>bedrooms_per_room</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>-122.23</td>
+      <td>37.88</td>
+      <td>41.0</td>
+      <td>880.0</td>
+      <td>129.0</td>
+      <td>322.0</td>
+      <td>126.0</td>
+      <td>8.3252</td>
+      <td>452600.0</td>
+      <td>NEAR BAY</td>
+      <td>6.984127</td>
+      <td>2.555556</td>
+      <td>0.146591</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>-122.22</td>
+      <td>37.86</td>
+      <td>21.0</td>
+      <td>7099.0</td>
+      <td>1106.0</td>
+      <td>2401.0</td>
+      <td>1138.0</td>
+      <td>8.3014</td>
+      <td>358500.0</td>
+      <td>NEAR BAY</td>
+      <td>6.238137</td>
+      <td>2.109842</td>
+      <td>0.155797</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>-122.24</td>
+      <td>37.85</td>
+      <td>52.0</td>
+      <td>1467.0</td>
+      <td>190.0</td>
+      <td>496.0</td>
+      <td>177.0</td>
+      <td>7.2574</td>
+      <td>352100.0</td>
+      <td>NEAR BAY</td>
+      <td>8.288136</td>
+      <td>2.802260</td>
+      <td>0.129516</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>-122.25</td>
+      <td>37.85</td>
+      <td>52.0</td>
+      <td>1274.0</td>
+      <td>235.0</td>
+      <td>558.0</td>
+      <td>219.0</td>
+      <td>5.6431</td>
+      <td>341300.0</td>
+      <td>NEAR BAY</td>
+      <td>5.817352</td>
+      <td>2.547945</td>
+      <td>0.184458</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>-122.25</td>
+      <td>37.85</td>
+      <td>52.0</td>
+      <td>1627.0</td>
+      <td>280.0</td>
+      <td>565.0</td>
+      <td>259.0</td>
+      <td>3.8462</td>
+      <td>342200.0</td>
+      <td>NEAR BAY</td>
+      <td>6.281853</td>
+      <td>2.181467</td>
+      <td>0.172096</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</div>
+<div class="section" id="arranging-the-pipeline">
+<h3>Arranging the pipeline<a class="headerlink" href="#arranging-the-pipeline" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">Pipeline</span></code> constructor takes a list of name estimator pairs defining a sequence of steps. All but the last estimator must be transformers (i.e. they must have a <code class="docutils literal notranslate"><span class="pre">fit_transform()</span></code> method). The names can be anything as long as they are unique and don’t contain double underscores. Calling the pipeline’s <code class="docutils literal notranslate"><span class="pre">fit()</span></code> method calls <code class="docutils literal notranslate"><span class="pre">fit_transform()</span></code> sequentially on all transformers, passing the output of each call as the parameter to the next call until it reaches the final estimator, for which it calls the <code class="docutils literal notranslate"><span class="pre">fit()</span></code> method.</p>
+<p>The pipeline exposes the same methods as the final estimator. For our preprocessing pipeline, the last estimator is a <code class="docutils literal notranslate"><span class="pre">StandardScaler</span></code> is a transformer, so the pipeline has a <code class="docutils literal notranslate"><span class="pre">transform</span></code> method that applies all the transforms to the data in sequence.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="kn">from</span> <span class="nn">sklearn.compose</span> <span class="kn">import</span> <span class="n">ColumnTransformer</span>
+
+
+<span class="c1"># Feature transformation pipeline</span>
+<span class="n">cat_feat</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;ocean_proximity&#39;</span><span class="p">]</span>
+<span class="n">num_feat</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">housing</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">f</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">cat_feat</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;median_house_value&#39;</span><span class="p">]]</span>
+
+<span class="n">feature_pipe</span> <span class="o">=</span> <span class="n">ColumnTransformer</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="p">(</span>
+            <span class="s1">&#39;num&#39;</span><span class="p">,</span> 
+            <span class="n">Pipeline</span><span class="p">([</span>
+                <span class="p">(</span><span class="s1">&#39;feature_adder&#39;</span><span class="p">,</span> <span class="n">CombinedFeaturesAdder</span><span class="p">()),</span>
+                <span class="p">(</span><span class="s1">&#39;imputer&#39;</span><span class="p">,</span> <span class="n">SimpleImputer</span><span class="p">(</span><span class="n">strategy</span><span class="o">=</span><span class="s1">&#39;median&#39;</span><span class="p">)),</span>
+                <span class="p">(</span><span class="s1">&#39;std_scaler&#39;</span><span class="p">,</span> <span class="n">StandardScaler</span><span class="p">()),</span>    
+            <span class="p">]),</span> 
+            <span class="n">num_feat</span>
+        <span class="p">),</span>
+        <span class="p">(</span>
+            <span class="s1">&#39;cat&#39;</span><span class="p">,</span> 
+            <span class="n">Pipeline</span><span class="p">([</span>
+                <span class="p">(</span><span class="s1">&#39;one_hot&#39;</span><span class="p">,</span> <span class="n">OneHotEncoder</span><span class="p">(</span><span class="n">categories</span><span class="o">=</span><span class="n">categories</span><span class="p">,</span> <span class="n">sparse</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+            <span class="p">]),</span> 
+            <span class="n">cat_feat</span>
+        <span class="p">)</span>
+    <span class="p">],</span>
+    <span class="n">remainder</span><span class="o">=</span><span class="s1">&#39;drop&#39;</span> <span class="c1"># Columns not in num_feat + cat_feat are dropped.</span>
+<span class="p">)</span>
+
+<span class="c1"># Preprocessed dataset</span>
+<span class="n">housing_transformed</span> <span class="o">=</span> <span class="n">feature_pipe</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">housing</span><span class="p">)</span>
+<span class="n">housing_transformed</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(20640, 15)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="optimizing-the-prediction-pipeline">
+<h2>Optimizing the prediction pipeline<a class="headerlink" href="#optimizing-the-prediction-pipeline" title="Permalink to this headline">¶</a></h2>
+<p>To make a prediction pipeline, we append the feature transformation pipeline with a regression model.
+Note that we are able to call <code class="docutils literal notranslate"><span class="pre">fit</span></code> on the full pipeline since each step of the feature transformation pipeline implements <code class="docutils literal notranslate"><span class="pre">fit_transform</span></code> method. Thus, training data is sequentially transformed then fed to the model as training data.</p>
+<p>Observe that this model has hyperparameters that control its design (both hyperparameters for feature engineering, and for the model). Instead of tuning a single model using transformed data, we will tune the entire prediction pipeline using <code class="docutils literal notranslate"><span class="pre">optuna</span></code>. Note that <code class="docutils literal notranslate"><span class="pre">remainder='drop'</span></code> in <code class="docutils literal notranslate"><span class="pre">ColumnTransformer</span></code> means that columns that are not in <code class="docutils literal notranslate"><span class="pre">num_feat</span></code> and <code class="docutils literal notranslate"><span class="pre">cat_feat</span></code> are dropped from the dataset that will be fed into the model.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">optuna</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">RandomForestRegressor</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">cross_val_score</span>
+
+
+<span class="k">def</span> <span class="nf">create_pipe</span><span class="p">(</span><span class="n">max_depth</span><span class="p">,</span> <span class="n">n_estimators</span><span class="p">,</span> <span class="n">add_bpr</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Initialize full pipeline from given hyperparameters.&#39;&#39;&#39;</span>
+
+    <span class="c1"># Feature engineering pipeline</span>
+    <span class="n">cat_feat</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;ocean_proximity&#39;</span><span class="p">]</span>
+    <span class="n">num_feat</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">housing</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">f</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">cat_feat</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;median_house_value&#39;</span><span class="p">]]</span>
+    <span class="n">feature_pipe</span> <span class="o">=</span> <span class="n">ColumnTransformer</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="p">(</span>
+                <span class="s1">&#39;num&#39;</span><span class="p">,</span> 
+                <span class="n">Pipeline</span><span class="p">([</span>
+                    <span class="p">(</span><span class="s1">&#39;feature_adder&#39;</span><span class="p">,</span> <span class="n">CombinedFeaturesAdder</span><span class="p">(</span><span class="n">add_bpr</span><span class="p">)),</span>
+                    <span class="p">(</span><span class="s1">&#39;imputer&#39;</span><span class="p">,</span> <span class="n">SimpleImputer</span><span class="p">(</span><span class="n">strategy</span><span class="o">=</span><span class="s1">&#39;median&#39;</span><span class="p">)),</span>
+                    <span class="p">(</span><span class="s1">&#39;std_scaler&#39;</span><span class="p">,</span> <span class="n">StandardScaler</span><span class="p">())</span>
+                <span class="p">]),</span> 
+                <span class="n">num_feat</span>
+            <span class="p">),</span>
+            <span class="p">(</span>
+                <span class="s1">&#39;cat&#39;</span><span class="p">,</span> 
+                <span class="n">Pipeline</span><span class="p">([</span>
+                    <span class="p">(</span><span class="s1">&#39;one_hot&#39;</span><span class="p">,</span> <span class="n">OneHotEncoder</span><span class="p">(</span><span class="n">categories</span><span class="o">=</span><span class="n">categories</span><span class="p">,</span> <span class="n">sparse</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+                <span class="p">]),</span> 
+                <span class="n">cat_feat</span>
+            <span class="p">)</span>
+        <span class="p">],</span>
+        <span class="n">remainder</span><span class="o">=</span><span class="s1">&#39;drop&#39;</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Model for transformed dataset</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">RandomForestRegressor</span><span class="p">(</span>
+        <span class="n">max_depth</span><span class="o">=</span><span class="n">max_depth</span><span class="p">,</span>
+        <span class="n">n_estimators</span><span class="o">=</span><span class="n">n_estimators</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Assemble prediction pipeline</span>
+    <span class="k">return</span> <span class="n">Pipeline</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="p">(</span><span class="s1">&#39;prep&#39;</span><span class="p">,</span> <span class="n">feature_pipe</span><span class="p">),</span> 
+            <span class="p">(</span><span class="s1">&#39;model&#39;</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">objective</span><span class="p">(</span><span class="n">trial</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Average RMSE over cv-folds.&#39;&#39;&#39;</span>
+    
+    <span class="n">pipe</span> <span class="o">=</span> <span class="n">create_pipe</span><span class="p">(</span>
+        <span class="n">add_bpr</span><span class="o">=</span><span class="n">trial</span><span class="o">.</span><span class="n">suggest_categorical</span><span class="p">(</span><span class="s1">&#39;add_bpr&#39;</span><span class="p">,</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]),</span> 
+        <span class="n">max_depth</span><span class="o">=</span><span class="n">trial</span><span class="o">.</span><span class="n">suggest_int</span><span class="p">(</span><span class="s1">&#39;max_depth&#39;</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">35</span><span class="p">),</span>
+        <span class="n">n_estimators</span><span class="o">=</span><span class="n">trial</span><span class="o">.</span><span class="n">suggest_int</span><span class="p">(</span><span class="s1">&#39;n_estimators&#39;</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">1000</span><span class="p">),</span> 
+    <span class="p">)</span>
+    
+    <span class="n">score</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">pipe</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s1">&#39;neg_mean_squared_error&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="o">-</span><span class="n">score</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+
+<span class="c1"># Create study for minimizing the RMSE.</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">housing</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;median_house_value&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">housing</span><span class="o">.</span><span class="n">median_house_value</span><span class="o">.</span><span class="n">values</span>
+
+<span class="n">study</span> <span class="o">=</span> <span class="n">optuna</span><span class="o">.</span><span class="n">create_study</span><span class="p">(</span><span class="n">direction</span><span class="o">=</span><span class="s1">&#39;minimize&#39;</span><span class="p">)</span>
+<span class="n">study</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">partial</span><span class="p">(</span><span class="n">objective</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">),</span> <span class="n">n_trials</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">[I 2022-04-13 21:45:27,163]</span> A new study created in memory with name: no-name-5d2443cb-8fbb-4c66-bc9f-18117dc3e296
+<span class=" -Color -Color-Green">[I 2022-04-13 21:47:30,710]</span> Trial 6 finished with value: 70715.005217811 and parameters: {&#39;add_bpr&#39;: False, &#39;max_depth&#39;: 5, &#39;n_estimators&#39;: 437}. Best is trial 6 with value: 70715.005217811.
+<span class=" -Color -Color-Green">[I 2022-04-13 21:49:24,689]</span> Trial 1 finished with value: 68742.27128491322 and parameters: {&#39;add_bpr&#39;: True, &#39;max_depth&#39;: 29, &#39;n_estimators&#39;: 273}. Best is trial 1 with value: 68742.27128491322.
+<span class=" -Color -Color-Green">[I 2022-04-13 21:49:38,242]</span> Trial 4 finished with value: 69079.43890222692 and parameters: {&#39;add_bpr&#39;: False, &#39;max_depth&#39;: 18, &#39;n_estimators&#39;: 342}. Best is trial 1 with value: 68742.27128491322.
+<span class=" -Color -Color-Green">[I 2022-04-13 21:49:41,118]</span> Trial 2 finished with value: 68969.93138485923 and parameters: {&#39;add_bpr&#39;: False, &#39;max_depth&#39;: 7, &#39;n_estimators&#39;: 671}. Best is trial 1 with value: 68742.27128491322.
+<span class=" -Color -Color-Green">[I 2022-04-13 21:50:58,592]</span> Trial 3 finished with value: 68894.85587736395 and parameters: {&#39;add_bpr&#39;: True, &#39;max_depth&#39;: 35, &#39;n_estimators&#39;: 378}. Best is trial 1 with value: 68742.27128491322.
+<span class=" -Color -Color-Green">[I 2022-04-13 21:52:03,864]</span> Trial 8 finished with value: 69388.45249647758 and parameters: {&#39;add_bpr&#39;: True, &#39;max_depth&#39;: 8, &#39;n_estimators&#39;: 566}. Best is trial 1 with value: 68742.27128491322.
+<span class=" -Color -Color-Green">[I 2022-04-13 21:52:44,695]</span> Trial 0 finished with value: 69189.10019041909 and parameters: {&#39;add_bpr&#39;: True, &#39;max_depth&#39;: 11, &#39;n_estimators&#39;: 715}. Best is trial 1 with value: 68742.27128491322.
+<span class=" -Color -Color-Green">[I 2022-04-13 21:56:14,183]</span> Trial 5 finished with value: 68852.24905143416 and parameters: {&#39;add_bpr&#39;: True, &#39;max_depth&#39;: 22, &#39;n_estimators&#39;: 741}. Best is trial 1 with value: 68742.27128491322.
+<span class=" -Color -Color-Green">[I 2022-04-13 21:57:05,043]</span> Trial 11 finished with value: 69262.81100115749 and parameters: {&#39;add_bpr&#39;: False, &#39;max_depth&#39;: 19, &#39;n_estimators&#39;: 577}. Best is trial 1 with value: 68742.27128491322.
+<span class=" -Color -Color-Green">[I 2022-04-13 21:57:12,695]</span> Trial 7 finished with value: 69123.25012893863 and parameters: {&#39;add_bpr&#39;: False, &#39;max_depth&#39;: 27, &#39;n_estimators&#39;: 875}. Best is trial 1 with value: 68742.27128491322.
+<span class=" -Color -Color-Green">[I 2022-04-13 21:57:28,357]</span> Trial 9 finished with value: 69125.85873860563 and parameters: {&#39;add_bpr&#39;: False, &#39;max_depth&#39;: 35, &#39;n_estimators&#39;: 586}. Best is trial 1 with value: 68742.27128491322.
+<span class=" -Color -Color-Green">[I 2022-04-13 21:57:58,530]</span> Trial 14 finished with value: 70643.25378736979 and parameters: {&#39;add_bpr&#39;: True, &#39;max_depth&#39;: 5, &#39;n_estimators&#39;: 950}. Best is trial 1 with value: 68742.27128491322.
+<span class=" -Color -Color-Green">[I 2022-04-13 22:00:36,178]</span> Trial 17 finished with value: 69145.0390589959 and parameters: {&#39;add_bpr&#39;: True, &#39;max_depth&#39;: 34, &#39;n_estimators&#39;: 211}. Best is trial 1 with value: 68742.27128491322.
+<span class=" -Color -Color-Green">[I 2022-04-13 22:00:58,293]</span> Trial 18 finished with value: 68979.32303258698 and parameters: {&#39;add_bpr&#39;: True, &#39;max_depth&#39;: 26, &#39;n_estimators&#39;: 219}. Best is trial 1 with value: 68742.27128491322.
+<span class=" -Color -Color-Green">[I 2022-04-13 22:01:25,599]</span> Trial 12 finished with value: 69023.16688586879 and parameters: {&#39;add_bpr&#39;: False, &#39;max_depth&#39;: 29, &#39;n_estimators&#39;: 740}. Best is trial 1 with value: 68742.27128491322.
+<span class=" -Color -Color-Green">[I 2022-04-13 22:02:10,044]</span> Trial 19 finished with value: 69151.66861935594 and parameters: {&#39;add_bpr&#39;: True, &#39;max_depth&#39;: 27, &#39;n_estimators&#39;: 258}. Best is trial 1 with value: 68742.27128491322.
+<span class=" -Color -Color-Green">[I 2022-04-13 22:02:43,744]</span> Trial 16 finished with value: 68928.4875664332 and parameters: {&#39;add_bpr&#39;: False, &#39;max_depth&#39;: 7, &#39;n_estimators&#39;: 805}. Best is trial 1 with value: 68742.27128491322.
+<span class=" -Color -Color-Green">[I 2022-04-13 22:02:51,994]</span> Trial 10 finished with value: 68977.12273511756 and parameters: {&#39;add_bpr&#39;: False, &#39;max_depth&#39;: 34, &#39;n_estimators&#39;: 943}. Best is trial 1 with value: 68742.27128491322.
+<span class=" -Color -Color-Green">[I 2022-04-13 22:03:49,346]</span> Trial 13 finished with value: 69106.83529264337 and parameters: {&#39;add_bpr&#39;: True, &#39;max_depth&#39;: 18, &#39;n_estimators&#39;: 811}. Best is trial 1 with value: 68742.27128491322.
+<span class=" -Color -Color-Green">[I 2022-04-13 22:06:45,756]</span> Trial 15 finished with value: 69133.48181427896 and parameters: {&#39;add_bpr&#39;: False, &#39;max_depth&#39;: 18, &#39;n_estimators&#39;: 769}. Best is trial 1 with value: 68742.27128491322.
+<span class=" -Color -Color-Green">[I 2022-04-13 22:10:49,066]</span> Trial 24 finished with value: 69119.06857059004 and parameters: {&#39;add_bpr&#39;: True, &#39;max_depth&#39;: 23, &#39;n_estimators&#39;: 474}. Best is trial 1 with value: 68742.27128491322.
+<span class=" -Color -Color-Green">[I 2022-04-13 22:11:11,864]</span> Trial 25 finished with value: 69072.83855624624 and parameters: {&#39;add_bpr&#39;: True, &#39;max_depth&#39;: 22, &#39;n_estimators&#39;: 494}. Best is trial 1 with value: 68742.27128491322.
+<span class=" -Color -Color-Green">[I 2022-04-13 22:12:40,234]</span> Trial 26 finished with value: 68777.47969358158 and parameters: {&#39;add_bpr&#39;: True, &#39;max_depth&#39;: 23, &#39;n_estimators&#39;: 509}. Best is trial 1 with value: 68742.27128491322.
+<span class=" -Color -Color-Green">[I 2022-04-13 22:13:42,004]</span> Trial 21 finished with value: 68863.32589979644 and parameters: {&#39;add_bpr&#39;: True, &#39;max_depth&#39;: 26, &#39;n_estimators&#39;: 746}. Best is trial 1 with value: 68742.27128491322.
+<span class=" -Color -Color-Green">[I 2022-04-13 22:13:53,157]</span> Trial 20 finished with value: 69030.83254756489 and parameters: {&#39;add_bpr&#39;: True, &#39;max_depth&#39;: 26, &#39;n_estimators&#39;: 781}. Best is trial 1 with value: 68742.27128491322.
+<span class=" -Color -Color-Green">[I 2022-04-13 22:14:00,970]</span> Trial 23 finished with value: 69014.84421813856 and parameters: {&#39;add_bpr&#39;: True, &#39;max_depth&#39;: 15, &#39;n_estimators&#39;: 817}. Best is trial 1 with value: 68742.27128491322.
+<span class=" -Color -Color-Green">[I 2022-04-13 22:14:43,172]</span> Trial 27 finished with value: 69021.65672230211 and parameters: {&#39;add_bpr&#39;: True, &#39;max_depth&#39;: 22, &#39;n_estimators&#39;: 476}. Best is trial 1 with value: 68742.27128491322.
+<span class=" -Color -Color-Green">[I 2022-04-13 22:15:08,605]</span> Trial 22 finished with value: 69087.45715303435 and parameters: {&#39;add_bpr&#39;: True, &#39;max_depth&#39;: 22, &#39;n_estimators&#39;: 853}. Best is trial 1 with value: 68742.27128491322.
+<span class=" -Color -Color-Green">[I 2022-04-13 22:15:37,247]</span> Trial 28 finished with value: 68917.13430235258 and parameters: {&#39;add_bpr&#39;: True, &#39;max_depth&#39;: 31, &#39;n_estimators&#39;: 334}. Best is trial 1 with value: 68742.27128491322.
+<span class=" -Color -Color-Green">[I 2022-04-13 22:15:47,291]</span> Trial 29 finished with value: 68859.93759727958 and parameters: {&#39;add_bpr&#39;: True, &#39;max_depth&#39;: 31, &#39;n_estimators&#39;: 334}. Best is trial 1 with value: 68742.27128491322.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Best trial:&quot;</span><span class="p">)</span>
+<span class="n">best_trial</span> <span class="o">=</span> <span class="n">study</span><span class="o">.</span><span class="n">best_trial</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  Number:&quot;</span><span class="p">,</span> <span class="n">best_trial</span><span class="o">.</span><span class="n">number</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  Value: &quot;</span><span class="p">,</span> <span class="n">best_trial</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  Params: &quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">best_trial</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;    </span><span class="si">{}</span><span class="s2">: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Best trial:
+  Number: 1
+  Value:  68742.27128491322
+  Params: 
+    add_bpr: True
+    max_depth: 29
+    n_estimators: 273
+</pre></div>
+</div>
+</div>
+</div>
+<p>Observe that <code class="docutils literal notranslate"><span class="pre">add_bedrooms_per_room=True</span></code> so adding the extra feature is the best choice. In fact this is the choice for most top scoring trials. This shows that even preprocessing steps can be optimized as a hyperparameter of the pipeline.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">study</span><span class="o">.</span><span class="n">trials_dataframe</span><span class="p">()</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;value&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>number</th>
+      <th>value</th>
+      <th>datetime_start</th>
+      <th>datetime_complete</th>
+      <th>duration</th>
+      <th>params_add_bpr</th>
+      <th>params_max_depth</th>
+      <th>params_n_estimators</th>
+      <th>state</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>68742.271285</td>
+      <td>2022-04-13 21:45:27.166257</td>
+      <td>2022-04-13 21:49:24.688791</td>
+      <td>0 days 00:03:57.522534</td>
+      <td>True</td>
+      <td>29</td>
+      <td>273</td>
+      <td>COMPLETE</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>26</td>
+      <td>68777.479694</td>
+      <td>2022-04-13 22:03:49.351561</td>
+      <td>2022-04-13 22:12:40.231526</td>
+      <td>0 days 00:08:50.879965</td>
+      <td>True</td>
+      <td>23</td>
+      <td>509</td>
+      <td>COMPLETE</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>5</td>
+      <td>68852.249051</td>
+      <td>2022-04-13 21:45:27.168947</td>
+      <td>2022-04-13 21:56:14.179343</td>
+      <td>0 days 00:10:47.010396</td>
+      <td>True</td>
+      <td>22</td>
+      <td>741</td>
+      <td>COMPLETE</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>29</td>
+      <td>68859.937597</td>
+      <td>2022-04-13 22:11:11.870627</td>
+      <td>2022-04-13 22:15:47.291319</td>
+      <td>0 days 00:04:35.420692</td>
+      <td>True</td>
+      <td>31</td>
+      <td>334</td>
+      <td>COMPLETE</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>21</td>
+      <td>68863.325900</td>
+      <td>2022-04-13 22:00:58.303589</td>
+      <td>2022-04-13 22:13:42.003549</td>
+      <td>0 days 00:12:43.699960</td>
+      <td>True</td>
+      <td>26</td>
+      <td>746</td>
+      <td>COMPLETE</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>3</td>
+      <td>68894.855877</td>
+      <td>2022-04-13 21:45:27.167605</td>
+      <td>2022-04-13 21:50:58.591724</td>
+      <td>0 days 00:05:31.424119</td>
+      <td>True</td>
+      <td>35</td>
+      <td>378</td>
+      <td>COMPLETE</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>28</td>
+      <td>68917.134302</td>
+      <td>2022-04-13 22:10:49.094625</td>
+      <td>2022-04-13 22:15:37.247790</td>
+      <td>0 days 00:04:48.153165</td>
+      <td>True</td>
+      <td>31</td>
+      <td>334</td>
+      <td>COMPLETE</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>16</td>
+      <td>68928.487566</td>
+      <td>2022-04-13 21:57:05.052625</td>
+      <td>2022-04-13 22:02:43.744278</td>
+      <td>0 days 00:05:38.691653</td>
+      <td>False</td>
+      <td>7</td>
+      <td>805</td>
+      <td>COMPLETE</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>2</td>
+      <td>68969.931385</td>
+      <td>2022-04-13 21:45:27.166989</td>
+      <td>2022-04-13 21:49:41.117709</td>
+      <td>0 days 00:04:13.950720</td>
+      <td>False</td>
+      <td>7</td>
+      <td>671</td>
+      <td>COMPLETE</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>10</td>
+      <td>68977.122735</td>
+      <td>2022-04-13 21:49:38.251194</td>
+      <td>2022-04-13 22:02:51.994388</td>
+      <td>0 days 00:13:13.743194</td>
+      <td>False</td>
+      <td>34</td>
+      <td>943</td>
+      <td>COMPLETE</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">optuna</span><span class="o">.</span><span class="n">visualization</span><span class="o">.</span><span class="n">plot_contour</span><span class="p">(</span><span class="n">study</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;max_depth&quot;</span><span class="p">,</span> <span class="s2">&quot;n_estimators&quot;</span><span class="p">])</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">650</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">600</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">renderer</span><span class="o">=</span><span class="s2">&quot;svg&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/house-prices_43_0.svg" src="../../_images/house-prices_43_0.svg" /></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">optuna</span><span class="o">.</span><span class="n">visualization</span><span class="o">.</span><span class="n">plot_slice</span><span class="p">(</span><span class="n">study</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;max_depth&quot;</span><span class="p">,</span> <span class="s2">&quot;n_estimators&quot;</span><span class="p">])</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">900</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">400</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">renderer</span><span class="o">=</span><span class="s2">&quot;svg&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/house-prices_44_0.svg" src="../../_images/house-prices_44_0.svg" /></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">optuna</span><span class="o">.</span><span class="n">visualization</span><span class="o">.</span><span class="n">plot_parallel_coordinate</span><span class="p">(</span><span class="n">study</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">900</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">400</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">renderer</span><span class="o">=</span><span class="s2">&quot;svg&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/house-prices_45_0.svg" src="../../_images/house-prices_45_0.svg" /></div>
+</div>
+</div>
+<div class="section" id="inference-using-the-pipeline">
+<h2>Inference using the pipeline<a class="headerlink" href="#inference-using-the-pipeline" title="Permalink to this headline">¶</a></h2>
+<p>Assuming the test data is identical to train data, any trained pipeline can be used for inference without any specific preprocessing steps. Note that for the sake of simplicity we did not save the best models during hyperparameter optimization. But this can be done with <a class="reference external" href="https://optuna.readthedocs.io/en/stable/tutorial/20_recipes/007_optuna_callback.html?highlight=callbacks">callbacks</a>. In that case, we can simply load the best model instead of retraining which we do here.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_squared_error</span>
+
+<span class="c1"># Fit on best parameters</span>
+<span class="n">best_pipe</span> <span class="o">=</span> <span class="n">create_pipe</span><span class="p">(</span><span class="o">**</span><span class="n">study</span><span class="o">.</span><span class="n">best_params</span><span class="p">)</span>
+<span class="n">best_pipe</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="c1"># Make inference / prediction</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">best_pipe</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;RMSE (train):&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>RMSE (train): 18002.44349286847
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="conclusion">
+<h2>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this headline">¶</a></h2>
+<p>Pipelines are <strong>awesome</strong>. We can use scikit-learn transformers as well as define custom transformers as steps in the pipeline, making this technique very flexible. For example, even preprocessing can be included in the pipeline, and therefore be part of cross-validation and hyperparameter optimization. Finally, we have shown that the pipeline can be loaded to perform inference directly on new test data with minimal preprocessing. This means that testing, development, and maintenance can be done in one place in the code.</p>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./notebooks/fundamentals"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="../../intro.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">𝗜𝗻𝗲𝗳𝗳𝗶𝗰𝗶𝗲𝗻𝘁 𝗡𝗲𝘁𝘄𝗼𝗿𝗸𝘀</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="blending-stacking.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Blending and Stacking</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By 𝗥𝗼𝗻 𝗠𝗲𝗱𝗶𝗻𝗮. Powered by <a href="https://jupyterbook.org">Jupyter Book</a>.<br/>
+    
+        &copy; Copyright 2021.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

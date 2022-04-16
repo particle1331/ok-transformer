@@ -1,0 +1,862 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Basics of Time Series Analysis &#8212; 𝗜𝗻𝗲𝗳𝗳𝗶𝗰𝗶𝗲𝗻𝘁 𝗡𝗲𝘁𝘄𝗼𝗿𝗸𝘀</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
+    <script>
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="shortcut icon" href="../_static/pone.0237978.g001.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/pone.0237978.g001.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">𝗜𝗻𝗲𝗳𝗳𝗶𝗰𝗶𝗲𝗻𝘁 𝗡𝗲𝘁𝘄𝗼𝗿𝗸𝘀</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  FUNDAMENTALS
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../notebooks/fundamentals/house-prices.html">
+   Pipelines in
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     scikit-learn
+    </span>
+   </code>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../notebooks/fundamentals/blending-stacking.html">
+   Blending and Stacking
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../notebooks/fundamentals/optuna.html">
+   Model Tuning with Optuna
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../notebooks/fundamentals/missing.html">
+   Handling Missing Values
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  DEEP LEARNING
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../notebooks/fundamentals/backpropagation.html">
+   Backpropagation on DAGs
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../notebooks/tensorflow/01-tensorflow-nn.html">
+   TensorFlow Datasets
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../notebooks/tensorflow/02-tensorflow-mechanics.html">
+   Mechanics of TensorFlow
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../notebooks/tensorflow/03-tensorflow-activations.html">
+   Activation Functions
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../notebooks/tensorflow/04-tensorflow-optim-init.html">
+   Initialization and Optimization
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  MODEL DEPLOYMENT
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../notebooks/deployment/production-code.html">
+   Packaging Production Code
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/drafts/ts0-basics.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/particle1331/inefficient-networks"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/particle1331/inefficient-networks/issues/new?title=Issue%20on%20page%20%2Fdrafts/ts0-basics.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/particle1331/inefficient-networks/master?urlpath=tree/docs/drafts/ts0-basics.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#groundwork">
+   Groundwork
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#patterns">
+   Patterns
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#examples">
+     Examples
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#passengers-dataset">
+       Passengers dataset
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#changes-in-level-of-savings-in-the-us">
+       Changes in level of savings in the US
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#annual-averages-of-the-daily-sunspot-areas">
+       Annual averages of the daily sunspot areas
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#dependency">
+   Dependency
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#stationarity">
+   Stationarity
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#a-little-bit-of-theory">
+     (A little bit of) theory
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#differencing">
+       Differencing
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Basics of Time Series Analysis</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#groundwork">
+   Groundwork
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#patterns">
+   Patterns
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#examples">
+     Examples
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#passengers-dataset">
+       Passengers dataset
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#changes-in-level-of-savings-in-the-us">
+       Changes in level of savings in the US
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#annual-averages-of-the-daily-sunspot-areas">
+       Annual averages of the daily sunspot areas
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#dependency">
+   Dependency
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#stationarity">
+   Stationarity
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#a-little-bit-of-theory">
+     (A little bit of) theory
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#differencing">
+       Differencing
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="basics-of-time-series-analysis">
+<h1>Basics of Time Series Analysis<a class="headerlink" href="#basics-of-time-series-analysis" title="Permalink to this headline">¶</a></h1>
+<div class="admonition-attribution admonition">
+<p class="admonition-title">Attribution</p>
+<p>This notebook is based on the kernel <a class="reference external" href="https://www.kaggle.com/konradb/ts-0-the-basics">TS-0: the basics
+</a> by <a class="reference external" href="https://www.kaggle.com/konradb">GM Konrad Banachewicz</a>.</p>
+</div>
+<p>This notebook summarizes some <strong>elementary methods</strong> for time series analysis as sometimes you don’t have the time, hardware, or data to go for a transformer, and vintage methods can be your friend. Note that elementary is not the same as trivial.</p>
+<p>We start by importing the necessary libraries. Most of them are familiar to anybody working with the data science, with the exception of <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> (<a class="reference external" href="https://www.statsmodels.org/stable/index.html">link</a>). This package is a product of impressive work by <a class="reference external" href="http://conference.scipy.org/proceedings/scipy2010/pdfs/seabold.pdf">Seabold and Perktold</a> — two people who set out to bring statistical functionality in Python into the 21st century. If you are likely to use statistics in your work and you are a Pythonista, familiarizing yourself with this library is a very good idea.</p>
+<p>In this module we are merely scratching the surface of <code class="docutils literal notranslate"><span class="pre">statsmodel</span></code> functionality, with seasonal decomposition as our primary tool.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">gauss</span>
+<span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">random</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">import</span> <span class="nn">itertools</span>
+<span class="kn">import</span> <span class="nn">pathlib</span>
+
+<span class="kn">import</span> <span class="nn">statsmodels.formula.api</span> <span class="k">as</span> <span class="nn">smf</span>
+<span class="kn">import</span> <span class="nn">statsmodels.api</span> <span class="k">as</span> <span class="nn">sm</span>
+<span class="kn">from</span> <span class="nn">statsmodels.graphics.tsaplots</span> <span class="kn">import</span> <span class="n">plot_acf</span><span class="p">,</span> <span class="n">plot_pacf</span>
+<span class="kn">from</span> <span class="nn">statsmodels.tsa.ar_model</span> <span class="kn">import</span> <span class="n">AR</span>
+<span class="kn">from</span> <span class="nn">statsmodels.tsa.seasonal</span> <span class="kn">import</span> <span class="n">seasonal_decompose</span>
+<span class="kn">from</span> <span class="nn">statsmodels.tsa.stattools</span> <span class="kn">import</span> <span class="n">adfuller</span>
+
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">from</span> <span class="nn">pandas.plotting</span> <span class="kn">import</span> <span class="n">autocorrelation_plot</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib_inline</span>
+<span class="n">matplotlib_inline</span><span class="o">.</span><span class="n">backend_inline</span><span class="o">.</span><span class="n">set_matplotlib_formats</span><span class="p">(</span><span class="s1">&#39;svg&#39;</span><span class="p">,</span> <span class="s1">&#39;pdf&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;fivethirtyeight&#39;</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+</div>
+<p>Define a config class.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># config</span>
+<span class="k">class</span> <span class="nc">CFG</span><span class="p">:</span>
+    <span class="n">data_path</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">()</span><span class="o">.</span><span class="n">absolute</span><span class="p">()</span><span class="o">.</span><span class="n">parents</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">/</span> <span class="s2">&quot;data&quot;</span> <span class="o">/</span> <span class="s2">&quot;konrad&quot;</span>
+    <span class="n">img_dim1</span> <span class="o">=</span> <span class="mi">20</span>
+    <span class="n">img_dim2</span> <span class="o">=</span> <span class="mi">10</span>
+    
+<span class="c1"># adjust the parameters for displayed figures    </span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;figure.figsize&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">CFG</span><span class="o">.</span><span class="n">img_dim1</span><span class="p">,</span> <span class="n">CFG</span><span class="o">.</span><span class="n">img_dim2</span><span class="p">)})</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="groundwork">
+<h2>Groundwork<a class="headerlink" href="#groundwork" title="Permalink to this headline">¶</a></h2>
+<p>Time series is any sequence you record over time and applications are everywhere. More formally, time series data is a sequence of data points (or observations) recorded at different time intervals - those intervals are frequently, but not always, regular (hourly, daily, weekly, monthly, quarterly etc):</p>
+<div class="math notranslate nohighlight">
+\[\{X_t\} \quad t = 1, 2, \ldots, T\]</div>
+<p>A strict formulation would be that a time series is a (discrete) realization of a (continuous) <a class="reference external" href="https://en.wikipedia.org/wiki/Stochastic_process">stochastic process</a> generating the data and the underlying reason why we can infer from the former about the latter is the <a class="reference external" href="https://en.wikipedia.org/wiki/Kolmogorov_extension_theorem">Kolmogorov extension theorem</a>. The proper mathematical treatment of this theory is way beyond the scope of this notebook, so a mathematically inclinded reader is advised to look up those terms and then follow the references.</p>
+<p>Phenomena measured over time are everywhere, so a natural question is: what can we do with time series? Some of the more popular applications are:</p>
+<ul class="simple">
+<li><p><strong>Interpretation.</strong> We want to be able to make sense of diverse phenomena and capture the nature of the underlying dynamics.</p></li>
+</ul>
+<ul class="simple">
+<li><p><strong>Modelling.</strong> Understanding inherent aspects of the time series data so that we can create meaningful and accurate forecasts.</p></li>
+</ul>
+<ul class="simple">
+<li><p><strong>Forecasting.</strong> We want to know something about the future.</p></li>
+</ul>
+<ul class="simple">
+<li><p><strong>Filtering or smoothing.</strong> We want to get a better understanding of the process based on partially or fully observed sample.</p></li>
+</ul>
+<ul class="simple">
+<li><p><strong>Simulation.</strong> In certain applications calculating e.g. high quantiles of a distribution is only possible with simulation, because there is not enough historical data.</p></li>
+</ul>
+</div>
+<div class="section" id="patterns">
+<h2>Patterns<a class="headerlink" href="#patterns" title="Permalink to this headline">¶</a></h2>
+<p>The first we can do to identify patterns in a time series is separate it into components with easily understandable characteristics. The following is called an <strong>additive decomposition</strong>:</p>
+<div class="math notranslate nohighlight">
+\[X_t = T_t + S_t + C_t + I_t\]</div>
+<p>where <span class="math notranslate nohighlight">\(T_t\)</span> is the <strong>trend</strong> shows a general direction of the time series data over a long period of time which represents a long-term progression of the series (secular variation). Phenomenon that repeats itself in a fixed and known period is captured by the <strong>seasonal component</strong> <span class="math notranslate nohighlight">\(S_t.\)</span> It is observed when there is a distinct repeated pattern observed between regular intervals due to seasonal factors: annual, monthly or weekly. Obvious examples include daily power consumption patterns or annual sales of seasonal goods. An optional term <span class="math notranslate nohighlight">\(C_t,\)</span> called the <strong>cyclical component</strong>, represents repetitive pattern which does not occur at fixed intervals, or the period is undetermined — usually observed in an economic context like business cycles. Everything that is not captured by trend and seasonality, i.e. the residuals, is captured by the term <span class="math notranslate nohighlight">\(I_t\)</span> called the <strong>irregular component</strong>. This consists of the fluctuations in the time series that are observed after removing trend and seasonal or cyclical variations.</p>
+<p>We may have different combinations of trends and seasonality. Depending on the nature of the trends and seasonality, a time series can be modeled as an additive or multiplicative time series. Each observation in the series can be expressed as either a sum or a product (<strong>multiplicative decomposition</strong>) of the components. It is worth pointing out that an alternative to using a multiplicative decomposition is to first transform the data until the variation in the series appears to be stable over time, then use an additive decomposition. This includes multiplicative decomposition as a special case as an additive decomposition with log transformed components.</p>
+<p>A popular implementation for calculating the fundamental decomposition can be used via the <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> package:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">help</span><span class="p">(</span><span class="n">seasonal_decompose</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Help on function seasonal_decompose in module statsmodels.tsa.seasonal:
+
+seasonal_decompose(x, model=&#39;additive&#39;, filt=None, period=None, two_sided=True, extrapolate_trend=0)
+    Seasonal decomposition using moving averages.
+    
+    Parameters
+    ----------
+    x : array_like
+        Time series. If 2d, individual series are in columns. x must contain 2
+        complete cycles.
+    model : {&quot;additive&quot;, &quot;multiplicative&quot;}, optional
+        Type of seasonal component. Abbreviations are accepted.
+    filt : array_like, optional
+        The filter coefficients for filtering out the seasonal component.
+        The concrete moving average method used in filtering is determined by
+        two_sided.
+    period : int, optional
+        Period of the series. Must be used if x is not a pandas object or if
+        the index of x does not have  a frequency. Overrides default
+        periodicity of x if x is a pandas object with a timeseries index.
+    two_sided : bool, optional
+        The moving average method used in filtering.
+        If True (default), a centered moving average is computed using the
+        filt. If False, the filter coefficients are for past values only.
+    extrapolate_trend : int or &#39;freq&#39;, optional
+        If set to &gt; 0, the trend resulting from the convolution is
+        linear least-squares extrapolated on both ends (or the single one
+        if two_sided is False) considering this many (+1) closest points.
+        If set to &#39;freq&#39;, use `freq` closest points. Setting this parameter
+        results in no NaN values in trend or resid components.
+    
+    Returns
+    -------
+    DecomposeResult
+        A object with seasonal, trend, and resid attributes.
+    
+    See Also
+    --------
+    statsmodels.tsa.filters.bk_filter.bkfilter
+        Baxter-King filter.
+    statsmodels.tsa.filters.cf_filter.cffilter
+        Christiano-Fitzgerald asymmetric, random walk filter.
+    statsmodels.tsa.filters.hp_filter.hpfilter
+        Hodrick-Prescott filter.
+    statsmodels.tsa.filters.convolution_filter
+        Linear filtering via convolution.
+    statsmodels.tsa.seasonal.STL
+        Season-Trend decomposition using LOESS.
+    
+    Notes
+    -----
+    This is a naive decomposition. More sophisticated methods should
+    be preferred.
+    
+    The additive model is Y[t] = T[t] + S[t] + e[t]
+    
+    The multiplicative model is Y[t] = T[t] * S[t] * e[t]
+    
+    The results are obtained by first estimating the trend by applying
+    a convolution filter to the data. The trend is then removed from the
+    series and the average of this de-trended series for each period is
+    the returned seasonal component.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="examples">
+<h3>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="passengers-dataset">
+<h4>Passengers dataset<a class="headerlink" href="#passengers-dataset" title="Permalink to this headline">¶</a></h4>
+<p>Every field of knowledge has <strong>the</strong> dataset that is used for teaching purposes: machine learning has Iris and CIFAR, differential equations - Canadian lynx data, and statistics has the airline passengers dataset between 1949 and 1960, first compiled by Box and Jenkins (you will be hearing those two names again in the next module) in 1976. We will use this dataset to demonstrate in practice what kind of information can be obtained using seasonal decomposition.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">series</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">CFG</span><span class="o">.</span><span class="n">data_path</span> <span class="o">/</span> <span class="s1">&#39;passengers.csv&#39;</span><span class="p">)</span>
+<span class="n">series</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">series</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">])</span>
+<span class="n">series</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;date&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/ts0-basics_17_0.svg" src="../_images/ts0-basics_17_0.svg" /></div>
+</div>
+<p>Let’s start with a basic additive decomposition:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># decomposition</span>
+<span class="n">decomposition</span> <span class="o">=</span> <span class="n">seasonal_decompose</span><span class="p">(</span><span class="n">series</span><span class="p">[</span><span class="s2">&quot;passengers&quot;</span><span class="p">],</span> <span class="n">model</span><span class="o">=</span><span class="s2">&quot;additive&quot;</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span> 
+<span class="n">figure</span> <span class="o">=</span> <span class="n">decomposition</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/ts0-basics_19_0.svg" src="../_images/ts0-basics_19_0.svg" /></div>
+</div>
+<p>Trend and seasonality are behaving more or less in line with expectations, but the behavior of the residuals is clearly not consistent over time (average level of oscillations in the middle of the sample is very different than on either end). Note that this is not noise, since there is structure in the residuals.</p>
+<p>While there are many possible reasons, one quick explanation is the additive vs multiplicative relationship between the series components — which is something we can examine quickly:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># decomposition</span>
+<span class="n">decomposition</span> <span class="o">=</span> <span class="n">seasonal_decompose</span><span class="p">(</span><span class="n">series</span><span class="p">[</span><span class="s2">&quot;passengers&quot;</span><span class="p">],</span> <span class="n">model</span><span class="o">=</span><span class="s2">&quot;multiplicative&quot;</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span> 
+<span class="n">figure</span> <span class="o">=</span> <span class="n">decomposition</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/ts0-basics_21_0.svg" src="../_images/ts0-basics_21_0.svg" /></div>
+</div>
+<p>Not much of a qualitative change in trend and seasonality components, but the residuals looks much more stable around a constant level — such phenomenon does not of course imply stationarity by itself, but at least a clear signal in the opposite direction is not there anymore. Here stationarity means that the underlying stochastic processes is independent of time.</p>
+</div>
+<div class="section" id="changes-in-level-of-savings-in-the-us">
+<h4>Changes in level of savings in the US<a class="headerlink" href="#changes-in-level-of-savings-in-the-us" title="Permalink to this headline">¶</a></h4>
+<p>Let’s check how does seasonal decomposition work with some other popular datasets:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">series</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">CFG</span><span class="o">.</span><span class="n">data_path</span> <span class="o">/</span> <span class="s1">&#39;savings_change.csv&#39;</span><span class="p">)</span>
+<span class="n">series</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">series</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">])</span>
+<span class="n">series</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;date&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/ts0-basics_25_0.svg" src="../_images/ts0-basics_25_0.svg" /></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">decomposition</span> <span class="o">=</span> <span class="n">seasonal_decompose</span><span class="p">(</span><span class="n">series</span><span class="p">[</span><span class="s2">&quot;delta_val&quot;</span><span class="p">],</span> <span class="n">model</span><span class="o">=</span><span class="s2">&quot;additive&quot;</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span> 
+<span class="n">figure</span> <span class="o">=</span> <span class="n">decomposition</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/ts0-basics_26_0.svg" src="../_images/ts0-basics_26_0.svg" /></div>
+</div>
+</div>
+<div class="section" id="annual-averages-of-the-daily-sunspot-areas">
+<h4>Annual averages of the daily sunspot areas<a class="headerlink" href="#annual-averages-of-the-daily-sunspot-areas" title="Permalink to this headline">¶</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">series</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">CFG</span><span class="o">.</span><span class="n">data_path</span> <span class="o">/</span> <span class="s1">&#39;sunspots.csv&#39;</span><span class="p">)</span>
+<span class="n">series</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">series</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">])</span>
+<span class="n">series</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;date&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/ts0-basics_28_0.svg" src="../_images/ts0-basics_28_0.svg" /></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">decomposition</span> <span class="o">=</span> <span class="n">seasonal_decompose</span><span class="p">(</span><span class="n">series</span><span class="p">[</span><span class="s2">&quot;avg_sunspot_area&quot;</span><span class="p">],</span> <span class="n">model</span><span class="o">=</span><span class="s2">&quot;additive&quot;</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span> 
+<span class="n">figure</span> <span class="o">=</span> <span class="n">decomposition</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/ts0-basics_29_0.svg" src="../_images/ts0-basics_29_0.svg" /></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">decomposition</span> <span class="o">=</span> <span class="n">seasonal_decompose</span><span class="p">(</span><span class="n">series</span><span class="p">[</span><span class="s2">&quot;avg_sunspot_area&quot;</span><span class="p">],</span> <span class="n">model</span><span class="o">=</span><span class="s2">&quot;multiplicative&quot;</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span> 
+<span class="n">figure</span> <span class="o">=</span> <span class="n">decomposition</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/ts0-basics_30_0.svg" src="../_images/ts0-basics_30_0.svg" /></div>
+</div>
+<p>As we can see, changing the decomposition type to multiplicative alleviates the problem with residual behavior, but only to a certain degree — the pattern is still not consistent, with increase in the amplitude in the middle of the sample. This demonstrates that while seasonal decomposition is a fast tool, it has severe limitations when dealing with more sophisticated data generating processes.</p>
+</div>
+</div>
+</div>
+<div class="section" id="dependency">
+<h2>Dependency<a class="headerlink" href="#dependency" title="Permalink to this headline">¶</a></h2>
+<p>The only way to succesful prediction is if past values of a series carry some information about the future behavior — in other words, if the present values are dependent on the past. A fast — and therefore very popular — manner of examining this dependence are the autocorrelation and partial autocorrelation functions, which are defined below:</p>
+<p>Suppose a random process has a mean function <span class="math notranslate nohighlight">\(\mu_t = \mathbb E[X_t]\)</span> at each time <span class="math notranslate nohighlight">\(t,\)</span> then the <strong>autocovariance function</strong> is defined by</p>
+<div class="math notranslate nohighlight">
+\[\gamma(s, t) = \textsf{Cov}(X_s, X_t) = \mathbb E[X_s X_t] - \mathbb E[X_s] \mathbb E[X_t]\]</div>
+<p>at two time points <span class="math notranslate nohighlight">\(s\)</span> and <span class="math notranslate nohighlight">\(t.\)</span> This leads to the following two definitions. The <strong>autocorrelation function</strong> (<strong>ACF</strong>) is defined at each time point <span class="math notranslate nohighlight">\(t\)</span> and lag <span class="math notranslate nohighlight">\(\tau\)</span> is given by</p>
+<div class="math notranslate nohighlight">
+\[\rho(t, \tau) = \textsf{Cor}(X_t, X_{t+\tau}) = \dfrac{\textsf{Cov}(X_t, X_{t+\tau})}{\sqrt{\textsf{Var}(X_t)} \sqrt{\textsf{Var}(X_{t+\tau})}}.\]</div>
+<p>These two functions measure the covariance / correlation of the random process <span class="math notranslate nohighlight">\(X_t\)</span> with itself at different time points. Finally, the <strong>partial autocorellation function</strong> (<strong>PACF</strong>) is defined as</p>
+<div class="math notranslate nohighlight">
+\[\phi(t, \tau) = \textsf{Cor}(X_t, X_{t+\tau} | X_{t+1}, \ldots, X_{t+\tau-1}).\]</div>
+<p>An intuitive way to think about it is that ACF at lag <span class="math notranslate nohighlight">\(\tau\)</span> measures a linear dependence between <span class="math notranslate nohighlight">\(X_t\)</span> and <span class="math notranslate nohighlight">\(X_{t+\tau},\)</span> while PACF captures the dependence between those values <strong>correcting</strong> for all the intermediate effects.</p>
+</div>
+<div class="section" id="stationarity">
+<h2>Stationarity<a class="headerlink" href="#stationarity" title="Permalink to this headline">¶</a></h2>
+<p>To define things more formally, a stationary time series is one whose unconditional joint probability distribution does not change when shifted in time. This implies that parameters such as mean and variance also do not change over time.</p>
+<p>Since stationarity is an assumption underlying many statistical procedures used in time series analysis, non-stationary data are often transformed to become stationary. A trend stationary process is not strictly stationary, but can easily be transformed into a stationary process by removing the underlying trend, which is solely a function of time; the same holds true for a stationary process with an added cyclical component.</p>
+<p>The core idea is that it’s much easier to model dynamic behavior over time if the statistical properties do not change: oscillations happen around the same level, the amplitude does not change too much etc (in other words, the probability distribution of <span class="math notranslate nohighlight">\(X_t\)</span> is the same as the distribution of <span class="math notranslate nohighlight">\(X_{t + \tau}\)</span>) — such models are well understood. Algorithms are likely to yield better predictions if we apply them to stationary processes, because we do not need to worry about e.g. concept drift between our training and test sets.</p>
+<p>If we are dealing with a process that does not adhere to those characteristics, we can either try and capture them directly or transform it in such a manner that it can be considered stationary.</p>
+<p>Below we plot a few examples of stationary and non-stationary series, starting with the simplest non-trivial stationary series: Gaussian white noise.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">xseries</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10000</span><span class="p">),</span> <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;noise&#39;</span><span class="p">]</span> <span class="p">)</span>
+<span class="n">xseries</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/ts0-basics_38_0.svg" src="../_images/ts0-basics_38_0.svg" /></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_acf</span><span class="p">(</span><span class="n">xseries</span><span class="p">[</span><span class="s1">&#39;noise&#39;</span><span class="p">],</span> <span class="n">lags</span><span class="o">=</span><span class="mi">25</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/ts0-basics_39_0.svg" src="../_images/ts0-basics_39_0.svg" /></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_pacf</span><span class="p">(</span><span class="n">xseries</span><span class="p">[</span><span class="s1">&#39;noise&#39;</span><span class="p">],</span> <span class="n">lags</span><span class="o">=</span><span class="mi">25</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/particle1331/miniforge3/envs/ml/lib/python3.8/site-packages/statsmodels/graphics/tsaplots.py:348: FutureWarning: The default method &#39;yw&#39; can produce PACF values outside of the [-1,1] interval. After 0.13, the default will change tounadjusted Yule-Walker (&#39;ywm&#39;). You can use this method now by setting method=&#39;ywm&#39;.
+  warnings.warn(
+</pre></div>
+</div>
+<img alt="../_images/ts0-basics_40_1.svg" src="../_images/ts0-basics_40_1.svg" /></div>
+</div>
+<p>For a slightly more interesting example (of non-stationary behavior), we can examine the passengers dataset:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Non-stationary example</span>
+<span class="n">series</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">CFG</span><span class="o">.</span><span class="n">data_path</span> <span class="o">/</span> <span class="s1">&#39;passengers.csv&#39;</span><span class="p">)</span>
+<span class="n">series</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">series</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">])</span>
+<span class="n">series</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;date&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/ts0-basics_42_0.svg" src="../_images/ts0-basics_42_0.svg" /></div>
+</div>
+<p>The stationarity of a series can be checked by examining the distribution of the series: we split the series into 2 contiguous parts and compute the summary statistics like the mean, variance and the autocorrelation. If the stats are quite different, then the series is not likely to be stationary.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">series</span><span class="p">[</span><span class="s1">&#39;passengers&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/ts0-basics_44_0.svg" src="../_images/ts0-basics_44_0.svg" /></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">series</span><span class="o">.</span><span class="n">passengers</span><span class="o">.</span><span class="n">values</span>
+<span class="n">split</span> <span class="o">=</span>  <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">X1</span><span class="p">,</span> <span class="n">X2</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">split</span><span class="p">],</span> <span class="n">X</span><span class="p">[</span><span class="n">split</span><span class="p">:]</span>
+<span class="n">mean1</span><span class="p">,</span> <span class="n">mean2</span> <span class="o">=</span> <span class="n">X1</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">X2</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">var1</span><span class="p">,</span> <span class="n">var2</span> <span class="o">=</span> <span class="n">X1</span><span class="o">.</span><span class="n">var</span><span class="p">(),</span> <span class="n">X2</span><span class="o">.</span><span class="n">var</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;mean&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;chunk1: </span><span class="si">%.2f</span><span class="s1"> </span><span class="se">\n</span><span class="s1">chunk2: </span><span class="si">%.2f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">mean1</span><span class="p">,</span> <span class="n">mean2</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">variance&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;chunk1: </span><span class="si">%.2f</span><span class="s1"> </span><span class="se">\n</span><span class="s1">chunk2: </span><span class="si">%.2f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">var1</span><span class="p">,</span> <span class="n">var2</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>mean
+chunk1: 182.90 
+chunk2: 377.69
+
+variance
+chunk1: 2244.09 
+chunk2: 7367.96
+</pre></div>
+</div>
+</div>
+</div>
+<p>The values are clearly very different across the two data subsets, which strongly suggests non-stationarity. However, visual inspection is not what one would could a rigorous criterion — so let’s define things in a formal manner.</p>
+<div class="section" id="a-little-bit-of-theory">
+<h3>(A little bit of) theory<a class="headerlink" href="#a-little-bit-of-theory" title="Permalink to this headline">¶</a></h3>
+<p>Given a stochastic process  <span class="math notranslate nohighlight">\(\{X_t\}\)</span> and CDF <span class="math notranslate nohighlight">\(F_X,\)</span> a process is strictly <strong>stationary</strong> iff</p>
+<div class="math notranslate nohighlight">
+\[F_X(X_{t_1}, \ldots, X_{t_n}) = F_X(X_{t_1 + \tau}, \ldots, X_{t_n + \tau})\]</div>
+<p>The definition is very powerful (if we know a cdf of a distribution, we can infer everything) — however, it is not possible to verify in practice. For that reason, a less strict variant has been introduced: <strong>weak</strong> (or <strong>second order</strong>) <strong>stationarity</strong>: a process is weakly stationary if it satisfies the following conditions:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\mu_t = \mu_{t + \tau}\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\gamma(s, t) = \gamma(s - t, 0)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\sigma^2_{X_t} &lt; \infty\)</span></p></li>
+</ul>
+<p>These conditions imply that <span class="math notranslate nohighlight">\(X_t\)</span> has constant mean, covariance only depends on distance in time between variables</p>
+<ul class="simple">
+<li><p>constant mean</p></li>
+<li></li>
+<li><p>autocorrelation:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[\rho (0, \tau) = \dfrac{\gamma(\tau, 0)}{\gamma(0, 0)}\]</div>
+<p>So how can we turn a non-stationary series into a stationary one? Popular transformations include (but are not limited to!):</p>
+<ul class="simple">
+<li><p>differencing the series</p></li>
+<li><p>taking the log of the series</p></li>
+<li><p>power transforms</p></li>
+</ul>
+<div class="section" id="differencing">
+<h4>Differencing<a class="headerlink" href="#differencing" title="Permalink to this headline">¶</a></h4>
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./drafts"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By 𝗥𝗼𝗻 𝗠𝗲𝗱𝗶𝗻𝗮. Powered by <a href="https://jupyterbook.org">Jupyter Book</a>.<br/>
+    
+        &copy; Copyright 2021.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

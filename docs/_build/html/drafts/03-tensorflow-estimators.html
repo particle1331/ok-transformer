@@ -1,0 +1,1393 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TensorFlow Estimators &#8212; 𝗜𝗻𝗲𝗳𝗳𝗶𝗰𝗶𝗲𝗻𝘁 𝗡𝗲𝘁𝘄𝗼𝗿𝗸𝘀</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
+    <script>
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="shortcut icon" href="../_static/pone.0237978.g001.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/pone.0237978.g001.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">𝗜𝗻𝗲𝗳𝗳𝗶𝗰𝗶𝗲𝗻𝘁 𝗡𝗲𝘁𝘄𝗼𝗿𝗸𝘀</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  FUNDAMENTALS
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../notebooks/fundamentals/house-prices.html">
+   Pipelines in
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     scikit-learn
+    </span>
+   </code>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../notebooks/fundamentals/blending-stacking.html">
+   Blending and Stacking
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../notebooks/fundamentals/optuna.html">
+   Model Tuning with Optuna
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../notebooks/fundamentals/missing.html">
+   Handling Missing Values
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  DEEP LEARNING
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../notebooks/fundamentals/backpropagation.html">
+   Backpropagation on DAGs
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../notebooks/tensorflow/01-tensorflow-nn.html">
+   TensorFlow Datasets
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../notebooks/tensorflow/02-tensorflow-mechanics.html">
+   Mechanics of TensorFlow
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../notebooks/tensorflow/03-tensorflow-activations.html">
+   Activation Functions
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../notebooks/tensorflow/04-tensorflow-optim-init.html">
+   Initialization and Optimization
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  MODEL DEPLOYMENT
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../notebooks/deployment/production-code.html">
+   Packaging Production Code
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/drafts/03-tensorflow-estimators.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/particle1331/inefficient-networks"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/particle1331/inefficient-networks/issues/new?title=Issue%20on%20page%20%2Fdrafts/03-tensorflow-estimators.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/particle1331/inefficient-networks/master?urlpath=tree/docs/drafts/03-tensorflow-estimators.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#working-with-feature-columns">
+   Working with feature columns
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#auto-mpg-dataset">
+     Auto MPG dataset
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#numeric-features">
+     Numeric features
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#bucketized-features">
+     Bucketized features
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#categorical-indicator-features">
+     Categorical indicator features
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#machine-learning-with-pre-made-estimators">
+   Machine learning with pre-made estimators
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#input-functions">
+     Input functions
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#initializing-the-estimator">
+     Initializing the Estimator
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#training">
+     Training
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#evaluation">
+     Evaluation
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>TensorFlow Estimators</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#working-with-feature-columns">
+   Working with feature columns
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#auto-mpg-dataset">
+     Auto MPG dataset
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#numeric-features">
+     Numeric features
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#bucketized-features">
+     Bucketized features
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#categorical-indicator-features">
+     Categorical indicator features
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#machine-learning-with-pre-made-estimators">
+   Machine learning with pre-made estimators
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#input-functions">
+     Input functions
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#initializing-the-estimator">
+     Initializing the Estimator
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#training">
+     Training
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#evaluation">
+     Evaluation
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="tensorflow-estimators">
+<h1>TensorFlow Estimators<a class="headerlink" href="#tensorflow-estimators" title="Permalink to this headline">¶</a></h1>
+<div class="admonition-attribution admonition">
+<p class="admonition-title">Attribution</p>
+<p>This notebook builds on Chapter 14: <em>Going Deeper – The Mechanics of TensorFlow</em> of <span id="id1">[<a class="reference internal" href="../intro.html#id7">RM19</a>]</span>.</p>
+</div>
+<p>In this notebook, we will work with TensorFlow Estimators. The <code class="docutils literal notranslate"><span class="pre">tf.estimator</span></code> API encapsulates the underlying steps in machine learning tasks, such as training, prediction (inference), and evaluation. Estimators are more encapsulated but also more scalable when compared to the previous approaches that we have covered above. Also, the <code class="docutils literal notranslate"><span class="pre">tf.estimator</span></code> API adds support for running models on multiple platforms without requiring major code changes, which makes them more suitable for the so-called “production phase” in industry applications.</p>
+<p>TensorFlow comes with a selection of off-the-shelf estimators for common machine learning and deep learning architectures that are useful for comparison studies, for example, to quickly assess whether a certain approach is applicable to a particular dataset or problem. Besides using pre-made Estimators, we can also create an Estimator by converting a Keras model to an Estimator.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">list_physical_devices</span><span class="p">(</span><span class="s1">&#39;GPU&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2.7.0
+[PhysicalDevice(name=&#39;/physical_device:GPU:0&#39;, device_type=&#39;GPU&#39;)]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="working-with-feature-columns">
+<h2>Working with feature columns<a class="headerlink" href="#working-with-feature-columns" title="Permalink to this headline">¶</a></h2>
+<p>In machine learning and deep learning applications, we can encounter various
+different types of features: continuous, unordered categorical (nominal), and ordered categorical (ordinal). Note that while numeric data can be either continuous or discrete, in the context of the TensorFlow API, “numeric” data specifically refers to continuous data of the floating point type.</p>
+<p>Sometimes, feature sets are comprised of a mixture of different feature types. While TensorFlow Estimators were designed to handle all these different types of features, we must specify how each feature should be interpreted by the Estimator.</p>
+<div class="section" id="auto-mpg-dataset">
+<h3>Auto MPG dataset<a class="headerlink" href="#auto-mpg-dataset" title="Permalink to this headline">¶</a></h3>
+<div class="figure align-default" id="feature-cols">
+<a class="reference internal image-reference" href="../img/feature_cols.png"><img alt="../img/feature_cols.png" src="../img/feature_cols.png" style="width: 60em;" /></a>
+<p class="caption"><span class="caption-text">Assigning types to feature columns from the Auto MPG dataset.</span><a class="headerlink" href="#feature-cols" title="Permalink to this image">¶</a></p>
+</div>
+<p>To demonstrate the use of TF Estimators, we use the <a class="reference external" href="https://archive.ics.uci.edu/ml/datasets/auto+mpg">Auto MPG dataset</a>. We are going to treat five features from the Auto MPG dataset (<em>number of cylinders</em>, <em>displacement</em>, <em>horsepower</em>, <em>weight</em>, and <em>acceleration</em>) as numeric (i.e. continuous) features. The <em>model year</em> can be regarded as an ordered categorical feature. Lastly, the <em>manufacturing origin</em> can be regarded as an unordered categorical feature with three possible discrete values, 1, 2, and 3, which correspond to the US, Europe, and Japan, respectively. <code class="xref std std-numref docutils literal notranslate"><span class="pre">feature_cols</span></code> above shows how we will treat these feature columns.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">dataset_path</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">get_file</span><span class="p">(</span>
+    <span class="s2">&quot;auto-mpg.data&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;http://archive.ics.uci.edu/ml/machine-learning-databases/auto-mpg/auto-mpg.data&quot;</span>
+<span class="p">)</span>
+
+<span class="n">column_names</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;MPG&quot;</span><span class="p">,</span> <span class="s2">&quot;Cylinders&quot;</span><span class="p">,</span> <span class="s2">&quot;Displacement&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Horsepower&quot;</span><span class="p">,</span> <span class="s2">&quot;Weight&quot;</span><span class="p">,</span> <span class="s2">&quot;Acceleration&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ModelYear&quot;</span><span class="p">,</span> <span class="s2">&quot;Origin&quot;</span>
+<span class="p">]</span>
+
+<span class="c1"># Load dataset; drop missing values</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">dataset_path</span><span class="p">,</span> 
+    <span class="n">names</span><span class="o">=</span><span class="n">column_names</span><span class="p">,</span> 
+    <span class="n">na_values</span><span class="o">=</span><span class="s2">&quot;?&quot;</span><span class="p">,</span> 
+    <span class="n">comment</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> 
+    <span class="n">sep</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">,</span> 
+    <span class="n">skipinitialspace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Shape:&quot;</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No. of missing values:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+
+<span class="c1"># For simplicity drop rows with missing values.</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">tail</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Shape: (398, 8)
+No. of missing values:
+MPG             0
+Cylinders       0
+Displacement    0
+Horsepower      6
+Weight          0
+Acceleration    0
+ModelYear       0
+Origin          0
+dtype: int64
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>MPG</th>
+      <th>Cylinders</th>
+      <th>Displacement</th>
+      <th>Horsepower</th>
+      <th>Weight</th>
+      <th>Acceleration</th>
+      <th>ModelYear</th>
+      <th>Origin</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>387</th>
+      <td>27.0</td>
+      <td>4</td>
+      <td>140.0</td>
+      <td>86.0</td>
+      <td>2790.0</td>
+      <td>15.6</td>
+      <td>82</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>388</th>
+      <td>44.0</td>
+      <td>4</td>
+      <td>97.0</td>
+      <td>52.0</td>
+      <td>2130.0</td>
+      <td>24.6</td>
+      <td>82</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>389</th>
+      <td>32.0</td>
+      <td>4</td>
+      <td>135.0</td>
+      <td>84.0</td>
+      <td>2295.0</td>
+      <td>11.6</td>
+      <td>82</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>390</th>
+      <td>28.0</td>
+      <td>4</td>
+      <td>120.0</td>
+      <td>79.0</td>
+      <td>2625.0</td>
+      <td>18.6</td>
+      <td>82</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>391</th>
+      <td>31.0</td>
+      <td>4</td>
+      <td>119.0</td>
+      <td>82.0</td>
+      <td>2720.0</td>
+      <td>19.4</td>
+      <td>82</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Splitting the dataset and standardizing numerical columns:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sklearn</span>
+<span class="kn">import</span> <span class="nn">sklearn.model_selection</span>
+
+<span class="n">df_train</span><span class="p">,</span> <span class="n">df_test</span> <span class="o">=</span> <span class="n">sklearn</span><span class="o">.</span><span class="n">model_selection</span><span class="o">.</span><span class="n">train_test_split</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">train_size</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+<span class="n">train_stats</span> <span class="o">=</span> <span class="n">df_train</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
+<span class="n">train_stats</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>count</th>
+      <th>mean</th>
+      <th>std</th>
+      <th>min</th>
+      <th>25%</th>
+      <th>50%</th>
+      <th>75%</th>
+      <th>max</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>MPG</th>
+      <td>313.0</td>
+      <td>23.603834</td>
+      <td>7.863563</td>
+      <td>9.0</td>
+      <td>17.5</td>
+      <td>23.0</td>
+      <td>29.0</td>
+      <td>46.6</td>
+    </tr>
+    <tr>
+      <th>Cylinders</th>
+      <td>313.0</td>
+      <td>5.412141</td>
+      <td>1.696370</td>
+      <td>3.0</td>
+      <td>4.0</td>
+      <td>4.0</td>
+      <td>8.0</td>
+      <td>8.0</td>
+    </tr>
+    <tr>
+      <th>Displacement</th>
+      <td>313.0</td>
+      <td>190.944089</td>
+      <td>103.351455</td>
+      <td>68.0</td>
+      <td>98.0</td>
+      <td>144.0</td>
+      <td>260.0</td>
+      <td>455.0</td>
+    </tr>
+    <tr>
+      <th>Horsepower</th>
+      <td>313.0</td>
+      <td>103.099042</td>
+      <td>37.381433</td>
+      <td>46.0</td>
+      <td>75.0</td>
+      <td>92.0</td>
+      <td>120.0</td>
+      <td>225.0</td>
+    </tr>
+    <tr>
+      <th>Weight</th>
+      <td>313.0</td>
+      <td>2959.712460</td>
+      <td>859.175108</td>
+      <td>1613.0</td>
+      <td>2205.0</td>
+      <td>2745.0</td>
+      <td>3574.0</td>
+      <td>4997.0</td>
+    </tr>
+    <tr>
+      <th>Acceleration</th>
+      <td>313.0</td>
+      <td>15.704792</td>
+      <td>2.704675</td>
+      <td>8.0</td>
+      <td>14.0</td>
+      <td>15.5</td>
+      <td>17.4</td>
+      <td>24.8</td>
+    </tr>
+    <tr>
+      <th>ModelYear</th>
+      <td>313.0</td>
+      <td>75.968051</td>
+      <td>3.660111</td>
+      <td>70.0</td>
+      <td>73.0</td>
+      <td>76.0</td>
+      <td>79.0</td>
+      <td>82.0</td>
+    </tr>
+    <tr>
+      <th>Origin</th>
+      <td>313.0</td>
+      <td>1.587859</td>
+      <td>0.812234</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>2.0</td>
+      <td>3.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">numeric_column_names</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;Cylinders&#39;</span><span class="p">,</span> 
+    <span class="s1">&#39;Displacement&#39;</span><span class="p">,</span> 
+    <span class="s1">&#39;Horsepower&#39;</span><span class="p">,</span> 
+    <span class="s1">&#39;Weight&#39;</span><span class="p">,</span> 
+    <span class="s1">&#39;Acceleration&#39;</span>
+<span class="p">]</span>
+
+<span class="n">df_train_norm</span><span class="p">,</span> <span class="n">df_test_norm</span> <span class="o">=</span> <span class="n">df_train</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">df_test</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">col_name</span> <span class="ow">in</span> <span class="n">numeric_column_names</span><span class="p">:</span>
+    <span class="n">train_mean</span> <span class="o">=</span> <span class="n">train_stats</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">col_name</span><span class="p">,</span> <span class="s1">&#39;mean&#39;</span><span class="p">]</span>
+    <span class="n">train_std</span>  <span class="o">=</span> <span class="n">train_stats</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">col_name</span><span class="p">,</span> <span class="s1">&#39;std&#39;</span><span class="p">]</span>
+    <span class="n">df_train_norm</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">col_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">df_train_norm</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">col_name</span><span class="p">]</span> <span class="o">-</span> <span class="n">train_mean</span><span class="p">)</span> <span class="o">/</span> <span class="n">train_std</span>
+    <span class="n">df_test_norm</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">col_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">df_test_norm</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">col_name</span><span class="p">]</span> <span class="o">-</span> <span class="n">train_mean</span><span class="p">)</span> <span class="o">/</span> <span class="n">train_std</span>
+    
+<span class="n">df_train_norm</span><span class="o">.</span><span class="n">tail</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>MPG</th>
+      <th>Cylinders</th>
+      <th>Displacement</th>
+      <th>Horsepower</th>
+      <th>Weight</th>
+      <th>Acceleration</th>
+      <th>ModelYear</th>
+      <th>Origin</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>264</th>
+      <td>30.0</td>
+      <td>-0.832448</td>
+      <td>-0.899301</td>
+      <td>-0.938943</td>
+      <td>-0.936611</td>
+      <td>0.294012</td>
+      <td>78</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>71</th>
+      <td>15.0</td>
+      <td>1.525527</td>
+      <td>1.093898</td>
+      <td>1.254659</td>
+      <td>1.085096</td>
+      <td>-1.184909</td>
+      <td>72</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>202</th>
+      <td>32.0</td>
+      <td>-0.832448</td>
+      <td>-1.025086</td>
+      <td>-0.885441</td>
+      <td>-1.128655</td>
+      <td>0.478877</td>
+      <td>76</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>74</th>
+      <td>14.0</td>
+      <td>1.525527</td>
+      <td>1.229358</td>
+      <td>1.254659</td>
+      <td>1.300419</td>
+      <td>-0.630313</td>
+      <td>72</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>189</th>
+      <td>22.0</td>
+      <td>0.346540</td>
+      <td>0.329516</td>
+      <td>-0.082903</td>
+      <td>0.318081</td>
+      <td>-0.112691</td>
+      <td>76</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</div>
+<div class="section" id="numeric-features">
+<h3>Numeric features<a class="headerlink" href="#numeric-features" title="Permalink to this headline">¶</a></h3>
+<p>In the following code, we will use TensorFlow’s <code class="docutils literal notranslate"><span class="pre">feature_column</span></code> function
+to transform the 5 continuous features into the feature column data structure that
+TensorFlow Estimators can work with:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">numeric_features</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">col_name</span> <span class="ow">in</span> <span class="n">numeric_column_names</span><span class="p">:</span>
+    <span class="n">feature_column</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">feature_column</span><span class="o">.</span><span class="n">numeric_column</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">col_name</span><span class="p">)</span>
+    <span class="n">numeric_features</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">feature_column</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">numeric_features</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[NumericColumn(key=&#39;Cylinders&#39;, shape=(1,), default_value=None, dtype=tf.float32, normalizer_fn=None), NumericColumn(key=&#39;Displacement&#39;, shape=(1,), default_value=None, dtype=tf.float32, normalizer_fn=None), NumericColumn(key=&#39;Horsepower&#39;, shape=(1,), default_value=None, dtype=tf.float32, normalizer_fn=None), NumericColumn(key=&#39;Weight&#39;, shape=(1,), default_value=None, dtype=tf.float32, normalizer_fn=None), NumericColumn(key=&#39;Acceleration&#39;, shape=(1,), default_value=None, dtype=tf.float32, normalizer_fn=None)]
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="bucketized-features">
+<h3>Bucketized features<a class="headerlink" href="#bucketized-features" title="Permalink to this headline">¶</a></h3>
+<p>Next, let’s group the rather fine-grained model year information into buckets to
+simplify the learning task for the model that we are going to train later. Note that we assign <code class="docutils literal notranslate"><span class="pre">boundaries=[73,</span> <span class="pre">76,</span> <span class="pre">79]</span></code> which results in left-closed partitioning of the real line into 4 intervals <code class="docutils literal notranslate"><span class="pre">(-∞,</span> <span class="pre">73)</span></code>, <code class="docutils literal notranslate"><span class="pre">[73,</span> <span class="pre">76)</span></code>, <code class="docutils literal notranslate"><span class="pre">[76,</span> <span class="pre">79)</span></code>, and <code class="docutils literal notranslate"><span class="pre">[79,</span> <span class="pre">+∞)</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">feature_year</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">feature_column</span><span class="o">.</span><span class="n">numeric_column</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">&quot;ModelYear&quot;</span><span class="p">)</span>
+<span class="n">bucketized_column</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">feature_column</span><span class="o">.</span><span class="n">bucketized_column</span><span class="p">(</span>
+    <span class="n">source_column</span><span class="o">=</span><span class="n">feature_year</span><span class="p">,</span>
+    <span class="n">boundaries</span><span class="o">=</span><span class="p">[</span><span class="mi">73</span><span class="p">,</span> <span class="mi">76</span><span class="p">,</span> <span class="mi">79</span><span class="p">]</span>
+<span class="p">)</span>
+
+<span class="c1"># For consistency, we create list of bucketized features</span>
+<span class="n">bucketized_features</span> <span class="o">=</span> <span class="p">[]</span> 
+<span class="n">bucketized_features</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bucketized_column</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">bucketized_features</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[BucketizedColumn(source_column=NumericColumn(key=&#39;ModelYear&#39;, shape=(1,), default_value=None, dtype=tf.float32, normalizer_fn=None), boundaries=(73, 76, 79))]
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="categorical-indicator-features">
+<h3>Categorical indicator features<a class="headerlink" href="#categorical-indicator-features" title="Permalink to this headline">¶</a></h3>
+<p>Next, we will proceed with defining a list for the unordered categorical feature,
+<code class="docutils literal notranslate"><span class="pre">Origin</span></code>. Here we use <code class="docutils literal notranslate"><span class="pre">categorical_column_with_vocabulary_list</span></code> in <code class="docutils literal notranslate"><span class="pre">tf.feature_column</span></code> and provide a list of all possible category names as input.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>If the list of possible categories is too large, we can use <code class="docutils literal notranslate"><span class="pre">categorical_column_with_vocabulary_list</span></code> and provide a file that contains all the categories/words so that we do not have to store a list of all possible words in memory.  If the features are already associated
+with an index of categories in the range <code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">num_categories)</span></code>, then we can use the
+<code class="docutils literal notranslate"><span class="pre">categorical_column_with_identity</span></code> function. However,
+in this case, the feature <code class="docutils literal notranslate"><span class="pre">Origin</span></code> is given as integer values <code class="docutils literal notranslate"><span class="pre">1</span></code>, <code class="docutils literal notranslate"><span class="pre">2</span></code>, <code class="docutils literal notranslate"><span class="pre">3</span></code> (as opposed to <code class="docutils literal notranslate"><span class="pre">0</span></code>, <code class="docutils literal notranslate"><span class="pre">1</span></code>, <code class="docutils literal notranslate"><span class="pre">2</span></code>), which does not match the requirement for categorical indexing.</p>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">Origin</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[1 3 2]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">feature_origin</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">feature_column</span><span class="o">.</span><span class="n">categorical_column_with_vocabulary_list</span><span class="p">(</span>
+    <span class="n">key</span><span class="o">=</span><span class="s1">&#39;Origin&#39;</span><span class="p">,</span>
+    <span class="n">vocabulary_list</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="margin sidebar">
+<p class="sidebar-title"></p>
+<p>Refer to the <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/feature_column">official TensorFlow docs</a> for other implemented feature columns such as hashed columns and crossed columns.</p>
+</div>
+<p>Certain Estimators, such as <code class="docutils literal notranslate"><span class="pre">DNNClassifier</span></code> and <code class="docutils literal notranslate"><span class="pre">DNNRegressor</span></code>, only accept so-called
+“dense columns.” Therefore, the next step is to convert the existing categorical feature column to such a dense column. There are two ways to do this: using an embedding column via <code class="docutils literal notranslate"><span class="pre">embedding_column</span></code> or an indicator column via <code class="docutils literal notranslate"><span class="pre">indicator_column</span></code>. We use the latter which converts the categorical indices to one-hot encoded vectors to convert the categorical column to a dense format:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">indicator_column</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">feature_column</span><span class="o">.</span><span class="n">indicator_column</span><span class="p">(</span><span class="n">feature_origin</span><span class="p">)</span>
+
+<span class="c1"># For consistency, we create list of nominal features</span>
+<span class="n">categorical_indicator_features</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">categorical_indicator_features</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">indicator_column</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">categorical_indicator_features</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[IndicatorColumn(categorical_column=VocabularyListCategoricalColumn(key=&#39;Origin&#39;, vocabulary_list=(1, 2, 3), dtype=tf.int64, default_value=-1, num_oov_buckets=0))]
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="machine-learning-with-pre-made-estimators">
+<h2>Machine learning with pre-made estimators<a class="headerlink" href="#machine-learning-with-pre-made-estimators" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="input-functions">
+<h3>Input functions<a class="headerlink" href="#input-functions" title="Permalink to this headline">¶</a></h3>
+<p>We have to define an <strong>input function</strong> that
+processes the data and returns a TensorFlow dataset consisting of a tuple
+that contains the input features and the targets. Note that the features
+must be a dictionary format such that the keys match
+the names (or keys) of feature columns.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">train_input_fn</span><span class="p">(</span><span class="n">df_train</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">8</span><span class="p">):</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df_train</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span> <span class="o">=</span> <span class="n">df</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;MPG&#39;</span><span class="p">)</span>
+    <span class="n">dataset</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Dataset</span><span class="o">.</span><span class="n">from_tensor_slices</span><span class="p">((</span><span class="nb">dict</span><span class="p">(</span><span class="n">x_train</span><span class="p">),</span> <span class="n">y_train</span><span class="p">))</span>
+
+    <span class="c1"># Shuffle, batch, and repeat the examples</span>
+    <span class="k">return</span> <span class="n">dataset</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span><span class="o">.</span><span class="n">batch</span><span class="p">(</span><span class="n">batch_size</span><span class="p">)</span><span class="o">.</span><span class="n">repeat</span><span class="p">()</span>
+
+<span class="c1"># Inspection</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">train_input_fn</span><span class="p">(</span><span class="n">df_train_norm</span><span class="p">)</span>
+<span class="n">batch</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">ds</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Keys:&#39;</span><span class="p">,</span> <span class="n">batch</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Batch Model Years:&#39;</span><span class="p">,</span> <span class="n">batch</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;ModelYear&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Batch MPGs (targets):&#39;</span><span class="p">,</span> <span class="n">batch</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Keys: dict_keys([&#39;Cylinders&#39;, &#39;Displacement&#39;, &#39;Horsepower&#39;, &#39;Weight&#39;, &#39;Acceleration&#39;, &#39;ModelYear&#39;, &#39;Origin&#39;])
+Batch Model Years: tf.Tensor([71 74 78 76 72 74 72 75], shape=(8,), dtype=int64)
+Batch MPGs (targets): [19.  16.  17.7 26.  13.  14.  12.  16. ]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Input function for evaluation:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">eval_input_fn</span><span class="p">(</span><span class="n">df_eval</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">8</span><span class="p">):</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df_eval</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">x_eval</span><span class="p">,</span> <span class="n">y_eval</span> <span class="o">=</span> <span class="n">df</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;MPG&#39;</span><span class="p">)</span>
+    <span class="n">dataset</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Dataset</span><span class="o">.</span><span class="n">from_tensor_slices</span><span class="p">((</span><span class="nb">dict</span><span class="p">(</span><span class="n">x_eval</span><span class="p">),</span> <span class="n">y_eval</span><span class="p">))</span>
+
+    <span class="c1"># Shuffle, batch, and repeat the examples</span>
+    <span class="k">return</span> <span class="n">dataset</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span><span class="o">.</span><span class="n">batch</span><span class="p">(</span><span class="n">batch_size</span><span class="p">)</span><span class="o">.</span><span class="n">repeat</span><span class="p">()</span>
+
+<span class="c1"># Inspection</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">eval_input_fn</span><span class="p">(</span><span class="n">df_test_norm</span><span class="p">)</span>
+<span class="n">batch</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">ds</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Keys:&#39;</span><span class="p">,</span> <span class="n">batch</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Batch Model Years:&#39;</span><span class="p">,</span> <span class="n">batch</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;ModelYear&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Batch MPGs (targets):&#39;</span><span class="p">,</span> <span class="n">batch</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Keys: dict_keys([&#39;Cylinders&#39;, &#39;Displacement&#39;, &#39;Horsepower&#39;, &#39;Weight&#39;, &#39;Acceleration&#39;, &#39;ModelYear&#39;, &#39;Origin&#39;])
+Batch Model Years: tf.Tensor([80 78 76 81 72 73 70 71], shape=(8,), dtype=int64)
+Batch MPGs (targets): [41.5 21.6 29.  32.4 14.  12.  22.  23. ]
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="initializing-the-estimator">
+<h3>Initializing the Estimator<a class="headerlink" href="#initializing-the-estimator" title="Permalink to this headline">¶</a></h3>
+<p>Since predicting MPG values
+is a typical regression problem, we will use <code class="docutils literal notranslate"><span class="pre">tf.estimator.DNNRegressor</span></code>. When
+instantiating the regression Estimator, we will provide the list of feature columns
+and specify the number of hidden units that we want to have in each hidden layer
+using the argument <code class="docutils literal notranslate"><span class="pre">hidden_units</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">regressor</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">estimator</span><span class="o">.</span><span class="n">DNNRegressor</span><span class="p">(</span>
+    <span class="n">feature_columns</span><span class="o">=</span><span class="p">(</span>
+        <span class="n">numeric_features</span> <span class="o">+</span> 
+        <span class="n">bucketized_features</span> <span class="o">+</span> 
+        <span class="n">categorical_indicator_features</span>
+    <span class="p">),</span>
+    <span class="n">hidden_units</span><span class="o">=</span><span class="p">[</span><span class="mi">32</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span>
+    <span class="n">model_dir</span><span class="o">=</span><span class="s1">&#39;models/autompg-dnnregressor/&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO:tensorflow:Using default config.
+INFO:tensorflow:Using config: {&#39;_model_dir&#39;: &#39;models/autompg-dnnregressor/&#39;, &#39;_tf_random_seed&#39;: None, &#39;_save_summary_steps&#39;: 100, &#39;_save_checkpoints_steps&#39;: None, &#39;_save_checkpoints_secs&#39;: 600, &#39;_session_config&#39;: allow_soft_placement: true
+graph_options {
+  rewrite_options {
+    meta_optimizer_iterations: ONE
+  }
+}
+, &#39;_keep_checkpoint_max&#39;: 5, &#39;_keep_checkpoint_every_n_hours&#39;: 10000, &#39;_log_step_count_steps&#39;: 100, &#39;_train_distribute&#39;: None, &#39;_device_fn&#39;: None, &#39;_protocol&#39;: None, &#39;_eval_distribute&#39;: None, &#39;_experimental_distribute&#39;: None, &#39;_experimental_max_worker_delay_secs&#39;: None, &#39;_session_creation_timeout_secs&#39;: 7200, &#39;_checkpoint_save_graph_def&#39;: True, &#39;_service&#39;: None, &#39;_cluster_spec&#39;: ClusterSpec({}), &#39;_task_type&#39;: &#39;worker&#39;, &#39;_task_id&#39;: 0, &#39;_global_id_in_cluster&#39;: 0, &#39;_master&#39;: &#39;&#39;, &#39;_evaluation_master&#39;: &#39;&#39;, &#39;_is_chief&#39;: True, &#39;_num_ps_replicas&#39;: 0, &#39;_num_worker_replicas&#39;: 1}
+</pre></div>
+</div>
+</div>
+</div>
+<p>The other argument, <code class="docutils literal notranslate"><span class="pre">model_dir</span></code>, that we have provided specifies the directory
+for saving model parameters. One of the advantages of Estimators is that they
+automatically checkpoint the model during training, so that in case the training of
+the model crashes for an unexpected reason, we can easily load
+the last saved checkpoint and continue training from there. The checkpoints will also
+be saved in the directory specified by <code class="docutils literal notranslate"><span class="pre">model_dir</span></code>.</p>
+</div>
+<div class="section" id="training">
+<h3>Training<a class="headerlink" href="#training" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">.train()</span></code> method expects two arguments. The argument <code class="docutils literal notranslate"><span class="pre">input_fn</span></code> expects a callable that returns a batch of training examples. The <code class="docutils literal notranslate"><span class="pre">steps</span></code> which is the total number of SGD updates (or calls to the input function) is calculated as follows:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">EPOCHS</span> <span class="o">=</span> <span class="mi">30</span>
+<span class="n">BATCH_SIZE</span> <span class="o">=</span> <span class="mi">8</span>
+<span class="n">total_steps</span> <span class="o">=</span> <span class="n">EPOCHS</span> <span class="o">*</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df_train</span><span class="p">)</span> <span class="o">/</span> <span class="n">BATCH_SIZE</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Training Steps:&#39;</span><span class="p">,</span> <span class="n">total_steps</span><span class="p">)</span>
+
+<span class="n">regressor</span><span class="o">.</span><span class="n">train</span><span class="p">(</span>
+    <span class="n">input_fn</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">train_input_fn</span><span class="p">(</span><span class="n">df_train_norm</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">BATCH_SIZE</span><span class="p">),</span>
+    <span class="n">steps</span><span class="o">=</span><span class="n">total_steps</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training Steps: 1200
+INFO:tensorflow:Calling model_fn.
+INFO:tensorflow:Done calling model_fn.
+INFO:tensorflow:Create CheckpointSaverHook.
+INFO:tensorflow:Graph was finalized.
+INFO:tensorflow:Running local_init_op.
+INFO:tensorflow:Done running local_init_op.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-02-07 11:42:32.791662: I tensorflow/core/common_runtime/pluggable_device/pluggable_device_factory.cc:305] Could not identify NUMA node of platform GPU ID 0, defaulting to 0. Your kernel may not have been built with NUMA support.
+2022-02-07 11:42:32.791686: I tensorflow/core/common_runtime/pluggable_device/pluggable_device_factory.cc:271] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 0 MB memory) -&gt; physical PluggableDevice (device: 0, name: METAL, pci bus id: &lt;undefined&gt;)
+2022-02-07 11:42:32.800969: I tensorflow/core/grappler/optimizers/custom_graph_optimizer_registry.cc:112] Plugin optimizer for device_type GPU is enabled.
+2022-02-07 11:42:32.897032: I tensorflow/core/grappler/optimizers/custom_graph_optimizer_registry.cc:112] Plugin optimizer for device_type GPU is enabled.
+2022-02-07 11:42:32.905102: I tensorflow/core/grappler/optimizers/custom_graph_optimizer_registry.cc:112] Plugin optimizer for device_type GPU is enabled.
+2022-02-07 11:42:32.909710: I tensorflow/core/grappler/optimizers/custom_graph_optimizer_registry.cc:112] Plugin optimizer for device_type GPU is enabled.
+2022-02-07 11:42:32.916762: I tensorflow/core/grappler/optimizers/custom_graph_optimizer_registry.cc:112] Plugin optimizer for device_type GPU is enabled.
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO:tensorflow:Calling checkpoint listeners before saving checkpoint 0...
+INFO:tensorflow:Saving checkpoints for 0 into models/autompg-dnnregressor/model.ckpt.
+INFO:tensorflow:Calling checkpoint listeners after saving checkpoint 0...
+INFO:tensorflow:loss = 572.394, step = 0
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-02-07 11:42:33.006831: I tensorflow/core/grappler/optimizers/custom_graph_optimizer_registry.cc:112] Plugin optimizer for device_type GPU is enabled.
+2022-02-07 11:42:33.032947: I tensorflow/core/grappler/optimizers/custom_graph_optimizer_registry.cc:112] Plugin optimizer for device_type GPU is enabled.
+2022-02-07 11:42:33.038938: I tensorflow/core/grappler/optimizers/custom_graph_optimizer_registry.cc:112] Plugin optimizer for device_type GPU is enabled.
+2022-02-07 11:42:33.147668: I tensorflow/core/grappler/optimizers/custom_graph_optimizer_registry.cc:112] Plugin optimizer for device_type GPU is enabled.
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO:tensorflow:global_step/sec: 130.477
+INFO:tensorflow:loss = 648.3938, step = 100 (0.767 sec)
+INFO:tensorflow:global_step/sec: 128.294
+INFO:tensorflow:loss = 560.362, step = 200 (0.779 sec)
+INFO:tensorflow:global_step/sec: 124.645
+INFO:tensorflow:loss = 762.4479, step = 300 (0.802 sec)
+INFO:tensorflow:global_step/sec: 133.88
+INFO:tensorflow:loss = 473.31888, step = 400 (0.747 sec)
+INFO:tensorflow:global_step/sec: 138.36
+INFO:tensorflow:loss = 530.813, step = 500 (0.722 sec)
+INFO:tensorflow:global_step/sec: 146.483
+INFO:tensorflow:loss = 530.0683, step = 600 (0.683 sec)
+INFO:tensorflow:global_step/sec: 140.863
+INFO:tensorflow:loss = 735.958, step = 700 (0.710 sec)
+INFO:tensorflow:global_step/sec: 135.441
+INFO:tensorflow:loss = 643.9301, step = 800 (0.738 sec)
+INFO:tensorflow:global_step/sec: 136.189
+INFO:tensorflow:loss = 615.75024, step = 900 (0.734 sec)
+INFO:tensorflow:global_step/sec: 153.958
+INFO:tensorflow:loss = 491.15604, step = 1000 (0.649 sec)
+INFO:tensorflow:global_step/sec: 155.166
+INFO:tensorflow:loss = 698.7927, step = 1100 (0.644 sec)
+INFO:tensorflow:Calling checkpoint listeners before saving checkpoint 1200...
+INFO:tensorflow:Saving checkpoints for 1200 into models/autompg-dnnregressor/model.ckpt.
+INFO:tensorflow:Calling checkpoint listeners after saving checkpoint 1200...
+INFO:tensorflow:Loss for final step: 137.3717.
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;tensorflow_estimator.python.estimator.canned.dnn.DNNRegressorV2 at 0x17e9fb430&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Recall that <code class="docutils literal notranslate"><span class="pre">model_dir</span></code> saves the checkpoints of the model during training. The last model can be loaded using the <code class="docutils literal notranslate"><span class="pre">warm_start_from</span></code> argument as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">reloaded_regressor</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">estimator</span><span class="o">.</span><span class="n">DNNRegressor</span><span class="p">(</span>
+    <span class="n">feature_columns</span><span class="o">=</span><span class="n">all_feature_columns</span><span class="p">,</span>
+    <span class="n">hidden_units</span><span class="o">=</span><span class="p">[</span><span class="mi">32</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span>
+    <span class="n">warm_start_from</span><span class="o">=</span><span class="s1">&#39;models/autompg-dnnregressor/&#39;</span><span class="p">,</span>
+    <span class="n">model_dir</span><span class="o">=</span><span class="s1">&#39;models/autompg-dnnregressor/&#39;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="evaluation">
+<h3>Evaluation<a class="headerlink" href="#evaluation" title="Permalink to this headline">¶</a></h3>
+<p>To evaluate performance, we use the <code class="docutils literal notranslate"><span class="pre">.evaluate</span></code> method:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eval_results</span> <span class="o">=</span> <span class="n">regressor</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span>
+    <span class="n">input_fn</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">eval_input_fn</span><span class="p">(</span><span class="n">df_test_norm</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO:tensorflow:Calling model_fn.
+INFO:tensorflow:Done calling model_fn.
+INFO:tensorflow:Starting evaluation at 2022-02-07T11:49:42
+INFO:tensorflow:Graph was finalized.
+INFO:tensorflow:Restoring parameters from models/autompg-dnnregressor/model.ckpt-1200
+INFO:tensorflow:Running local_init_op.
+INFO:tensorflow:Done running local_init_op.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-02-07 11:49:42.384064: I tensorflow/core/common_runtime/pluggable_device/pluggable_device_factory.cc:305] Could not identify NUMA node of platform GPU ID 0, defaulting to 0. Your kernel may not have been built with NUMA support.
+2022-02-07 11:49:42.384087: I tensorflow/core/common_runtime/pluggable_device/pluggable_device_factory.cc:271] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 0 MB memory) -&gt; physical PluggableDevice (device: 0, name: METAL, pci bus id: &lt;undefined&gt;)
+2022-02-07 11:49:42.399882: I tensorflow/core/grappler/optimizers/custom_graph_optimizer_registry.cc:112] Plugin optimizer for device_type GPU is enabled.
+2022-02-07 11:49:42.407763: I tensorflow/core/grappler/optimizers/custom_graph_optimizer_registry.cc:112] Plugin optimizer for device_type GPU is enabled.
+2022-02-07 11:49:42.414157: I tensorflow/core/grappler/optimizers/custom_graph_optimizer_registry.cc:112] Plugin optimizer for device_type GPU is enabled.
+2022-02-07 11:49:42.429429: I tensorflow/core/grappler/optimizers/custom_graph_optimizer_registry.cc:112] Plugin optimizer for device_type GPU is enabled.
+2022-02-07 11:49:42.441276: I tensorflow/core/grappler/optimizers/custom_graph_optimizer_registry.cc:112] Plugin optimizer for device_type GPU is enabled.
+2022-02-07 11:49:42.448100: I tensorflow/core/grappler/optimizers/custom_graph_optimizer_registry.cc:112] Plugin optimizer for device_type GPU is enabled.
+</pre></div>
+</div>
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span>---------------------------------------------------------------------------
+KeyboardInterrupt                         Traceback (most recent call last)
+/var/folders/jq/9vsvd9252_349lsng_5gc_jw0000gn/T/ipykernel_45776/1074844759.py in &lt;module&gt;
+----&gt; 1 eval_results = regressor.evaluate(
+      2     input_fn=lambda: eval_input_fn(df_test_norm, batch_size=8)
+      3 )
+
+~/miniforge3/envs/ml/lib/python3.8/site-packages/tensorflow_estimator/python/estimator/estimator.py in evaluate(self, input_fn, steps, hooks, checkpoint_path, name)
+    470     # pylint: enable=protected-access
+    471     else:
+--&gt; 472       return self._actual_eval(
+    473           input_fn,
+    474           strategy=self._eval_distribution,
+
+~/miniforge3/envs/ml/lib/python3.8/site-packages/tensorflow_estimator/python/estimator/estimator.py in _actual_eval(self, input_fn, strategy, steps, hooks, checkpoint_path, name)
+    519             return _evaluate()
+    520         else:
+--&gt; 521           return _evaluate()
+    522 
+    523   def _convert_eval_steps_to_hooks(self, steps):
+
+~/miniforge3/envs/ml/lib/python3.8/site-packages/tensorflow_estimator/python/estimator/estimator.py in _evaluate()
+    502         (scaffold, update_op, eval_dict, all_hooks) = (
+    503             self._evaluate_build_graph(input_fn, hooks, checkpoint_path))
+--&gt; 504         return self._evaluate_run(
+    505             checkpoint_path=checkpoint_path,
+    506             scaffold=scaffold,
+
+~/miniforge3/envs/ml/lib/python3.8/site-packages/tensorflow_estimator/python/estimator/estimator.py in _evaluate_run(self, checkpoint_path, scaffold, update_op, eval_dict, all_hooks, output_dir)
+   1656                     all_hooks, output_dir):
+   1657     &quot;&quot;&quot;Run evaluation.&quot;&quot;&quot;
+-&gt; 1658     eval_results = evaluation._evaluate_once(  # pylint: disable=protected-access
+   1659         checkpoint_path=checkpoint_path,
+   1660         master=self._config.evaluation_master,
+
+~/miniforge3/envs/ml/lib/python3.8/site-packages/tensorflow/python/training/evaluation.py in _evaluate_once(checkpoint_path, master, scaffold, eval_ops, feed_dict, final_ops, final_ops_feed_dict, hooks, config)
+    270     if eval_ops is not None:
+    271       while not session.should_stop():
+--&gt; 272         session.run(eval_ops, feed_dict)
+    273   logging.info(&#39;Inference Time : {:0.5f}s&#39;.format(time.time() - start))
+    274 
+
+~/miniforge3/envs/ml/lib/python3.8/site-packages/tensorflow/python/training/monitored_session.py in run(self, fetches, feed_dict, options, run_metadata)
+    784       Same as `tf.Session.run()`.
+    785     &quot;&quot;&quot;
+--&gt; 786     return self._sess.run(
+    787         fetches,
+    788         feed_dict=feed_dict,
+
+~/miniforge3/envs/ml/lib/python3.8/site-packages/tensorflow/python/training/monitored_session.py in run(self, fetches, feed_dict, options, run_metadata)
+   1313         if not self._sess:
+   1314           self._sess = self._create_session()
+-&gt; 1315         return self._sess.run(
+   1316             fetches,
+   1317             feed_dict=feed_dict,
+
+~/miniforge3/envs/ml/lib/python3.8/site-packages/tensorflow/python/training/monitored_session.py in run(self, *args, **kwargs)
+   1403   def run(self, *args, **kwargs):
+   1404     try:
+-&gt; 1405       return self._sess.run(*args, **kwargs)
+   1406     except _PREEMPTION_ERRORS:
+   1407       raise
+
+~/miniforge3/envs/ml/lib/python3.8/site-packages/tensorflow/python/training/monitored_session.py in run(self, fetches, feed_dict, options, run_metadata)
+   1471     # Do session run.
+   1472     run_metadata = run_metadata or config_pb2.RunMetadata()
+-&gt; 1473     outputs = _WrappedSession.run(
+   1474         self,
+   1475         fetches=actual_fetches,
+
+~/miniforge3/envs/ml/lib/python3.8/site-packages/tensorflow/python/training/monitored_session.py in run(self, *args, **kwargs)
+   1234 
+   1235   def run(self, *args, **kwargs):
+-&gt; 1236     return self._sess.run(*args, **kwargs)
+   1237 
+   1238   def run_step_fn(self, step_fn, raw_session, run_with_hooks):
+
+~/miniforge3/envs/ml/lib/python3.8/site-packages/tensorflow/python/client/session.py in run(self, fetches, feed_dict, options, run_metadata)
+    968 
+    969     try:
+--&gt; 970       result = self._run(None, fetches, feed_dict, options_ptr,
+    971                          run_metadata_ptr)
+    972       if run_metadata:
+
+~/miniforge3/envs/ml/lib/python3.8/site-packages/tensorflow/python/client/session.py in _run(self, handle, fetches, feed_dict, options, run_metadata)
+   1191     # or if the call is a partial run that specifies feeds.
+   1192     if final_fetches or final_targets or (handle and feed_dict_tensor):
+-&gt; 1193       results = self._do_run(handle, final_targets, final_fetches,
+   1194                              feed_dict_tensor, options, run_metadata)
+   1195     else:
+
+~/miniforge3/envs/ml/lib/python3.8/site-packages/tensorflow/python/client/session.py in _do_run(self, handle, target_list, fetch_list, feed_dict, options, run_metadata)
+   1371 
+   1372     if handle is None:
+-&gt; 1373       return self._do_call(_run_fn, feeds, fetches, targets, options,
+   1374                            run_metadata)
+   1375     else:
+
+~/miniforge3/envs/ml/lib/python3.8/site-packages/tensorflow/python/client/session.py in _do_call(self, fn, *args)
+   1378   def _do_call(self, fn, *args):
+   1379     try:
+-&gt; 1380       return fn(*args)
+   1381     except errors.OpError as e:
+   1382       message = compat.as_text(e.message)
+
+~/miniforge3/envs/ml/lib/python3.8/site-packages/tensorflow/python/client/session.py in _run_fn(feed_dict, fetch_list, target_list, options, run_metadata)
+   1361       # Ensure any changes to the graph are reflected in the runtime.
+   1362       self._extend_graph()
+-&gt; 1363       return self._call_tf_sessionrun(options, feed_dict, fetch_list,
+   1364                                       target_list, run_metadata)
+   1365 
+
+~/miniforge3/envs/ml/lib/python3.8/site-packages/tensorflow/python/client/session.py in _call_tf_sessionrun(self, options, feed_dict, fetch_list, target_list, run_metadata)
+   1454   def _call_tf_sessionrun(self, options, feed_dict, fetch_list, target_list,
+   1455                           run_metadata):
+-&gt; 1456     return tf_session.TF_SessionRun_wrapper(self._session, options, feed_dict,
+   1457                                             fetch_list, target_list,
+   1458                                             run_metadata)
+
+KeyboardInterrupt: 
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">eval_results</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pred_res</span> <span class="o">=</span> <span class="n">regressor</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">input_fn</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">eval_input_fn</span><span class="p">(</span><span class="n">df_test_norm</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">8</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">pred_res</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO:tensorflow:Calling model_fn.
+INFO:tensorflow:Done calling model_fn.
+INFO:tensorflow:Graph was finalized.
+INFO:tensorflow:Restoring parameters from models/autompg-dnnregressor/model.ckpt-80000
+INFO:tensorflow:Running local_init_op.
+INFO:tensorflow:Done running local_init_op.
+{&#39;predictions&#39;: array([4.7905107], dtype=float32)}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tf</span><span class="o">.</span><span class="n">get_logger</span><span class="p">()</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="s1">&#39;ERROR&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">boosted_tree</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">estimator</span><span class="o">.</span><span class="n">BoostedTreesRegressor</span><span class="p">(</span>
+    <span class="n">feature_columns</span><span class="o">=</span><span class="n">all_feature_columns</span><span class="p">,</span>
+    <span class="n">n_batches_per_layer</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+    <span class="n">n_trees</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+
+<span class="n">boosted_tree</span><span class="o">.</span><span class="n">train</span><span class="p">(</span>
+    <span class="n">input_fn</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span><span class="n">train_input_fn</span><span class="p">(</span><span class="n">df_train_norm</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">BATCH_SIZE</span><span class="p">))</span>
+
+<span class="n">eval_results</span> <span class="o">=</span> <span class="n">boosted_tree</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span>
+    <span class="n">input_fn</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span><span class="n">eval_input_fn</span><span class="p">(</span><span class="n">df_test_norm</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">8</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">eval_results</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Average-Loss </span><span class="si">{:.4f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">eval_results</span><span class="p">[</span><span class="s1">&#39;average_loss&#39;</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;average_loss&#39;: 7.3268905, &#39;label/mean&#39;: 22.655697, &#39;loss&#39;: 7.2563562, &#39;prediction/mean&#39;: 22.736225, &#39;global_step&#39;: 24000}
+Average-Loss 7.3269
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./drafts"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By 𝗥𝗼𝗻 𝗠𝗲𝗱𝗶𝗻𝗮. Powered by <a href="https://jupyterbook.org">Jupyter Book</a>.<br/>
+    
+        &copy; Copyright 2021.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>
