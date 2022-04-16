@@ -1,4 +1,4 @@
-fastapi>=0.70.1<0.71.0
+fastapi>=0.75.1<1.0.0
 ghp-import>=2.0.0,<2.1.0
 httpie>=3.1.0,<3.2.0
 joblib>=1.0.1,<1.1.0
@@ -17,6 +17,6 @@ scikit-learn>=1.0.1,<1.1.0
 scipy>=1.7.3,<1.8.0
 torch>=1.10.1,<1.11.0
 torchvision>=0.11.2,<0.12.0
-typing_extensions>=3.7.4,<3.8.0
-uvicorn>=0.16.0,<0.17.0
+typing_extensions>=4.1.1<4.2
+uvicorn>=0.17.6,<0.18.0
 xgboost>=1.5.1,<1.6.0 
