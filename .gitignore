@@ -118,9 +118,9 @@ venv.bak/
 *.tgz
 
 # Specific
-package/inefficient_networks/data/
-package/inefficient_networks/trained_models/
 docs/_build/*
 .tox
 __pycache__
 docs/notebooks/tensorflow/logs
+src/inefficient_networks/data/
+src/inefficient_networks/trained_models/
