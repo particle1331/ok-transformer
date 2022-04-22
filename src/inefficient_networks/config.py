@@ -22,8 +22,8 @@ class Config(BaseModel):
         tf.random.set_seed(seed)
 
     def set_matplotlib(self):
-        import matplotlib_inline
-        matplotlib_inline.backend_inline.set_matplotlib_formats("svg")
+        from matplotlib_inline import backend_inline
+        backend_inline.set_matplotlib_formats("svg")
 
     def set_ignore_warnings(self):
         import warnings
