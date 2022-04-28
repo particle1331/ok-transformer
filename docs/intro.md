@@ -34,7 +34,7 @@ To install:
 ```
 $ git clone git@github.com:particle1331/inefficient-networks.git
 $ cd inefficient-networks
-$ cd package
+$ cd src
 $ pip install -e .
 ```
 
