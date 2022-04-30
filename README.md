@@ -30,8 +30,6 @@ hardware, so I leave this task to the reader.
 
 ## Hardware
 
-The notebooks are tested to run on an M1 Macbook Air. Colab and Kaggle kernels have similar capacity, so the notebooks should be able to run in these environments without crashing.
-
 ```
 Model Name:               MacBook Air
 Model Identifier:         MacBookAir10,1
