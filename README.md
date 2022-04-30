@@ -33,11 +33,11 @@ hardware, so I leave this task to the reader.
 The notebooks are tested to run on an M1 Macbook Air. Colab and Kaggle kernels have similar capacity, so the notebooks should be able to run in these environments without crashing.
 
 ```
-Model Name:	MacBook Air
-Model Identifier:	MacBookAir10,1
-Chip:	Apple M1
-Total Number of Cores:	8 (4 performance and 4 efficiency)
-Memory:	8 GB
+Model Name:	              MacBook Air
+Model Identifier:	        MacBookAir10,1
+Chip:	                    Apple M1
+Total Number of Cores:	  8 (4 performance and 4 efficiency)
+Memory:	                  8 GB
 System Firmware Version:	7429.61.2
-OS Loader Version:	7429.61.2
+OS Loader Version:	      7429.61.2
 ```
