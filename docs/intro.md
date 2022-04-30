@@ -34,12 +34,24 @@ To install:
 ```
 $ git clone git@github.com:particle1331/inefficient-networks.git
 $ cd inefficient-networks
-$ cd package
+$ cd src
 $ pip install -e .
 ```
 
 Note that TensorFlow has been commented out in [`requirements.txt`](https://github.com/particle1331/inefficient-networks/blob/dev/package/requirements/requirements.txt) &mdash; this only serves to specify the version used in the notebooks. Installing TensorFlow depends on the specific operating system and available 
 hardware, so I leave this task to the reader.
+
+## Hardware
+
+```text
+Model Name:	                MacBook Air
+Model Identifier:	        MacBookAir10,1
+Chip:                           Apple M1
+Total Number of Cores:          8 (4 performance and 4 efficiency)
+Memory:                         8 GB
+System Firmware Version:	7429.61.2
+OS Loader Version:	        7429.61.2
+```
 
 
 ## References 
