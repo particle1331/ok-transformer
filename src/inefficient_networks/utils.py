@@ -29,7 +29,7 @@ def download_kaggle_competition(competition: str):
         os.system(f"rm {data_path}.zip")
 
 
-def plot_model_history(history, ax, metric='accuracy', label='', linestyle='solid'):
+def plot_model_history(history, ax, metric='accuracy', label='', **kwargs):
     """Plotting result of Keras model training.
     Example:
     >>> fig, ax = plt.subplots(1, 2, figsize=(10, 4))
@@ -38,13 +38,12 @@ def plot_model_history(history, ax, metric='accuracy', label='', linestyle='soli
 
     train_label = f'Train ({label})' if len(label) > 0 else 'Train'
     valid_label = f'Valid ({label})' if len(label) > 0 else 'Valid'
-    ax[0].plot(history.history['loss'], label=train_label, color="C0", linestyle=linestyle)
-    ax[0].plot(history.history['val_loss'], label=valid_label, color="C1", linestyle=linestyle)
+    ax[0].plot(history.history['loss'], label=train_label, color="C0", **kwargs)
+    ax[0].plot(history.history['val_loss'], label=valid_label, color="C1", **kwargs)
     ax[0].set_ylabel('loss')
     ax[0].legend()
 
-    ax[1].plot(history.history[metric], label=train_label, color="C0", linestyle=linestyle)
-    ax[1].plot(history.history[f'val_{metric}'], label=valid_label, color="C1", linestyle=linestyle)
+    ax[1].plot(history.history[metric], label=train_label, color="C0", **kwargs)
+    ax[1].plot(history.history[f'val_{metric}'], label=valid_label, color="C1", **kwargs)
     ax[1].set_ylabel(metric)
     ax[1].legend()
-    
