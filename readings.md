@@ -6,4 +6,4 @@
 * [Real World Recommendation System - Part 1](https://blog.fennel.ai/p/real-world-recommendation-system?s=r)
 * [Real World Recommendation Systems - Part 2 (Training Data Generation)](https://blog.fennel.ai/p/real-world-recommendation-systems)
 * [A practical guide for better-looking python code](https://datatalks.club/blog/practical-guide-better-code.html)
-* 
+* [Dataviz Inspiration](https://www.dataviz-inspiration.com/)
