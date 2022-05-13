@@ -7,8 +7,11 @@
 
 This is a collection of notebooks on machine learning theory and engineering. 
 Each notebook should run end-to-end after [installing](https://particle1331.github.io/inefficient-networks/intro.html#installation) the [`inefficient_networks`](https://github.com/particle1331/inefficient-networks/tree/dev/package) helper library.
-Datasets come from [Kaggle](https://www.kaggle.com/) or as part of some open-source library such as
-[`torchvision`](https://pytorch.org/vision/stable/index.html) and [`tensorflow_datasets`](https://www.tensorflow.org/datasets). The name of this collection is a reference to the following study: 
+Datasets are obtained from [Kaggle](https://www.kaggle.com/) or through an open-source library such as
+[`torchvision`](https://pytorch.org/vision/stable/index.html) and [`tensorflow_datasets`](https://www.tensorflow.org/datasets). 
+
+
+The name of this collection is a reference to the following study: 
 
 ```text
 Brackbill D, Centola D (2020) Impact of network structure on collective 
@@ -38,8 +41,8 @@ $ cd src
 $ pip install -e .
 ```
 
-Note that TensorFlow has been commented out in [`requirements.txt`](https://github.com/particle1331/inefficient-networks/blob/dev/package/requirements/requirements.txt) &mdash; this only serves to specify the version used in the notebooks. Installing TensorFlow depends on the specific operating system and available 
-hardware, so I leave this task to the reader.
+Note that TensorFlow has been commented out in [`requirements.txt`](https://github.com/particle1331/inefficient-networks/blob/dev/package/requirements/requirements.txt). This only serves to specify the version used in the notebooks. Installing TensorFlow depends on the specific operating system and available 
+hardware, so this task is left to the reader.
 
 ## Hardware
 
