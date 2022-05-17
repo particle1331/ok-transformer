@@ -33,7 +33,7 @@ parts:
   chapters:
   - file: notebooks/deployment/production-code
   - file: notebooks/deployment/model-serving-api
-  # - file: notebooks/deployment/cicd-pipelines
   - file: notebooks/deployment/docker
+  - file: notebooks/deployment/cicd-pipelines
   # - file: notebooks/deployment
   # - file: notebooks/deployment
