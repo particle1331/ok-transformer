@@ -116,6 +116,8 @@ venv.bak/
 *.h5
 *.zip
 *.tgz
+*.parquet
+*.bin
 
 # Specific
 docs/_build/*

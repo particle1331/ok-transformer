@@ -4,6 +4,20 @@
 format: jb-book
 root: intro
 parts:
+
+- caption: MLOPS ZOOMCAMP
+  chapters:
+  - file: notebooks/mlops/1-intro
+
+- caption: MODEL DEPLOYMENT
+  chapters:
+  - file: notebooks/deployment/production-code
+  - file: notebooks/deployment/model-serving-api
+  - file: notebooks/deployment/docker
+  - file: notebooks/deployment/cicd-pipelines
+  # - file: notebooks/deployment
+  # - file: notebooks/deployment
+
 - caption: FUNDAMENTALS
   chapters:
   - file: notebooks/fundamentals/house-prices
@@ -28,16 +42,3 @@ parts:
   # - file: notebooks/fastapi/chapter5
   # - file: notebooks/fastapi/chapter6
   # - file: notebooks/fastapi/chapter7
-
-- caption: MODEL DEPLOYMENT
-  chapters:
-  - file: notebooks/deployment/production-code
-  - file: notebooks/deployment/model-serving-api
-  - file: notebooks/deployment/docker
-  - file: notebooks/deployment/cicd-pipelines
-  # - file: notebooks/deployment
-  # - file: notebooks/deployment
-
-- caption: MLOPS ZOOMCAMP
-  chapters:
-  - file: notebooks/mlops/1-intro
