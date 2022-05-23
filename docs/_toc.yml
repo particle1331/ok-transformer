@@ -37,3 +37,7 @@ parts:
   - file: notebooks/deployment/cicd-pipelines
   # - file: notebooks/deployment
   # - file: notebooks/deployment
+
+- caption: MLOPS ZOOMCAMP
+  chapters:
+  - file: notebooks/mlops/1-intro

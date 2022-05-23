@@ -12,6 +12,9 @@ latex:
 bibtex_bibfiles:
   - references.bib
 
+launch_buttons:
+  binderhub_url: ""
+  
 repository:
   url: https://github.com/particle1331/inefficient-networks
   path_to_book: docs  # Path to book relative to repository root
