@@ -17,8 +17,6 @@ from matplotlib_inline import backend_inline
 warnings.simplefilter(action="ignore", category=SettingWithCopyWarning)
 backend_inline.set_matplotlib_formats('svg')
 
-import mlflow
-
 
 def add_pickup_dropoff_pair(df):
     """Add product of pickup and dropoff locations."""
@@ -70,10 +68,14 @@ def plot_duration_distribution(model, X_train, y_train, X_valid, y_valid):
     return fig
 
 
+############## Experiment ##############
+
+import mlflow
+
 mlflow.set_tracking_uri("sqlite:///mlflow.db")
 mlflow.set_experiment("nyc-taxi-experiment")
 
-with mlflow.start_run(run_name='demo'):
+with mlflow.start_run(run_name='demo-lasso'):
 
     train_data_path = './data/green_tripdata_2021-01.parquet'
     valid_data_path = './data/green_tripdata_2021-02.parquet'
@@ -100,7 +102,7 @@ with mlflow.start_run(run_name='demo'):
 
     # Plot predictions vs ground truth
     fig = plot_duration_distribution(model, X_train, y_train, X_valid, y_valid)
-    fig.savefig('models/plot.svg');
+    fig.savefig('plot.svg')
 
     # Print metric
     rmse_train = mean_squared_error(y_train, model.predict(X_train), squared=False)
@@ -113,4 +115,4 @@ with mlflow.start_run(run_name='demo'):
     mlflow.log_param('alpha', alpha)
     mlflow.log_metric('rmse_train', rmse_train)
     mlflow.log_metric('rmse_valid', rmse_valid)
-    mlflow.log_artifact('models/plot.svg')
+    mlflow.log_artifact('plot.svg')
