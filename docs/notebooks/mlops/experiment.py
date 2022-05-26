@@ -17,6 +17,8 @@ from matplotlib_inline import backend_inline
 warnings.simplefilter(action="ignore", category=SettingWithCopyWarning)
 backend_inline.set_matplotlib_formats('svg')
 
+import mlflow
+
 
 def add_pickup_dropoff_pair(df):
     """Add product of pickup and dropoff locations."""
@@ -68,11 +70,8 @@ def plot_duration_distribution(model, X_train, y_train, X_valid, y_valid):
     return fig
 
 
-import mlflow
-
 mlflow.set_tracking_uri("sqlite:///mlflow.db")
 mlflow.set_experiment("nyc-taxi-experiment")
-
 
 with mlflow.start_run(run_name='demo'):
 
