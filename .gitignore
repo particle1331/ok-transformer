@@ -124,7 +124,7 @@ docs/_build/*
 .tox
 __pycache__
 docs/notebooks/tensorflow/logs
-docs/notebooks/mlops/mlruns/
+docs/notebooks/mlops/2-mlflow/mlruns/
 docs/notebooks/mlops/models/
 docs/notebooks/mlops/mlflow/mlflow.db
 src/inefficient_networks/data/
