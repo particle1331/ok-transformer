@@ -17,7 +17,6 @@ X_train, y_train, X_valid, y_valid = set_datasets(train_data_path, valid_data_pa
 xgb_train = xgb.DMatrix(X_train, label=y_train)
 xgb_valid = xgb.DMatrix(X_valid, label=y_valid)
 
-
 # Set experiment
 mlflow.set_tracking_uri("sqlite:///mlflow.db")
 mlflow.set_experiment("nyc-taxi-experiment")
