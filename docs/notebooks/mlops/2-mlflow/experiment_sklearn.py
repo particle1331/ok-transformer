@@ -49,9 +49,7 @@ def run(model_class):
 
 def main():
     for model_class in [
-        Lasso,
         Ridge,
-        ExtraTreesRegressor,
         RandomForestRegressor, 
         GradientBoostingRegressor,
     ]:
