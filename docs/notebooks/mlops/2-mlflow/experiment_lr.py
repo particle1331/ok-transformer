@@ -1,8 +1,6 @@
 from utils import set_datasets, plot_duration_distribution
-
 from sklearn.linear_model import LinearRegression, Lasso, Ridge
 from sklearn.metrics import mean_squared_error
-
 import mlflow
 
 
@@ -15,29 +13,36 @@ X_train, y_train, X_valid, y_valid = set_datasets(train_data_path, valid_data_pa
 mlflow.set_tracking_uri("sqlite:///mlflow.db")
 mlflow.set_experiment("nyc-taxi-experiment")
 
-with mlflow.start_run(run_name='lr'):
 
-    # Train model
-    model = LinearRegression()
-    model.fit(X_train, y_train);
+# Perform single run
+def main():
+    with mlflow.start_run():
 
-    # Plot predictions vs ground truth
-    fig = plot_duration_distribution(model, X_train, y_train, X_valid, y_valid)
-    fig.savefig('plot.svg')
+        # Train model
+        model = LinearRegression()
+        model.fit(X_train, y_train);
 
-    # Print metric
-    rmse_train = mean_squared_error(y_train, model.predict(X_train), squared=False)
-    rmse_valid = mean_squared_error(y_valid, model.predict(X_valid), squared=False)
+        # Plot predictions vs ground truth
+        fig = plot_duration_distribution(model, X_train, y_train, X_valid, y_valid)
+        fig.savefig('plot.svg')
 
-    # MLFlow logging
-    mlflow.set_tag('author', 'particle')
-    mlflow.set_tag('model', 'sklearn')
-    
-    mlflow.log_param('train_data_path', train_data_path)
-    mlflow.log_param('valid_data_path', valid_data_path)
-    
-    mlflow.log_metric('rmse_train', rmse_train)
-    mlflow.log_metric('rmse_valid', rmse_valid)
-    
-    mlflow.log_artifact('preprocessor.b', artifact_path='preprocessor')
-    mlflow.log_artifact('plot.svg')
+        # Print metric
+        rmse_train = mean_squared_error(y_train, model.predict(X_train), squared=False)
+        rmse_valid = mean_squared_error(y_valid, model.predict(X_valid), squared=False)
+
+        # Logging
+        mlflow.set_tag('author', 'particle')
+        mlflow.set_tag('model', 'sklearn')
+        
+        mlflow.log_param('train_data_path', train_data_path)
+        mlflow.log_param('valid_data_path', valid_data_path)
+        
+        mlflow.log_metric('rmse_train', rmse_train)
+        mlflow.log_metric('rmse_valid', rmse_valid)
+        
+        mlflow.log_artifact('preprocessor.b', artifact_path='preprocessor')
+        mlflow.log_artifact('plot.svg')
+
+
+if __name__ == "__main__":
+    main()

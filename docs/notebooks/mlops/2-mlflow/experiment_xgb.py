@@ -1,19 +1,15 @@
 from hyperopt import fmin, tpe, hp, STATUS_OK, Trials
 from hyperopt.pyll import scope
-import xgboost as xgb
-
-import mlflow
-
 from utils import set_datasets, plot_duration_distribution
-from sklearn.feature_extraction import DictVectorizer
 from sklearn.metrics import mean_squared_error
+import xgboost as xgb
+import mlflow
 
 
 # Set datasets
 train_data_path = '../data/green_tripdata_2021-01.parquet'
 valid_data_path = '../data/green_tripdata_2021-02.parquet'
 X_train, y_train, X_valid, y_valid = set_datasets(train_data_path, valid_data_path)
-
 xgb_train = xgb.DMatrix(X_train, label=y_train)
 xgb_valid = xgb.DMatrix(X_valid, label=y_valid)
 
@@ -24,9 +20,9 @@ mlflow.xgboost.autolog(disable=True)
 
 
 def objective(params):
-    """Compute RMSE. One trial = one run."""
+    """Compute validation RMSE (one trial = one run)."""
     
-    with mlflow.start_run(run_name='xgb'):
+    with mlflow.start_run():
         
         # Train model
         booster = xgb.train(
@@ -45,7 +41,7 @@ def objective(params):
         rmse_valid = mean_squared_error(y_valid, booster.predict(xgb_valid), squared=False)
         rmse_train = mean_squared_error(y_train, booster.predict(xgb_train), squared=False)
         
-        # MLFlow logging
+        # Logging
         mlflow.xgboost.log_model(booster, 'xgb-model')
         mlflow.set_tag('author', 'particle')
         mlflow.set_tag('model', 'xgboost')
@@ -63,7 +59,6 @@ def objective(params):
     return {'loss': rmse_valid, 'status': STATUS_OK}
 
 
-# Define hyperparameter search space
 search_space = {
     'max_depth': scope.int(hp.quniform('max_depth', 4, 100, 1)),
     'learning_rate': hp.loguniform('learning_rate', -3, 0),
@@ -74,12 +69,14 @@ search_space = {
     'seed': 42
 }
 
+def main():
+    best_result = fmin(
+        fn=objective,
+        space=search_space,
+        algo=tpe.suggest,
+        max_evals=50,
+        trials=Trials()
+    )
 
-# Perform 50 runs with TPE algo
-best_result = fmin(
-    fn=objective,
-    space=search_space,
-    algo=tpe.suggest,
-    max_evals=50,
-    trials=Trials()
-)
+if __name__ == "__main__":
+    main()

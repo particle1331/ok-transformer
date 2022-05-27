@@ -1,10 +1,8 @@
-import mlflow
-
-from utils import set_datasets, plot_duration_distribution
-
 from sklearn.metrics import mean_squared_error
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor, ExtraTreesRegressor
 from sklearn.svm import LinearSVR
+from utils import set_datasets, plot_duration_distribution
+import mlflow
 
 
 # Set datasets
@@ -17,9 +15,9 @@ mlflow.set_tracking_uri("sqlite:///mlflow.db")
 mlflow.set_experiment("nyc-taxi-experiment")
 mlflow.sklearn.autolog()
 
-for model_class in (RandomForestRegressor, GradientBoostingRegressor, ExtraTreesRegressor, LinearSVR):
 
-    with mlflow.start_run(run_name='sklearn'):
+def run(model_class):
+    with mlflow.start_run():
 
         # Train model
         model = model_class()
@@ -33,7 +31,7 @@ for model_class in (RandomForestRegressor, GradientBoostingRegressor, ExtraTrees
         rmse_valid = mean_squared_error(y_valid, booster.predict(xgb_valid), squared=False)
         rmse_train = mean_squared_error(y_train, booster.predict(xgb_train), squared=False)
 
-        # MLFlow logging
+        # Logging
         mlflow.set_tag('author', 'particle')
         mlflow.set_tag('model', 'sklearn')
         
@@ -45,3 +43,17 @@ for model_class in (RandomForestRegressor, GradientBoostingRegressor, ExtraTrees
         
         mlflow.log_artifact('preprocessor.b', artifact_path='preprocessor')
         mlflow.log_artifact('plot.svg')
+
+
+def main():
+    for model_class in (
+        RandomForestRegressor, 
+        GradientBoostingRegressor, 
+        ExtraTreesRegressor, 
+        LinearSVR
+    ):
+        run(model_class=model_class)
+
+
+if __name__ == "__main__":
+    main()
