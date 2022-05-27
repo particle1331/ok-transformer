@@ -1,6 +1,8 @@
 from utils import set_datasets, plot_duration_distribution
+
 from sklearn.linear_model import LinearRegression, Lasso, Ridge
 from sklearn.metrics import mean_squared_error
+
 import mlflow
 
 
