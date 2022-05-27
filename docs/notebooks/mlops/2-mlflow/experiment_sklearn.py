@@ -1,6 +1,7 @@
 from utils import set_datasets, plot_duration_distribution
 
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor, ExtraTreesRegressor
+from sklearn.linear_model import Lasso, Ridge
 from sklearn.metrics import mean_squared_error
 
 import mlflow
@@ -48,9 +49,11 @@ def run(model_class):
 
 def main():
     for model_class in [
+        Lasso,
+        Ridge,
         ExtraTreesRegressor,
         RandomForestRegressor, 
-        GradientBoostingRegressor, 
+        GradientBoostingRegressor,
     ]:
         run(model_class)
 
