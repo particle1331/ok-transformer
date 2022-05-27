@@ -92,8 +92,8 @@ if __name__ == "__main__":
     import argparse
     
     parser = argparse.ArgumentParser()
-    parser.add_argument("--autolog", default=False)
-    parser.add_argument("--num_runs", default=1)
+    parser.add_argument("--autolog", default=False, type=bool)
+    parser.add_argument("--num_runs", default=1, type=int)
     
     args = parser.parse_args()
     
