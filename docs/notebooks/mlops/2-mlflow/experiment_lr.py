@@ -32,7 +32,7 @@ def run():
         fig = plot_duration_distribution(model, X_train, y_train, X_valid, y_valid)
         fig.savefig('plot.svg')
 
-        # Print metric
+        # Compute metrics
         rmse_train = mean_squared_error(y_train, model.predict(X_train), squared=False)
         rmse_valid = mean_squared_error(y_valid, model.predict(X_valid), squared=False)
 
