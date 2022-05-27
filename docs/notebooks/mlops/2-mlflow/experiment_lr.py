@@ -1,4 +1,4 @@
-from utils import set_datasets, plot_duration_distribution, ARTIFACTS_DIR
+from utils import set_datasets, plot_duration_distribution, ARTIFACTS_DIR, DATA_DIR
 
 from sklearn.linear_model import LinearRegression, Lasso, Ridge
 from sklearn.metrics import mean_squared_error
@@ -12,8 +12,8 @@ def setup():
     global train_data_path, valid_data_path
 
     # Set datasets
-    train_data_path = '../data/green_tripdata_2021-01.parquet'
-    valid_data_path = '../data/green_tripdata_2021-02.parquet'
+    train_data_path = DATA_DIR / 'green_tripdata_2021-01.parquet'
+    valid_data_path = DATA_DIR / 'green_tripdata_2021-02.parquet'
     X_train, y_train, X_valid, y_valid = set_datasets(train_data_path, valid_data_path)
 
     # Set experiment
