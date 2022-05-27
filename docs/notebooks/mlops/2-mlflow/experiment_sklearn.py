@@ -17,6 +17,7 @@ mlflow.set_tracking_uri("sqlite:///mlflow.db")
 mlflow.set_experiment("nyc-taxi-experiment")
 mlflow.autolog()
 
+
 def run(model_class):
     with mlflow.start_run():
 
