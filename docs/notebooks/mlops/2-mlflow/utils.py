@@ -2,10 +2,17 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 import joblib
+from matplotlib_inline import backend_inline
+backend_inline.set_matplotlib_formats('svg')
+
+from pandas.core.common import SettingWithCopyWarning
+import warnings
+warnings.simplefilter(action="ignore", category=SettingWithCopyWarning)
 
 from toolz import compose
 from pathlib import Path
 from sklearn.feature_extraction import DictVectorizer
+
 
 # Config variables
 ROOT_DIR = Path(__file__).parent.resolve()
