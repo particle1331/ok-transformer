@@ -6,14 +6,19 @@ from sklearn.metrics import mean_squared_error
 import mlflow
 
 
-# Set datasets
-train_data_path = '../data/green_tripdata_2021-01.parquet'
-valid_data_path = '../data/green_tripdata_2021-02.parquet'
-X_train, y_train, X_valid, y_valid = set_datasets(train_data_path, valid_data_path)
+def setup():
 
-# Set experiment
-mlflow.set_tracking_uri("sqlite:///mlflow.db")
-mlflow.set_experiment("nyc-taxi-experiment")
+    global X_train, y_train, X_valid, y_valid
+    global train_data_path, valid_data_path
+
+    # Set datasets
+    train_data_path = '../data/green_tripdata_2021-01.parquet'
+    valid_data_path = '../data/green_tripdata_2021-02.parquet'
+    X_train, y_train, X_valid, y_valid = set_datasets(train_data_path, valid_data_path)
+
+    # Set experiment
+    mlflow.set_tracking_uri("sqlite:///mlflow.db")
+    mlflow.set_experiment("nyc-taxi-experiment")
 
 
 def run():
@@ -46,6 +51,7 @@ def run():
 
 
 def main():
+    setup()
     run()
 
 

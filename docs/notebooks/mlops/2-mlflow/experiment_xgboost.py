@@ -9,23 +9,27 @@ from functools import partial
 import mlflow
 
 
-# Set datasets
-train_data_path = '../data/green_tripdata_2021-01.parquet'
-valid_data_path = '../data/green_tripdata_2021-02.parquet'
-X_train, y_train, X_valid, y_valid = set_datasets(train_data_path, valid_data_path)
+def setup(autolog):
 
-xgb_train = xgb.DMatrix(X_train, label=y_train)
-xgb_valid = xgb.DMatrix(X_valid, label=y_valid)
+    global xgb_train, xgb_valid, X_valid, y_valid
+    global train_data_path, valid_data_path
 
-# Set experiment
-mlflow.set_tracking_uri("sqlite:///mlflow.db")
-mlflow.set_experiment("nyc-taxi-experiment")
+    # Set datasets
+    train_data_path = '../data/green_tripdata_2021-01.parquet'
+    valid_data_path = '../data/green_tripdata_2021-02.parquet'
+    X_train, y_train, X_valid, y_valid = set_datasets(train_data_path, valid_data_path)
+
+    xgb_train = xgb.DMatrix(X_train, label=y_train)
+    xgb_valid = xgb.DMatrix(X_valid, label=y_valid)
+
+    # Set experiment
+    mlflow.set_tracking_uri("sqlite:///mlflow.db")
+    mlflow.set_experiment("nyc-taxi-experiment")
+    mlflow.xgboost.autolog(disable=not(autolog))
 
 
 def objective(params, autolog):
     """Compute validation RMSE (one trial = one run)."""
-    
-    mlflow.xgboost.autolog(disable=not(autolog))
 
     with mlflow.start_run():
         
@@ -90,11 +94,14 @@ def main(autolog, num_runs):
 if __name__ == "__main__":
     
     import argparse
-    
+
     parser = argparse.ArgumentParser()
     parser.add_argument("--autolog", choices=["False", "True"])
     parser.add_argument("--num_runs", default=1, type=int)
     
     args = parser.parse_args()
     
-    main(autolog=(args.autolog == 'True'), num_runs=args.num_runs)
+    # Experiment runs
+    autolog = (args.autolog == 'True')
+    setup(autolog=autolog)
+    main(autolog=autolog, num_runs=args.num_runs)
