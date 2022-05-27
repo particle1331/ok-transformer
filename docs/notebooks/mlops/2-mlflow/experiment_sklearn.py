@@ -1,7 +1,6 @@
 from utils import set_datasets, plot_duration_distribution
 
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor, ExtraTreesRegressor
-from sklearn.svm import LinearSVR
 from sklearn.metrics import mean_squared_error
 
 import mlflow
@@ -49,9 +48,9 @@ def run(model_class):
 
 def main():
     for model_class in [
+        ExtraTreesRegressor,
         RandomForestRegressor, 
         GradientBoostingRegressor, 
-        LinearSVR,
     ]:
         run(model_class)
 
