@@ -20,7 +20,7 @@ xgb_valid = xgb.DMatrix(X_valid, label=y_valid)
 # Set experiment
 mlflow.set_tracking_uri("sqlite:///mlflow.db")
 mlflow.set_experiment("nyc-taxi-experiment")
-mlflow.xgboost.autolog(disable=True)
+mlflow.xgboost.autolog()
 
 
 def objective(params):
@@ -36,29 +36,6 @@ def objective(params):
             evals=[(xgb_valid, 'validation')],
             early_stopping_rounds=50
         )
-
-        # Plot predictions vs ground truth
-        fig = plot_duration_distribution(booster, xgb_train, y_train, xgb_valid, y_valid)
-        fig.savefig('plot.svg')
-
-        # Compute metrics
-        rmse_valid = mean_squared_error(y_valid, booster.predict(xgb_valid), squared=False)
-        rmse_train = mean_squared_error(y_train, booster.predict(xgb_train), squared=False)
-        
-        # MLFlow logging
-        mlflow.xgboost.log_model(booster, 'xgb-model')
-        mlflow.set_tag('author', 'particle')
-        mlflow.set_tag('model', 'xgboost')
-        
-        mlflow.log_param('train_data_path', train_data_path)
-        mlflow.log_param('valid_data_path', valid_data_path)
-        mlflow.log_params(params)
-        
-        mlflow.log_metric('rmse_train', rmse_train)
-        mlflow.log_metric('rmse_valid', rmse_valid)
-        
-        mlflow.log_artifact('preprocessor.b', artifact_path='preprocessor')
-        mlflow.log_artifact('plot.svg')
 
     return {'loss': rmse_valid, 'status': STATUS_OK}
 

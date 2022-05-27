@@ -1,6 +1,9 @@
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
+import joblib
+
+from sklearn.feature_extraction import DictVectorizer
 
 from toolz import compose
 
@@ -53,3 +56,24 @@ def plot_duration_distribution(model, X_train, y_train, X_valid, y_valid):
 
     fig.tight_layout()
     return fig
+
+
+def set_datasets(train_data_path, valid_data_path):
+
+    # In-between transformations
+    transforms = [add_pickup_dropoff_pair]
+    categorical = ['PU_DO']
+    numerical = ['trip_distance']
+
+    train_dicts, y_train = preprocess_dataset(train_data_path, transforms, categorical, numerical)
+    valid_dicts, y_valid = preprocess_dataset(valid_data_path, transforms, categorical, numerical)
+
+    # Fit all possible categories
+    dv = DictVectorizer()
+    dv.fit(train_dicts + valid_dicts)
+    joblib.dump(dv, 'preprocessor.b')
+
+    X_train = dv.transform(train_dicts)
+    X_valid = dv.transform(valid_dicts)
+
+    return X_train, y_train, X_valid, y_valid
