@@ -14,13 +14,12 @@ mlflow.set_tracking_uri("sqlite:///mlflow.db")
 mlflow.set_experiment("nyc-taxi-experiment")
 
 
-# Perform single run
-def main():
+def run():
     with mlflow.start_run():
 
         # Train model
         model = LinearRegression()
-        model.fit(X_train, y_train);
+        model.fit(X_train, y_train)
 
         # Plot predictions vs ground truth
         fig = plot_duration_distribution(model, X_train, y_train, X_valid, y_valid)
@@ -42,6 +41,10 @@ def main():
         
         mlflow.log_artifact('preprocessor.b', artifact_path='preprocessor')
         mlflow.log_artifact('plot.svg')
+
+
+def main():
+    run()
 
 
 if __name__ == "__main__":

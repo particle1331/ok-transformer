@@ -1,7 +1,6 @@
-from sklearn.metrics import mean_squared_error
-from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor, ExtraTreesRegressor
-from sklearn.svm import LinearSVR
 from utils import set_datasets, plot_duration_distribution
+from sklearn.linear_model import LinearRegression, Lasso, Ridge
+from sklearn.metrics import mean_squared_error
 import mlflow
 
 
@@ -13,8 +12,7 @@ X_train, y_train, X_valid, y_valid = set_datasets(train_data_path, valid_data_pa
 # Set experiment
 mlflow.set_tracking_uri("sqlite:///mlflow.db")
 mlflow.set_experiment("nyc-taxi-experiment")
-mlflow.sklearn.autolog()
-
+mlflow.autolog()
 
 def run(model_class):
     with mlflow.start_run():
@@ -27,32 +25,31 @@ def run(model_class):
         fig = plot_duration_distribution(model, X_train, y_train, X_valid, y_valid)
         fig.savefig('plot.svg')
 
-        # Compute metrics
-        rmse_valid = mean_squared_error(y_valid, booster.predict(xgb_valid), squared=False)
-        rmse_train = mean_squared_error(y_train, booster.predict(xgb_train), squared=False)
+        # Print metric
+        rmse_train = mean_squared_error(y_train, model.predict(X_train), squared=False)
+        rmse_valid = mean_squared_error(y_valid, model.predict(X_valid), squared=False)
 
         # Logging
         mlflow.set_tag('author', 'particle')
         mlflow.set_tag('model', 'sklearn')
         
-        mlflow.log_param('train-data-path', train_data_path)
-        mlflow.log_param('valid-data-path', valid_data_path)
+        mlflow.log_param('train_data_path', train_data_path)
+        mlflow.log_param('valid_data_path', valid_data_path)
         
-        mlflow.log_metric('rmse_valid', rmse_valid)
         mlflow.log_metric('rmse_train', rmse_train)
+        mlflow.log_metric('rmse_valid', rmse_valid)
         
         mlflow.log_artifact('preprocessor.b', artifact_path='preprocessor')
         mlflow.log_artifact('plot.svg')
 
 
 def main():
-    for model_class in (
+    for model_class in [
         RandomForestRegressor, 
         GradientBoostingRegressor, 
-        ExtraTreesRegressor, 
-        LinearSVR
-    ):
-        run(model_class=model_class)
+        LinearSVR,
+    ]:
+        run(model_class)
 
 
 if __name__ == "__main__":

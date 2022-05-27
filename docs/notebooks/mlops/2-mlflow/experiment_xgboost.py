@@ -2,6 +2,7 @@ from hyperopt import fmin, tpe, hp, STATUS_OK, Trials
 from hyperopt.pyll import scope
 from utils import set_datasets, plot_duration_distribution
 from sklearn.metrics import mean_squared_error
+from functools import partial
 import xgboost as xgb
 import mlflow
 
@@ -10,18 +11,21 @@ import mlflow
 train_data_path = '../data/green_tripdata_2021-01.parquet'
 valid_data_path = '../data/green_tripdata_2021-02.parquet'
 X_train, y_train, X_valid, y_valid = set_datasets(train_data_path, valid_data_path)
+
 xgb_train = xgb.DMatrix(X_train, label=y_train)
 xgb_valid = xgb.DMatrix(X_valid, label=y_valid)
+
 
 # Set experiment
 mlflow.set_tracking_uri("sqlite:///mlflow.db")
 mlflow.set_experiment("nyc-taxi-experiment")
-mlflow.xgboost.autolog(disable=True)
 
 
-def objective(params):
+def objective(params, autolog):
     """Compute validation RMSE (one trial = one run)."""
     
+    mlflow.xgboost.autolog(disable=not(autolog))
+
     with mlflow.start_run():
         
         # Train model
@@ -42,13 +46,11 @@ def objective(params):
         rmse_train = mean_squared_error(y_train, booster.predict(xgb_train), squared=False)
         
         # Logging
-        mlflow.xgboost.log_model(booster, 'xgb-model')
         mlflow.set_tag('author', 'particle')
         mlflow.set_tag('model', 'xgboost')
         
         mlflow.log_param('train_data_path', train_data_path)
         mlflow.log_param('valid_data_path', valid_data_path)
-        mlflow.log_params(params)
         
         mlflow.log_metric('rmse_train', rmse_train)
         mlflow.log_metric('rmse_valid', rmse_valid)
@@ -56,6 +58,10 @@ def objective(params):
         mlflow.log_artifact('preprocessor.b', artifact_path='preprocessor')
         mlflow.log_artifact('plot.svg')
 
+        if not autolog:
+            mlflow.xgboost.log_model(booster, 'model')
+            mlflow.log_params(params)
+    
     return {'loss': rmse_valid, 'status': STATUS_OK}
 
 
@@ -69,14 +75,25 @@ search_space = {
     'seed': 42
 }
 
-def main():
+
+def main(autolog, num_runs):
     best_result = fmin(
-        fn=objective,
+        fn=partial(objective, autolog=autolog),
         space=search_space,
         algo=tpe.suggest,
-        max_evals=50,
+        max_evals=num_runs,
         trials=Trials()
     )
 
+
 if __name__ == "__main__":
-    main()
+    
+    import argparse
+    
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--autolog", default=False)
+    parser.add_argument("--num_runs", default=1)
+    
+    args = parser.parse_args()
+    
+    main(autolog=args.autolog, num_runs=args.num_runs)
