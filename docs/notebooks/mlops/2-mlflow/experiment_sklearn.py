@@ -15,7 +15,7 @@ X_train, y_train, X_valid, y_valid = set_datasets(train_data_path, valid_data_pa
 # Set experiment
 mlflow.set_tracking_uri("sqlite:///mlflow.db")
 mlflow.set_experiment("nyc-taxi-experiment")
-mlflow.autolog()
+mlflow.sklearn.autolog()
 
 
 def run(model_class):
