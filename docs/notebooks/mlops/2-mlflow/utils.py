@@ -3,9 +3,15 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import joblib
 
+from toolz import compose
+from pathlib import Path
 from sklearn.feature_extraction import DictVectorizer
 
-from toolz import compose
+# Config variables
+ROOT_DIR = Path(__file__).parent.resolve()
+ARTIFACTS_DIR = ROOT_DIR / 'artifacts'
+RUNS_DIR = ROOT_DIR / 'mlruns'
+DATA_DIR = Path(__file__).parents[1].resolve() / 'data'
 
 
 def add_pickup_dropoff_pair(df):
@@ -15,13 +21,27 @@ def add_pickup_dropoff_pair(df):
     return df
 
 
-def preprocess_dataset(filename, transforms, categorical, numerical):
-    """Return processed features dict and target."""
+def preprocess_test(df, dict_vectorizer, transforms, categorical, numerical):
+    """Preprocess raw data in dataframe for inference."""
     
-    # Load dataset
-    df = pd.read_parquet(filename)
+    # Apply in-between transformations
+    df = compose(*transforms[::-1])(df)
+
+    # For dict vectorizer: int = ignored, str = one-hot
+    df[categorical] = df[categorical].astype(str)
+
+    # Convert dataframe to feature dictionaries and transform
+    feature_dicts = df[categorical + numerical].to_dict(orient='records')
+    X = dict_vectorizer.transform(feature_dicts)
+
+    return X
+
+
+def preprocess_train(df, transforms, categorical, numerical):
+    """Return processed features dict and target."""
 
     # Add target column; filter outliers
+    # New data has no access to these datetime columns
     df['duration'] = df.lpep_dropoff_datetime - df.lpep_pickup_datetime
     df['duration'] = df.duration.dt.total_seconds() / 60
     df = df[(df.duration >= 1) & (df.duration <= 60)]
@@ -47,33 +67,39 @@ def plot_duration_distribution(model, X_train, y_train, X_valid, y_valid):
     sns.histplot(model.predict(X_train), ax=ax[0], label='pred', color='C0', stat='density', kde=True)
     sns.histplot(y_train, ax=ax[0], label='true', color='C1', stat='density', kde=True)
     ax[0].set_title("Train")
-    ax[0].legend();
+    ax[0].legend()
 
     sns.histplot(model.predict(X_valid), ax=ax[1], label='pred', color='C0', stat='density', kde=True)
     sns.histplot(y_valid, ax=ax[1], label='true', color='C1', stat='density', kde=True)
     ax[1].set_title("Valid")
-    ax[1].legend();
+    ax[1].legend()
 
     fig.tight_layout()
     return fig
 
 
 def set_datasets(train_data_path, valid_data_path):
+    """Processes datasets for model training and saves artifacts."""
 
     # In-between transformations
     transforms = [add_pickup_dropoff_pair]
     categorical = ['PU_DO']
     numerical = ['trip_distance']
 
-    train_dicts, y_train = preprocess_dataset(train_data_path, transforms, categorical, numerical)
-    valid_dicts, y_valid = preprocess_dataset(valid_data_path, transforms, categorical, numerical)
+    train_dicts, y_train = preprocess_train(pd.read_parquet(train_data_path), transforms, categorical, numerical)
+    valid_dicts, y_valid = preprocess_train(pd.read_parquet(valid_data_path), transforms, categorical, numerical)
 
     # Fit all possible categories
     dv = DictVectorizer()
     dv.fit(train_dicts + valid_dicts)
-    joblib.dump(dv, 'preprocessor.b')
 
     X_train = dv.transform(train_dicts)
     X_valid = dv.transform(valid_dicts)
+
+    # Save artifacts
+    joblib.dump(dv, ARTIFACTS_DIR / 'dict_vectorizer.pkl')
+    joblib.dump(transforms, ARTIFACTS_DIR / 'transforms.pkl')
+    joblib.dump(categorical, ARTIFACTS_DIR / 'categorical.pkl')
+    joblib.dump(numerical, ARTIFACTS_DIR / 'numerical.pkl')
 
     return X_train, y_train, X_valid, y_valid

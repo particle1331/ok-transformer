@@ -1,4 +1,4 @@
-from utils import set_datasets, plot_duration_distribution
+from utils import set_datasets, plot_duration_distribution, ARTIFACTS_DIR
 
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor, ExtraTreesRegressor
 from sklearn.linear_model import Lasso, Ridge
@@ -48,8 +48,11 @@ def run(model_class):
         mlflow.log_metric('rmse_train', rmse_train)
         mlflow.log_metric('rmse_valid', rmse_valid)
         
-        mlflow.log_artifact('preprocessor.b', artifact_path='preprocessor')
-        mlflow.log_artifact('plot.svg')
+        mlflow.log_artifact(ARTIFACTS_DIR / 'dict_vectorizer.pkl', artifact_path='preprocessing')
+        mlflow.log_artifact(ARTIFACTS_DIR / 'transforms.pkl', artifact_path='preprocessing')
+        mlflow.log_artifact(ARTIFACTS_DIR / 'categorical.pkl', artifact_path='preprocessing')
+        mlflow.log_artifact(ARTIFACTS_DIR / 'numerical.pkl', artifact_path='preprocessing')
+        mlflow.log_artifact(ARTIFACTS_DIR / 'plot.svg')
 
 
 def main():

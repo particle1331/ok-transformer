@@ -1,22 +1,22 @@
-import xgboost as xgb
 from sklearn.metrics import mean_squared_error
 from hyperopt import fmin, tpe, hp, STATUS_OK, Trials
 from hyperopt.pyll import scope
 
-from utils import set_datasets, plot_duration_distribution
+from utils import set_datasets, plot_duration_distribution, ARTIFACTS_DIR, DATA_DIR
 from functools import partial
 
 import mlflow
+import xgboost as xgb
 
 
 def setup(autolog):
 
-    global xgb_train, xgb_valid, X_valid, y_valid
+    global xgb_train, y_train, xgb_valid, y_valid
     global train_data_path, valid_data_path
 
     # Set datasets
-    train_data_path = '../data/green_tripdata_2021-01.parquet'
-    valid_data_path = '../data/green_tripdata_2021-02.parquet'
+    train_data_path = DATA_DIR / 'green_tripdata_2021-01.parquet'
+    valid_data_path = DATA_DIR / 'green_tripdata_2021-02.parquet'
     X_train, y_train, X_valid, y_valid = set_datasets(train_data_path, valid_data_path)
 
     xgb_train = xgb.DMatrix(X_train, label=y_train)
@@ -44,7 +44,7 @@ def objective(params, autolog):
 
         # Plot predictions vs ground truth
         fig = plot_duration_distribution(booster, xgb_train, y_train, xgb_valid, y_valid)
-        fig.savefig('plot.svg')
+        fig.savefig(ARTIFACTS_DIR / 'plot.svg')
 
         # Compute metrics
         rmse_valid = mean_squared_error(y_valid, booster.predict(xgb_valid), squared=False)
@@ -60,8 +60,11 @@ def objective(params, autolog):
         mlflow.log_metric('rmse_train', rmse_train)
         mlflow.log_metric('rmse_valid', rmse_valid)
         
-        mlflow.log_artifact('preprocessor.b', artifact_path='preprocessor')
-        mlflow.log_artifact('plot.svg')
+        mlflow.log_artifact(ARTIFACTS_DIR / 'dict_vectorizer.pkl', artifact_path='preprocessing')
+        mlflow.log_artifact(ARTIFACTS_DIR / 'transforms.pkl', artifact_path='preprocessing')
+        mlflow.log_artifact(ARTIFACTS_DIR / 'categorical.pkl', artifact_path='preprocessing')
+        mlflow.log_artifact(ARTIFACTS_DIR / 'numerical.pkl', artifact_path='preprocessing')
+        mlflow.log_artifact(ARTIFACTS_DIR / 'plot.svg')
 
         if not autolog:
             mlflow.xgboost.log_model(booster, 'model')
