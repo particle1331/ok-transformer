@@ -1,10 +1,19 @@
-from utils import set_datasets, plot_duration_distribution, ARTIFACTS_DIR, DATA_DIR
-
-from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor, ExtraTreesRegressor
 from sklearn.linear_model import Lasso, Ridge
 from sklearn.metrics import mean_squared_error
-
 import mlflow
+
+from utils import (
+    preprocess_datasets, 
+    plot_duration_distribution, 
+    artifacts, 
+    data_path
+)
+
+from sklearn.ensemble import (
+    RandomForestRegressor, 
+    GradientBoostingRegressor, 
+    ExtraTreesRegressor
+)
 
 
 def setup():
@@ -13,9 +22,9 @@ def setup():
     global train_data_path, valid_data_path
 
     # Set datasets
-    train_data_path = DATA_DIR / 'green_tripdata_2021-01.parquet'
-    valid_data_path = DATA_DIR / 'green_tripdata_2021-02.parquet'
-    X_train, y_train, X_valid, y_valid = set_datasets(train_data_path, valid_data_path)
+    train_data_path = data_path / 'green_tripdata_2021-01.parquet'
+    valid_data_path = data_path / 'green_tripdata_2021-02.parquet'
+    X_train, y_train, X_valid, y_valid = preprocess_datasets(train_data_path, valid_data_path)
 
     # Set experiment
     mlflow.set_tracking_uri("sqlite:///mlflow.db")
@@ -26,19 +35,17 @@ def setup():
 def run(model_class):
     with mlflow.start_run():
 
-        # Train model
+        # Training run
         model = model_class()
         model.fit(X_train, y_train)
 
-        # Plot predictions vs ground truth
-        fig = plot_duration_distribution(model, X_train, y_train, X_valid, y_valid)
-        fig.savefig('plot.svg')
-
-        # Compute metrics
+        # Logging
         rmse_train = mean_squared_error(y_train, model.predict(X_train), squared=False)
         rmse_valid = mean_squared_error(y_valid, model.predict(X_valid), squared=False)
 
-        # Logging
+        fig = plot_duration_distribution(model, X_train, y_train, X_valid, y_valid)
+        fig.savefig('plot.svg')
+
         mlflow.set_tag('author', 'particle')
         mlflow.set_tag('model', 'sklearn')
         
@@ -48,11 +55,8 @@ def run(model_class):
         mlflow.log_metric('rmse_train', rmse_train)
         mlflow.log_metric('rmse_valid', rmse_valid)
         
-        mlflow.log_artifact(ARTIFACTS_DIR / 'dict_vectorizer.pkl', artifact_path='preprocessing')
-        mlflow.log_artifact(ARTIFACTS_DIR / 'transforms.pkl', artifact_path='preprocessing')
-        mlflow.log_artifact(ARTIFACTS_DIR / 'categorical.pkl', artifact_path='preprocessing')
-        mlflow.log_artifact(ARTIFACTS_DIR / 'numerical.pkl', artifact_path='preprocessing')
-        mlflow.log_artifact(ARTIFACTS_DIR / 'plot.svg')
+        mlflow.log_artifact(artifacts / 'plot.svg')
+        mlflow.log_artifact(artifacts / 'preprocessor.pkl', artifact_path='preprocessing')
 
 
 def main():

@@ -1,12 +1,17 @@
-from sklearn.metrics import mean_squared_error
 from hyperopt import fmin, tpe, hp, STATUS_OK, Trials
 from hyperopt.pyll import scope
-
-from utils import set_datasets, plot_duration_distribution, ARTIFACTS_DIR, DATA_DIR
+from sklearn.metrics import mean_squared_error
 from functools import partial
-
 import mlflow
 import xgboost as xgb
+
+from utils import (
+    preprocess_datasets, 
+    plot_duration_distribution, 
+    artifacts, 
+    data_path
+)
+
 
 
 def setup(autolog):
@@ -15,10 +20,10 @@ def setup(autolog):
     global train_data_path, valid_data_path
 
     # Set datasets
-    train_data_path = DATA_DIR / 'green_tripdata_2021-01.parquet'
-    valid_data_path = DATA_DIR / 'green_tripdata_2021-02.parquet'
-    X_train, y_train, X_valid, y_valid = set_datasets(train_data_path, valid_data_path)
-
+    train_data_path = data_path / 'green_tripdata_2021-01.parquet'
+    valid_data_path = data_path / 'green_tripdata_2021-02.parquet'
+    X_train, y_train, X_valid, y_valid = preprocess_datasets(train_data_path, valid_data_path)
+    
     xgb_train = xgb.DMatrix(X_train, label=y_train)
     xgb_valid = xgb.DMatrix(X_valid, label=y_valid)
 
@@ -33,8 +38,8 @@ def objective(params, autolog):
 
     with mlflow.start_run():
         
-        # Train model
-        booster = xgb.train(
+        # Training run
+        model = xgb.train(
             params=params,
             dtrain=xgb_train,
             num_boost_round=1000,
@@ -42,15 +47,13 @@ def objective(params, autolog):
             early_stopping_rounds=50
         )
 
-        # Plot predictions vs ground truth
-        fig = plot_duration_distribution(booster, xgb_train, y_train, xgb_valid, y_valid)
-        fig.savefig(ARTIFACTS_DIR / 'plot.svg')
-
-        # Compute metrics
-        rmse_valid = mean_squared_error(y_valid, booster.predict(xgb_valid), squared=False)
-        rmse_train = mean_squared_error(y_train, booster.predict(xgb_train), squared=False)
-        
         # Logging
+        rmse_train = mean_squared_error(y_train, model.predict(xgb_train), squared=False)
+        rmse_valid = mean_squared_error(y_valid, model.predict(xgb_valid), squared=False)
+
+        fig = plot_duration_distribution(model, xgb_train, y_train, xgb_valid, y_valid)
+        fig.savefig('plot.svg')
+
         mlflow.set_tag('author', 'particle')
         mlflow.set_tag('model', 'xgboost')
         
@@ -60,14 +63,11 @@ def objective(params, autolog):
         mlflow.log_metric('rmse_train', rmse_train)
         mlflow.log_metric('rmse_valid', rmse_valid)
         
-        mlflow.log_artifact(ARTIFACTS_DIR / 'dict_vectorizer.pkl', artifact_path='preprocessing')
-        mlflow.log_artifact(ARTIFACTS_DIR / 'transforms.pkl', artifact_path='preprocessing')
-        mlflow.log_artifact(ARTIFACTS_DIR / 'categorical.pkl', artifact_path='preprocessing')
-        mlflow.log_artifact(ARTIFACTS_DIR / 'numerical.pkl', artifact_path='preprocessing')
-        mlflow.log_artifact(ARTIFACTS_DIR / 'plot.svg')
+        mlflow.log_artifact(artifacts / 'plot.svg')
+        mlflow.log_artifact(artifacts / 'preprocessor.pkl', artifact_path='preprocessing')
 
         if not autolog:
-            mlflow.xgboost.log_model(booster, 'model')
+            mlflow.xgboost.log_model(model, 'model')
             mlflow.log_params(params)
     
     return {'loss': rmse_valid, 'status': STATUS_OK}

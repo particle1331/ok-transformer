@@ -2,68 +2,93 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 import joblib
-from matplotlib_inline import backend_inline
-backend_inline.set_matplotlib_formats('svg')
-
-from pandas.core.common import SettingWithCopyWarning
-import warnings
-warnings.simplefilter(action="ignore", category=SettingWithCopyWarning)
 
 from toolz import compose
 from pathlib import Path
 from sklearn.feature_extraction import DictVectorizer
+from sklearn.pipeline import make_pipeline
+from sklearn.base import BaseEstimator, TransformerMixin
+
+from pandas.core.common import SettingWithCopyWarning
+import warnings
+warnings.simplefilter(action="ignore", category=SettingWithCopyWarning)
+from matplotlib_inline import backend_inline
+backend_inline.set_matplotlib_formats('svg')
 
 
 # Config variables
-ROOT_DIR = Path(__file__).parent.resolve()
-ARTIFACTS_DIR = ROOT_DIR / 'artifacts'
-RUNS_DIR = ROOT_DIR / 'mlruns'
-DATA_DIR = Path(__file__).parents[1].resolve() / 'data'
+root = Path(__file__).parent.resolve()
+artifacts = root / 'artifacts'
+runs = root / 'mlruns'
+data_path = Path(__file__).parents[1].resolve() / 'data'
 
 
-def add_pickup_dropoff_pair(df):
+class ConvertToString(BaseEstimator, TransformerMixin):
+    """Convert columns of DataFrame to type string."""
+
+    def __init__(self, features):
+        self.features = features
+
+    def fit(self, X, y=None):
+        return self
+
+    def transform(self, X):
+        X[self.features] = X[self.features].astype(str)
+        return X
+
+
+class AddPickupDropoffPair(BaseEstimator, TransformerMixin):
     """Add product of pickup and dropoff locations."""
+
+    def fit(self, X, y=None):
+        return self
+
+    def transform(self, X):
+        X['PU_DO'] = X['PULocationID'].astype(str) + '_' + X['DOLocationID'].astype(str)
+        return X
+
+
+class ConvertToDict(BaseEstimator, TransformerMixin):
+    """Convert tabular data to feature dictionaries."""
+
+    def fit(self, X, y=None):
+        return self
+
+    def transform(self, X):
+        return X.to_dict(orient='records')
+
+
+class SelectFeatures(BaseEstimator, TransformerMixin):
+    """Convert tabular data to feature dictionaries."""
+
+    def __init__(self, features):
+        self.features = features
+
+    def fit(self, X, y=None):
+        return self
+
+    def transform(self, X):
+        return X[self.features]
+
+
+def compute_targets(data):
+    """Derive target from pickup and dropoff datetimes."""
+
+    # Create target column and filter outliers
+    data['duration'] = data.lpep_dropoff_datetime - data.lpep_pickup_datetime
+    data['duration'] = data.duration.dt.total_seconds() / 60
     
-    df['PU_DO'] = df['PULocationID'].astype(str) + '_' + df['DOLocationID'].astype(str)
-    return df
+    targets = data.duration.values
+    return targets
 
 
-def preprocess_test(df, dict_vectorizer, transforms, categorical, numerical):
-    """Preprocess raw data in dataframe for inference."""
-    
-    # Apply in-between transformations
-    df = compose(*transforms[::-1])(df)
+def filter_target_outliers(data, targets, y_min=1, y_max=60):
+    """Filter data with targets outside of range."""
 
-    # For dict vectorizer: int = ignored, str = one-hot
-    df[categorical] = df[categorical].astype(str)
+    X = data[(data.duration >= y_min) & (data.duration <= y_max)]
+    y = X.duration.values
 
-    # Convert dataframe to feature dictionaries and transform
-    feature_dicts = df[categorical + numerical].to_dict(orient='records')
-    X = dict_vectorizer.transform(feature_dicts)
-
-    return X
-
-
-def preprocess_train(df, transforms, categorical, numerical):
-    """Return processed features dict and target."""
-
-    # Add target column; filter outliers
-    # New data has no access to these datetime columns
-    df['duration'] = df.lpep_dropoff_datetime - df.lpep_pickup_datetime
-    df['duration'] = df.duration.dt.total_seconds() / 60
-    df = df[(df.duration >= 1) & (df.duration <= 60)]
-    
-    # Apply in-between transformations
-    df = compose(*transforms[::-1])(df)
-
-    # For dict vectorizer: int = ignored, str = one-hot
-    df[categorical] = df[categorical].astype(str)
-
-    # Convert dataframe to feature dictionaries
-    feature_dicts = df[categorical + numerical].to_dict(orient='records')
-    target = df.duration.values
-
-    return feature_dicts, target
+    return X, y
 
 
 def plot_duration_distribution(model, X_train, y_train, X_valid, y_valid):
@@ -85,28 +110,38 @@ def plot_duration_distribution(model, X_train, y_train, X_valid, y_valid):
     return fig
 
 
-def set_datasets(train_data_path, valid_data_path):
-    """Processes datasets for model training and saves artifacts."""
+def preprocess_datasets(train_data_path, valid_data_path):
+    """Preprocess datasets for model training and validation. Save pipeline."""
+ 
+    X_train = pd.read_parquet(train_data_path)
+    X_valid = pd.read_parquet(valid_data_path)
+    
+    # Compute labels
+    y_train = compute_targets(X_train)
+    y_valid = compute_targets(X_valid)
 
-    # In-between transformations
-    transforms = [add_pickup_dropoff_pair]
+    # Filter train and valid (!) data. (i.e. only validate on t=(1, 60) range.)
+    X_train, y_train = filter_target_outliers(X_train, y_train)
+    X_valid, y_valid = filter_target_outliers(X_valid, y_valid)
+    
+    # Feature selection and engineering
     categorical = ['PU_DO']
     numerical = ['trip_distance']
 
-    train_dicts, y_train = preprocess_train(pd.read_parquet(train_data_path), transforms, categorical, numerical)
-    valid_dicts, y_valid = preprocess_train(pd.read_parquet(valid_data_path), transforms, categorical, numerical)
+    feature_pipe = make_pipeline(
+        AddPickupDropoffPair(),
+        SelectFeatures(categorical + numerical),
+        ConvertToString(categorical),
+        ConvertToDict(),
+        DictVectorizer(),
+    )
 
-    # Fit all possible categories
-    dv = DictVectorizer()
-    dv.fit(train_dicts + valid_dicts)
+    # Fit only on train set
+    feature_pipe.fit(X_train, y_train)
+    X_train = feature_pipe.transform(X_train)
+    X_valid = feature_pipe.transform(X_valid)
 
-    X_train = dv.transform(train_dicts)
-    X_valid = dv.transform(valid_dicts)
-
-    # Save artifacts
-    joblib.dump(dv, ARTIFACTS_DIR / 'dict_vectorizer.pkl')
-    joblib.dump(transforms, ARTIFACTS_DIR / 'transforms.pkl')
-    joblib.dump(categorical, ARTIFACTS_DIR / 'categorical.pkl')
-    joblib.dump(numerical, ARTIFACTS_DIR / 'numerical.pkl')
+    # Save preprocessor
+    joblib.dump(feature_pipe, artifacts / 'preprocessor.pkl')
 
     return X_train, y_train, X_valid, y_valid
