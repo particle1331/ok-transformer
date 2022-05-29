@@ -38,7 +38,6 @@ def objective(params, autolog):
 
     with mlflow.start_run():
         
-        # Training run
         model = xgb.train(
             params=params,
             dtrain=xgb_train,

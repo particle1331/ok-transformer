@@ -35,7 +35,6 @@ def setup():
 def run(model_class):
     with mlflow.start_run():
 
-        # Training run
         model = model_class()
         model.fit(X_train, y_train)
 

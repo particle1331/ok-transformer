@@ -28,7 +28,6 @@ def setup():
 def run():
     with mlflow.start_run():
 
-        # Training run
         model = LinearRegression()
         model.fit(X_train, y_train)
 
