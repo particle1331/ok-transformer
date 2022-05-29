@@ -12,6 +12,7 @@ from sklearn.base import BaseEstimator, TransformerMixin
 from pandas.core.common import SettingWithCopyWarning
 import warnings
 warnings.simplefilter(action="ignore", category=SettingWithCopyWarning)
+
 from matplotlib_inline import backend_inline
 backend_inline.set_matplotlib_formats('svg')
 
