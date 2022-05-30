@@ -20,6 +20,7 @@ backend_inline.set_matplotlib_formats('svg')
 # Config variables
 root = Path(__file__).parent.resolve()
 artifacts = root / 'artifacts'
+artifacts.mkdir(exist_ok=True)
 runs = root / 'mlruns'
 data_path = Path(__file__).parents[1].resolve() / 'data'
 
