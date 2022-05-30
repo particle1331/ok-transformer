@@ -1,6 +1,7 @@
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error
 import mlflow
+import time
 
 from utils import (
     preprocess_datasets, 
@@ -32,8 +33,13 @@ def run():
         model.fit(X_train, y_train)
 
         # Logging
-        rmse_train = mean_squared_error(y_train, model.predict(X_train), squared=False)
-        rmse_valid = mean_squared_error(y_valid, model.predict(X_valid), squared=False)
+        start_time = time.time()
+        y_pred_train = model.predict(X_train)
+        y_pred_valid = model.predict(X_valid)
+        inference_time = time.time() - start_time
+
+        rmse_train = mean_squared_error(y_train, y_pred_train, squared=False)
+        rmse_valid = mean_squared_error(y_valid, y_pred_valid, squared=False)
 
         fig = plot_duration_distribution(model, X_train, y_train, X_valid, y_valid)
         fig.savefig('plot.svg')
@@ -46,6 +52,10 @@ def run():
         
         mlflow.log_metric('rmse_train', rmse_train)
         mlflow.log_metric('rmse_valid', rmse_valid)
+        mlflow.log_metric(
+            'inference_time', 
+            inference_time / (len(y_pred_train) + len(y_pred_valid))
+        )
         
         mlflow.log_artifact(artifacts / 'plot.svg')
         mlflow.log_artifact(artifacts / 'preprocessor.pkl', artifact_path='preprocessing')
