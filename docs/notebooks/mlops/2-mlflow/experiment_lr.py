@@ -43,7 +43,7 @@ def run():
         rmse_valid = mean_squared_error(y_valid, y_pred_valid, squared=False)
 
         fig = plot_duration_distribution(model, X_train, y_train, X_valid, y_valid)
-        fig.savefig('plot.svg')
+        fig.savefig(artifacts / 'plot.svg')
 
         mlflow.set_tag('author', 'particle')
         mlflow.set_tag('model', 'baseline')
