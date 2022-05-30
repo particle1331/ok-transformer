@@ -16,7 +16,7 @@ from utils import (
 
 
 
-def setup(autolog):
+def setup():
 
     global xgb_train, y_train, xgb_valid, y_valid
     global train_data_path, valid_data_path
@@ -32,10 +32,10 @@ def setup(autolog):
     # Set experiment
     mlflow.set_tracking_uri("sqlite:///mlflow.db")
     mlflow.set_experiment("nyc-taxi-experiment")
-    mlflow.xgboost.autolog(disable=not(autolog))
+    mlflow.xgboost.autolog()
 
 
-def objective(params, autolog):
+def objective(params):
     """Compute validation RMSE (one trial = one run)."""
 
     with mlflow.start_run():
@@ -75,10 +75,6 @@ def objective(params, autolog):
         
         mlflow.log_artifact(artifacts / 'plot.svg')
         mlflow.log_artifact(artifacts / 'preprocessor.pkl', artifact_path='preprocessing')
-
-        if not autolog:
-            mlflow.xgboost.log_model(model, 'model')
-            mlflow.log_params(params)
     
     return {'loss': rmse_valid, 'status': STATUS_OK}
 
@@ -94,9 +90,9 @@ search_space = {
 }
 
 
-def main(autolog, num_runs):
+def main(num_runs):
     best_result = fmin(
-        fn=partial(objective, autolog=autolog),
+        fn=partial(objective),
         space=search_space,
         algo=tpe.suggest,
         max_evals=num_runs,
@@ -107,14 +103,10 @@ def main(autolog, num_runs):
 if __name__ == "__main__":
     
     import argparse
-
     parser = argparse.ArgumentParser()
-    parser.add_argument("--autolog", choices=["False", "True"])
     parser.add_argument("--num_runs", default=1, type=int)
-    
     args = parser.parse_args()
     
     # Experiment runs
-    autolog = (args.autolog == 'True')
-    setup(autolog=autolog)
-    main(autolog=autolog, num_runs=args.num_runs)
+    setup()
+    main(num_runs=args.num_runs)
