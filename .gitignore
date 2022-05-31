@@ -123,6 +123,12 @@ venv.bak/
 docs/_build/*
 .tox
 __pycache__
+
 docs/notebooks/tensorflow/logs
 src/inefficient_networks/data/
 src/inefficient_networks/trained_models/
+
+docs/notebooks/mlops/2-mlflow/plot.svg
+docs/notebooks/mlops/2-mlflow/mlruns/
+docs/notebooks/mlops/2-mlflow/artifacts/
+docs/notebooks/mlops/models/
