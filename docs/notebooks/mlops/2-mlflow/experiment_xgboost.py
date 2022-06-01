@@ -21,7 +21,7 @@ def setup():
     global xgb_train, y_train, xgb_valid, y_valid
     global train_data_path, valid_data_path
 
-    # Set datasets
+    # Preprocessing
     train_data_path = data_path / 'green_tripdata_2021-01.parquet'
     valid_data_path = data_path / 'green_tripdata_2021-02.parquet'
     X_train, y_train, X_valid, y_valid = preprocess_datasets(train_data_path, valid_data_path)
@@ -48,7 +48,7 @@ def objective(params):
             early_stopping_rounds=50
         )
 
-        # Logging
+        # MLflow logging
         start_time = time.time()
         y_pred_train = model.predict(xgb_train)
         y_pred_valid = model.predict(xgb_valid)
