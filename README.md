@@ -1,8 +1,8 @@
 # inefficient-networks
 
 This is a collection of notebooks on machine learning theory and engineering. 
-Each notebook should run end-to-end after installing the [`inefficient_networks`](https://github.com/particle1331/inefficient-networks/tree/dev/package) utilities library (see below).
-Datasets come from [Kaggle](https://www.kaggle.com/) or as part of some open-source library such as
+Each notebook should run end-to-end after installing the [`inefficient_networks`](https://github.com/particle1331/inefficient-networks/tree/master/src/inefficient_networks) utilities library (see below).
+Datasets used come from [Kaggle](https://www.kaggle.com/) or as part of some open-source library such as
 [`torchvision`](https://pytorch.org/vision/stable/index.html) and [`tensorflow_datasets`](https://www.tensorflow.org/datasets). The name of this collection is inspired by the following study:
 
 
@@ -15,18 +15,18 @@ learning: An experimental study in a data science competition. PLoS ONE
 
 ## Installation
 
-The package [`inefficient_networks`](https://github.com/particle1331/inefficient-networks/tree/dev/package) provides functions for downloading data from Kaggle and a [`config`](https://github.com/particle1331/inefficient-networks/blob/dev/package/inefficient_networks/config.py) object to reduce boilerplate code in setting up the coding environment. 
+The package [`inefficient_networks`](https://github.com/particle1331/inefficient-networks/tree/dev/package) provides utilities for downloading data from Kaggle and a [`config`](https://github.com/particle1331/inefficient-networks/blob/dev/package/inefficient_networks/config.py) object to reduce boilerplate code in setting up the coding environment. 
 To install:
 
 ```
 $ git clone git@github.com:particle1331/inefficient-networks.git
 $ cd inefficient-networks
-$ cd package
+$ cd src
 $ pip install -e .
 ```
 
-Note that TensorFlow has been commented out in [`requirements.txt`](https://github.com/particle1331/inefficient-networks/blob/dev/package/requirements/requirements.txt). This only serves to specify the version used in the notebooks. Installing TensorFlow depends on the specific operating system and available 
-hardware, so this task is left to the reader.
+Note that TensorFlow has been commented out in [`requirements.txt`](https://github.com/particle1331/inefficient-networks/blob/dev/package/requirements/requirements.txt). This only serves to specify the version used in the notebooks &mdash; you would have to install it for your specific OS and hardware.
+
 
 ## Hardware
 
