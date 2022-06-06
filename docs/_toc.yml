@@ -9,7 +9,7 @@ parts:
   chapters:
   - file: notebooks/mlops/1-intro/1-intro
   - file: notebooks/mlops/2-mlflow/2-mlflow
-  - file: notebooks/mlops/3-orchestration/3-orchestration
+  - file: notebooks/mlops/3-prefect/3-prefect
 
 - caption: MODEL DEPLOYMENT
   chapters:
