@@ -120,13 +120,12 @@ venv.bak/
 *.bin
 
 # Specific
-docs/_build/*
+docs/_build/
 .tox
-__pycache__
-mlruns
-artifacts
 
-docs/notebooks/tensorflow/logs
-docs/notebooks/mlops/models/
-src/inefficient_networks/data/
-src/inefficient_networks/trained_models/
+mlruns/
+artifacts/
+logs/
+models/
+trained_models/
+data/
