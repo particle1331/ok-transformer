@@ -9,7 +9,7 @@ from matplotlib_inline import backend_inline
 
 from toolz import compose
 from pathlib import Path
-from prefect import task
+from prefect import task, flow
 
 from sklearn.feature_extraction import DictVectorizer
 from sklearn.pipeline import make_pipeline
@@ -75,85 +75,72 @@ class SelectFeatures(BaseEstimator, TransformerMixin):
         return X[self.features]
 
 
-def compute_targets(data):
-    """Derive target from pickup and dropoff datetimes."""
+@task
+def load_training_dataframe(file_path, y_min=1, y_max=60):
+    """Load data from disk and preprocess for training."""
+    
+    # Load data from disk
+    data = pd.read_parquet(file_path)
 
     # Create target column and filter outliers
     data['duration'] = data.lpep_dropoff_datetime - data.lpep_pickup_datetime
     data['duration'] = data.duration.dt.total_seconds() / 60
-    
-    targets = data.duration.values
-    return targets
+    data = data[(data.duration >= y_min) & (data.duration <= y_max)]
 
-
-def filter_target_outliers(data, targets, y_min=1, y_max=60):
-    """Filter data with targets outside of range."""
-
-    X = data[(data.duration >= y_min) & (data.duration <= y_max)]
-    y = X.duration.values
-
-    return X, y
-
-
-def plot_duration_distribution(model, X_train, y_train, X_valid, y_valid):
-    """Plot true and prediction distribution."""
-    
-    fig, ax = plt.subplots(1, 2, figsize=(8, 3))
-
-    sns.histplot(model.predict(X_train), ax=ax[0], label='pred', color='C0', stat='density', kde=True)
-    sns.histplot(y_train, ax=ax[0], label='true', color='C1', stat='density', kde=True)
-    ax[0].set_title("Train")
-    ax[0].legend()
-
-    sns.histplot(model.predict(X_valid), ax=ax[1], label='pred', color='C0', stat='density', kde=True)
-    sns.histplot(y_valid, ax=ax[1], label='true', color='C1', stat='density', kde=True)
-    ax[1].set_title("Valid")
-    ax[1].legend()
-
-    fig.tight_layout()
-    return fig
+    return data
 
 
 @task
-def read_training_dataframes(train_data_path, valid_data_path):
-    """Preprocess datasets for model training and validation. Save pipeline."""
- 
-    X_train = pd.read_parquet(train_data_path)
-    X_valid = pd.read_parquet(valid_data_path)
-    
-    # Compute labels
-    y_train = compute_targets(X_train)
-    y_valid = compute_targets(X_valid)
+def fit_preprocessor(train_data):
+    """Fit and save preprocessing pipeline."""
 
-    # Filter train and valid (!) data. (i.e. only validate on t=(1, 60) range.)
-    X_train, y_train = filter_target_outliers(X_train, y_train)
-    X_valid, y_valid = filter_target_outliers(X_valid, y_valid)
-    
-    return X_train, y_train, X_valid, y_valid
+    # Unpack passed data
+    y_train = train_data.duration.values
+    X_train = train_data.drop('duration', axis=1)    
 
+    # Initialize pipeline
+    cat_features = ['PU_DO']
+    num_features = ['trip_distance']
 
-@task
-def create_features(X_train, y_train, X_valid, y_valid):
-    """Fit feature engineering pipeline. Transform training dataframes."""
-
-    # Feature selection and engineering
-    categorical = ['PU_DO']
-    numerical = ['trip_distance']
-
-    feature_pipe = make_pipeline(
+    preprocessor = make_pipeline(
         AddPickupDropoffPair(),
-        SelectFeatures(categorical + numerical),
-        ConvertToString(categorical),
+        SelectFeatures(cat_features + num_features),
+        ConvertToString(cat_features),
         ConvertToDict(),
         DictVectorizer(),
     )
 
     # Fit only on train set
-    feature_pipe.fit(X_train, y_train)
-    X_train = feature_pipe.transform(X_train)
-    X_valid = feature_pipe.transform(X_valid)
+    preprocessor.fit(X_train, y_train)
+    joblib.dump(preprocessor, artifacts / 'preprocessor.pkl')
+    
+    return preprocessor
 
-    # Save preprocessor
-    joblib.dump(feature_pipe, artifacts / 'preprocessor.pkl')
+
+@task
+def create_model_features(preprocessor, train_data, valid_data):
+    """Fit feature engineering pipeline. Transform training dataframes."""
+
+    # Unpack passed data
+    y_train = train_data.duration.values
+    y_valid = valid_data.duration.values
+    X_train = train_data.drop('duration', axis=1)
+    X_valid = valid_data.drop('duration', axis=1)
+    
+    # Feature engineering
+    X_train = preprocessor.transform(X_train)
+    X_valid = preprocessor.transform(X_valid)
 
     return X_train, y_train, X_valid, y_valid
+
+
+@flow
+def preprocess_data(train_data_path, valid_data_path):
+    """Preprocess data for model training."""
+
+    train_data = load_training_dataframe(train_data_path)
+    valid_data = load_training_dataframe(valid_data_path)
+    
+    preprocessor = fit_preprocessor(train_data)
+    
+    return create_model_features(preprocessor, train_data, valid_data).result()
