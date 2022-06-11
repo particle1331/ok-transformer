@@ -21,6 +21,9 @@ import mlflow
 import xgboost as xgb
 import time
 
+from mlflow.tracking import MlflowClient
+from mlflow.entities import ViewType
+
 
 # Config variables
 root = Path(__file__).parent.resolve()
@@ -257,12 +260,36 @@ def linreg_runs(training_packet):
 def deploy_main(train_data_path, valid_data_path, num_xgb_runs=1):
 
     # Set and run experiment
-    mlflow.set_tracking_uri("sqlite:///mlflow.db")
-    mlflow.set_experiment(f"nyc-taxi-experiment-{str(datetime.datetime.now())}")
+    MLFLOW_TRACKING_URI = "sqlite:///mlflow.db"
+    EXPERIMENT_NAME = f"nyc-taxi-experiment-{str(datetime.datetime.now())}"
+    mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
+    mlflow.set_experiment(EXPERIMENT_NAME)
 
     future = preprocess_data(train_data_path, valid_data_path)
     linreg_runs(future)
     xgboost_runs(num_xgb_runs, future)
+
+    # Register best model staging
+    client = MlflowClient(tracking_uri=MLFLOW_TRACKING_URI)
+    candidates = client.search_runs(
+        experiment_ids=client.get_experiment_by_name(EXPERIMENT_NAME).experiment_id,
+        filter_string='metrics.rmse_valid < 6.5 and metrics.inference_time < 20e-6',
+        run_view_type=ViewType.ACTIVE_ONLY,
+        max_results=5,
+        order_by=["metrics.rmse_valid ASC"]
+    )
+
+    model_to_stage = candidates[0]
+    registered_model = mlflow.register_model(
+        model_uri=f"runs:/{model_to_stage.info.run_id}/model", 
+        name='NYCRideDurationModel'
+    )
+
+    client.transition_model_version_stage(
+        name='NYCRideDurationModel',
+        version=registered_model.version, 
+        stage='Staging',
+    )
 
 
 DeploymentSpec(
