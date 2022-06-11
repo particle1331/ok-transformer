@@ -1,17 +1,19 @@
-from hyperopt import fmin, tpe, hp, STATUS_OK, Trials
-from hyperopt.pyll import scope
-from sklearn.metrics import mean_squared_error
-from sklearn.linear_model import LinearRegression
-
+import time
 from functools import partial
+from pathlib import Path
 
 import mlflow
 import xgboost as xgb
-import time
-
-from utils import preprocess_data, artifacts, data_path
+from hyperopt import STATUS_OK, Trials, fmin, hp, tpe
+from hyperopt.pyll import scope
+from mlflow.entities import ViewType
+from mlflow.tracking import MlflowClient
 from prefect import flow, task
 from prefect.task_runners import SequentialTaskRunner
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error
+
+from utils import artifacts, data_path, preprocess_data
 
 
 def objective(params, xgb_train, y_train, xgb_valid, y_valid):
@@ -117,23 +119,84 @@ def linreg_runs(training_packet):
         mlflow.log_artifact(artifacts / 'preprocessor.pkl', artifact_path='preprocessing')
         mlflow.sklearn.log_model(model, artifact_path="models")
 
+@task
+def stage_model(tracking_uri, experiment_name):
+    """Register and stage best model."""
+
+    client = MlflowClient(tracking_uri=tracking_uri)
+    candidates = client.search_runs(
+        experiment_ids=client.get_experiment_by_name(experiment_name).experiment_id,
+        filter_string='metrics.rmse_valid < 6.5 and metrics.inference_time < 20e-6',
+        run_view_type=ViewType.ACTIVE_ONLY,
+        max_results=5,
+        order_by=["metrics.rmse_valid ASC"]
+    )
+
+    model_to_stage = candidates[0]
+    registered_model = mlflow.register_model(
+        model_uri=f"runs:/{model_to_stage.info.run_id}/model", 
+        name='NYCRideDurationModel'
+    )
+
+    client.transition_model_version_stage(
+        name='NYCRideDurationModel',
+        version=registered_model.version, 
+        stage='Staging',
+    )
+
 
 @flow(task_runner=SequentialTaskRunner())
-def main(train_data_path, valid_data_path, num_xgb_runs=1):
+def main(
+    train_data_path, 
+    valid_data_path, 
+    num_xgb_runs=1, 
+    experiment_name="nyc-taxi-experiment",
+    tracking_uri="sqlite:///mlflow.db",
+):
 
     # Set and run experiment
-    mlflow.set_tracking_uri("sqlite:///mlflow.db")
-    mlflow.set_experiment("nyc-taxi-experiment")
+    mlflow.set_tracking_uri(tracking_uri)
+    mlflow.set_experiment(experiment_name)
 
     future = preprocess_data(train_data_path, valid_data_path)
     linreg_runs(future)
     xgboost_runs(num_xgb_runs, future)
 
 
-if __name__ == "__main__":
-    
-    train_data_path = data_path / 'green_tripdata_2021-01.parquet'
-    valid_data_path = data_path / 'green_tripdata_2021-02.parquet'
+@flow(name='mlflow-staging', task_runner=SequentialTaskRunner())
+def mlflow_staging(train_data_path, valid_data_path, datetime, num_xgb_runs=1):
 
-    # Experiment runs
-    main(train_data_path, valid_data_path, num_xgb_runs=10)
+    # Setup experiment
+    MLFLOW_TRACKING_URI = "sqlite:///mlflow.db"
+    EXPERIMENT_NAME = f"nyc-taxi-experiment-{datetime}"
+    mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
+    mlflow.set_experiment(EXPERIMENT_NAME)
+
+    # Make experiment runs
+    main(
+        train_data_path=train_data_path, 
+        valid_data_path=valid_data_path, 
+        num_xgb_runs=num_xgb_runs, 
+        experiment_name=EXPERIMENT_NAME,
+        tracking_uri=MLFLOW_TRACKING_URI,
+    )
+    
+    # Stage best model
+    stage_model(
+        tracking_uri=MLFLOW_TRACKING_URI, 
+        experiment_name=EXPERIMENT_NAME
+    )
+
+
+if __name__ == "__main__":
+
+    from datetime import datetime
+
+    parameters={
+        "train_data_path": './data/green_tripdata_2021-01.parquet',
+        "valid_data_path": './data/green_tripdata_2021-02.parquet',
+        "num_xgb_runs": 3,
+        "datetime": str(datetime.now())
+    }
+
+    mlflow_staging(**parameters)
