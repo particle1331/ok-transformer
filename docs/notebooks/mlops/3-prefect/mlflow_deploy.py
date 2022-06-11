@@ -261,7 +261,7 @@ def deploy_main(train_data_path, valid_data_path, num_xgb_runs=1):
 
     # Set and run experiment
     MLFLOW_TRACKING_URI = "sqlite:///mlflow.db"
-    EXPERIMENT_NAME = f"nyc-taxi-experiment-{str(datetime.datetime.now())}"
+    EXPERIMENT_NAME = f"nyc-taxi-experiment-{str(datetime.now())}"
     mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
     mlflow.set_experiment(EXPERIMENT_NAME)
 
