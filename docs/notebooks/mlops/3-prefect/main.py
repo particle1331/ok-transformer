@@ -149,7 +149,7 @@ def stage_model(tracking_uri, experiment_name):
 
     # Update description of staged model
     client.update_model_version(
-        name=model_name,
+        name='NYCRideDurationModel',
         version=model_version,
         description=f"[{datetime.datetime.now()}] The model version {model_version} from experiment '{experiment_name}' was transitioned to {new_stage}.\n{old_description}"
     )
@@ -207,10 +207,10 @@ if __name__ == "__main__":
         "datetime": str(datetime.now())
     }
 
-    main(
-        train_data_path=parameters['train_data_path'],
-        valid_data_path=parameters['valid_data_path'],
-        num_xgb_runs=10,
-    )
+    # main(
+    #     train_data_path=parameters['train_data_path'],
+    #     valid_data_path=parameters['valid_data_path'],
+    #     num_xgb_runs=10,
+    # )
 
-    # mlflow_staging(**parameters)
+    mlflow_staging(**parameters)
