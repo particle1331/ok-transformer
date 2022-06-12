@@ -207,4 +207,10 @@ if __name__ == "__main__":
         "datetime": str(datetime.now())
     }
 
-    mlflow_staging(**parameters)
+    main(
+        train_data_path=parameters['train_data_path'],
+        valid_data_path=parameters['valid_data_path'],
+        num_xgb_runs=10,
+    )
+
+    # mlflow_staging(**parameters)
