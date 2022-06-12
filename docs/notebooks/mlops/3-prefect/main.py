@@ -1,6 +1,7 @@
 import time
 from functools import partial
 from pathlib import Path
+from datetime import datetime
 
 import mlflow
 import xgboost as xgb
@@ -151,7 +152,7 @@ def stage_model(tracking_uri, experiment_name):
     client.update_model_version(
         name='NYCRideDurationModel',
         version=registered_model.version,
-        description=f"[{datetime.datetime.now()}] The model version {registered_model.version} from experiment '{experiment_name}' was transitioned to Staging."
+        description=f"[{datetime.now()}] The model version {registered_model.version} from experiment '{experiment_name}' was transitioned to Staging."
     )
 
 
@@ -197,8 +198,6 @@ def mlflow_staging(train_data_path, valid_data_path, datetime, num_xgb_runs=1):
 
 
 if __name__ == "__main__":
-
-    from datetime import datetime
 
     parameters={
         "train_data_path": './data/green_tripdata_2021-01.parquet',
