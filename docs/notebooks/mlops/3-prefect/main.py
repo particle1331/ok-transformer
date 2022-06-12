@@ -26,7 +26,8 @@ def objective(params, xgb_train, y_train, xgb_valid, y_valid):
             dtrain=xgb_train,
             num_boost_round=100,
             evals=[(xgb_valid, 'validation')],
-            early_stopping_rounds=5
+            early_stopping_rounds=5,
+            verbose_eval=False,
         )
 
         # MLflow logging
@@ -123,6 +124,7 @@ def linreg_runs(training_packet):
 def stage_model(tracking_uri, experiment_name):
     """Register and stage best model."""
 
+    # Get best model from current experiment
     client = MlflowClient(tracking_uri=tracking_uri)
     candidates = client.search_runs(
         experiment_ids=client.get_experiment_by_name(experiment_name).experiment_id,
@@ -132,9 +134,10 @@ def stage_model(tracking_uri, experiment_name):
         order_by=["metrics.rmse_valid ASC"]
     )
 
-    model_to_stage = candidates[0]
+    # Register and stage best model
+    best_model = candidates[0]
     registered_model = mlflow.register_model(
-        model_uri=f"runs:/{model_to_stage.info.run_id}/model", 
+        model_uri=f"runs:/{best_model.info.run_id}/model", 
         name='NYCRideDurationModel'
     )
 
@@ -142,6 +145,13 @@ def stage_model(tracking_uri, experiment_name):
         name='NYCRideDurationModel',
         version=registered_model.version, 
         stage='Staging',
+    )
+
+    # Update description of staged model
+    client.update_model_version(
+        name=model_name,
+        version=model_version,
+        description=f"[{datetime.datetime.now()}] The model version {model_version} from experiment '{experiment_name}' was transitioned to {new_stage}.\n{old_description}"
     )
 
 
@@ -169,8 +179,6 @@ def mlflow_staging(train_data_path, valid_data_path, datetime, num_xgb_runs=1):
     # Setup experiment
     MLFLOW_TRACKING_URI = "sqlite:///mlflow.db"
     EXPERIMENT_NAME = f"nyc-taxi-experiment-{datetime}"
-    mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
-    mlflow.set_experiment(EXPERIMENT_NAME)
 
     # Make experiment runs
     main(
