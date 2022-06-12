@@ -150,8 +150,8 @@ def stage_model(tracking_uri, experiment_name):
     # Update description of staged model
     client.update_model_version(
         name='NYCRideDurationModel',
-        version=model_version,
-        description=f"[{datetime.datetime.now()}] The model version {model_version} from experiment '{experiment_name}' was transitioned to {new_stage}.\n{old_description}"
+        version=registered_model.version,
+        description=f"[{datetime.datetime.now()}] The model version {registered_model.version} from experiment '{experiment_name}' was transitioned to Staging."
     )
 
 
