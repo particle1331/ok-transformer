@@ -25,7 +25,7 @@ $ cd src
 $ pip install -e .
 ```
 
-Note that TensorFlow has been commented out in [`requirements.txt`](https://github.com/particle1331/inefficient-networks/blob/dev/package/requirements/requirements.txt). This only serves to specify the version used in the notebooks &mdash; you would have to install it for your specific OS and hardware.
+Note that TensorFlow has been commented out in [`requirements.txt`](https://github.com/particle1331/inefficient-networks/blob/dev/package/requirements/requirements.txt). This only serves to specify the version used in the notebooks (you would have to install it for your specific OS and hardware).
 
 
 ## Hardware

@@ -1,0 +1,14 @@
+mlflow
+jupyter
+scikit-learn
+pandas
+seaborn
+hyperopt
+xgboost
+fastparquet
+gdown
+# openslide-python==1.1.2
+# conda install -c conda-forge openslide
+opencv-python==4.5.5.64
+scikit-image==0.19.2
+prefect==2.0b5

@@ -9,6 +9,7 @@ parts:
   chapters:
   - file: notebooks/mlops/1-intro/1-intro
   - file: notebooks/mlops/2-mlflow/2-mlflow
+  - file: notebooks/mlops/3-prefect/3-prefect
 
 - caption: MODEL DEPLOYMENT
   chapters:
@@ -16,8 +17,6 @@ parts:
   - file: notebooks/deployment/model-serving-api
   - file: notebooks/deployment/docker
   - file: notebooks/deployment/cicd-pipelines
-  # - file: notebooks/deployment
-  # - file: notebooks/deployment
 
 - caption: FUNDAMENTALS
   chapters:
@@ -34,7 +33,7 @@ parts:
   - file: notebooks/tensorflow/03-tensorflow-activations
   - file: notebooks/tensorflow/04-tensorflow-optim-init
   - file: notebooks/tensorflow/05-tensorflow-cnn
-  # - file: notebooks/tensorflow/06-tensorflow-inception
+  
 
 # - caption: REST APIs with FASTAPI
 #   chapters:

@@ -6,14 +6,17 @@
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 
 This is a collection of notebooks on machine learning theory and engineering. 
-Mostly of things I study and want to reproduce, or rewrite to reflect my own understanding 
-and way of doing things.
-These notebooks should run end-to-end after installing the [`inefficient_networks`](https://github.com/particle1331/inefficient-networks/tree/master/src/inefficient_networks) helper package. 
+The notebooks are generally self-contained on some topic I studied and wanted 
+to reproduce or build on top of.
+If you want to run them, the notebooks should run 
+end-to-end after installing the [`inefficient_networks`](https://github.com/particle1331/inefficient-networks/tree/master/src/inefficient_networks) helper package in your environment which contains utilities for
+downloading datasets and fixing the directory structure.
+Note that you can easily modify the code to eliminate this dependency when running individual notebooks.
 
-Note that there is really no strong dependence on this package &mdash; this just consists of utilities for automatically creating directories and downloading [Kaggle datasets](https://www.kaggle.com/datasets).
-Hence, you can easily modify the code to eliminate this dependency when running individual notebooks.
-
-The name of this collection is a reference to the following study:
+The name of this collection is a reference to the following study which suggests that
+encouraging individuals to have diverse &mdash; even if inferior &mdash; solutions result 
+in overall better solutions for the group. In this study, the term 'network' refers to 
+communication networks (e.g. not neural networks).
 
 ```text
 Brackbill D, Centola D (2020) Impact of network structure on collective 
@@ -28,7 +31,7 @@ learning: An experimental study in a data science competition. PLoS ONE
 width: 30em
 name: study
 ---
-[Fig. 3 in the above study]. **Evolution of solution discovery for members of the two groups.** The efficient network converged on a small set of solutions, whereas individuals in the inefficient network explored a greater diversity of solutions, and eventually converged on the best solution.
+**Evolution of solution discovery for members of the two groups.** [Fig. 3 in the above study]. The efficient network converged on a small set of solutions, whereas individuals in the inefficient network explored a greater diversity of solutions, and eventually converged on the best solution.
 ```
 
 ## Installation
@@ -43,7 +46,7 @@ $ cd src
 $ pip install -e .
 ```
 
-Note that TensorFlow has been commented out in [`requirements.txt`](https://github.com/particle1331/inefficient-networks/blob/dev/package/requirements/requirements.txt). This only serves to specify the version used in the notebooks &mdash; you would have to install it for your specific OS and hardware.
+Note that TensorFlow has been commented out in [`requirements.txt`](https://github.com/particle1331/inefficient-networks/blob/dev/package/requirements/requirements.txt). This only serves to specify the version used in the notebooks (you would have to install it for your specific OS and hardware).
 
 ## Hardware
 
