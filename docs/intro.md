@@ -6,8 +6,8 @@
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 
 This is a collection of notebooks on machine learning theory and engineering. 
-The notebooks are generally self-contained on some topic I studied and wanted 
-to reproduce or build on top of.
+The notebooks are generally self-contained on some topic I studied, and wanted 
+to reproduce, or build on top of.
 If you want to run them, the notebooks should run 
 end-to-end after installing the [`inefficient_networks`](https://github.com/particle1331/inefficient-networks/tree/master/src/inefficient_networks) helper package in your environment which contains utilities for
 downloading datasets and fixing the directory structure.
