@@ -57,10 +57,10 @@ def objective(params, xgb_train, y_train, xgb_valid, y_valid):
 
 
 @task
-def xgboost_runs(num_runs, training_packet):
+def xgboost_runs(num_runs, data):
     """Run TPE algorithm on search space to minimize objective."""
 
-    X_train, y_train, X_valid, y_valid = training_packet
+    X_train, y_train, X_valid, y_valid = data
     Xgb_train = xgb.DMatrix(X_train, label=y_train)
     Xgb_valid = xgb.DMatrix(X_valid, label=y_valid)
 
@@ -89,10 +89,10 @@ def xgboost_runs(num_runs, training_packet):
 
 
 @task
-def linreg_runs(training_packet):
+def linreg_runs(data):
     """Run linear regression training."""
 
-    X_train, y_train, X_valid, y_valid = training_packet
+    X_train, y_train, X_valid, y_valid = data
     
     with mlflow.start_run():
 
