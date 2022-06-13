@@ -136,11 +136,12 @@ def create_model_features(preprocessor, train_data, valid_data):
 
 @flow
 def preprocess_data(train_data_path, valid_data_path):
-    """Preprocess data for model training."""
+    """Return feature and target arrays from paths. 
+    Note: This just combines all the functions above in a single step."""
 
     train_data = load_training_dataframe(train_data_path)
     valid_data = load_training_dataframe(valid_data_path)
-    
     preprocessor = fit_preprocessor(train_data)
-    
+
+    # X_train, y_train, X_valid, y_valid
     return create_model_features(preprocessor, train_data, valid_data).result()
