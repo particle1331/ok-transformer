@@ -25,52 +25,23 @@ runs = root / 'mlruns'
 data_path = root / 'data'
 
 
-class ConvertToString(BaseEstimator, TransformerMixin):
-    """Convert columns of DataFrame to type string."""
+class PrepareFeatures(BaseEstimator, TransformerMixin):
+    """Prepare features for dict vectorizer."""
 
-    def __init__(self, features):
-        self.features = features
-
-    def fit(self, X, y=None):
-        return self
-
-    def transform(self, X):
-        X[self.features] = X[self.features].astype(str)
-        return X
-
-
-class AddPickupDropoffPair(BaseEstimator, TransformerMixin):
-    """Add product of pickup and dropoff locations."""
+    def __init__(self, categorical, numerical):
+        self.categorical = categorical
+        self.numerical = numerical
+        self.features = categorical + numerical
 
     def fit(self, X, y=None):
         return self
 
     def transform(self, X):
         X['PU_DO'] = X['PULocationID'].astype(str) + '_' + X['DOLocationID'].astype(str)
+        X[self.categorical] = X[self.categorical].astype(str)
+        X = X[self.features].to_dict(orient='records')
+        
         return X
-
-
-class ConvertToDict(BaseEstimator, TransformerMixin):
-    """Convert tabular data to feature dictionaries."""
-
-    def fit(self, X, y=None):
-        return self
-
-    def transform(self, X):
-        return X.to_dict(orient='records')
-
-
-class SelectFeatures(BaseEstimator, TransformerMixin):
-    """Convert tabular data to feature dictionaries."""
-
-    def __init__(self, features):
-        self.features = features
-
-    def fit(self, X, y=None):
-        return self
-
-    def transform(self, X):
-        return X[self.features]
 
 
 def compute_targets(data):
@@ -131,10 +102,7 @@ def preprocess_datasets(train_data_path, valid_data_path):
     numerical = ['trip_distance']
 
     feature_pipe = make_pipeline(
-        AddPickupDropoffPair(),
-        SelectFeatures(categorical + numerical),
-        ConvertToString(categorical),
-        ConvertToDict(),
+        PrepareFeatures(categorical, numerical),
         DictVectorizer(),
     )
 
