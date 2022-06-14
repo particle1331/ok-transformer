@@ -15,7 +15,6 @@ DeploymentSpec(
         "train_data_path": './data/green_tripdata_2021-01.parquet',
         "valid_data_path": './data/green_tripdata_2021-02.parquet',
         "num_xgb_runs": 10,
-        "datetime": str(datetime.now())
     },
     tags=["ml"]
 )

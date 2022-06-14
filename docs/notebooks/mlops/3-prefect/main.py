@@ -160,11 +160,10 @@ def stage_model(tracking_uri, experiment_name):
 def main(
     train_data_path, 
     valid_data_path, 
-    num_xgb_runs=1, 
-    experiment_name="nyc-taxi-experiment",
-    tracking_uri="sqlite:///mlflow.db",
+    num_xgb_runs, 
+    experiment_name,
+    tracking_uri,
 ):
-
     # Set and run experiment
     mlflow.set_tracking_uri(tracking_uri)
     mlflow.set_experiment(experiment_name)
@@ -175,11 +174,14 @@ def main(
 
 
 @flow(name='mlflow-staging', task_runner=SequentialTaskRunner())
-def mlflow_staging(train_data_path, valid_data_path, datetime, num_xgb_runs=1):
-
+def mlflow_staging(
+    train_data_path, 
+    valid_data_path, 
+    num_xgb_runs=1
+):
     # Setup experiment
     MLFLOW_TRACKING_URI = "sqlite:///mlflow.db"
-    EXPERIMENT_NAME = f"nyc-taxi-experiment-{datetime}"
+    EXPERIMENT_NAME = f"nyc-taxi-experiment-{datetime.now()}"
 
     # Make experiment runs
     main(
@@ -203,7 +205,6 @@ if __name__ == "__main__":
         "train_data_path": './data/green_tripdata_2021-01.parquet',
         "valid_data_path": './data/green_tripdata_2021-02.parquet',
         "num_xgb_runs": 3,
-        "datetime": str(datetime.now())
     }
 
     # main(
