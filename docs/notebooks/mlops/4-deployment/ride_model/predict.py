@@ -10,7 +10,7 @@ def load_model():
 
 
 def load_mlflow_model(run_id):
-    logged_model = f's3://mlflow-models-alexey/1/{run_id}/artifacts/model'
+    logged_model = f's3://mlflow-models-ron/1/{run_id}/artifacts/model'
     model = mlflow.pyfunc.load_model(logged_model)
     return model
 
