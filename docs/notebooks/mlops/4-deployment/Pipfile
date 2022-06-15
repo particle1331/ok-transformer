@@ -8,8 +8,13 @@ scikit-learn = "==1.0.2"
 flask = "*"
 pandas = "*"
 pyarrow = "*"
+gunicorn = "*"
+ride-duration-prediction = {editable = true, path = "."}
 
 [dev-packages]
+requests = "*"
+gunicorn = "*"
+pipenv-setup = "*"
 
 [requires]
 python_version = "3.9"
