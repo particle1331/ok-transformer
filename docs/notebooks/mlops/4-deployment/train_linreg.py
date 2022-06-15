@@ -1,4 +1,4 @@
-from ride_model.utils import load_training_dataframe, prepare_features, package_dir
+from ride_duration.utils import load_training_dataframe, prepare_features, package_dir
 
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error
@@ -8,7 +8,7 @@ from sklearn.pipeline import make_pipeline
 import joblib
 
 
-def train_lr_pipeline(X_train, y_train):
+def train_pipeline(X_train, y_train):
     """Fit and save preprocessing pipeline."""
 
     pipe = make_pipeline(
@@ -28,9 +28,9 @@ def run_training(train_path, valid_path):
 
     X_train = train_data.drop(['duration'], axis=1)
     y_train = train_data.duration.values
-    
+
     # Persist trained pipeline
-    pipeline = train_lr_pipeline(prepare_features(X_train), y_train)
+    pipeline = train_pipeline(prepare_features(X_train), y_train)
     joblib.dump(pipeline, package_dir / 'pipeline.pkl')
     
     # Evaluation

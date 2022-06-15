@@ -1,7 +1,7 @@
 import joblib
 import mlflow
 import pandas as pd
-from ride_model.utils import package_dir, prepare_features
+from ride_duration.utils import package_dir, prepare_features
 from typing import Union
 
 

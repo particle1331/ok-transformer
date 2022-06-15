@@ -8,8 +8,8 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_squared_error
 from sklearn.pipeline import make_pipeline
 
-from ride_model.utils import load_training_dataframe
-from ride_model.predict import load_model, make_prediction
+from ride_duration.utils import load_training_dataframe
+from ride_duration.predict import load_model, make_prediction
 
 import ssl
 ssl._create_default_https_context = ssl._create_unverified_context

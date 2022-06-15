@@ -1,7 +1,7 @@
 import joblib
 import pandas as pd
 
-from ride_model.predict import load_model, make_prediction, prepare_features
+from ride_duration.predict import load_model, make_prediction, prepare_features
 from flask import Flask, request, jsonify
 
 

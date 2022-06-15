@@ -9,7 +9,7 @@ COPY [ "Pipfile", "Pipfile.lock",  "./"]
 
 COPY [ "setup.py", "pyproject.toml",  "./"]
 
-COPY [ "ride_model",  "./ride_model"]
+COPY [ "ride_duration",  "./ride_duration"]
 
 RUN pipenv install --system --deploy
 
