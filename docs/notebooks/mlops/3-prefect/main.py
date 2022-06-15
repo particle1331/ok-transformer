@@ -180,8 +180,9 @@ def mlflow_staging(
     num_xgb_runs=1
 ):
     # Setup experiment
+    ctx = get_run_context()
     MLFLOW_TRACKING_URI = "sqlite:///mlflow.db"
-    EXPERIMENT_NAME = f"nyc-taxi-experiment-{datetime.now()}"
+    EXPERIMENT_NAME = f"nyc-taxi-experiment-{ctx.flow_run.expected_start_time}"
 
     # Make experiment runs
     main(
