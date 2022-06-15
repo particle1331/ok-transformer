@@ -2,11 +2,11 @@ import json
 import requests
 
 
-ride = {
+ride = [{
     'PULocationID': 130,
     'DOLocationID': 205,
     'trip_distance': 3.66,
-}
+}]
 
 
 if __name__ == "__main__":

@@ -1,5 +1,4 @@
-from ride_model.utils import load_training_dataframe, data_path
-from ride_model.preprocessing import prepare_features
+from ride_model.utils import load_training_dataframe, prepare_features
 
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error
@@ -21,9 +20,8 @@ def train_lr_pipeline(X_train, y_train):
     return pipe
 
 
-if __name__ == "__main__":
-    train_path = data_path / 'green_tripdata_2021-01.parquet'
-    valid_path = data_path / 'green_tripdata_2021-02.parquet'
+def run_training(train_path, valid_path):
+    """Train model and pickle model file."""
 
     train_data = load_training_dataframe(train_path)
     valid_data = load_training_dataframe(valid_path)

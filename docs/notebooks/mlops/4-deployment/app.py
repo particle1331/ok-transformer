@@ -2,8 +2,7 @@
 import joblib
 import pandas as pd
 
-from ride_model.preprocessing import prepare_features
-from ride_model.predict import load_model
+from ride_model.predict import load_model, make_prediction, prepare_features
 from flask import Flask, request, jsonify
 
 
@@ -14,11 +13,10 @@ app = Flask('duration-prediction')
 @app.route('/predict', methods=['POST'])
 def predict_endpoint():
     ride = request.get_json()
-    ride = prepare_features([ride])
-    preds = float(model.predict(ride)[0])
+    preds = make_prediction(model, ride)
 
     result = {
-        'duration': preds
+        'duration': float(preds[0])
     }
 
     return jsonify(result)

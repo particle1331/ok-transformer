@@ -9,12 +9,14 @@ flask = "*"
 pandas = "*"
 pyarrow = "*"
 gunicorn = "*"
-ride-duration-prediction = {editable = true, path = "."}
+mlflow = "*"
+boto3 = "*"
 
 [dev-packages]
 requests = "*"
 gunicorn = "*"
 pipenv-setup = "*"
+seedir = "*"
 
 [requires]
 python_version = "3.9"
