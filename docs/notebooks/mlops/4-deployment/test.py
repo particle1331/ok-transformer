@@ -16,5 +16,4 @@ if __name__ == "__main__":
     
     response = requests.post(url, json=ride)
     result = response.json()
-    
     print(result)
