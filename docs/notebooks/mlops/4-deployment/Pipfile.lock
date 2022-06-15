@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "5abf475dcccedc3aa0b38f11c05fb9ef5ae24897d22991553cba5bd8b368231b"
+            "sha256": "f021eeefa87724e04e9ff6d39f967796a4d50974d1151fb2b54a48ba9f7eeb18"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -463,6 +463,10 @@
             ],
             "markers": "python_version >= '3.7' and python_version < '4'",
             "version": "==2.28.0"
+        },
+        "ride-duration-prediction": {
+            "editable": true,
+            "path": "."
         },
         "s3transfer": {
             "hashes": [

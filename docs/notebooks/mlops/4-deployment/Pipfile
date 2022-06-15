@@ -11,6 +11,7 @@ pyarrow = "*"
 gunicorn = "*"
 mlflow = "*"
 boto3 = "*"
+ride-duration-prediction = {editable = true, path = "."}
 
 [dev-packages]
 requests = "*"
