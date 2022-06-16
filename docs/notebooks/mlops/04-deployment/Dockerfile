@@ -1,7 +1,7 @@
 FROM python:3.9.13-slim
 
 RUN pip install -U pip
-RUN pip install pipenv
+RUN curl -sSL https://install.python-poetry.org | python3 -
 
 WORKDIR /app
 

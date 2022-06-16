@@ -42,7 +42,7 @@ setup(
     install_requires=["click==8.1.3; python_version >= '3.7'", 'flask==2.1.2', 'gunicorn==20.1.0', "importlib-metadata==4.11.4; python_version < '3.10'", "itsdangerous==2.1.2; python_version >= '3.7'", "jinja2==3.1.2; python_version >= '3.7'", "joblib==1.1.0; python_version >= '3.6'", "markupsafe==2.1.1; python_version >= '3.7'", "numpy==1.22.4; python_version >= '3.8'", 'pandas==1.4.2', 'pyarrow==8.0.0', "python-dateutil==2.8.2; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'", 'pytz==2022.1', 'scikit-learn==1.0.2', "scipy==1.8.1; python_version < '3.11' and python_version >= '3.8'", "setuptools==62.4.0; python_version >= '3.7'", "six==1.16.0; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'", "threadpoolctl==3.1.0; python_version >= '3.6'", "werkzeug==2.1.2; python_version >= '3.7'", "zipp==3.8.0; python_version >= '3.7'"],
     extras_require={},
     include_package_data=True,
-    license="BSD-3",
+    license="MIT",
     classifiers=[
         # Trove classifiers
         # Full list: https://pypi.python.org/pypi?%3Aaction=list_classifiers

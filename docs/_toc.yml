@@ -7,10 +7,10 @@ parts:
 
 - caption: MLOPS ZOOMCAMP
   chapters:
-  - file: notebooks/mlops/1-intro/1-intro
-  - file: notebooks/mlops/2-mlflow/2-mlflow
-  - file: notebooks/mlops/3-prefect/3-prefect
-  - file: notebooks/mlops/4-deployment/4-deployment
+  - file: notebooks/mlops/01-intro/notes
+  - file: notebooks/mlops/02-mlflow/notes
+  - file: notebooks/mlops/03-prefect/notes
+  - file: notebooks/mlops/04-deployment/notes
 
 - caption: MODEL DEPLOYMENT
   chapters:

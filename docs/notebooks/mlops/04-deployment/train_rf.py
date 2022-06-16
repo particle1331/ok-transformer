@@ -1,6 +1,6 @@
 from ride_duration.utils import load_training_dataframe, prepare_features, package_dir
 
-from sklearn.linear_model import LinearRegression
+from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_squared_error
 from sklearn.feature_extraction import DictVectorizer
 from sklearn.pipeline import make_pipeline

@@ -7,3 +7,4 @@
 * [Real World Recommendation Systems - Part 2 (Training Data Generation)](https://blog.fennel.ai/p/real-world-recommendation-systems)
 * [A practical guide for better-looking python code](https://datatalks.club/blog/practical-guide-better-code.html)
 * [Dataviz Inspiration](https://www.dataviz-inspiration.com/)
+* [A Recipe for Training Neural Networks](https://karpathy.github.io/2019/04/25/recipe/)
