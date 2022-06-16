@@ -32,18 +32,18 @@ def run_training(train_path, valid_path):
     # Persist trained pipeline
     pipeline = train_pipeline(prepare_features(X_train), y_train)
     joblib.dump(pipeline, package_dir / 'pipeline.pkl')
-    
+
     # Evaluation
     X_valid = valid_data.drop(['duration'], axis=1)
     y_valid = valid_data.duration.values
 
     print("RMSE (train):", mean_squared_error(y_train, pipeline.predict(prepare_features(X_train)), squared=False))
     print("RMSE (valid):", mean_squared_error(y_valid, pipeline.predict(prepare_features(X_valid)), squared=False))
-
+    
 
 if __name__ == "__main__":
     
-    run_training(
+    pipeline = run_training(
         train_path='./data/green_tripdata_2021-01.parquet', 
         valid_path='./data/green_tripdata_2021-02.parquet'
     )
