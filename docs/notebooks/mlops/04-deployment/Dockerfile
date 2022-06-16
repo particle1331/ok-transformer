@@ -1,11 +1,11 @@
 FROM python:3.9.13-slim
 
 RUN pip install -U pip
-RUN pip install poetry
+RUN pip install pipenv
 
 WORKDIR /app
 
-COPY [ "Pipfile", "Pipfile.lock",  "./"]
+COPY [ "Pipfile", "Pipfile.lock", "setup.py", "pyproject.toml",  "./"]
 
 COPY [ "ride_duration",  "./ride_duration"]
 
