@@ -1,5 +1,4 @@
 include ride_duration/*.py
-include ride_duration/pipeline.pkl
 include ride_duration/VERSION
 
 recursive-exclude * __pycache__
