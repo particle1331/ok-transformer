@@ -122,6 +122,7 @@ venv.bak/
 # Specific
 docs/_build/
 .tox
+.lock
 
 mlruns/
 artifacts/

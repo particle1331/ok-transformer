@@ -15,6 +15,14 @@ import ssl
 ssl._create_default_https_context = ssl._create_unverified_context
 
 
+
+def generate_uuids(n):
+    ride_ids = []
+    for i in range(n):
+        ride_ids.append(str(uuid.uuid4()))
+    return ride_ids
+
+
 def apply_model(
     input_file: str, 
     run_id: str, 
@@ -23,6 +31,7 @@ def apply_model(
     
     print(f'Reading the data from {input_file}...')
     df = load_training_dataframe(input_file)
+    df['ride_id'] = generate_uuids(len(df))
 
     print(f'Loading the model with RUN_ID={run_id}...')
     model = load_model()

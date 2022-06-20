@@ -22,21 +22,21 @@ def load_model():
         if response.status_code != 200:
             raise Exception(f"Tracking server unavailable: HTTP response code {response.status_code}")
             
+        # Fetch production model from client
+        mlflow.set_tracking_uri(TRACKING_URI)
+        client = MlflowClient(tracking_uri=TRACKING_URI)
+        prod_model = client.get_latest_versions(name='NYCRideDurationModel', stages=['Production'])[0]
+
     except:
         EXPERIMENT_ID = os.getenv('EXPERIMENT_ID')
         RUN_ID = os.getenv('MODEL_RUN_ID')
-        
-        print(f"Downloading model {RUN_ID}...")
         source = f"s3://mlflow-models-ron/{EXPERIMENT_ID}/{RUN_ID}/artifacts/model"
-
-    else:
-        mlflow.set_tracking_uri(TRACKING_URI)
-        client = MlflowClient(tracking_uri=TRACKING_URI)
-        logged_model = client.get_latest_versions(name='NYCRideDurationModel', stages=['Production'])[0]
+        print(f"Downloading model {RUN_ID} from S3...")
         
-        print("Downloading model {RUN_ID} (latest, production)...")
-        RUN_ID = logged_model.run_id
-        source = logged_model.source
+    else:
+        RUN_ID = prod_model.run_id
+        source = prod_model.source
+        print(f"Downloading model {RUN_ID} (latest, production)...")
     
     model = mlflow.pyfunc.load_model(source)
     return model, RUN_ID
