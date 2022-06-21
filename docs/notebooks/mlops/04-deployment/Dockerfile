@@ -6,11 +6,8 @@ RUN pip install pipenv
 WORKDIR /app
 
 COPY [ "Pipfile", "Pipfile.lock",  "./"]
-
 COPY [ "setup.py", "pyproject.toml", "MANIFEST.in",  "./"]
-
 COPY [ "ride_duration",  "./ride_duration"]
-
 COPY [ "app",  "./app"]
 
 RUN pipenv install --system --deploy
