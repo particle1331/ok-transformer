@@ -3,10 +3,3 @@ include ride_duration/VERSION
 
 recursive-exclude * __pycache__
 recursive-exclude * *.py[co]
-
-exclude Dockerfile
-exclude Pipfile
-exclude Pipfile.lock
-exclude *.py
-exclude app/*
-exclude data/*

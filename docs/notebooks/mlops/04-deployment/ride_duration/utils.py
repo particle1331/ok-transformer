@@ -27,9 +27,6 @@ def load_training_dataframe(file_path, y_min=1, y_max=60):
     data['duration'] = data.duration.dt.total_seconds() / 60
     data = data[(data.duration >= y_min) & (data.duration <= y_max)]
 
-    # Create uuids
-    data['ride_id'] = generate_uuids(len(data))
-
     return data
 
 

@@ -6,7 +6,11 @@ from ride_duration.predict import load_model, make_prediction
 from flask import Flask, request, jsonify
 
 
-model, run_id = load_model()
+# Load model with run ID and experiment ID defined in the env.
+RUN_ID = os.getenv("MODEL_RUN_ID")
+EXPERIMENT_ID = os.getenv("EXPERIMENT_ID")
+model = load_model(run_id=RUN_ID, experiment_id=EXPERIMENT_ID)
+
 app = Flask('duration-prediction')
 
 
