@@ -23,7 +23,7 @@ def predict_endpoint():
 
     return jsonify({
         'duration': float(preds[0]),
-        'model_version': run_id,
+        'model_version': RUN_ID,
     })
 
 
