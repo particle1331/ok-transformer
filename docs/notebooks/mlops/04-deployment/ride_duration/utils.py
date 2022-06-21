@@ -12,10 +12,6 @@ from pandas.core.common import SettingWithCopyWarning
 warnings.simplefilter(action="ignore", category=SettingWithCopyWarning)
 
 
-# Config variables
-package_dir = Path(__file__).parent.resolve()
-
-
 def load_training_dataframe(file_path, y_min=1, y_max=60):
     """Load data from disk and preprocess for training."""
     
