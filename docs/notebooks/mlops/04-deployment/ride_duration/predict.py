@@ -3,9 +3,8 @@ import mlflow
 import pandas as pd
 import requests
 
-from ride_duration.utils import package_dir, prepare_features
 from typing import Union
-from mlflow.tracking import MlflowClient
+from ride_duration.utils import package_dir, prepare_features
 
 
 def load_model(experiment_id, run_id):
