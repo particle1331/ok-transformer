@@ -16,7 +16,7 @@ app = Flask('duration-prediction')
 
 @app.route('/predict', methods=['POST'])
 def predict_endpoint():
-    """Predict ride duration using NYCRideDurationModel."""
+    """Predict duration of a single ride using NYCRideDurationModel."""
     
     ride = request.get_json()
     preds = make_prediction(model, ride)
