@@ -15,7 +15,6 @@ from utils import (
 )
 
 
-
 def setup():
 
     global xgb_train, y_train, xgb_valid, y_valid

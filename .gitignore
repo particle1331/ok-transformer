@@ -118,11 +118,11 @@ venv.bak/
 *.tgz
 *.parquet
 *.bin
+*.lock
 
 # Specific
-docs/_build/
 .tox
-
+docs/_build/
 mlruns/
 artifacts/
 logs/
