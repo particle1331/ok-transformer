@@ -17,7 +17,7 @@ def predict_endpoint():
     """Predict duration of a single ride using NYCRideDurationModel."""
     
     ride = request.get_json()
-    preds = make_prediction(model, ride)
+    preds = make_prediction(model, [ride])
 
     return jsonify({
         'duration': float(preds[0]),
