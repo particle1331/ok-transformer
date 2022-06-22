@@ -1,5 +1,3 @@
-import joblib
-import pandas as pd
 import os
 
 from ride_duration.predict import load_model, make_prediction
