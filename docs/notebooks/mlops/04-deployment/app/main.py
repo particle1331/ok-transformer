@@ -1,5 +1,4 @@
 import os
-
 from ride_duration.predict import load_model, make_prediction
 from flask import Flask, request, jsonify
 
