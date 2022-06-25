@@ -9,12 +9,8 @@ flask = "*"
 pandas = "*"
 mlflow = "*"
 boto3 = "*"
-ride-duration-prediction = "==0.0.1"
 
 [dev-packages]
-requests = "*"
-pipenv-setup = "*"
-python-dotenv = "*"
 
 [requires]
 python_version = "3.9"
