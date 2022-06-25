@@ -12,6 +12,10 @@ boto3 = "*"
 
 [dev-packages]
 ride-duration-prediction = {editable = true, path = "."}
+jupyter = "*"
+notebook = "*"
+requests = "*"
+pipenv-setup = "*"
 
 [requires]
 python_version = "3.9"
