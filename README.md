@@ -18,7 +18,7 @@ learning: An experimental study in a data science competition. PLoS ONE
 
 ## Installation
 
-The package [`inefficient_networks`](https://github.com/particle1331/inefficient-networks/tree/dev/package) provides utilities for downloading data from Kaggle and a [`config`](https://github.com/particle1331/inefficient-networks/blob/dev/package/inefficient_networks/config.py) object to reduce boilerplate code in setting up the coding environment. 
+The package [`inefficient_networks`](https://github.com/particle1331/inefficient-networks/tree/master/src) provides utilities for downloading data from Kaggle and a [`config`](https://github.com/particle1331/inefficient-networks/tree/master/src/inefficient_networks/config.py) object to reduce boilerplate code in setting up the coding environment. 
 To install:
 
 ```
@@ -27,8 +27,6 @@ $ cd inefficient-networks
 $ cd src
 $ pip install -e .
 ```
-
-Note that TensorFlow has been commented out in [`requirements.txt`](https://github.com/particle1331/inefficient-networks/blob/dev/package/requirements/requirements.txt). This only serves to specify the version used in the notebooks (you would have to install it for your specific OS and hardware).
 
 
 ## Hardware
