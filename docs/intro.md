@@ -7,7 +7,7 @@
 
 
 This is a collection of notebooks on machine learning theory and engineering. 
-Each notebook should run end-to-end after installing the [`inefficient_networks`](https://github.com/particle1331/inefficient-networks/tree/master/src/inefficient_networks) package. This package provides utilities for downloading datasets from Kaggle and reducing boilerplate code in setting up the coding environment. Datasets used come from [Kaggle](https://www.kaggle.com/) or as part of some open-source library such as
+Each notebook should run end-to-end after installing the [`inefficient_networks`](https://github.com/particle1331/inefficient-networks/tree/master/src/inefficient_networks) package. This package provides utilities for downloading datasets from Kaggle and reducing boilerplate code in setting up the coding environment. Datasets used are from [Kaggle](https://www.kaggle.com/datasets) or from an open-source library such as
 [`torchvision`](https://pytorch.org/vision/stable/index.html) and [`tensorflow_datasets`](https://www.tensorflow.org/datasets). 
 
 
