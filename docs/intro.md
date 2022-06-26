@@ -7,8 +7,7 @@
 
 
 This is a collection of notebooks on machine learning theory and engineering. 
-Each notebook should run end-to-end after installing the [`inefficient_networks`](https://github.com/particle1331/inefficient-networks/tree/master/src/inefficient_networks) utilities library (see below).
-Datasets used come from [Kaggle](https://www.kaggle.com/) or as part of some open-source library such as
+Each notebook should run end-to-end after installing the [`inefficient_networks`](https://github.com/particle1331/inefficient-networks/tree/master/src/inefficient_networks) package. This package provides utilities for downloading datasets from Kaggle and reducing boilerplate code in setting up the coding environment. Datasets used come from [Kaggle](https://www.kaggle.com/) or as part of some open-source library such as
 [`torchvision`](https://pytorch.org/vision/stable/index.html) and [`tensorflow_datasets`](https://www.tensorflow.org/datasets). 
 
 
@@ -33,8 +32,7 @@ name: study
 
 ## Installation
 
-The package [`inefficient_networks`](https://github.com/particle1331/inefficient-networks/tree/master/src) provides utilities for downloading data from Kaggle and a [`config`](https://github.com/particle1331/inefficient-networks/tree/master/src/inefficient_networks/config.py) object to reduce boilerplate code in setting up the coding environment. 
-To install:
+Installing the package:
 
 ```
 $ git clone git@github.com:particle1331/inefficient-networks.git
@@ -42,6 +40,14 @@ $ cd inefficient-networks
 $ cd src
 $ pip install -e .
 ```
+
+Building the book:
+
+```
+$ # cd to the root directory
+$ make docs
+```
+
 
 
 ## Hardware
