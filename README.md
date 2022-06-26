@@ -1,5 +1,8 @@
 # inefficient-networks
 
+
+[<img src="https://camo.githubusercontent.com/cd43ae9bda10b0bdac0d93fc7df654c04a630a51d35a66fa64520b10a3f715ac/68747470733a2f2f656d6f6a6970656469612d75732e73332e6475616c737461636b2e75732d776573742d312e616d617a6f6e6177732e636f6d2f7468756d62732f3132302f676f6f676c652f3331332f666c61672d756b7261696e655f31663166612d31663165362e706e67" width="50" height="50" style="display: block; margin: 0 auto" >](https://how-to-help-ukraine-now.super.site/)
+
 This is a collection of notebooks on machine learning theory and engineering. 
 Each notebook should run end-to-end after installing the [`inefficient_networks`](https://github.com/particle1331/inefficient-networks/tree/master/src/inefficient_networks) utilities library (see below).
 Datasets used come from [Kaggle](https://www.kaggle.com/) or as part of some open-source library such as
@@ -15,7 +18,7 @@ learning: An experimental study in a data science competition. PLoS ONE
 
 ## Installation
 
-The package [`inefficient_networks`](https://github.com/particle1331/inefficient-networks/tree/dev/package) provides utilities for downloading data from Kaggle and a [`config`](https://github.com/particle1331/inefficient-networks/blob/dev/package/inefficient_networks/config.py) object to reduce boilerplate code in setting up the coding environment. 
+The package [`inefficient_networks`](https://github.com/particle1331/inefficient-networks/tree/master/src) provides utilities for downloading data from Kaggle and a [`config`](https://github.com/particle1331/inefficient-networks/tree/master/src/inefficient_networks/config.py) object to reduce boilerplate code in setting up the coding environment. 
 To install:
 
 ```
@@ -24,8 +27,6 @@ $ cd inefficient-networks
 $ cd src
 $ pip install -e .
 ```
-
-Note that TensorFlow has been commented out in [`requirements.txt`](https://github.com/particle1331/inefficient-networks/blob/dev/package/requirements/requirements.txt). This only serves to specify the version used in the notebooks (you would have to install it for your specific OS and hardware).
 
 
 ## Hardware
