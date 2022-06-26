@@ -3,6 +3,7 @@ import warnings
 import uuid
 
 from pathlib import Path
+from typing import Union
 
 from sklearn.feature_extraction import DictVectorizer
 from sklearn.pipeline import make_pipeline
@@ -26,7 +27,7 @@ def load_training_dataframe(file_path, y_min=1, y_max=60):
     return data
 
 
-def prepare_features(input_data):
+def prepare_features(input_data: Union[list[dict], pd.DataFrame]):
     """Prepare features for dict vectorizer."""
 
     X = pd.DataFrame(input_data)

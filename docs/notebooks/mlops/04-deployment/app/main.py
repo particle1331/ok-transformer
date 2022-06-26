@@ -1,11 +1,10 @@
 import os
-
 from ride_duration.predict import load_model, make_prediction
 from flask import Flask, request, jsonify
 
 
 # Load model with run ID and experiment ID defined in the env.
-RUN_ID = os.getenv("MODEL_RUN_ID")
+RUN_ID = os.getenv("RUN_ID")
 EXPERIMENT_ID = os.getenv("EXPERIMENT_ID")
 model = load_model(run_id=RUN_ID, experiment_id=EXPERIMENT_ID)
 
@@ -17,7 +16,7 @@ def predict_endpoint():
     """Predict duration of a single ride using NYCRideDurationModel."""
     
     ride = request.get_json()
-    preds = make_prediction(model, ride)
+    preds = make_prediction(model, [ride])
 
     return jsonify({
         'duration': float(preds[0]),

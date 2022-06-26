@@ -9,11 +9,15 @@ flask = "*"
 pandas = "*"
 mlflow = "*"
 boto3 = "*"
-ride-duration-prediction = {editable = true, path = "."}
+ride-duration-prediction = "==0.1.0"
 
 [dev-packages]
+jupyter = "*"
+notebook = "*"
 requests = "*"
 pipenv-setup = "*"
+twine = "*"
+build = "*"
 
 [requires]
 python_version = "3.9"
