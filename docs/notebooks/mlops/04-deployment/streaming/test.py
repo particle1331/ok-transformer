@@ -1,6 +1,3 @@
-import json
-import requests
-
 from lambda_function import lambda_handler
 
 
