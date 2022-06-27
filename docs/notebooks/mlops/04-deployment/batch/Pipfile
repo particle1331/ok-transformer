@@ -1,0 +1,21 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = false
+name = "pypi"
+
+[packages]
+scikit-learn = "==1.0.2"
+pandas = "*"
+mlflow = "*"
+boto3 = "*"
+prefect = "==2.0b5"
+ride-duration-prediction = "==0.1.0"
+s3fs = "*"
+pyarrow = "*"
+
+[requires]
+python_version = "3.9"
+
+[dev-packages]
+jupyter = "*"
+notebook = "*"
