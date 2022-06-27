@@ -21,7 +21,7 @@ parts:
 
 - caption: FUNDAMENTALS
   chapters:
-  - file: notebooks/fundamentals/house-prices
+  - file: notebooks/fundamentals/pipelines
   - file: notebooks/fundamentals/blending-stacking
   - file: notebooks/fundamentals/optuna
   - file: notebooks/fundamentals/missing
