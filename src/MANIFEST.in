@@ -1,5 +1,5 @@
-include inefficient_networks/*.py
-include inefficient_networks/VERSION
+include ineff/*.py
+include ineff/VERSION
 include requirements.txt
 
 recursive-exclude * __pycache__

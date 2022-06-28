@@ -1,5 +1,5 @@
 import os
-from inefficient_networks.config import config
+from ineff.config import config
 
 
 def download_kaggle_dataset(dataset: str):

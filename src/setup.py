@@ -5,7 +5,7 @@ from setuptools import find_packages, setup
 # Package meta-data.
 NAME = 'inefficient-networks'
 DESCRIPTION = "Helper functions for Inefficient Networks collection."
-URL = "https://github.com/particle1331/inefficient-networks"
+URL = "https://github.com/particle1331/inefficient-networks/"
 EMAIL = "particle1331@gmail.com"
 AUTHOR = "Ron Medina"
 REQUIRES_PYTHON = ">=3.6.0"
@@ -20,7 +20,7 @@ long_description = DESCRIPTION
 # Load the package's VERSION file as a dictionary.
 about = {}
 ROOT_DIR = Path(__file__).resolve().parent
-PACKAGE_DIR = ROOT_DIR / 'inefficient_networks'
+PACKAGE_DIR = ROOT_DIR / 'ineff'
 with open(PACKAGE_DIR / "VERSION") as f:
     _version = f.read().strip()
     about["__version__"] = _version

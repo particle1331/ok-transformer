@@ -33,10 +33,10 @@ learning: An experimental study in a data science competition. PLoS ONE
 
 ## Installation
 
-Installing a [helper package](https://github.com/particle1331/inefficient-networks/tree/master/src) for making life easier. This contains functions for downloading datasets from Kaggle , setting up paths, and configuring random seeds and plots. Note that code can be easily refactored to not have this dependency. 
+Installing the [`ineff`](https://github.com/particle1331/inefficient-networks/tree/master/src) helper package for [making life easier](https://github.com/particle1331/inefficient-networks/blob/master/src/demo.ipynb). This is a minimal package that only contains functions for downloading datasets from Kaggle, setting up paths, and configuring random seeds and plots (i.e. code can be easily be refactored to not have this dependency).
 
 ```text
-pip install inefficient-networks==0.1.1
+pip install inefficient-networks==0.2.0
 ```
 
 Building the Jupyter book:
@@ -58,7 +58,7 @@ docker-compose                1.25.5
 fastapi                       0.75.2
 Flask                         2.1.2
 httpie                        3.1.0
-inefficient-networks          0.1.0
+inefficient-networks          0.1.1
 isort                         5.10.1
 joblib                        1.1.0
 jupyter-book                  0.13.0
