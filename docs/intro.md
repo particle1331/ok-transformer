@@ -31,7 +31,8 @@ learning: An experimental study in a data science competition. PLoS ONE
 
 ## Installation
 
-Installing the [helper package](https://github.com/particle1331/inefficient-networks/tree/master/src/inefficient_networks). Includes utilities for downloading datasets from Kaggle and setting up the directory structure. Note that code can be easily refactored without this dependency.
+Installing a [utilities package](https://github.com/particle1331/inefficient-networks/tree/master/src) for this project. Note that code can be easily refactored to not use this package. This only contains utilities for downloading datasets from Kaggle, setting up the directory structure, and configuring random seeds and plots.
+
 
 ```text
 pip install inefficient-networks==0.1.0
