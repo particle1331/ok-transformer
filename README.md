@@ -24,14 +24,13 @@ learning: An experimental study in a data science competition. PLoS ONE
 
 ## Installation
 
-Installing a [utilities package](https://github.com/particle1331/inefficient-networks/tree/master/src) for this project. Note that code can be easily refactored to not have this dependency. This only contains functions for downloading datasets from Kaggle, setting up the directory structure, and configuring random seeds and plots.
-
+Installing a [helper package](https://github.com/particle1331/inefficient-networks/tree/master/src). Note that code can be easily refactored to not have this dependency.
 
 ```text
 pip install inefficient-networks==0.1.0
 ```
 
-Building the book:
+Building the Jupyter book:
 
 ```bash
 $ # cd to root directory
@@ -103,4 +102,10 @@ Total Number of Cores:          8 (4 performance and 4 efficiency)
 Memory:                         8 GB
 System Firmware Version:	7429.61.2
 OS Loader Version:	        7429.61.2
+```
+
+
+## References
+
+```{bibliography}
 ```
