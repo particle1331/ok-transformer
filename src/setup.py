@@ -7,7 +7,7 @@ NAME = 'inefficient-networks'
 DESCRIPTION = "Helper functions for Inefficient Networks collection."
 URL = "https://github.com/particle1331/inefficient-networks"
 EMAIL = "particle1331@gmail.com"
-AUTHOR = "particle1331"
+AUTHOR = "Ron Medina"
 REQUIRES_PYTHON = ">=3.6.0"
 
 
@@ -20,7 +20,6 @@ long_description = DESCRIPTION
 # Load the package's VERSION file as a dictionary.
 about = {}
 ROOT_DIR = Path(__file__).resolve().parent
-REQUIREMENTS_DIR = ROOT_DIR / 'requirements'
 PACKAGE_DIR = ROOT_DIR / 'inefficient_networks'
 with open(PACKAGE_DIR / "VERSION") as f:
     _version = f.read().strip()
@@ -29,8 +28,9 @@ with open(PACKAGE_DIR / "VERSION") as f:
 
 # What packages are required for this module to be executed?
 def list_reqs(fname="requirements.txt"):
-    with open(REQUIREMENTS_DIR / fname) as fd:
+    with open(fname) as fd:
         return fd.read().splitlines()
+
 
 # Where the magic happens:
 setup(
@@ -53,13 +53,6 @@ setup(
         # Trove classifiers
         # Full list: https://pypi.python.org/pypi?%3Aaction=list_classifiers
         "License :: OSI Approved :: MIT License",
-        "Programming Language :: Python",
-        "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.6",
-        "Programming Language :: Python :: 3.7",
-        "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
-        "Programming Language :: Python :: Implementation :: CPython",
-        "Programming Language :: Python :: Implementation :: PyPy",
     ],
 )
