@@ -1,9 +1,11 @@
 # 𝗜𝗻𝗲𝗳𝗳𝗶𝗰𝗶𝗲𝗻𝘁 𝗡𝗲𝘁𝘄𝗼𝗿𝗸𝘀
 
-
 [![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fparticle1331%2Finefficient-networks%2Fbadge%3Fref%3Dmaster&label=build&logo=none)](https://actions-badge.atrox.dev/particle1331/inefficient-networks/goto?ref=master)
 ![Last Commit](https://img.shields.io/github/last-commit/particle1331/inefficient-networks/master)
-[![Stars](https://img.shields.io/github/stars/particle1331/inefficient-networks?style=social)](https://github.com/particle1331/inefficient-networks)
+![python](https://img.shields.io/github/pipenv/locked/python-version/particle1331/inefficient-networks)
+![jupyter-book](https://github.com/executablebooks/jupyter-book/raw/master/docs/images/badge.svg)
+[![Stars](https://img.shields.io/github/stars/particle1331/inefficient-networks?style=social)](https://github.com/particle1331/inefficient-networks) 
+
 
 ```text
 A collection of notebooks on machine learning engineering and operations.❚
@@ -31,7 +33,7 @@ learning: An experimental study in a data science competition. PLoS ONE
 
 ## Installation
 
-Installing a [utilities package](https://github.com/particle1331/inefficient-networks/tree/master/src) for this project. Note that code can be easily refactored to not use this package. This only contains utilities for downloading datasets from Kaggle, setting up the directory structure, and configuring random seeds and plots.
+Installing a [utilities package](https://github.com/particle1331/inefficient-networks/tree/master/src) for this project. Note that code can be easily refactored to not have this dependency. This only contains functions for downloading datasets from Kaggle, setting up the directory structure, and configuring random seeds and plots.
 
 
 ```text
@@ -41,11 +43,12 @@ pip install inefficient-networks==0.1.0
 Building the book:
 
 ```bash
-$ # cd to the root directory
+$ # cd to root directory
 $ make docs
 ```
 
 Package versions used in the notebooks:
+
 ```text
 aiofiles                      0.8.0
 alembic                       1.8.0
