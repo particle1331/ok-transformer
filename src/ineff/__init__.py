@@ -1,6 +1,6 @@
-from inefficient_networks.config import config
+from ineff.config import config
 
-VERSION_PATH = config.PACKAGE_DIR / "VERSION"
+VERSION_PATH = config.PACKAGE_ROOT / "VERSION"
 name = "regression_model"
 
 with open(VERSION_PATH, "r") as version_file:

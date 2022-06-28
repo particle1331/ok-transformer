@@ -3,13 +3,13 @@ from pathlib import Path
 
 
 class Config(BaseModel):
-    PACKAGE_DIR = Path(__file__).parent.resolve()
-    DATASET_DIR = PACKAGE_DIR / "data"
-    TRAINED_MODELS_DIR = PACKAGE_DIR / "trained_models"
+    PACKAGE_ROOT = Path(__file__).parent.resolve()
+    DATA_PATH = PACKAGE_ROOT / "data"
+    MODELS_PATH = PACKAGE_ROOT / "models"
 
     # Create directories
-    TRAINED_MODELS_DIR.mkdir(exist_ok=True)
-    DATASET_DIR.mkdir(exist_ok=True)
+    MODELS_PATH.mkdir(exist_ok=True)
+    DATA_PATH.mkdir(exist_ok=True)
 
 
     def set_tensorflow_seeds(self, seed=0):
@@ -25,9 +25,9 @@ class Config(BaseModel):
         from matplotlib_inline import backend_inline
         backend_inline.set_matplotlib_formats(format)
 
-    def set_ignore_warnings(self):
+    def set_ignore_warnings(self, action='once'):
         import warnings
-        warnings.simplefilter(action='ignore')
+        warnings.simplefilter(action=action)
 
     def list_tensorflow_devices(self):
         import tensorflow as tf
