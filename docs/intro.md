@@ -13,6 +13,8 @@ A collection of notebooks on machine learning engineering and operations.❚
 
 <br>
 
+<br>
+
 ```{figure} img/pone.0237978.g003.png
 ---
 width: 30em
@@ -20,6 +22,8 @@ name: study
 ---
 **Evolution of solution discovery for members of the two groups.** The efficient network converged on a small set of solutions, whereas individuals in the inefficient network explored a greater diversity of solutions, and eventually converged on the best solution.
 ```
+
+<br>
 
 The name of this collection comes from the following study:
 

@@ -11,6 +11,10 @@
 A collection of notebooks on machine learning engineering and operations.❚
 ```
 
+Entry point: [𝗜𝗻𝗲𝗳𝗳𝗶𝗰𝗶𝗲𝗻𝘁 𝗡𝗲𝘁𝘄𝗼𝗿𝗸𝘀 website](https://particle1331.github.io/inefficient-networks/intro.html)
+
+<br>
+
 
 The name of this collection comes from the following study:
 
@@ -22,22 +26,7 @@ learning: An experimental study in a data science competition. PLoS ONE
 ```
 
 
-## Installation
-
-Installing a [helper package](https://github.com/particle1331/inefficient-networks/tree/master/src). Note that code can be easily refactored to not have this dependency.
-
-```text
-pip install inefficient-networks==0.2.1
-```
-
-Building the Jupyter book:
-
-```bash
-$ # cd to root directory
-$ make docs
-```
-
-Package versions used in the notebooks:
+## Dependencies
 
 ```text
 aiofiles                      0.8.0
@@ -49,7 +38,6 @@ docker-compose                1.25.5
 fastapi                       0.75.2
 Flask                         2.1.2
 httpie                        3.1.0
-inefficient-networks          0.2.1
 isort                         5.10.1
 joblib                        1.1.0
 jupyter-book                  0.13.0
@@ -83,6 +71,7 @@ tensorflow-macos              2.8.0
 tensorflow-metadata           1.7.0
 tensorflow-metal              0.4.0
 tf-estimator-nightly          2.8.0.dev2021122109
+toolz                         0.11.2
 torch                         1.10.2
 torchvision                   0.11.3
 tqdm                          4.64.0
@@ -104,8 +93,3 @@ System Firmware Version:	7429.61.2
 OS Loader Version:	        7429.61.2
 ```
 
-
-## References
-
-```{bibliography}
-```
