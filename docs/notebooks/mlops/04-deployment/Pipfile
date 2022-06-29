@@ -1,6 +1,6 @@
 [[source]]
 url = "https://pypi.org/simple"
-verify_ssl = false
+verify_ssl = true
 name = "pypi"
 
 [packages]
@@ -10,6 +10,9 @@ pandas = "*"
 mlflow = "*"
 boto3 = "*"
 ride-duration-prediction = "==0.1.0"
+prefect = "==2.0b5"
+python-dotenv = "*"
+pyarrow = "*"
 
 [dev-packages]
 jupyter = "*"
