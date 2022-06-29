@@ -1,5 +1,6 @@
 
-Ignore warnings
+Ignoring warnings
+
 ```python
 from pandas.core.common import SettingWithCopyWarning
 from matplotlib_inline import backend_inline
