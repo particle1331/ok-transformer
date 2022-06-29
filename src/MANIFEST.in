@@ -1,6 +1,0 @@
-include ineff/*.py
-include ineff/VERSION
-include requirements.txt
-
-recursive-exclude * __pycache__
-recursive-exclude * *.py[co]
