@@ -56,9 +56,7 @@ def get_paths(run_date, taxi_type, run_id):
     output_file = (
         f's3://nyc-duration-prediction-ron/' 
         f'taxi_type={taxi_type}/'
-        f'year={year:04d}/'
-        f'month={month:02d}/'
-        f'{run_id}.parquet'
+        f'year={year:04d}/month={month:02d}/'{run_id}.parquet'
     )
 
     return input_file, output_file
