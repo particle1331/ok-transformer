@@ -10,7 +10,6 @@ from prefect.context import get_run_context
 
 from ride_duration.utils import load_training_dataframe
 from ride_duration.predict import load_model, make_prediction
-from utils import save_results, get_paths
 
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
@@ -24,16 +23,15 @@ def save_results(df, preds, run_id, output_file):
         'PULocationID', 
         'DOLocationID', 
         'trip_distance', 
-        'duration'
     ]
-    df_results = df[results_cols].copy()
     
-    df_results['model_version']= run_id
+    df_results = df[results_cols].copy()
     df_results['actual_duration'] = df['duration']
     df_results['predicted_duration'] = preds
     df_results['diff'] = df_results['actual_duration'] - df_results['predicted_duration']
+    df_results['model_version']= run_id
     df_results['ride_id'] = [str(uuid.uuid4()) for _ in range(len(df))]
-
+    
     # Saving results
     df_results.to_parquet(output_file, index=False)
 
@@ -56,7 +54,7 @@ def get_paths(run_date, taxi_type, run_id):
     output_file = (
         f's3://nyc-duration-prediction-ron/' 
         f'taxi_type={taxi_type}/'
-        f'year={year:04d}/month={month:02d}/'{run_id}.parquet'
+        f'year={year:04d}/month={month:02d}/{run_id}.parquet'
     )
 
     return input_file, output_file
