@@ -1,6 +1,0 @@
-include inefficient_networks/*.py
-include inefficient_networks/VERSION
-include requirements.txt
-
-recursive-exclude * __pycache__
-recursive-exclude * *.py[co]
