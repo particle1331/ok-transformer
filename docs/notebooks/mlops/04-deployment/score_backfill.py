@@ -45,7 +45,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     
     start_date = datetime(year=args.start_year, month=args.start_month, day=1)
-    end_date   = datetime(year=args.end_year,   month=args.end_month,   day=1)
+    end_date = datetime(year=args.end_year, month=args.end_month, day=1)
 
     ride_duration_prediction_backfill(
         experiment_id=args.experiment_id,
