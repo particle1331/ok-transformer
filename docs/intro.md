@@ -20,19 +20,9 @@ A collection of notebooks on machine learning engineering and operations.❚
 width: 30em
 name: study
 ---
-**Evolution of solution discovery for members of the two groups.** The efficient network converged on a small set of solutions, whereas individuals in the inefficient network explored a greater diversity of solutions, and eventually converged on the best solution.
+**Evolution of solution discovery for members of the two groups.** The efficient network converged on a small set of solutions, whereas individuals in the inefficient network explored a greater diversity of solutions, and eventually converged on the best solution. {cite}`10.1371/journal.pone.0237978`
 ```
 
-<br>
-
-The name of this collection comes from the following study:
-
-
-```text
-Brackbill D, Centola D (2020) Impact of network structure on collective 
-learning: An experimental study in a data science competition. PLoS ONE 
-15(9): e0237978. https://doi.org/10.1371/journal.pone.0237978
-```
 
 
 ## Dependencies
