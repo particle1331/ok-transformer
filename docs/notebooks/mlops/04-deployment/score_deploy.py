@@ -4,7 +4,7 @@ from prefect.flow_runners import SubprocessFlowRunner
 
 
 DeploymentSpec(
-    name="ride-duration-prediction-monthly",
+    name="monthly",
     flow_location="./score.py",
     flow_name="ride-duration-prediction",
     parameters={
