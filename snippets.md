@@ -55,16 +55,19 @@ Download from Kaggle datasets
 # Here e.g. https://www.kaggle.com/datasets/{USER}/{DATASET}
 USER=
 DATASET=
-kaggle datasets download -d ${USER}/${DATASET} -p ${DATA_PATH}
-unzip ${DATA_PATH}.zip -d ${DATA_PATH} > /dev/null
-rm ${DATA_PATH}.zip
+DATA_DIR=
+mkdir ${DATA_DIR}
+kaggle competitions download -c ${COMPETITION} -p ${DATA_DIR}
+unzip ${DATA_DIR}/${USER}-${DATASET}.zip -d ${DATA_DIR}/${USER}-${DATASET} > /dev/null
+rm ${DATA_DIR}/${USER}-${DATASET}.zip
 ```
 
 Download from Kaggle competition
 ```bash
-# Here e.g. https://www.kaggle.com/c/{COMPETITION}
-COMPETITION=
-kaggle competitions download -c ${COMPETITION} -p ${DATA_PATH}
-unzip ${DATA_PATH}.zip -d ${DATA_PATH} > /dev/null
-rm ${DATA_PATH}.zip
+COMPETITION=house-prices-advanced-regression-techniques
+DATA_DIR=./data
+mkdir ${DATA_DIR}
+kaggle competitions download -c ${COMPETITION} -p ${DATA_DIR}
+unzip ${DATA_DIR}/${COMPETITION}.zip -d ${DATA_DIR}/${COMPETITION} > /dev/null
+rm ${DATA_DIR}/${COMPETITION}.zip
 ```
