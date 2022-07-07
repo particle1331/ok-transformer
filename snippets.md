@@ -52,14 +52,14 @@ DATA_PATH.mkdir(exist_ok=True)
 
 Download from Kaggle datasets
 ```bash 
-# Here e.g. https://www.kaggle.com/datasets/{USER}/{DATASET}
-USER=
-DATASET=
-DATA_DIR=
+# Here e.g. https://www.kaggle.com/datasets/waifuai/cat2dog
+USER="waifuai"
+DATASET="cat2dog"
+DATA_DIR=./data
 mkdir ${DATA_DIR}
-kaggle competitions download -c ${COMPETITION} -p ${DATA_DIR}
-unzip ${DATA_DIR}/${USER}-${DATASET}.zip -d ${DATA_DIR}/${USER}-${DATASET} > /dev/null
-rm ${DATA_DIR}/${USER}-${DATASET}.zip
+kaggle datasets download -d ${USER}/${DATASET} -p ${DATA_DIR}
+unzip ${DATA_DIR}/${DATASET}.zip -d ${DATA_DIR}/${DATASET} > /dev/null
+rm ${DATA_DIR}/${DATASET}.zip
 ```
 
 Download from Kaggle competition
