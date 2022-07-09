@@ -71,3 +71,29 @@ kaggle competitions download -c ${COMPETITION} -p ${DATA_DIR}
 unzip ${DATA_DIR}/${COMPETITION}.zip -d ${DATA_DIR}/${COMPETITION} > /dev/null
 rm ${DATA_DIR}/${COMPETITION}.zip
 ```
+
+Header for each article:
+````
+![Status](https://img.shields.io/static/v1.svg?label=Status&message=Finished&color=brightgreen)
+[![Source](https://img.shields.io/static/v1.svg?label=GitHub&message=Source&color=181717&logo=GitHub)](https://github.com/particle1331/inefficient-networks/blob/master/docs/notebooks/mlops/01-intro)
+[![Stars](https://img.shields.io/github/stars/particle1331/inefficient-networks?style=social)](https://github.com/particle1331/inefficient-networks)
+
+```text
+𝗔𝘂𝘁𝗵𝗼𝗿: Ron Medina
+𝗟𝗮𝘀𝘁 𝗠𝗼𝗱𝗶𝗳𝗶𝗲𝗱: 2022/06/29
+
+𝗗𝗲𝘀𝗰𝗿𝗶𝗽𝘁𝗶𝗼𝗻: 
+• Setting up an EC2 instance. 
+• Creating a ride duration prediction model. 
+• Introduction to MLOps and maturity models.
+
+𝗔𝘁𝘁𝗿𝗶𝗯𝘂𝘁𝗶𝗼𝗻: 
+Notes for Module 1 of the MLOps Zoomcamp by DataTalks.Club.
+• https://github.com/DataTalksClub
+• https://github.com/DataTalksClub/mlops-zoomcamp.
+```
+
+---
+
+## Introduction
+````
