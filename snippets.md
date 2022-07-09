@@ -97,3 +97,34 @@ Notes for Module 1 of the MLOps Zoomcamp by DataTalks.Club
 
 ## Introduction
 ````
+
+
+Adding scripts with margin links.
+````
+```{margin}
+[`predict.py`](https://github.com/particle1331/inefficient-networks/blob/383314b4c5e01fe9cc9d65b9ce1b9b90abb04001/docs/notebooks/mlops/04-deployment/ride_duration/predict.py#L10-L16)
+```
+```python
+def load_model(experiment_id, run_id):
+    """Get model from our S3 artifacts store."""
+
+    source = f"s3://mlflow-models-ron/{experiment_id}/{run_id}/artifacts/model"
+    model = mlflow.pyfunc.load_model(source)
+
+    return model
+```
+````
+
+
+Adding figures
+````
+```{margin}
+[Source](sourceurl)
+```
+```{figure} ../../../img/pypi.png
+---
+width: 40em
+---
+Our model package in the Python package index. 🐍
+```
+````
