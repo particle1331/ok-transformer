@@ -88,9 +88,9 @@ Header for each article:
 • Introduction to MLOps and maturity models.
 
 𝗔𝘁𝘁𝗿𝗶𝗯𝘂𝘁𝗶𝗼𝗻: 
-Notes for Module 1 of the MLOps Zoomcamp by DataTalks.Club.
+Notes for Module 1 of the MLOps Zoomcamp by DataTalks.Club
 • https://github.com/DataTalksClub
-• https://github.com/DataTalksClub/mlops-zoomcamp.
+• https://github.com/DataTalksClub/mlops-zoomcamp
 ```
 
 ---
