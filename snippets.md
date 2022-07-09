@@ -89,8 +89,8 @@ Header for each article:
 
 𝗔𝘁𝘁𝗿𝗶𝗯𝘂𝘁𝗶𝗼𝗻: 
 Notes for Module 1 of the MLOps Zoomcamp by DataTalks.Club
-• https://github.com/DataTalksClub
-• https://github.com/DataTalksClub/mlops-zoomcamp
+• https://datatalks.club/
+• https://github.com/DataTalksClub/mlops-zoomcamp/
 ```
 
 ---
