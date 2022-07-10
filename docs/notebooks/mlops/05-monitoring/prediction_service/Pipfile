@@ -5,6 +5,12 @@ name = "pypi"
 
 [packages]
 scikit-learn = "==1.0.2"
+dataclasses = "==0.6"
+Werkzeug = ">=2.0.1,<2.1.0"
+prometheus_client = ">=0.11.0,<0.12.0"
+pyyaml = ">=5.4.1,<5.5.0"
+evidently = "*"
+pymongo = "*"
 flask = "*"
 pandas = "*"
 mlflow = "*"
@@ -15,12 +21,7 @@ python-dotenv = "*"
 pyarrow = "*"
 
 [dev-packages]
-jupyter = "*"
-notebook = "*"
 requests = "*"
-pipenv-setup = "*"
-twine = "*"
-build = "*"
 
 [requires]
 python_version = "3.9"
