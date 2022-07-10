@@ -2,7 +2,6 @@ FROM python:3.9.13-slim
 
 RUN pip install -U pip
 RUN pip install pipenv
-RUN pip install -U psutil
 
 WORKDIR /app
 
@@ -14,5 +13,4 @@ RUN pipenv install --system --deploy
 
 EXPOSE 9696
 
-# https://stackoverflow.com/a/71092624/1091950
-CMD "python3 -m flask run --host=0.0.0.0 --port=9696"
+ENTRYPOINT [ "gunicorn", "--bind=0.0.0.0:9696", "--timeout=600", "app:app" ]
