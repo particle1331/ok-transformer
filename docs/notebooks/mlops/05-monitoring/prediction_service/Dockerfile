@@ -15,4 +15,4 @@ RUN pipenv install --system --deploy
 EXPOSE 9696
 
 # https://stackoverflow.com/a/71092624/1091950
-ENTRYPOINT [ "gunicorn", "--bind=0.0.0.0:9696", "--timeout=600", "app.main:app" ]
+ENTRYPOINT [ "gunicorn", "--bind=0.0.0.0:9696", "--timeout=600", "app:app" ]
