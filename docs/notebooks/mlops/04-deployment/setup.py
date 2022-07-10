@@ -16,10 +16,16 @@ INSTALL_REQUIRES = [
     "pandas>=1.4.3,<1.5.0",
     "joblib>=1.1.0,<1.2.0"
 ]
+LICENSE = "MIT"
+TROVE_CLASSIFIERS = [
+    # Full list: https://pypi.python.org/pypi?%3Aaction=list_classifiers
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.9",
+]
 
-# The rest you shouldn't have to touch too much. :)
-# Except, perhaps the License and Trove Classifiers!
-# ------------------------------------------------
+
+# ==============================================
+# The rest you shouldn't have to touch too much.
 
 long_description = DESCRIPTION
 
@@ -47,11 +53,6 @@ setup(
     install_requires=INSTALL_REQUIRES,
     extras_require={},
     include_package_data=True,
-    license="MIT",
-    classifiers=[
-        # Trove classifiers
-        # Full list: https://pypi.python.org/pypi?%3Aaction=list_classifiers
-        "License :: OSI Approved :: MIT License",
-        "Programming Language :: Python :: 3.9",
-    ],
+    license=LICENSE,
+    classifiers=TROVE_CLASSIFIERS
 )
