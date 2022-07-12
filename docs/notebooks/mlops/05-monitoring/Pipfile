@@ -19,6 +19,7 @@ ride-duration-prediction = "==0.3.0"
 prefect = "==2.0b5"
 python-dotenv = "*"
 pyarrow = "*"
+tqdm = "*"
 
 [dev-packages]
 requests = "*"

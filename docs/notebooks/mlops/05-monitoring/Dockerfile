@@ -7,8 +7,7 @@ RUN apt-get update -y && apt-get install -y gcc
 WORKDIR /app
 
 COPY [ "Pipfile", "Pipfile.lock",  "./"]
-COPY [ "model.bin",  "./"]
-COPY [ "app.py",  "./"]
+COPY [ "prediction_service",  "./"]
 
 RUN pipenv install --system --deploy
 
