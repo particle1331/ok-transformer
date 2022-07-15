@@ -1,5 +1,6 @@
 import os
 import joblib
+import requests
 
 from ride_duration.predict import make_prediction
 from flask import Flask, request, jsonify
