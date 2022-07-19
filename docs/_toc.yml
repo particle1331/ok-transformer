@@ -12,6 +12,7 @@ parts:
   - file: notebooks/mlops/03-prefect/notes
   - file: notebooks/mlops/04-deployment/notes
   - file: notebooks/mlops/05-monitoring/notes
+  - file: notebooks/mlops/06-best-practices/notes
 
 - caption: MODEL DEPLOYMENT
   chapters:
@@ -35,6 +36,7 @@ parts:
   - file: notebooks/tensorflow/03-tensorflow-activations
   - file: notebooks/tensorflow/04-tensorflow-optim-init
   - file: notebooks/tensorflow/05-tensorflow-cnn
+  - file: notebooks/tensorflow/06-tensorflow-rnns
   
 
 # - caption: REST APIs with FASTAPI
