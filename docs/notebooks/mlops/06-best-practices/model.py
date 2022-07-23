@@ -28,8 +28,8 @@ class ModelService:
         return features
 
     def predict(self, features):
-        pred = self.model.predict(features)
-        return float(pred[0])
+        pred = self.model.predict([features])[0]
+        return float(pred)
 
     def lambda_handler(self, event):
         """Predict on batch of input events."""

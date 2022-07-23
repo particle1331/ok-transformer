@@ -4,19 +4,11 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-scikit-learn = "==1.0.2"
-flask = "*"
-mlflow = "*"
-prefect = "==2.0b5"
-pyarrow = "*"
-pandas = "*"
 boto3 = "*"
-python-dotenv = "*"
+mlflow = "*"
+scikit-learn = "==1.0.2"
 
 [dev-packages]
-jupyter = "*"
-notebook = "*"
-requests = "*"
 pytest = "*"
 
 [requires]
