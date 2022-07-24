@@ -24,7 +24,6 @@ class ModelService:
         self.model_version = model_version
         self.callbacks = callbacks or []
 
-
     def prepare_features(self, ride):
         features = {}
         features['PU_DO'] = '%s_%s' % (ride['PULocationID'], ride['DOLocationID'])
@@ -35,10 +34,11 @@ class ModelService:
         pred = self.model.predict(features)
         return float(pred[0])
 
+
     def lambda_handler(self, event):
-    
+
         predictions_events = []
-        
+
         for record in event['Records']:
             encoded_data = record['kinesis']['data']
             ride_event = base64_decode(encoded_data)
@@ -70,6 +70,7 @@ class ModelService:
 
 
 class KinesisCallback:
+
     def __init__(self, kinesis_client, predictions_stream_name):
         self.kinesis_client = kinesis_client
         self.predictions_stream_name = predictions_stream_name
