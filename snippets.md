@@ -128,3 +128,8 @@ width: 40em
 Our model package in the Python package index. 🐍
 ```
 ````
+
+Building and running Docker on M1 MacOS:
+```
+export DOCKER_DEFAULT_PLATFORM=linux/amd64
+```
