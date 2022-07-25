@@ -1,13 +1,15 @@
+import os
 import json
 import boto3
 import base64
 
+import joblib
 import mlflow
 
 
-def load_model(run_id: str):
-    logged_model = f's3://mlflow-models-ron/1/{run_id}/artifacts/model'
-    model =  mlflow.pyfunc.load_model(logged_model)
+def load_model(model_location):
+    """Load MLflow model from path."""
+    model =  mlflow.pyfunc.load_model(model_location)    
     return model
 
 
@@ -54,7 +56,7 @@ class ModelService:
                 'version': self.model_version,
                 'prediction': {
                     'ride_duration': prediction,
-                    'ride_id': ride_id
+                    'ride_id': ride_id,
                 }
             }
 
@@ -84,10 +86,15 @@ class KinesisCallback:
         )
 
 
-def init(predictions_stream_name: str, run_id: str, test_run: bool):
+def init(
+        predictions_stream_name: str, 
+        model_location: str,
+        model_version: str,
+        test_run: bool
+    ):
     """Initialize model_service for lambda_function module."""
 
-    model = load_model(run_id)
+    model = load_model(model_location)
     
     callbacks = []
     if not test_run:
@@ -95,5 +102,10 @@ def init(predictions_stream_name: str, run_id: str, test_run: bool):
         kinesis_callback = KinesisCallback(kinesis_client, predictions_stream_name)
         callbacks.append(kinesis_callback.put_record)
 
-    model_service = ModelService(model=model, model_version=run_id, callbacks=callbacks)
+    model_service = ModelService(
+        model=model, 
+        model_version=model_version, 
+        callbacks=callbacks,
+    )
+    
     return model_service

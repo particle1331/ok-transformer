@@ -29,23 +29,22 @@ event = {
 url = 'http://localhost:8080/2015-03-31/functions/function/invocations'
 actual_response = requests.post(url, json=event).json()
 
-print("actual_response:")
-print(json.dumps(actual_response, indent=2))
+print('actual response:')
+print(json.dumps(actual_response, indent=4))
 
 expected_response = {
     'predictions': [
         {
             'model': 'ride_duration_prediction_model', 
-            'version': 'Test123', 
+            'version': 'localtest',
             'prediction': {
-                'ride_duration': 18.210770674183355, 
-                'ride_id': 256
+                'ride_duration': 18.2536313889,
+                'ride_id': 123
             }
         }
     ]
 }
 
-
-diff = DeepDiff(actual_response, expected_response)
-print()
-print('diff:\n', diff)
+diff = DeepDiff(expected_response, actual_response, math_epsilon=1e-7)
+print('\ndiff:')
+print(json.dumps(diff, indent=4))
