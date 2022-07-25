@@ -77,14 +77,14 @@ def test_lambda_handler():
     }
 
     model_mock = ModelMock(value=10.0)
-    model_service = model.ModelService(model=model_mock, model_version="Test123")
+    model_service = model.ModelService(model=model_mock, model_version="model-mock")
 
     actual_result = model_service.lambda_handler(event)
     expected_result = {
         'predictions': [
             {
                 'model': 'ride_duration_prediction_model', 
-                'version': 'Test123', 
+                'version': 'model-mock', 
                 'prediction': {
                     'ride_duration': 10.0,
                     'ride_id': 123
@@ -94,4 +94,3 @@ def test_lambda_handler():
     }
 
     assert actual_result == expected_result
-
