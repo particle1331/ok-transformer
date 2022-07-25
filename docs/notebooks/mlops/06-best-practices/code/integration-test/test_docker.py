@@ -48,3 +48,5 @@ expected_response = {
 diff = DeepDiff(expected_response, actual_response, math_epsilon=1e-7)
 print('\ndiff:')
 print(json.dumps(diff, indent=4))
+
+assert len(diff) == 0
