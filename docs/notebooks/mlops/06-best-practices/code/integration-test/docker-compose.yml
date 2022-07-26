@@ -1,0 +1,18 @@
+services:
+  backend:
+    image: ${LOCAL_IMAGE_NAME}
+    ports:
+      - "8080:8080"
+    environment:
+      - PREDICTIONS_STREAM_NAME=ride_predictions
+      - TEST_RUN=True
+      - AWS_DEFAULT_REGION=us-east-1
+      - MODEL_LOCATION=/app/model
+    volumes:
+      - "./model:/app/model"
+  kinesis:
+    image: localstack/localstack
+    ports:
+      - "4566:4566"
+    environment:
+      - SERVICES=kinesis
