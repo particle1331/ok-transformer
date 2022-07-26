@@ -10,4 +10,9 @@ services:
       - MODEL_LOCATION=/app/model
     volumes:
       - "./model:/app/model"
-
+  kinesis:
+    image: localstack/localstack
+    ports:
+      - "4566:4566"
+    environment:
+      - SERVICES=kinesis

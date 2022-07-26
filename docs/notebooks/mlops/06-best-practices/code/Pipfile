@@ -11,6 +11,7 @@ scikit-learn = "==1.0.2"
 [dev-packages]
 pytest = "*"
 deepdiff = "*"
+localstack = "*"
 
 [requires]
 python_version = "3.9"
