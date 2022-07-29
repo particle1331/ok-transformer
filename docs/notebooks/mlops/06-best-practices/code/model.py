@@ -1,9 +1,7 @@
-import os
 import json
 import boto3
 import base64
 
-import joblib
 import mlflow
 
 
@@ -28,7 +26,7 @@ class ModelService:
 
     def prepare_features(self, ride):
         features = {}
-        features['PU_DO'] = '%s_%s' % (ride['PULocationID'], ride['DOLocationID'])
+        features['PU_DO'] = f"{ride['PULocationID']}_{ride['DOLocationID']}"
         features['trip_distance'] = ride['trip_distance']
         return features
 
@@ -72,6 +70,7 @@ class ModelService:
 
 
 class KinesisCallback:
+    # pylint: disable=too-few-public-methods
 
     def __init__(self, kinesis_client, predictions_stream_name):
         self.kinesis_client = kinesis_client

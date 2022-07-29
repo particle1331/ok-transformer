@@ -11,9 +11,8 @@ parts:
   - file: notebooks/mlops/02-mlflow/notes
   - file: notebooks/mlops/03-prefect/notes
   - file: notebooks/mlops/04-deployment/notes
-  - file: notebooks/mlops/05-monitoring/notes
-  - file: notebooks/mlops/06-best-practices/part-a
-  # - file: notebooks/mlops/06-best-practices/part-b
+  # - file: notebooks/mlops/05-monitoring/notes
+  - file: notebooks/mlops/06-best-practices/notes
 
 - caption: MODEL DEPLOYMENT
   chapters:

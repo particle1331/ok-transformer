@@ -1,7 +1,16 @@
 import model
+import pathlib
+
+
+def read_text(file):
+    test_directory = pathlib.Path(__file__).parent
+    with open(test_directory / file, 'rt', encoding='utf-8') as f_in:
+        return f_in.read().strip()
 
 
 class ModelMock:
+    # pylint: disable=too-few-public-methods
+    
     def __init__(self, value):
         self.value = value 
 
@@ -32,7 +41,7 @@ def test_prepare_features():
 
 def test_base64_decode():
 
-    base64_input = "eyAgICAgICAgICAicmlkZSI6IHsgICAgICAgICAgICAgICJQVUxvY2F0aW9uSUQiOiAxMzAsICAgICAgICAgICAgICAiRE9Mb2NhdGlvbklEIjogMjA1LCAgICAgICAgICAgICAgInRyaXBfZGlzdGFuY2UiOiAzLjY2ICAgICAgICAgIH0sICAgICAgICAgICJyaWRlX2lkIjogMTIzICAgICAgfQ=="
+    base64_input = read_text('data.b64')
     
     actual_result = model.base64_decode(base64_input)
     
@@ -70,7 +79,7 @@ def test_lambda_handler():
         "Records": [
             {
                 "kinesis": {
-                    "data": "eyAgICAgICAgICAicmlkZSI6IHsgICAgICAgICAgICAgICJQVUxvY2F0aW9uSUQiOiAxMzAsICAgICAgICAgICAgICAiRE9Mb2NhdGlvbklEIjogMjA1LCAgICAgICAgICAgICAgInRyaXBfZGlzdGFuY2UiOiAzLjY2ICAgICAgICAgIH0sICAgICAgICAgICJyaWRlX2lkIjogMTIzICAgICAgfQ==",
+                    "data": read_text("data.b64"),
                 },
             }
         ]
