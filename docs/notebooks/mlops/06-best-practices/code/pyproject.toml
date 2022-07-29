@@ -3,8 +3,12 @@ max-line-length = 88
 disable = [
   "missing-docstring",
   "unused-argument",
-  "final-newline",
   "missing-class-docstring",
   "missing-function-docstring",
   "invalid-name",
 ]
+
+[tool.black]
+line-length = 88
+target-version = ['py39']
+skip-string-normalization = true
