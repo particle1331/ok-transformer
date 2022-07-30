@@ -1,8 +1,7 @@
 import json
+
 import requests
-
 from deepdiff import DeepDiff
-
 
 with open("event.json", "rt", encoding="utf-8") as f_in:
     event = json.load(f_in)

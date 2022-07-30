@@ -1,5 +1,6 @@
-import model
 import pathlib
+
+import model
 
 
 def read_text(file):

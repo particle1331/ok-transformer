@@ -1,6 +1,6 @@
-import model
 import os
 
+import model
 
 PREDICTIONS_STREAM_NAME = os.getenv("PREDICTIONS_STREAM_NAME", "ride_predictions")
 MODEL_LOCATION = os.getenv("MODEL_LOCATION")
