@@ -1,9 +1,19 @@
+import pathlib
+
 import model
 
 
+def read_text(file):
+    test_directory = pathlib.Path(__file__).parent
+    with open(test_directory / file, "rt", encoding="utf-8") as f_in:
+        return f_in.read().strip()
+
+
 class ModelMock:
+    # pylint: disable=too-few-public-methods
+
     def __init__(self, value):
-        self.value = value 
+        self.value = value
 
     def predict(self, X):
         n = len(X)
@@ -16,15 +26,15 @@ def test_prepare_features():
     ride = {
         "PULocationID": 130,
         "DOLocationID": 205,
-        "trip_distance": 3.66
+        "trip_distance": 3.66,
     }
 
     model_service = model.ModelService(model=None, model_version=None)
     actual_features = model_service.prepare_features(ride)
-    
+
     expected_features = {
-        'PU_DO': '130_205',
-        'trip_distance': 3.66,
+        "PU_DO": "130_205",
+        "trip_distance": 3.66,
     }
 
     assert actual_features == expected_features
@@ -32,27 +42,27 @@ def test_prepare_features():
 
 def test_base64_decode():
 
-    base64_input = "eyAgICAgICAgICAicmlkZSI6IHsgICAgICAgICAgICAgICJQVUxvY2F0aW9uSUQiOiAxMzAsICAgICAgICAgICAgICAiRE9Mb2NhdGlvbklEIjogMjA1LCAgICAgICAgICAgICAgInRyaXBfZGlzdGFuY2UiOiAzLjY2ICAgICAgICAgIH0sICAgICAgICAgICJyaWRlX2lkIjogMTIzICAgICAgfQ=="
-    
+    base64_input = read_text("data.b64")
+
     actual_result = model.base64_decode(base64_input)
-    
+
     expected_result = {
         "ride": {
             "PULocationID": 130,
             "DOLocationID": 205,
-            "trip_distance": 3.66
-        }, 
-        "ride_id": 123
+            "trip_distance": 3.66,
+        },
+        "ride_id": 123,
     }
 
     assert actual_result == expected_result
 
 
 def test_predict():
-    
+
     features = {
-        'PU_DO': '130_205',
-        'trip_distance': 3.66,
+        "PU_DO": "130_205",
+        "trip_distance": 3.66,
     }
 
     model_mock = ModelMock(value=10.0)
@@ -65,12 +75,12 @@ def test_predict():
 
 
 def test_lambda_handler():
-    
+
     event = {
         "Records": [
             {
                 "kinesis": {
-                    "data": "eyAgICAgICAgICAicmlkZSI6IHsgICAgICAgICAgICAgICJQVUxvY2F0aW9uSUQiOiAxMzAsICAgICAgICAgICAgICAiRE9Mb2NhdGlvbklEIjogMjA1LCAgICAgICAgICAgICAgInRyaXBfZGlzdGFuY2UiOiAzLjY2ICAgICAgICAgIH0sICAgICAgICAgICJyaWRlX2lkIjogMTIzICAgICAgfQ==",
+                    "data": read_text("data.b64"),
                 },
             }
         ]
@@ -81,14 +91,14 @@ def test_lambda_handler():
 
     actual_result = model_service.lambda_handler(event)
     expected_result = {
-        'predictions': [
+        "predictions": [
             {
-                'model': 'ride_duration_prediction_model', 
-                'version': 'model-mock', 
-                'prediction': {
-                    'ride_duration': 10.0,
-                    'ride_id': 123
-                }
+                "model": "ride_duration_prediction_model",
+                "version": "model-mock",
+                "prediction": {
+                    "ride_duration": 10.0,
+                    "ride_id": 123,
+                },
             }
         ]
     }
