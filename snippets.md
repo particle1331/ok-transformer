@@ -122,3 +122,9 @@ Building and running Docker on M1 MacOS:
 ```
 export DOCKER_DEFAULT_PLATFORM=linux/amd64
 ```
+
+
+Add path to end of `.zshrc`
+```
+echo 'export PATH="/opt/homebrew/opt/redis@6.2/bin:$PATH"' >> ~/.zshrc
+```

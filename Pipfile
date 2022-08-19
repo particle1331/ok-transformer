@@ -4,7 +4,6 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-inefficient-networks = "==0.1.0"
 
 [dev-packages]
 
