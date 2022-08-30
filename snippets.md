@@ -128,3 +128,13 @@ Add path to end of `.zshrc`
 ```
 echo 'export PATH="/opt/homebrew/opt/redis@6.2/bin:$PATH"' >> ~/.zshrc
 ```
+
+Notebook diff with commits
+```
+nbdiff-web 58689b5d e6b603d6 docs/notebooks/fundamentals/backpropagation.ipynb
+```
+
+Comparing commits on github
+```
+https://github.com/particle1331/inefficient-networks/compare/58689b5d..e6b603d6
+```
