@@ -128,3 +128,8 @@ Add path to end of `.zshrc`
 ```
 echo 'export PATH="/opt/homebrew/opt/redis@6.2/bin:$PATH"' >> ~/.zshrc
 ```
+
+Notebook diff with commits
+```
+nbdiff-web [<commit> [<commit>]] [<path>]
+```
