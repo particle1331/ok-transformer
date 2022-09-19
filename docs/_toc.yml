@@ -38,6 +38,10 @@ parts:
   - file: notebooks/tensorflow/05-tensorflow-cnn
   - file: notebooks/tensorflow/06-tensorflow-rnn
 
+- caption: LANGUAGE MODELING
+  chapters:
+  - file: notebooks/language-modeling/01-bigrams
+
 # - caption: REST APIs with FASTAPI
 #   chapters:
   # - file: notebooks/fastapi/chapter3
