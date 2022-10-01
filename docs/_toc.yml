@@ -41,6 +41,7 @@ parts:
 - caption: LANGUAGE MODELING
   chapters:
   - file: notebooks/language-modeling/01-bigrams
+  - file: notebooks/language-modeling/02-mlp
 
 # - caption: REST APIs with FASTAPI
 #   chapters:
