@@ -8,7 +8,7 @@
 
 
 ```text
-A collection of notebooks on machine learning engineering and operations.❚
+Self-contained notebooks on machine learning engineering and operations.❚
 ```
 
 Entry point: [𝗜𝗻𝗲𝗳𝗳𝗶𝗰𝗶𝗲𝗻𝘁 𝗡𝗲𝘁𝘄𝗼𝗿𝗸𝘀 website](https://particle1331.github.io/inefficient-networks/intro.html)
