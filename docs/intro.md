@@ -8,7 +8,7 @@
 
 
 ```text
-A collection of notebooks on machine learning engineering and operations.❚
+Self-contained notebooks on machine learning engineering and operations.❚
 ```
 
 <br>
