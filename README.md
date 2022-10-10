@@ -11,7 +11,7 @@
 Self-contained notebooks on machine learning engineering and operations.❚
 ```
 
-Entry point: [𝗙𝗶𝘁𝘁𝗲𝗿 𝗛𝗮𝗽𝗽𝗶𝗲𝗿 (𝗠𝗼𝗱𝗲𝗹𝘀) website](https://particle1331.github.io/inefficient-networks/intro.html)
+Entry point: [𝗙𝗶𝘁𝘁𝗲𝗿 𝗛𝗮𝗽𝗽𝗶𝗲𝗿 (𝗠𝗼𝗱𝗲𝗹𝘀) website](https://particle1331.github.io/fitter-happier-models/intro.html)
 
 <br>
 
