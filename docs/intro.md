@@ -1,4 +1,4 @@
-# 𝗜𝗻𝗲𝗳𝗳𝗶𝗰𝗶𝗲𝗻𝘁 𝗡𝗲𝘁𝘄𝗼𝗿𝗸𝘀
+# 𝗙𝗶𝘁𝘁𝗲𝗿 𝗛𝗮𝗽𝗽𝗶𝗲𝗿 (𝗠𝗼𝗱𝗲𝗹𝘀)
 
 [![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fparticle1331%2Finefficient-networks%2Fbadge%3Fref%3Dmaster&label=build&logo=none)](https://actions-badge.atrox.dev/particle1331/inefficient-networks/goto?ref=master)
 ![Last Commit](https://img.shields.io/github/last-commit/particle1331/inefficient-networks/master)
@@ -12,18 +12,6 @@ Self-contained notebooks on machine learning engineering and operations.❚
 ```
 
 <br>
-
-<br>
-
-```{figure} img/pone.0237978.g003.png
----
-width: 30em
-name: study
----
-**Evolution of solution discovery for members of the two groups.** The efficient network converged on a small set of solutions, whereas individuals in the inefficient network explored a greater diversity of solutions, and eventually converged on the best solution. {cite}`10.1371/journal.pone.0237978`
-```
-
-
 
 ## Dependencies
 

@@ -1,6 +1,6 @@
-title: "𝗜𝗻𝗲𝗳𝗳𝗶𝗰𝗶𝗲𝗻𝘁 𝗡𝗲𝘁𝘄𝗼𝗿𝗸𝘀"
+title: "𝗙𝗶𝘁𝘁𝗲𝗿 𝗛𝗮𝗽𝗽𝗶𝗲𝗿 (𝗠𝗼𝗱𝗲𝗹𝘀)"
 author: 𝗥𝗼𝗻 𝗠𝗲𝗱𝗶𝗻𝗮. Powered by <a href="https://jupyterbook.org">Jupyter Book</a>.
-logo: img/pone.0237978.g001.png
+logo: img/faces.png
 
 execute:
   execute_notebooks: 'off'
@@ -25,7 +25,7 @@ html:
   use_issues_button: true
   use_repository_button: true
   extra_navbar: ""
-  favicon: "img/pone.0237978.g001.png"
+  favicon: "img/faces-1.png"
 
 sphinx:
   config:
