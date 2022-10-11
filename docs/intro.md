@@ -13,6 +13,20 @@ Self-contained notebooks on machine learning engineering and operations.❚
 
 <br>
 
+```{figure} img/banner.png
+---
+name: banner
+width: 700px
+---
+Fit models are happy models.
+```
+
+This is a collection of notebooks I wrote 
+while trying to learn machine learning as a practicing engineer. 
+Mostly for things or ideas that I want to develop or implement using my preferred approach. 
+I hope the reader finds useful things here. The logo used in this web page is a visualization of DBSCAN clustering generated with [this cool app](https://www.naftaliharris.com/blog/visualizing-dbscan-clustering/).
+
+
 ## Dependencies
 
 ```text
