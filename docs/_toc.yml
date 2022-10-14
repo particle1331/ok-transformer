@@ -20,7 +20,7 @@ parts:
   - file: notebooks/tensorflow/04-tensorflow-optim-init
   - file: notebooks/tensorflow/05-tensorflow-cnn
 
-- caption: ML ENGINEERING AND OPS
+- caption: ENGINEERING AND MLOPS
   chapters:
   - file: notebooks/mlops/01-intro/notes
   - file: notebooks/mlops/02-mlflow/notes
