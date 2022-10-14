@@ -5,7 +5,22 @@ format: jb-book
 root: intro
 parts:
 
-- caption: MLOPS ZOOMCAMP
+- caption: NEURAL NETWORKS
+  chapters:
+  - file: notebooks/fundamentals/backpropagation
+  - file: notebooks/language-modeling/01-bigrams
+  - file: notebooks/language-modeling/02-mlp
+  - file: notebooks/language-modeling/03-flows
+
+- caption: DEEP LEARNING WITH TF2
+  chapters:
+  - file: notebooks/tensorflow/01-tensorflow-nn
+  - file: notebooks/tensorflow/02-tensorflow-mechanics
+  - file: notebooks/tensorflow/03-tensorflow-activations
+  - file: notebooks/tensorflow/04-tensorflow-optim-init
+  - file: notebooks/tensorflow/05-tensorflow-cnn
+
+- caption: ML ENGINEERING AND OPS
   chapters:
   - file: notebooks/mlops/01-intro/notes
   - file: notebooks/mlops/02-mlflow/notes
@@ -13,9 +28,6 @@ parts:
   - file: notebooks/mlops/04-deployment/notes
   # - file: notebooks/mlops/05-monitoring/notes
   - file: notebooks/mlops/06-best-practices/notes
-
-- caption: MODEL DEPLOYMENT
-  chapters:
   - file: notebooks/deployment/production-code
   - file: notebooks/deployment/model-serving-api
   - file: notebooks/deployment/docker
@@ -28,17 +40,3 @@ parts:
   - file: notebooks/fundamentals/optuna
   - file: notebooks/fundamentals/missing
 
-- caption: DEEP LEARNING
-  chapters:
-  - file: notebooks/fundamentals/backpropagation
-  - file: notebooks/tensorflow/01-tensorflow-nn
-  - file: notebooks/tensorflow/02-tensorflow-mechanics
-  - file: notebooks/tensorflow/03-tensorflow-activations
-  - file: notebooks/tensorflow/04-tensorflow-optim-init
-  - file: notebooks/tensorflow/05-tensorflow-cnn
-
-- caption: LANGUAGE MODELING
-  chapters:
-  - file: notebooks/language-modeling/01-bigrams
-  - file: notebooks/language-modeling/02-mlp
-  - file: notebooks/language-modeling/03-flows
