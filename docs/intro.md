@@ -13,6 +13,17 @@ Self-contained notebooks on machine learning engineering and operations.❚
 
 <br>
 
+```{figure} img/banner.png
+---
+name: banner
+width: 700px
+---
+Fit models are happy models.
+```
+
+
+
+
 ## Dependencies
 
 ```text
