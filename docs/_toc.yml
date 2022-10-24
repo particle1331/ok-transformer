@@ -10,17 +10,18 @@ parts:
   - file: notebooks/fundamentals/backpropagation
   - file: notebooks/language-modeling/01-bigrams
   - file: notebooks/language-modeling/02-mlp
-  - file: notebooks/language-modeling/03-flows
+  - file: notebooks/language-modeling/03-batchnorm
 
 - caption: DEEP LEARNING WITH TF2
   chapters:
   - file: notebooks/tensorflow/01-tensorflow-nn
   - file: notebooks/tensorflow/02-tensorflow-mechanics
+  - file: notebooks/tensorflow/05-tensorflow-cnn
   - file: notebooks/tensorflow/03-tensorflow-activations
   - file: notebooks/tensorflow/04-tensorflow-optim-init
-  - file: notebooks/tensorflow/05-tensorflow-cnn
 
-- caption: ML ENGINEERING AND OPS
+
+- caption: ENGINEERING AND MLOPS
   chapters:
   - file: notebooks/mlops/01-intro/notes
   - file: notebooks/mlops/02-mlflow/notes
@@ -39,4 +40,3 @@ parts:
   - file: notebooks/fundamentals/blending-stacking
   - file: notebooks/fundamentals/optuna
   - file: notebooks/fundamentals/missing
-

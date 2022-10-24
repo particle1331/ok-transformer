@@ -1,6 +1,6 @@
 title: "𝗙𝗶𝘁𝘁𝗲𝗿 𝗛𝗮𝗽𝗽𝗶𝗲𝗿 𝗠𝗼𝗱𝗲𝗹𝘀"
 author: 𝗥𝗼𝗻 𝗠𝗲𝗱𝗶𝗻𝗮. Powered by <a href="https://jupyterbook.org">Jupyter Book</a>.
-logo: img/smile.png
+logo: img/faces.png
 
 execute:
   execute_notebooks: 'off'
@@ -25,7 +25,7 @@ html:
   use_issues_button: true
   use_repository_button: true
   extra_navbar: ""
-  favicon: "img/smile-1.png"
+  favicon: "img/faces-1.png"
 
 sphinx:
   config:
