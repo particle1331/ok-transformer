@@ -33,9 +33,9 @@ parts:
   - file: notebooks/deployment/docker
   - file: notebooks/deployment/cicd-pipelines
 
-- caption: FUNDAMENTALS
-  chapters:
-  # - file: notebooks/fundamentals/pipelines
-  - file: notebooks/fundamentals/blending-stacking
-  - file: notebooks/fundamentals/optuna
-  - file: notebooks/fundamentals/missing
+# - caption: FUNDAMENTALS
+#   chapters:
+#   # - file: notebooks/fundamentals/pipelines
+#   - file: notebooks/fundamentals/blending-stacking
+#   - file: notebooks/fundamentals/optuna
+#   - file: notebooks/fundamentals/missing
