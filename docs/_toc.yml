@@ -12,6 +12,10 @@ parts:
   - file: notebooks/language-modeling/02-mlp
   - file: notebooks/language-modeling/03-batchnorm
 
+- caption: DEEP LEARNING PYTORCH
+  chapters:
+  - file: notebooks/pytorch/01-input-pipelines
+
 - caption: DEEP LEARNING WITH TF2
   chapters:
   - file: notebooks/tensorflow/01-tensorflow-nn
