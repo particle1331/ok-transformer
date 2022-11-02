@@ -12,9 +12,9 @@ parts:
   - file: notebooks/language-modeling/02-mlp
   - file: notebooks/language-modeling/03-batchnorm
 
-- caption: DEEP LEARNING PYTORCH
+- caption: AUDIO SIGNAL PROCESSING
   chapters:
-  - file: notebooks/pytorch/01-input-pipelines
+  - file: notebooks/audio-ai/01-input-pipelines
 
 - caption: DEEP LEARNING WITH TF2
   chapters:
