@@ -10,3 +10,4 @@
 * [A Recipe for Training Neural Networks](https://karpathy.github.io/2019/04/25/recipe/)
 * [PyTorch Reproducibility](https://pytorch.org/docs/stable/notes/randomness.html)
 * [AutoGraph converts Python into TensorFlow graphs](https://blog.tensorflow.org/2018/07/autograph-converts-python-into-tensorflow-graphs.html)
+* [Anatomy of a Production App - System Design](https://www.youtube.com/watch?v=akXP6pC0piE)
