@@ -7,7 +7,7 @@ parts:
 
 - caption: NEURAL NETWORKS
   chapters:
-  - file: notebooks/fundamentals/backpropagation
+  - file: notebooks/language-modeling/00-backprop
   - file: notebooks/language-modeling/01-bigrams
   - file: notebooks/language-modeling/02-mlp
   - file: notebooks/language-modeling/03-batchnorm
@@ -18,7 +18,6 @@ parts:
   - file: notebooks/tensorflow/02-tensorflow-mechanics
   - file: notebooks/tensorflow/03-keras
   - file: notebooks/tensorflow/04-tensorflow-cnn
-
 
 - caption: ENGINEERING AND MLOPS
   chapters:
@@ -33,9 +32,9 @@ parts:
   - file: notebooks/deployment/docker
   - file: notebooks/deployment/cicd-pipelines
 
-- caption: FUNDAMENTALS
-  chapters:
-  # - file: notebooks/fundamentals/pipelines
-  - file: notebooks/fundamentals/blending-stacking
-  - file: notebooks/fundamentals/optuna
-  - file: notebooks/fundamentals/missing
+# - caption: FUNDAMENTALS
+#   chapters:
+#   # - file: notebooks/fundamentals/pipelines
+#   - file: notebooks/fundamentals/blending-stacking
+#   - file: notebooks/fundamentals/optuna
+#   - file: notebooks/fundamentals/missing
