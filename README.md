@@ -6,54 +6,39 @@
 ![jupyter-book](https://github.com/executablebooks/jupyter-book/raw/master/docs/images/badge.svg)
 [![Stars](https://img.shields.io/github/stars/particle1331/inefficient-networks?style=social)](https://github.com/particle1331/inefficient-networks) 
 
-
-```text
-Self-contained notebooks on machine learning engineering and operations.❚
-```
-
 Entry point: [𝗙𝗶𝘁𝘁𝗲𝗿 𝗛𝗮𝗽𝗽𝗶𝗲𝗿 (𝗠𝗼𝗱𝗲𝗹𝘀) website](https://particle1331.github.io/fitter-happier-models/intro.html)
 
 <br>
+
+These are self-contained notebooks on machine learning engineering and operations 
+that are generally based on some resource that I study for some topic. The value of these notebooks
+is that they run end-to-end with mostly reproducible results. This condition is ensured
+prior to deploying the pages. (Making these run on a docker container remains a notable todo.)
+
 
 
 ## Dependencies
 
 ```text
-aiofiles                      0.8.0
-alembic                       1.8.0
-boto3                         1.24.12
 cmaes                         0.8.2
 docker                        5.0.3
 docker-compose                1.25.5
 fastapi                       0.75.2
-Flask                         2.1.2
-httpie                        3.1.0
-isort                         5.10.1
-joblib                        1.1.0
-jupyter-book                  0.13.0
 kaggle                        1.5.12
 kaleido                       0.2.1
 keras                         2.8.0
-loguru                        0.5.3
 matplotlib                    3.5.1
 mlflow                        1.26.1
-mlxtend                       0.19.0
 numpy                         1.22.4
 optuna                        2.10.0
 pandas                        1.4.2
-pandera                       0.10.1
-pip                           22.0.4
 pipenv                        2022.6.7
-plotly                        5.7.0
 prefect                       2.0b5
-pyarrow                       7.0.0
 pydantic                      1.8.2
-regression-model-template     0.1.0
 scikit-learn                  1.0.2
 scipy                         1.8.1
 seaborn                       0.11.2
 SQLAlchemy                    1.4.37
-starlette                     0.17.1
 statsmodels                   0.13.2
 tensorboard                   2.8.0
 tensorflow-datasets           4.5.2
@@ -61,12 +46,10 @@ tensorflow-macos              2.8.0
 tensorflow-metadata           1.7.0
 tensorflow-metal              0.4.0
 tf-estimator-nightly          2.8.0.dev2021122109
-toolz                         0.11.2
-torch                         1.10.2
-torchvision                   0.11.3
-tqdm                          4.64.0
+torch                         1.13.0
+torchvision                   0.14.0
 uvicorn                       0.17.6
-xgboost                       1.5.1
+xgboost                       1.6.0.dev0
 ```
 
 
