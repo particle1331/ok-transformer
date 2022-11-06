@@ -1,4 +1,4 @@
-# 𝗙𝗶𝘁𝘁𝗲𝗿 𝗛𝗮𝗽𝗽𝗶𝗲𝗿 𝗠𝗼𝗱𝗲𝗹𝘀
+# 𝗙𝗶𝘁𝘁𝗲𝗿 (𝗛𝗮𝗽𝗽𝗶𝗲𝗿) 𝗠𝗼𝗱𝗲𝗹𝘀
 
 [![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fparticle1331%2Finefficient-networks%2Fbadge%3Fref%3Dmaster&label=build&logo=none)](https://actions-badge.atrox.dev/particle1331/inefficient-networks/goto?ref=master)
 ![Last Commit](https://img.shields.io/github/last-commit/particle1331/inefficient-networks/master)
@@ -21,7 +21,7 @@ width: 700px
 Fit models are happy models.
 ```
 
-
+These are notebooks on machine learning engineering and operations that are generally based on some resource that I studied to learn an important topic. My personal motivation is mainly to [put ideas and experiments into writing](http://www.paulgraham.com/words.html). For the reader, the value of these notebooks is that they look nice and the search and sidebars make navigation easy. More importantly, the code works and the notebooks run end-to-end with mostly reproducible results. This last condition is ensured prior to deploying the pages.
 
 
 ## Dependencies
