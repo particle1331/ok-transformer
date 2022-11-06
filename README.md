@@ -1,4 +1,4 @@
-# 𝗙𝗶𝘁𝘁𝗲𝗿 𝗛𝗮𝗽𝗽𝗶𝗲𝗿 (𝗠𝗼𝗱𝗲𝗹𝘀)
+# 𝗙𝗶𝘁𝘁𝗲𝗿 (𝗛𝗮𝗽𝗽𝗶𝗲𝗿) 𝗠𝗼𝗱𝗲𝗹𝘀
 
 [![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fparticle1331%2Finefficient-networks%2Fbadge%3Fref%3Dmaster&label=build&logo=none)](https://actions-badge.atrox.dev/particle1331/inefficient-networks/goto?ref=master)
 ![Last Commit](https://img.shields.io/github/last-commit/particle1331/inefficient-networks/master)
@@ -6,14 +6,19 @@
 ![jupyter-book](https://github.com/executablebooks/jupyter-book/raw/master/docs/images/badge.svg)
 [![Stars](https://img.shields.io/github/stars/particle1331/inefficient-networks?style=social)](https://github.com/particle1331/inefficient-networks) 
 
-Entry point: [𝗙𝗶𝘁𝘁𝗲𝗿 𝗛𝗮𝗽𝗽𝗶𝗲𝗿 (𝗠𝗼𝗱𝗲𝗹𝘀) website](https://particle1331.github.io/fitter-happier-models/intro.html)
+Entry point: [𝗙𝗶𝘁𝘁𝗲𝗿 (𝗛𝗮𝗽𝗽𝗶𝗲𝗿) 𝗠𝗼𝗱𝗲𝗹𝘀 website](https://particle1331.github.io/fitter-happier-models/intro.html)
 
-<br>
+
+```text
+Self-contained notebooks on machine learning engineering and operations.❚
+```
 
 These are self-contained notebooks on machine learning engineering and operations 
-that are generally based on some resource that I study for some topic. The value of these notebooks
-is that [they look nice](https://jupyterbook.org/en/stable/intro.html) and has support for search and easy navigation. More importantly, they run end-to-end with mostly reproducible results. This condition is ensured
-prior to deploying the pages.
+that are generally based on some resource that I study for some topic. My main goal
+is to put ideas and experiments [into writing](http://www.paulgraham.com/words.html).
+For the reader, the value of these notebooks is that [they look nice](https://jupyterbook.org/en/stable/intro.html) and has support for search and easy navigation. More importantly, the code works and they run end-to-end with mostly reproducible results. 
+This condition is ensured prior to deploying the pages.
+
 
 
 ## Dependencies
