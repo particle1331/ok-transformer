@@ -12,9 +12,8 @@ Entry point: [𝗙𝗶𝘁𝘁𝗲𝗿 𝗛𝗮𝗽𝗽𝗶𝗲𝗿 (𝗠𝗼�
 
 These are self-contained notebooks on machine learning engineering and operations 
 that are generally based on some resource that I study for some topic. The value of these notebooks
-is that they run end-to-end with mostly reproducible results. This condition is ensured
-prior to deploying the pages. (Making these run on a docker container remains a notable todo.)
-
+is that [they look nice](https://jupyterbook.org/en/stable/intro.html) and has support for search and easy navigation. More importantly, they run end-to-end with mostly reproducible results. This condition is ensured
+prior to deploying the pages.
 
 
 ## Dependencies
