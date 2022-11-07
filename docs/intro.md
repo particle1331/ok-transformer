@@ -21,8 +21,6 @@ width: 700px
 Fit models are happy models.
 ```
 
-
-
 ## Dependencies
 
 ```text
