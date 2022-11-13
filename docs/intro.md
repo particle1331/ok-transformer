@@ -16,7 +16,6 @@ Self-contained notebooks on machine learning engineering and operations.❚
 ```{figure} img/banner.png
 ---
 name: banner
-width: 700px
 ---
 Fit models are happy models.
 ```
