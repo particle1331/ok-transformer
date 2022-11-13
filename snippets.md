@@ -138,3 +138,17 @@ Comparing commits on github
 ```
 https://github.com/particle1331/inefficient-networks/compare/58689b5d..e6b603d6
 ```
+
+
+Kaggle kernel hardware
+```
+!nvidia-smi -L 
+!lscpu | grep 'Model name'
+!lscpu | grep 'Socket(s):'
+!lscpu | grep 'Core(s) per socket'
+!lscpu | grep 'Thread(s) per core'
+!lscpu | grep 'L3 cache'
+!lscpu | grep MHz
+!cat /proc/meminfo | grep 'MemAvailable'
+!df -h / | awk '{print $4}'
+```
