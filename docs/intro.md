@@ -59,20 +59,6 @@ xgboost                       1.6.0.dev0
 ```
 
 
-
-## Hardware
-
-```text
-Model Name:	                MacBook Air
-Model Identifier:	        MacBookAir10,1
-Chip:                           Apple M1
-Total Number of Cores:          8 (4 performance and 4 efficiency)
-Memory:                         8 GB
-System Firmware Version:	7429.61.2
-OS Loader Version:	        7429.61.2
-```
-
-
 ## References
 
 ```{bibliography}
