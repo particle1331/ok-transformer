@@ -122,6 +122,7 @@ venv.bak/
 # Specific
 .tox
 docs/_build/
+docs/notebooks/input/
 mlruns/
 artifacts/
 logs/
