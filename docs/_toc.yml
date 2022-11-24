@@ -5,7 +5,7 @@ format: jb-book
 root: intro
 parts:
 
-- caption: NEURAL NETWORKS
+- caption: LANGUAGE MODELING
   chapters:
   - file: notebooks/language-modeling/00-backprop
   - file: notebooks/language-modeling/01-bigrams
