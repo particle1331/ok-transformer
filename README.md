@@ -10,7 +10,14 @@ Entry point: [𝗙𝗶𝘁𝘁𝗲𝗿 𝗛𝗮𝗽𝗽𝗶𝗲𝗿 𝗠𝗼𝗱
 
 <br>
 
-These are notebooks I wrote on topics in machine learning engineering and operations. My goal is mainly to [put ideas into words](http://www.paulgraham.com/words.html). This includes reproducing and refactoring code implementations, and performing further experiments not covered in the primary source. The search and sidebars make navigating the contents easy. More importantly, the code works and the notebooks run end-to-end with mostly reproducible results.
+These are notebooks on topics in machine learning engineering and operations. 
+My goal is primarily to [put ideas into words](http://www.paulgraham.com/words.html). 
+This typically includes reproducing and refactoring code implementations and performing 
+further experiments not covered by primary sources. Or perhaps just an attempt to write
+a good story. 
+On the practical side, the webpage works as a personal knowledge store. Functionalities 
+such as search and sidebars make navigation easy. 
+An important invariant is that the notebooks run end-to-end with mostly reproducible results.
 
 
 ## Building the book
