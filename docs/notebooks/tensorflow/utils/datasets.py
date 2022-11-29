@@ -23,9 +23,9 @@ class MNIST:
             infer_transforms: Optional[Callable] = None
         ) -> None:
 
-        for transforms in (train_transforms, infer_transforms):
-            if transforms is None:
-                transforms = lambda image, label: (image, label)
+        identity = lambda image, label: (image, label)
+        train_transforms = identity if train_transforms is None else train_transforms
+        infer_transforms = identity if infer_transforms is None else infer_transforms
 
         mnist_npz = self.load_data()
         for split in ["train", "dev", "test"]:
@@ -35,10 +35,10 @@ class MNIST:
             shuffle = (split == "train")
             transforms = train_transforms if (split == "train") else infer_transforms
             dataloader = self.dataloader(
-                data=data, 
+                data=data,
                 batch_size=batch_size,
                 shuffle=shuffle,
-                seed=seed, 
+                seed=seed,
                 transforms=transforms
             )
             setattr(self, split, dataloader)
