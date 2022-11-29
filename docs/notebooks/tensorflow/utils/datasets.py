@@ -61,4 +61,5 @@ class MNIST:
         ds = tf.data.Dataset.from_tensor_slices((data["images"], data["labels"]))
         ds = ds.shuffle(int(0.10 * len(ds)), seed=seed) if shuffle else ds
         ds = ds.batch(batch_size, drop_remainder=True).map(transforms)
+        ds = ds.prefetch(tf.data.AUTOTUNE)  # dynamically adjust no. of threads
         return ds
