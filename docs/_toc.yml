@@ -19,6 +19,10 @@ parts:
   - file: notebooks/tensorflow/03-keras
   - file: notebooks/tensorflow/04-tensorflow-cnn
 
+- caption: HIGH-PERFORMANCE PYTHON
+  chapters:
+  - file: notebooks/hp/00.ipynb
+
 - caption: ENGINEERING AND MLOPS
   chapters:
   - file: notebooks/mlops/01-intro/notes
