@@ -23,7 +23,6 @@ class Particle:
 #     def __init__(self, particles: list[Particle], h=1e-5):
 #         self.h = h  # Euler-method increment 
 #         self.particles = particles
-#         self.data = np.array([[p.x, p.y, p.ω] for p in particles], dtype=np.float32)
 
 #     def evolve(self, t: float):
 #         """Evolve system from t=0 to t=t."""
@@ -35,6 +34,7 @@ class Particle:
 
 #     def update_particle(self, p: Particle):
 #         """Evolve particle with Δt = h."""
+
 #         vx = -p.y * p.ω
 #         vy =  p.x * p.ω
 #         dx = vx * self.h
@@ -47,11 +47,11 @@ class ParticleSimulator:
     def __init__(self, particles: list[Particle], h=1e-5):
         self.h = h  # Euler-method increment 
         self.particles = particles
-        self.data = np.array([[p.x, p.y, p.ω] for p in particles], dtype=np.float32)
+        self.data = np.array([[p.x, p.y, p.ω] for p in particles], dtype=np.float64)
 
     def evolve(self, t: float):
         """Evolve system from t=0 to t=t."""
-        
+
         n_steps = int(t / self.h)
         for _ in range(n_steps):
             self.update_data()
@@ -61,6 +61,7 @@ class ParticleSimulator:
 
     def update_data(self):
         """Evolve particle with Δt = h."""
+
         x = self.data[:, [0]]
         y = self.data[:, [1]]
         ω = self.data[:, [2]]
@@ -114,8 +115,7 @@ def random_particles(n: int) -> list[Particle]:
 def benchmark():
     particles = random_particles(100)
     simulator = ParticleSimulator(particles)
-    simulator.evolve(0.5)
-
+    simulator.evolve(1.0)
 
 def benchmark_memory():
     particles = random_particles(100000)
