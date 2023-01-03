@@ -18,7 +18,6 @@ parts:
   - file: notebooks/tensorflow/02-tensorflow-mechanics
   - file: notebooks/tensorflow/03-keras
   - file: notebooks/tensorflow/04-tensorflow-cnn
-  - file: notebooks/tensorflow/10-tensorflow-activations.ipynb
   - file: notebooks/tensorflow/11-tensorflow-optim-init.ipynb
 
 - caption: HIGH-PERFORMANCE PYTHON
