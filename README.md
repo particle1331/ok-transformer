@@ -14,10 +14,10 @@ These are notebooks on topics in machine learning engineering and operations.
 My goal is primarily to [put ideas into words](http://www.paulgraham.com/words.html). 
 This typically includes reproducing and refactoring code implementations and performing 
 further experiments not covered by primary sources. 
-Or perhaps just an attempt to write a good story. 
+Or perhaps just an attempt to [reinvent things](https://www.youtube.com/watch?v=Dm68uFy6gus). 
 The webpage also functions as a knowledge store. 
 Features such as search and sidebars make navigation easy. 
-An important invariant is that the notebooks run end-to-end with mostly reproducible results.
+An important invariant is that the notebooks run end-to-end with generally reproducible results.
 
 
 ## Building the book

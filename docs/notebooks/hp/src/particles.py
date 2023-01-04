@@ -118,6 +118,6 @@ def benchmark():
     simulator.evolve(1.0)
 
 def benchmark_memory():
-    particles = random_particles(100000)
+    particles = random_particles(1000000)
     simulator = ParticleSimulator(particles)
     simulator.evolve(0.001)

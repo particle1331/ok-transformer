@@ -14,15 +14,3 @@ clean:
 	find . | grep -E ".ipynb_checkpoints" | xargs rm -rf
 	find . | grep -E ".vscode" | xargs rm -rf
 	rm -f .coverage
-
-.ONESHELL:
-commit: clean
-	git add .
-	git commit -m "${m}"
-	git push
-
-push:
-	git pull
-	make rmdocs
-	ghp-import -n -p -f docs/_build/html
-	git status
