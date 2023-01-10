@@ -1,5 +1,5 @@
 import math
-from src.particles import Particle, ParticleSimulator, visualize_simulation
+from src.particles import Particle, ParticleSimulator
 
 
 def test_evolve():
