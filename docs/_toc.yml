@@ -12,7 +12,7 @@ parts:
   - file: notebooks/language-modeling/02-mlp
   - file: notebooks/language-modeling/03-batchnorm
 
-- caption: DEEP LEARNING WITH TF2
+- caption: DEEP LEARNING TENSORFLOW
   chapters:
   - file: notebooks/tensorflow/01-tensorflow-nn
   - file: notebooks/tensorflow/02-tensorflow-mechanics
