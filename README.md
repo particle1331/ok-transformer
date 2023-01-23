@@ -10,19 +10,9 @@ Entry point: [𝗙𝗶𝘁𝘁𝗲𝗿 𝗛𝗮𝗽𝗽𝗶𝗲𝗿 𝗠𝗼𝗱
 
 <br>
 
-These are notebooks on topics in machine learning engineering and operations. 
-My goal is primarily to [put ideas into words](http://www.paulgraham.com/words.html). 
-This typically includes reproducing and refactoring code implementations and performing 
-further experiments not covered by primary sources. 
-Or perhaps just an attempt to [reinvent things](https://www.youtube.com/watch?v=Dm68uFy6gus). 
-The webpage also functions as a knowledge store. 
-Features such as search and sidebars make navigation easy. 
-An important invariant is that the notebooks run end-to-end with generally reproducible results.
-
 
 ## Building the book
 
-Run the following commands in your terminal:
 ```
 git clone git@github.com:particle1331/fitter-happier-models.git
 cd fitter-happier-models
