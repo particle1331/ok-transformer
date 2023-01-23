@@ -14,10 +14,10 @@ parts:
 
 - caption: DEEP LEARNING TENSORFLOW
   chapters:
-  - file: notebooks/tensorflow/01-tensorflow-nn
-  - file: notebooks/tensorflow/02-tensorflow-mechanics
-  - file: notebooks/tensorflow/03-keras
-  - file: notebooks/tensorflow/04-tensorflow-cnn
+  - file: notebooks/tf/01-nn
+  - file: notebooks/tf/02-mechanics
+  - file: notebooks/tf/03-keras
+  - file: notebooks/tf/04-cnn
 
 - caption: HIGH-PERFORMANCE PYTHON
   chapters:
