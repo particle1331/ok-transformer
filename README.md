@@ -1,21 +1,21 @@
-# 𝗙𝗶𝘁𝘁𝗲𝗿 𝗛𝗮𝗽𝗽𝗶𝗲𝗿 𝗠𝗼𝗱𝗲𝗹𝘀
+# OK Transformer
 
-[![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fparticle1331%2Finefficient-networks%2Fbadge%3Fref%3Dmaster&label=build&logo=none)](https://actions-badge.atrox.dev/particle1331/inefficient-networks/goto?ref=master)
-![Last Commit](https://img.shields.io/github/last-commit/particle1331/inefficient-networks/master)
-![python](https://img.shields.io/github/pipenv/locked/python-version/particle1331/inefficient-networks)
+[![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fparticle1331%2Fok-transformer%2Fbadge%3Fref%3Dmaster&label=build&logo=none)](https://actions-badge.atrox.dev/particle1331/ok-transformer/goto?ref=master)
+![Last Commit](https://img.shields.io/github/last-commit/particle1331/ok-transformer/master)
+![python](https://img.shields.io/github/pipenv/locked/python-version/particle1331/ok-transformer)
 ![jupyter-book](https://github.com/executablebooks/jupyter-book/raw/master/docs/images/badge.svg)
-[![Stars](https://img.shields.io/github/stars/particle1331/inefficient-networks?style=social)](https://github.com/particle1331/inefficient-networks) 
+[![Stars](https://img.shields.io/github/stars/particle1331/ok-transformer?style=social)](https://github.com/particle1331/ok-transformer) 
 
-Entry point: [𝗙𝗶𝘁𝘁𝗲𝗿 𝗛𝗮𝗽𝗽𝗶𝗲𝗿 𝗠𝗼𝗱𝗲𝗹𝘀 website](https://particle1331.github.io/fitter-happier-models/intro.html)
+Entry point: [**OK Transformer** website](https://particle1331.github.io/ok-transformer/intro.html)
 
 <br>
 
 
-## Building the book
+## Local build
 
 ```
-git clone git@github.com:particle1331/fitter-happier-models.git
-cd fitter-happier-models
+git clone git@github.com:particle1331/ok-transformer.git
+cd ok-transformer
 make docs
 ```
 

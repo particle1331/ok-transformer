@@ -1,0 +1,11 @@
+mlflow
+jupyter
+scikit-learn==1.1.0
+pandas
+seaborn
+hyperopt
+xgboost
+fastparquet
+boto3
+toolz
+protobuf==3.20

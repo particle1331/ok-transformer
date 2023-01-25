@@ -1,0 +1,25 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+scikit-learn = "==1.0.2"
+flask = "*"
+pandas = "*"
+mlflow = "*"
+boto3 = "*"
+ride-duration-prediction = "==0.3.0"
+prefect = "==2.0b5"
+python-dotenv = "*"
+pyarrow = "*"
+
+[dev-packages]
+jupyter = "*"
+notebook = "*"
+requests = "*"
+twine = "*"
+build = "*"
+
+[requires]
+python_version = "3.9"

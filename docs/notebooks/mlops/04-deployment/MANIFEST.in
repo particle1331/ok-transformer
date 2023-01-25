@@ -1,5 +1,0 @@
-include ride_duration/*.py
-include ride_duration/VERSION
-
-recursive-exclude * __pycache__
-recursive-exclude * *.py[co]

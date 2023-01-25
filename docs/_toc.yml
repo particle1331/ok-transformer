@@ -7,38 +7,42 @@ parts:
 
 - caption: LANGUAGE MODELING
   chapters:
-  - file: notebooks/language-modeling/00-backprop
-  - file: notebooks/language-modeling/01-bigrams
-  - file: notebooks/language-modeling/02-mlp
-  - file: notebooks/language-modeling/03-batchnorm
+  - file: nb/nn/00-backprop
+  - file: nb/nn/01-bigrams
+  - file: nb/nn/02-mlp
+  - file: nb/nn/03-batchnorm
 
 - caption: DEEP LEARNING TENSORFLOW
   chapters:
-  - file: notebooks/tf/01-nn
-  - file: notebooks/tf/02-mechanics
-  - file: notebooks/tf/03-keras
-  - file: notebooks/tf/04-cnn
+  - file: nb/tf/00-nn
+  - file: nb/tf/01-mechanics
+  - file: nb/tf/02-keras
+  - file: nb/tf/03-cnn
 
 - caption: HIGH-PERFORMANCE PYTHON
   chapters:
-  - file: notebooks/hp/00.ipynb
+  - file: nb/hp/00.ipynb
+
+- caption: DATA ENGINEERING
+  chapters:
+  - file: nb/de/00-docker.ipynb
 
 - caption: ENGINEERING AND MLOPS
   chapters:
-  - file: notebooks/mlops/01-intro/notes
-  - file: notebooks/mlops/02-mlflow/notes
-  - file: notebooks/mlops/03-prefect/notes
-  - file: notebooks/mlops/04-deployment/notes
-  # - file: notebooks/mlops/05-monitoring/notes
-  - file: notebooks/mlops/06-best-practices/notes
-  - file: notebooks/deployment/production-code
-  - file: notebooks/deployment/model-serving-api
-  - file: notebooks/deployment/docker
-  - file: notebooks/deployment/cicd-pipelines
+  - file: nb/mlops/01-intro/notes
+  - file: nb/mlops/02-mlflow/notes
+  - file: nb/mlops/03-prefect/notes
+  - file: nb/mlops/04-deployment/notes
+  # - file: nb/mlops/05-monitoring/notes
+  - file: nb/mlops/06-best-practices/notes
+  - file: nb/mle/production-code
+  - file: nb/mle/model-serving-api
+  - file: nb/mle/docker
+  - file: nb/mle/cicd-pipelines
 
 # - caption: FUNDAMENTALS
 #   chapters:
-#   # - file: notebooks/fundamentals/pipelines
-#   - file: notebooks/fundamentals/blending-stacking
-#   - file: notebooks/fundamentals/optuna
-#   - file: notebooks/fundamentals/missing
+#   # - file: nb/fundamentals/pipelines
+#   - file: nb/fundamentals/blending-stacking
+#   - file: nb/fundamentals/optuna
+#   - file: nb/fundamentals/missing
