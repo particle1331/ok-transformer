@@ -21,6 +21,7 @@ Explorations in machine learning engineering and operations. ❚
 ---
 name: banner
 ---
+A collage of various figures and diagrams from the notebooks.
 ```
 
 # 
