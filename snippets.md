@@ -75,7 +75,7 @@ rm ${DATA_DIR}/${COMPETITION}.zip
 Header for each article:
 ````
 ![Status](https://img.shields.io/static/v1.svg?label=Status&message=Ongoing&color=orange)
-[![Source](https://img.shields.io/static/v1.svg?label=GitHub&message=Source&color=181717&logo=GitHub)](https://github.com/particle1331/ok-transformer/blob/master/docs/notebooks/mlops/04-deployment)
+[![Source](https://img.shields.io/static/v1.svg?label=GitHub&message=Source&color=181717&logo=GitHub)](https://github.com/particle1331/ok-transformer/blob/master/docs/nb/mlops/04-deployment)
 [![Stars](https://img.shields.io/github/stars/particle1331/ok-transformer?style=social)](https://github.com/particle1331/ok-transformer)
 
 ```text
@@ -91,7 +91,7 @@ Header for each article:
 Adding scripts with margin links.
 ````
 ```{margin}
-[`predict.py`](https://github.com/particle1331/ok-transformer/blob/383314b4c5e01fe9cc9d65b9ce1b9b90abb04001/docs/notebooks/mlops/04-deployment/ride_duration/predict.py#L10-L16)
+[`predict.py`](https://github.com/particle1331/ok-transformer/blob/383314b4c5e01fe9cc9d65b9ce1b9b90abb04001/docs/nb/mlops/04-deployment/ride_duration/predict.py#L10-L16)
 ```
 ```python
 def load_model(experiment_id, run_id):
@@ -131,7 +131,7 @@ echo 'export PATH="/opt/homebrew/opt/redis@6.2/bin:$PATH"' >> ~/.zshrc
 
 Notebook diff with commits
 ```
-nbdiff-web 58689b5d e6b603d6 docs/notebooks/fundamentals/backpropagation.ipynb
+nbdiff-web 58689b5d e6b603d6 docs/nb/fundamentals/backpropagation.ipynb
 ```
 
 Comparing commits on github
