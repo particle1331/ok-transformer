@@ -8,7 +8,7 @@
 
 
 ```text
-Notes and experiments in ML engineering and MLOps. ❚
+Experiments in machine learning engineering and operations.❚
 ```
 
 ```{figure} img/banner.png
