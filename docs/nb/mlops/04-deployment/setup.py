@@ -6,7 +6,7 @@ from setuptools import find_packages, setup
 NAME = "ride-duration-prediction"
 PACKAGE_NAME = "ride_duration"
 DESCRIPTION = "Predicting ride duration for TLC Trip Record Data."
-URL = "https://particle1331.github.io/ok-transformer/notebooks/mlops/04-deployment/notes.html"
+URL = "https://particle1331.github.io/ok-transformer/nb/mlops/04-deployment/notes.html"
 EMAIL = "particle1331@gmail.com"
 AUTHOR = "Ron Medina"
 REQUIRES_PYTHON = ">=3.9.0,<3.10"
