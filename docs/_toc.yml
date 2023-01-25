@@ -7,10 +7,10 @@ parts:
 
 - caption: LANGUAGE MODELING
   chapters:
-  - file: nb/lm/00-backprop
-  - file: nb/lm/01-bigrams
-  - file: nb/lm/02-mlp
-  - file: nb/lm/03-batchnorm
+  - file: nb/nn/00-backprop
+  - file: nb/nn/01-bigrams
+  - file: nb/nn/02-mlp
+  - file: nb/nn/03-batchnorm
 
 - caption: DEEP LEARNING TENSORFLOW
   chapters:
