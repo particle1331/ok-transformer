@@ -23,6 +23,10 @@ parts:
   chapters:
   - file: notebooks/hp/00.ipynb
 
+- caption: DATA ENGINEERING
+  chapters:
+  - file: notebooks/de/00-docker.ipynb
+
 - caption: ENGINEERING AND MLOPS
   chapters:
   - file: notebooks/mlops/01-intro/notes
