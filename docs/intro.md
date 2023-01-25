@@ -1,10 +1,10 @@
-# **𝗙𝗶𝘁𝘁𝗲𝗿 𝗛𝗮𝗽𝗽𝗶𝗲𝗿 𝗠𝗼𝗱𝗲𝗹𝘀**
+# **𝗙𝗶𝘁𝘁𝗲𝗿 𝗠𝗼𝗱𝗲𝗹𝘀**
 
-[![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fparticle1331%2Finefficient-networks%2Fbadge%3Fref%3Dmaster&label=build&logo=none)](https://actions-badge.atrox.dev/particle1331/inefficient-networks/goto?ref=master)
-![Last Commit](https://img.shields.io/github/last-commit/particle1331/inefficient-networks/master)
-![python](https://img.shields.io/github/pipenv/locked/python-version/particle1331/inefficient-networks)
+[![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fparticle1331%2Ffitter-models%2Fbadge%3Fref%3Dmaster&label=build&logo=none)](https://actions-badge.atrox.dev/particle1331/fitter-models/goto?ref=master)
+![Last Commit](https://img.shields.io/github/last-commit/particle1331/fitter-models/master)
+![python](https://img.shields.io/github/pipenv/locked/python-version/particle1331/fitter-models)
 ![jupyter-book](https://github.com/executablebooks/jupyter-book/raw/master/docs/images/badge.svg)
-[![Stars](https://img.shields.io/github/stars/particle1331/inefficient-networks?style=social)](https://github.com/particle1331/inefficient-networks) 
+[![Stars](https://img.shields.io/github/stars/particle1331/fitter-models?style=social)](https://github.com/particle1331/fitter-models) 
 
 
 ```text

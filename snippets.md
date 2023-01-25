@@ -75,8 +75,8 @@ rm ${DATA_DIR}/${COMPETITION}.zip
 Header for each article:
 ````
 ![Status](https://img.shields.io/static/v1.svg?label=Status&message=Ongoing&color=orange)
-[![Source](https://img.shields.io/static/v1.svg?label=GitHub&message=Source&color=181717&logo=GitHub)](https://github.com/particle1331/inefficient-networks/blob/master/docs/notebooks/mlops/04-deployment)
-[![Stars](https://img.shields.io/github/stars/particle1331/inefficient-networks?style=social)](https://github.com/particle1331/inefficient-networks)
+[![Source](https://img.shields.io/static/v1.svg?label=GitHub&message=Source&color=181717&logo=GitHub)](https://github.com/particle1331/fitter-models/blob/master/docs/notebooks/mlops/04-deployment)
+[![Stars](https://img.shields.io/github/stars/particle1331/fitter-models?style=social)](https://github.com/particle1331/fitter-models)
 
 ```text
 𝗔𝘁𝘁𝗿𝗶𝗯𝘂𝘁𝗶𝗼𝗻: Notes for Module 6 of the MLOps Zoomcamp (2022) by DataTalks.Club.
@@ -91,7 +91,7 @@ Header for each article:
 Adding scripts with margin links.
 ````
 ```{margin}
-[`predict.py`](https://github.com/particle1331/inefficient-networks/blob/383314b4c5e01fe9cc9d65b9ce1b9b90abb04001/docs/notebooks/mlops/04-deployment/ride_duration/predict.py#L10-L16)
+[`predict.py`](https://github.com/particle1331/fitter-models/blob/383314b4c5e01fe9cc9d65b9ce1b9b90abb04001/docs/notebooks/mlops/04-deployment/ride_duration/predict.py#L10-L16)
 ```
 ```python
 def load_model(experiment_id, run_id):
@@ -136,7 +136,7 @@ nbdiff-web 58689b5d e6b603d6 docs/notebooks/fundamentals/backpropagation.ipynb
 
 Comparing commits on github
 ```
-https://github.com/particle1331/inefficient-networks/compare/58689b5d..e6b603d6
+https://github.com/particle1331/fitter-models/compare/58689b5d..e6b603d6
 ```
 
 

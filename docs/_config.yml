@@ -1,4 +1,4 @@
-title: 𝗙𝗶𝘁𝘁𝗲𝗿 𝗛𝗮𝗽𝗽𝗶𝗲𝗿 𝗠𝗼𝗱𝗲𝗹𝘀
+title: 𝗙𝗶𝘁𝘁𝗲𝗿 𝗠𝗼𝗱𝗲𝗹𝘀
 author: 𝗽𝗮𝗿𝘁𝗶𝗰𝗹𝗲𝟭𝟯𝟯𝟭. Powered by <a href="https://jupyterbook.org">Jupyter Book</a>.
 logo: img/faces.png
 
@@ -16,7 +16,7 @@ launch_buttons:
   binderhub_url: ""
   
 repository:
-  url: https://github.com/particle1331/inefficient-networks
+  url: https://github.com/particle1331/fitter-models
   path_to_book: docs  # Path to book relative to repository root
   branch: master      # Branch of repo to use when creating links
 
