@@ -12,6 +12,10 @@ parts:
   - file: nb/nn/02-mlp
   - file: nb/nn/03-batchnorm
 
+- caption: DATA ENGINEERING
+  chapters:
+  - file: nb/de/00-docker.ipynb
+
 - caption: TENSORFLOW DEEP LEARNING
   chapters:
   - file: nb/tf/00-nn
@@ -22,10 +26,6 @@ parts:
 - caption: HIGH-PERFORMANCE PYTHON
   chapters:
   - file: nb/hp/00.ipynb
-
-- caption: DATA ENGINEERING
-  chapters:
-  - file: nb/de/00-docker.ipynb
 
 - caption: ENGINEERING AND MLOPS
   chapters:
