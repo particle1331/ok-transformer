@@ -12,7 +12,7 @@ parts:
   - file: nb/nn/02-mlp
   - file: nb/nn/03-batchnorm
 
-- caption: DEEP LEARNING TENSORFLOW
+- caption: TENSORFLOW DEEP LEARNING
   chapters:
   - file: nb/tf/00-nn
   - file: nb/tf/01-mechanics
