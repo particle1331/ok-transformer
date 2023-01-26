@@ -10,7 +10,8 @@ Entry point: [**OK Transformer** website](https://particle1331.github.io/ok-tran
 
 <br>
 
-These are self-contained notebooks (code-wise) on topics in machine learning engineering such as neural networks, language modeling, TensorFlow/Keras and PyTorch deep learning, high-performance Python, data engineering and MLOps. The notebooks are ensured run end-to-end and have reproducible results before being published. This last condition takes a significant amount of effort on my part.
+These are roughly self-contained notebooks on topics in machine learning engineering in the following
+groups: neural networks and language modeling, deep learning in TensorFlow/Keras and PyTorch, high-performance Python, data engineering and MLOps. The notebooks are to ensured run end-to-end with reproducible results across runs before being published. This last condition takes a significant amount of effort on my part.
 
 <br>
 
@@ -63,7 +64,7 @@ xgboost                       1.6.0.dev0
 
 ## Hardware
 
-I generally just use a Macbook Air with an M1 chip, although sometimes I will rent an instance in [[λ] Lambda](cloud.lambdalabs.com) or use a [🇰 Kaggle kernel](https://www.kaggle.com/code) for tasks where it requires more compute to observe something. See [this](https://github.com/particle1331/M1-tensorflow-benchmark#mlp-benchmark) for relevant performance benchmarks with the M1. The specs of a P100 Kaggle kernel is shown below:
+I generally just use a Macbook Air with an M1 chip, although sometimes I rent an instance in [[λ] Lambda](cloud.lambdalabs.com) or use a [🇰 Kaggle kernel](https://www.kaggle.com/code) for tasks where it requires more compute to observe something. See [this](https://github.com/particle1331/M1-tensorflow-benchmark#mlp-benchmark) for relevant performance benchmarks with the M1. The specs of a P100 Kaggle kernel is shown below:
 
 ```
 GPU 0: Tesla P100-PCIE-16GB (UUID: GPU-543c532b-c511-c675-a565-bf01208405e0)
