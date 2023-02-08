@@ -10,24 +10,24 @@ Entry point: [**OK Transformer** website](https://particle1331.github.io/ok-tran
 
 <br>
 
-These are roughly self-contained notebooks on topics in machine learning engineering in the following
-groups: neural networks and language modeling, deep learning in TensorFlow/Keras and PyTorch, high-performance Python, data engineering and MLOps. The notebooks are to ensured run end-to-end with reproducible results across runs before being published. This last condition takes a significant amount of effort on my part.
+A collection of self-contained notebooks on topics in machine learning engineering. This includes neural networks and language modeling, deep learning in TensorFlow/Keras and PyTorch, high-performance Python, model deployment and MLOps. The notebooks are to ensured run end-to-end with reproducible results across runs before being published.
 
 <br>
 
 ## Local build
 
-The collection is built using [jupyter-book](https://github.com/executablebooks/jupyter-book) and hosted as a [Github Pages](https://jupyterbook.org/en/stable/publish/gh-pages.html) website. After installing `jupyter-book`, making a local build of the book is easy:
+Making a local build:
 
 ```
 git clone git@github.com:particle1331/ok-transformer.git
 cd ok-transformer
+pip install -r build-requirements.txt
 make docs
 ```
 
 ## Dependencies
 
-Nothing too strict. But the result of doing `pip list` on my local conda env is:
+Should be okay to within micro (or even minor) releases:
 
 ```text
 cmaes                         0.8.2
@@ -64,7 +64,7 @@ xgboost                       1.6.0.dev0
 
 ## Hardware
 
-I generally just use a Macbook Air with an M1 chip, although sometimes I rent an instance in [[λ] Lambda](cloud.lambdalabs.com) or use a [🇰 Kaggle kernel](https://www.kaggle.com/code) for tasks where it requires more compute to observe something. See [this](https://github.com/particle1331/M1-tensorflow-benchmark#mlp-benchmark) for relevant performance benchmarks with the M1. The specs of a P100 Kaggle kernel is shown below:
+I use a Macbook Air with an M1 chip for prototyping. For more compute, I rent an instance in [[λ] Lambda](cloud.lambdalabs.com) or use a [🇰 Kaggle kernel](https://www.kaggle.com/code) (e.g. to observe something not observable using a small model or small dataset). See [this](https://github.com/particle1331/M1-tensorflow-benchmark#mlp-benchmark) for relevant performance benchmarks with the M1. The specs of a P100 Kaggle kernel is as follows:
 
 ```
 GPU 0: Tesla P100-PCIE-16GB (UUID: GPU-543c532b-c511-c675-a565-bf01208405e0)
