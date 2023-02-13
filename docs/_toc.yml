@@ -35,7 +35,6 @@ parts:
 
 - caption: MODEL DEPLOYMENT
   chapters:
-  - file: nb/mle/01-code
   - file: nb/mle/model-serving-api
   - file: nb/mle/docker
   - file: nb/mle/cicd-pipelines
