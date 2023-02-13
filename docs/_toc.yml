@@ -26,7 +26,8 @@ parts:
 - caption: MLOPS
   chapters:
   - file: nb/mlops/00-intro
-  - file: nb/mlops/01-mlflow
+  - file: nb/mlops/01-package
+  - file: nb/mlops/02-mlflow
   - file: nb/mlops/03-prefect/notes
   - file: nb/mlops/04-deployment/notes
   # - file: nb/mlops/05-monitoring/notes
@@ -34,7 +35,7 @@ parts:
 
 - caption: MODEL DEPLOYMENT
   chapters:
-  - file: nb/mlops/01-code
+  - file: nb/mle/01-code
   - file: nb/mle/model-serving-api
   - file: nb/mle/docker
   - file: nb/mle/cicd-pipelines
