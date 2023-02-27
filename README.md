@@ -10,7 +10,7 @@ Entry point: [**OK Transformer** website](https://particle1331.github.io/ok-tran
 
 <br>
 
-A collection of self-contained notebooks on topics in machine learning engineering. This includes neural networks and language modeling, deep learning in TensorFlow/Keras and PyTorch, high-performance Python, model deployment and MLOps. The notebooks are to ensured run end-to-end with reproducible results across runs before being published.
+A collection of self-contained notebooks on topics in machine learning engineering. This includes neural networks and language modeling, deep learning in TensorFlow/Keras and PyTorch, high-performance Python, model deployment and MLOps. The notebooks run end-to-end with generally reproducible results across runs.
 
 <br>
 
@@ -27,15 +27,12 @@ make docs
 
 ## Dependencies
 
-Should be okay to within micro (or even minor) releases:
+Should be okay to within micro (perhaps even minor) releases:
 
 ```text
-cmaes                         0.8.2
 docker                        5.0.3
 docker-compose                1.25.5
 fastapi                       0.75.2
-kaggle                        1.5.12
-kaleido                       0.2.1
 keras                         2.8.0
 matplotlib                    3.5.1
 mlflow                        1.26.1
@@ -44,18 +41,11 @@ optuna                        2.10.0
 pandas                        1.4.2
 pipenv                        2022.6.7
 prefect                       2.0b5
-pydantic                      1.8.2
 scikit-learn                  1.0.2
-scipy                         1.8.1
 seaborn                       0.11.2
-SQLAlchemy                    1.4.37
-statsmodels                   0.13.2
-tensorboard                   2.8.0
 tensorflow-datasets           4.5.2
 tensorflow-macos              2.8.0
-tensorflow-metadata           1.7.0
 tensorflow-metal              0.4.0
-tf-estimator-nightly          2.8.0.dev2021122109
 torch                         1.13.0
 torchvision                   0.14.0
 uvicorn                       0.17.6

@@ -45,3 +45,7 @@ parts:
 #   - file: nb/fundamentals/blending-stacking
 #   - file: nb/fundamentals/optuna
 #   - file: nb/fundamentals/missing
+
+- caption: DOCKER AND KUBERNETES
+  chapters:
+  - file: nb/dk/00-containers
