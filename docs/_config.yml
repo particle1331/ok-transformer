@@ -1,6 +1,6 @@
-title: "<b>𝙾𝙺 𝚃𝚛𝚊𝚗𝚜𝚏𝚘𝚛𝚖𝚎𝚛</b>"  
+title: ""  
 author: 𝗽𝗮𝗿𝘁𝗶𝗰𝗹𝗲𝟭𝟯𝟯𝟭. Powered by <a href="https://jupyterbook.org">Jupyter Book</a>.
-logo: img/transformer-neural-network.jpeg
+logo: logo.png
 
 execute:
   execute_notebooks: 'off'
@@ -25,7 +25,7 @@ html:
   use_issues_button: true
   use_repository_button: true
   extra_navbar: ""
-  favicon: "img/ok.png"
+  favicon: "favicon.png"
 
 sphinx:
   config:
