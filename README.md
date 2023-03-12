@@ -27,7 +27,7 @@ make docs
 
 ## Dependencies
 
-Should be okay to within micro (perhaps even minor) releases:
+Should be okay to within micro or minor releases:
 
 ```text
 docker                        5.0.3
