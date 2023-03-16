@@ -1,11 +1,10 @@
+```{figure} img/okt.png
+---
+name: okt
+---
 ```
-  ●-●  ●  ●     ●--●-●                    ●-●                      
- ●   ● | /         |                      |                        
- |   | ●●          |   ●-●  ●●  ●-●  ●-● -●-  ●-● ●-● ●-●-● ●-● ●-●
- ●   ● | \         |   |   / |  |  |  \   |   | | |   | | | |/  |  
-  ●-●  ●  ●        ●   ●   ●-●- ●  ● ●-●  ●   ●-● ●   ● ● ● ●-● ●  
-
-$ oktransformer -h
+```
+$ ok-transformer --help
 Explorations in machine learning engineering and operations. ❚
 ```
 
@@ -15,17 +14,18 @@ Explorations in machine learning engineering and operations. ❚
 ![jupyter-book](https://github.com/executablebooks/jupyter-book/raw/master/docs/images/badge.svg)
 [![Stars](https://img.shields.io/github/stars/particle1331/ok-transformer?style=social)](https://github.com/particle1331/ok-transformer) 
 
+
+
+
 <br>
 
 ```{figure} img/banner.png
 ---
 name: banner
 ---
-Figures and diagrams from the notebooks.
 ```
 
-# 
-
+#
 
 ## Dependencies
 
