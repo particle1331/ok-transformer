@@ -10,7 +10,8 @@ Entry point: [**OK Transformer** website](https://particle1331.github.io/ok-tran
 
 <br>
 
-A collection of self-contained notebooks on topics in machine learning engineering. This includes neural networks and language modeling, deep learning in TensorFlow/Keras and PyTorch, high-performance Python, model deployment and MLOps. The notebooks run end-to-end with generally reproducible results across runs.
+A collection of self-contained notebooks on topics in machine learning engineering and operations. 
+The notebooks run end-to-end with generally reproducible results across runs.
 
 <br>
 
@@ -54,7 +55,7 @@ xgboost                       1.6.0.dev0
 
 ## Hardware
 
-I use a Macbook Air with an M1 chip for prototyping. For more compute, I rent an instance in [[λ] Lambda](cloud.lambdalabs.com) or use a [🇰 Kaggle kernel](https://www.kaggle.com/code) (e.g. to observe something not observable using a small model or small dataset). See [this](https://github.com/particle1331/M1-tensorflow-benchmark#mlp-benchmark) for relevant performance benchmarks with the M1. The specs of a P100 Kaggle kernel is as follows:
+P100 Kaggle kernel or equivalent with the ff. specs should be sufficient:
 
 ```
 GPU 0: Tesla P100-PCIE-16GB (UUID: GPU-543c532b-c511-c675-a565-bf01208405e0)
