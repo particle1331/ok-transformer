@@ -152,3 +152,7 @@ Kaggle kernel hardware
 !cat /proc/meminfo | grep 'MemAvailable'
 !df -h / | awk '{print $4}'
 ```
+
+
+- private feature branches: git rebase / git pull --rebase
+- public branches (e.g. main): git merge
