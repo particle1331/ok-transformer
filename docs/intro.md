@@ -5,7 +5,7 @@ name: okt
 ```
 ```
 $ ok-transformer --help
-Explorations in machine learning engineering and operations. ❚
+Exploring machine learning engineering and operations. ❚
 ```
 
 [![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fparticle1331%2Fok-transformer%2Fbadge%3Fref%3Dmaster&label=build&logo=none)](https://actions-badge.atrox.dev/particle1331/ok-transformer/goto?ref=master)
