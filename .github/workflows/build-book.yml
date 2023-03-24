@@ -8,6 +8,7 @@ on:
       - docs/**
       - .github/**
       - .tox/**
+      - build-requirements.txt
 
 jobs:
   build:
