@@ -1,4 +1,3 @@
-
 Format matplotlib plots
 ```python
 from matplotlib_inline import backend_inline
@@ -156,3 +155,9 @@ Kaggle kernel hardware
 
 - private feature branches: git rebase / git pull --rebase
 - public branches (e.g. main): git merge
+
+tooling
+- fzf
+- zsh
+- iterm
+- tmux
