@@ -19,10 +19,11 @@ Exploring machine learning engineering and operations. ❚
 
 <br>
 
-```{figure} img/banner.png
+```{figure} img/banner-bn.png
 ---
-name: banner
+name: banner-bn
 ---
+[Effect of batch normalization](03-batchnorm-theory) on the magnitude of preactivation gradients.
 ```
 
 #
