@@ -49,3 +49,4 @@ parts:
 - caption: DOCKER AND KUBERNETES
   chapters:
   - file: nb/dk/00-containers
+  - file: nb/dk/01-compose
