@@ -25,5 +25,5 @@ jobs:
         python -m pip install --upgrade pip
         pip install tox tox-gh-actions
     
-    - name: Build and deploy jupyter book with tox
+    - name: Build and deploy jupyter book
       run: tox
