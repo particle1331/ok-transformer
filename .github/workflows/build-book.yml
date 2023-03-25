@@ -4,12 +4,6 @@ on:
   push:
     branches:
       - master
-    paths:
-      - docs/**
-      - .github/**
-      - .tox/**
-      - tox.ini
-      - build-requirements.txt
 
 jobs:
   build:
@@ -31,5 +25,5 @@ jobs:
         python -m pip install --upgrade pip
         pip install tox tox-gh-actions
     
-    - name: Build Jupyter book with tox
-      run: tox -e build_book
+    - name: Build and deploy jupyter book with tox
+      run: tox
