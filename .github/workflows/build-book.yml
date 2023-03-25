@@ -8,6 +8,7 @@ on:
       - docs/**
       - .github/**
       - .tox/**
+      - tox.ini
       - build-requirements.txt
 
 jobs:
