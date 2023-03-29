@@ -5,39 +5,34 @@ format: jb-book
 root: intro
 parts:
 
-- caption: LANGUAGE MODELING
+- caption: Language Modeling
   chapters:
   - file: nb/nn/00-backprop
   - file: nb/nn/01-bigrams
   - file: nb/nn/02-mlp
   - file: nb/nn/03-batchnorm
 
-- caption: TENSORFLOW DEEP LEARNING
+- caption: Deep Learning
   chapters:
   - file: nb/tf/00-nn
   - file: nb/tf/01-mechanics
   - file: nb/tf/02-keras
   - file: nb/tf/03-cnn
-
-- caption: HIGH-PERFORMANCE PYTHON
-  chapters:
-  - file: nb/hp/00.ipynb
-
-- caption: MLOPS
+  
+- caption: MLOps
   chapters:
   - file: nb/mlops/00-intro
   - file: nb/mlops/01-package
   - file: nb/mlops/02-mlflow
   - file: nb/mlops/03-prefect/notes
-  - file: nb/mlops/04-deployment/notes
   # - file: nb/mlops/05-monitoring/notes
   - file: nb/mlops/06-best-practices/notes
+  - file: nb/mle/cicd-pipelines
 
-- caption: MODEL DEPLOYMENT
+- caption: Model Deployment
   chapters:
   - file: nb/mle/model-serving-api
-  - file: nb/mle/docker
-  - file: nb/mle/cicd-pipelines
+  - file: nb/mlops/04-deployment/notes
 
 # - caption: FUNDAMENTALS
 #   chapters:
@@ -46,7 +41,8 @@ parts:
 #   - file: nb/fundamentals/optuna
 #   - file: nb/fundamentals/missing
 
-- caption: DOCKER AND KUBERNETES
+- caption: Software Engineering
   chapters:
   - file: nb/dk/00-containers
   - file: nb/dk/01-compose
+  - file: nb/hp/00.ipynb
