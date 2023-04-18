@@ -123,9 +123,11 @@ venv.bak/
 .tox
 docs/_build/
 docs/nb/input/
+docs/nb/tmp
 mlruns/
 artifacts/
 logs/
 models/
 trained_models/
 data/
+lightning_logs/

@@ -10,8 +10,18 @@ Entry point: [**OK Transformer** website](https://particle1331.github.io/ok-tran
 
 <br>
 
-A collection of self-contained notebooks on topics in machine learning engineering and operations. 
-The notebooks run end-to-end with generally reproducible results across runs.
+A collection of self-contained notebooks on topics related to machine learning engineering and operations. I take great pains (or many re-runs) to ensure 
+that the notebooks run end-to-end with reasonably reproducible results across runs. Of course, there are a lot of moving parts so things might change, e.g. with different hardware, but correct conclusions should still hold (even if the values are different). 
+
+Writing takes a nontrivial amount of time and effort, and so there needs to be some 
+justification. The simple answer is that I find I learn better by writing. 
+After all, only about a small fraction of things that you consider to convince
+yourself of something distills into writing. I also get to [focus](https://en.wikipedia.org/wiki/Attention_economy). 
+I often find my ideas to be wrong only in the process of writing about it
+or justifying it with computation.
+This process leads to more ideas which tends to be either [more correct](http://www.paulgraham.com/words.html) or [more concise](http://www.paulgraham.com/writing44.html) (which is another sign of correctness). 
+This is also an attempt to learn in public, which is a scary thing when you think
+about it.
 
 <br>
 
@@ -28,7 +38,7 @@ make docs
 
 ## Dependencies
 
-Should be okay to within micro or minor releases:
+Should be okay to within minor releases:
 
 ```text
 docker                        5.0.3
