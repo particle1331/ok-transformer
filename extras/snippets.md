@@ -161,3 +161,25 @@ tooling
 - zsh
 - iterm
 - tmux
+
+
+Properties setters and getters
+```python
+class Test:
+    def __init__(self):
+        self._value = 100
+
+    @property
+    def value(self):
+        return self._value
+
+    @value.setter
+    def value(self, x):
+        if x < 0:
+            raise ValueError("value cannot be negative.")
+        self._value = x
+```
+```python
+t = Test()
+t.value = -3 # exception
+```
