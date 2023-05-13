@@ -6,7 +6,6 @@ backend_inline.set_matplotlib_formats('svg')
 ```
 
 Ignoring warnings
-
 ```python
 from pandas.core.common import SettingWithCopyWarning
 import warnings
@@ -15,7 +14,6 @@ warnings.simplefilter(action="once", category=SettingWithCopyWarning)
 ```
 
 Set random seeds
-
 ```python
 import numpy as np
 import tensorflow as tf
@@ -35,7 +33,6 @@ tf.config.list_physical_devices()
 ```
 
 Creating paths
-
 ```python
 import pathlib 
 
@@ -182,4 +179,9 @@ class Test:
 ```python
 t = Test()
 t.value = -3 # exception
+```
+
+Processes from terminal:
+```
+$ top
 ```
