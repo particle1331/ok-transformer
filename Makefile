@@ -20,3 +20,6 @@ clean:
 	find . | grep ".pytest_cache" | xargs rm -rf
 	find . | grep ".ipynb_checkpoints" | xargs rm -rf
 	find . | grep "(__pycache__|\.pyc|\.pyo)" | xargs rm -rf
+
+make create:
+	python extras/init.py $(filename)

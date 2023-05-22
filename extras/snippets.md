@@ -6,7 +6,6 @@ backend_inline.set_matplotlib_formats('svg')
 ```
 
 Ignoring warnings
-
 ```python
 from pandas.core.common import SettingWithCopyWarning
 import warnings
@@ -15,7 +14,6 @@ warnings.simplefilter(action="once", category=SettingWithCopyWarning)
 ```
 
 Set random seeds
-
 ```python
 import numpy as np
 import tensorflow as tf
@@ -35,7 +33,6 @@ tf.config.list_physical_devices()
 ```
 
 Creating paths
-
 ```python
 import pathlib 
 
@@ -161,3 +158,30 @@ tooling
 - zsh
 - iterm
 - tmux
+
+
+Properties setters and getters
+```python
+class Test:
+    def __init__(self):
+        self._value = 100
+
+    @property
+    def value(self):
+        return self._value
+
+    @value.setter
+    def value(self, x):
+        if x < 0:
+            raise ValueError("value cannot be negative.")
+        self._value = x
+```
+```python
+t = Test()
+t.value = -3 # exception
+```
+
+Processes from terminal:
+```
+$ top
+```

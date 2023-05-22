@@ -14,14 +14,12 @@ parts:
 
 - caption: Deep Learning
   chapters:
-  - file: nb/tf/00-nn
-  - file: nb/tf/01-mechanics
-  - file: nb/tf/02-keras
+  - file: nb/nn/01-intro
   - file: nb/tf/03-cnn
-  
+
 - caption: MLOps
   chapters:
-  - file: nb/mlops/00-intro
+  - file: nb/mlops/01-intro
   - file: nb/mlops/02-mlflow
   - file: nb/mlops/03-prefect/notes
   # - file: nb/mlops/05-monitoring/notes
@@ -34,13 +32,6 @@ parts:
   - file: nb/mle/model-serving-api
   - file: nb/mlops/04-deployment/notes
 
-# - caption: FUNDAMENTALS
-#   chapters:
-#   - file: nb/fundamentals/pipelines
-#   - file: nb/fundamentals/blending-stacking
-#   - file: nb/fundamentals/optuna
-#   - file: nb/fundamentals/missing
-
 - caption: Software Engineering
   chapters:
   - file: nb/dk/00-containers
@@ -50,3 +41,9 @@ parts:
 # - caption: Notes
 #   chapters:
 #   - file: nb/tmp/pytorch/00-lightning
+
+- caption: Tensorflow
+  chapters:
+  - file: nb/tf/00-nn
+  - file: nb/tf/01-mechanics
+  - file: nb/tf/02-keras
