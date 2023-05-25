@@ -14,21 +14,19 @@ parts:
 
 - caption: Deep Learning
   chapters:
-  - file: nb/nn/01-intro
-  - file: nb/tf/03-cnn
+  - file: nb/dl/01-intro
+  - file: nb/dl/02-training-1
+  - file: nb/dl/03-cnn
 
-- caption: MLOps
+- caption: MLOps & Engineering
   chapters:
   - file: nb/mlops/01-intro
-  - file: nb/mlops/02-mlflow
+  - file: nb/mlops/02-package
+  - file: nb/mlops/03-mlflow
   - file: nb/mlops/03-prefect/notes
   # - file: nb/mlops/05-monitoring/notes
   - file: nb/mlops/06-best-practices/notes
   - file: nb/mle/cicd-pipelines
-
-- caption: Model Deployment
-  chapters:
-  - file: nb/mle/01-package
   - file: nb/mle/model-serving-api
   - file: nb/mlops/04-deployment/notes
 
