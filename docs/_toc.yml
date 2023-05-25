@@ -22,7 +22,7 @@ parts:
   chapters:
   - file: nb/mlops/01-intro
   - file: nb/mlops/02-package
-  - file: nb/mlops/02-mlflow
+  - file: nb/mlops/03-mlflow
   - file: nb/mlops/03-prefect/notes
   # - file: nb/mlops/05-monitoring/notes
   - file: nb/mlops/06-best-practices/notes
