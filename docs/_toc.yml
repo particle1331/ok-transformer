@@ -32,7 +32,7 @@ parts:
 
 - caption: Tensorflow
   chapters:
-  - file: nb/tf/00-nn
+  - file: nb/tf/00-datasets
   - file: nb/tf/01-mechanics
   - file: nb/tf/02-keras
 
@@ -40,4 +40,5 @@ parts:
   chapters:
   - file: nb/dk/00-containers
   - file: nb/dk/01-compose
+  - file: nb/dk/02-kubernetes
   - file: nb/hp/00.ipynb
