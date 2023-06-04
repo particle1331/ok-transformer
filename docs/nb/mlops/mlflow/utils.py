@@ -8,10 +8,9 @@ from sklearn.feature_extraction import DictVectorizer
 
 from ride_duration.utils import convert_to_dict
 
-ROOT_DIR = Path(__file__).parents[2]
+ROOT_DIR = Path(__file__).parents[1]
 DATA_DIR = ROOT_DIR / "data"
 EXPERIMENT_NAME = "nyc-green-taxi"
-EXPERIMENT_DIR = ROOT_DIR / "experiments" / EXPERIMENT_NAME
 TRACKING_URI = f"http://127.0.0.1:5001"
 
 

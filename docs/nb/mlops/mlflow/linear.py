@@ -38,7 +38,7 @@ with mlflow.start_run():
 
     # Tags
     mlflow.set_tag("author", "particle")
-    mlflow.set_tag("model", "baseline")
+    mlflow.set_tag("model", "linear")
 
     # MLflow logging
     mlflow.log_param("train_data_path", train_data_path)
