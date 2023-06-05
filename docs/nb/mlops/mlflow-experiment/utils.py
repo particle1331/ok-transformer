@@ -33,16 +33,13 @@ def fixtures():
     }
 
 
-def create_pipeline(model):
-    return make_pipeline(
-        FunctionTransformer(convert_to_dict),
-        DictVectorizer(),
-        model,
-    )
-
-
-def create_feature_pipeline():
+def feature_pipeline():
     return make_pipeline(
         FunctionTransformer(convert_to_dict),
         DictVectorizer(),
     )
+
+
+def add_pudo_column(df):
+    df["PU_DO"] = df["PULocationID"] + "_" + df["DOLocationID"]
+    return df

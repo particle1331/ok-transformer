@@ -1,8 +1,11 @@
 import time
 
+import dill
+import joblib
 import mlflow
 import optuna
-from utils import fixtures, setup_experiment, create_feature_pipeline
+
+from utils import fixtures, setup_experiment, feature_pipeline,
 from xgboost import XGBRegressor
 from sklearn.metrics import mean_squared_error
 from sklearn.pipeline import make_pipeline
@@ -13,14 +16,7 @@ from ride_duration.config import config
 from ride_duration.processing import prepare_features
 
 
-def add_endpoints_interaction(df):
-    df["PU_DO"] = df["PULocationID"] + "_" + df["DOLocationID"]
-    return df
-
-
-# setup_experiment()
-mlflow.set_tracking_uri("http://0.0.0.0:5001")
-mlflow.set_experiment("test")
+setup_experiment()
 data = fixtures()
 mlflow.xgboost.autolog()
 
@@ -36,25 +32,24 @@ def run(params, pudo: bool):
         transforms = [
             add_endpoints_interaction,
             lambda df: df[["PU_DO"] + config.NUM_FEATURES],
-        ] if pudo else []  # fmt: skip
+        ] if pudo else []
 
         X_train, y_train = prepare_features(train_data, transforms, train=True)
         X_valid, y_valid = prepare_features(valid_data, transforms, train=True)
 
-        # XGBoost specific code
-        feature_pipe = create_feature_pipeline()
-
+        # Fit feature pipe
+        feature_pipe = feature_pipeline()
         X_train = feature_pipe.fit_transform(X_train)
         X_valid = feature_pipe.transform(X_valid)
 
-        # Train model
+        # Fit model
         model = XGBRegressor(early_stopping_rounds=50, **params)
         model.fit(
-            X_train, y_train,   # fmt: skip
+            X_train, y_train,
             eval_set=[(X_valid, y_valid)],
         )
 
-        # Computing metrics
+        # Compute metrics
         start_time = time.time()
         yp_train = model.predict(X_train)
         yp_valid = model.predict(X_valid)
@@ -69,7 +64,7 @@ def run(params, pudo: bool):
         mlflow.set_tag("author", "particle")
         mlflow.set_tag("model", "xgboost")
 
-        mlflow.log_param("interaction", pudo)
+        mlflow.log_param("pudo", pudo)
         mlflow.log_param("train_data_path", train_data_path)
         mlflow.log_param("valid_data_path", valid_data_path)
 
@@ -82,14 +77,15 @@ def run(params, pudo: bool):
 
         mlflow.log_figure(fig, "plot.svg")
 
-        # Log feature pipeline as artifact
-        mlflow.sklearn.log_model(feature_pipe, "preprocessor")
+        # Log feature pipeline and transforms as artifact
+        joblib.dump(transforms, "transforms.pkl")
+        mlflow.log_artifact("transforms.pkl")
+        mlflow.sklearn.log_model(feature_pipe, "feature_pipe")
 
     return rmse_valid
 
 
 def objective(trial, pudo: bool):
-    # fmt: off
     params = {
         "n_estimators":     trial.suggest_int("n_estimators", 1, 10, step=1) * 100,
         "max_depth":        trial.suggest_int("max_depth", 4, 100),
