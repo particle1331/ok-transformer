@@ -21,9 +21,7 @@ correct conclusions should still hold.
 
 <br>
 
-## Local build
-
-Making a local build:
+## Making a local build
 
 ```
 git clone git@github.com:particle1331/ok-transformer.git
@@ -33,8 +31,6 @@ make docs
 ```
 
 ## Dependencies
-
-Should be okay to within minor releases:
 
 ```text
 docker                        5.0.3
@@ -53,15 +49,13 @@ seaborn                       0.11.2
 tensorflow-datasets           4.5.2
 tensorflow-macos              2.8.0
 tensorflow-metal              0.4.0
-torch                         1.13.0
+torch                         2.0.0
 torchvision                   0.14.0
 uvicorn                       0.17.6
 xgboost                       1.6.0.dev0
 ```
 
 ## Hardware
-
-P100 Kaggle kernel or equivalent with the ff. specs should be sufficient:
 
 ```
 GPU 0: Tesla P100-PCIE-16GB (UUID: GPU-543c532b-c511-c675-a565-bf01208405e0)
@@ -71,7 +65,4 @@ Core(s) per socket:              1
 Thread(s) per core:              2
 L3 cache:                        38.5 MiB
 CPU MHz:                         2000.188
-MemAvailable:   15212104 kB
-Avail
-67G
 ```

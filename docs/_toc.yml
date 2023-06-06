@@ -24,24 +24,20 @@ parts:
   - file: nb/mlops/02-package
   - file: nb/mlops/03-mlflow
   - file: nb/mlops/03-prefect/notes
+  - file: nb/mlops/04-deployment/notes
   # - file: nb/mlops/05-monitoring/notes
   - file: nb/mlops/06-best-practices/notes
   - file: nb/mle/cicd-pipelines
   - file: nb/mle/model-serving-api
-  - file: nb/mlops/04-deployment/notes
 
-- caption: Software Engineering
+- caption: Tensorflow
+  chapters:
+  - file: nb/tf/00-datasets
+  - file: nb/tf/01-mechanics
+  - file: nb/tf/02-keras
+
+- caption: Notes
   chapters:
   - file: nb/dk/00-containers
   - file: nb/dk/01-compose
   - file: nb/hp/00.ipynb
-
-# - caption: Notes
-#   chapters:
-#   - file: nb/tmp/pytorch/00-lightning
-
-- caption: Tensorflow
-  chapters:
-  - file: nb/tf/00-nn
-  - file: nb/tf/01-mechanics
-  - file: nb/tf/02-keras
