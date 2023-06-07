@@ -18,19 +18,19 @@ parts:
   - file: nb/dl/02-training-1
   - file: nb/dl/03-cnn
 
-- caption: MLOps & Engineering
+- caption: MLOps | ML Engineering
   chapters:
   - file: nb/mlops/01-intro
   - file: nb/mlops/02-package
   - file: nb/mlops/03-mlflow
-  - file: nb/mlops/03-prefect/notes
+  - file: nb/mlops/04-prefect
   - file: nb/mlops/04-deployment/notes
   # - file: nb/mlops/05-monitoring/notes
   - file: nb/mlops/06-best-practices/notes
   - file: nb/mle/cicd-pipelines
   - file: nb/mle/model-serving-api
 
-- caption: Tensorflow
+- caption: TensorFlow
   chapters:
   - file: nb/tf/00-datasets
   - file: nb/tf/01-mechanics
