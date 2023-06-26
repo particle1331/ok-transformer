@@ -23,7 +23,7 @@ parts:
   - file: nb/mlops/01-intro
   - file: nb/mlops/02-package
   - file: nb/mlops/03-mlflow
-  - file: nb/mlops/04-prefect
+  - file: nb/mlops/04-tasks
   - file: nb/mlops/04-deployment/notes
   # - file: nb/mlops/05-monitoring/notes
   - file: nb/mlops/06-best-practices/notes
