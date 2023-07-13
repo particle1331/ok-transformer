@@ -30,14 +30,9 @@ parts:
   - file: nb/mle/cicd-pipelines
   - file: nb/mle/model-serving-api
 
-- caption: TensorFlow
-  chapters:
-  - file: nb/tf/00-datasets
-  - file: nb/tf/01-mechanics
-  - file: nb/tf/02-keras
-
 - caption: Notes
   chapters:
+  - file: nb/tf/crash-course
   - file: nb/dk/00-containers
   - file: nb/dk/01-compose
   - file: nb/hp/00.ipynb
