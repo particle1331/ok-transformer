@@ -32,7 +32,7 @@ parts:
 
 - caption: Notes
   chapters:
-  - file: nb/tf/crash-course
   - file: nb/dk/00-containers
   - file: nb/dk/01-compose
   - file: nb/hp/00.ipynb
+  - file: nb/tf/crash-course
