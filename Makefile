@@ -22,4 +22,4 @@ clean:
 	find . | grep "(__pycache__|\.pyc|\.pyo)" | xargs rm -rf
 
 make create:
-	python extras/init.py $(filename)
+	python extras/init.py $(filename) $(title)

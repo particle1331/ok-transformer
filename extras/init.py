@@ -8,6 +8,7 @@ from pathlib import Path
 
 if __name__ == "__main__":
     arg = sys.argv[1]
+    title = sys.argv[2]
     if "/" in arg:
         folder, filename = arg.split("/")
     else:
@@ -23,6 +24,9 @@ if __name__ == "__main__":
     for cell in template["cells"]:
         if "{filename}" in cell["source"]:
             cell["source"] = cell["source"].replace("{filename}", f"{folder}/{filename}")
+        
+        if "{title}" in cell["source"]:
+            cell["source"] = cell["source"].replace("{title}", title)
 
     # Save the new file
     nbformat.write(template, (folder_path / (filename + ".ipynb")))
