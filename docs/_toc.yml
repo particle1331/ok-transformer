@@ -7,7 +7,6 @@ parts:
 
 - caption: Language Modeling
   chapters:
-  - file: nb/nn/00-backprop
   - file: nb/nn/01-bigrams
   - file: nb/nn/02-mlp
   - file: nb/nn/03-batchnorm
@@ -16,6 +15,7 @@ parts:
   chapters:
   - file: nb/dl/01-intro
   - file: nb/dl/02-optim
+  - file: nb/nn/00-backprop
   - file: nb/dl/03-cnn
 
 - caption: MLOps
