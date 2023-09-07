@@ -58,16 +58,12 @@ xgboost                       1.6.0.dev0
 ## Hardware
 
 ```text
-GPU 0: Tesla P100-PCIE-16GB (UUID: GPU-543c532b-c511-c675-a565-bf01208405e0)
-Model name:                      Intel(R) Xeon(R) CPU @ 2.00GHz
-Socket(s):                       1
-Core(s) per socket:              1
-Thread(s) per core:              2
+GPU 0:                           Tesla P100-PCIE-16GB
+CPU:                             Intel(R) Xeon(R) CPU @ 2.00GHz
+Core:                            1
+Threads per core:                2
 L3 cache:                        38.5 MiB
-CPU MHz:                         2000.188
-MemAvailable:   15212104 kB
-Avail
-67G
+Memory:                          15 Gb
 ```
 
 

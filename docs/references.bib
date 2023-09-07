@@ -315,7 +315,7 @@ year = {2022}
 @book{keras2,
     author = {Chollet, François},
     isbn = {9781617296864},
-    publisher = {Abhishek Thakur},
+    publisher = {Manning},
     title = {Deep Learning with Python, Second Edition},
     year = {2021}
 }
@@ -1027,4 +1027,115 @@ URL = {https://doi.org/10.1214/15-AIHP696}
   year={1997},
   doi={10.1162/neco.1997.9.1.1},
   PMID={9117894}
+}
+
+@inproceedings{barron,
+author = {Barron, A. R.},
+title = {Approximation and Estimation Bounds for Artificial Neural Networks},
+year = {1991},
+isbn = {1558602135},
+publisher = {Morgan Kaufmann Publishers Inc.},
+address = {San Francisco, CA, USA},
+booktitle = {Proceedings of the Fourth Annual Workshop on Computational Learning Theory},
+pages = {243–249},
+numpages = {7},
+location = {Santa Cruz, California, USA},
+series = {COLT '91}
+}
+
+@article{visualizing_loss,
+  author       = {Hao Li and
+                  Zheng Xu and
+                  Gavin Taylor and
+                  Tom Goldstein},
+  title        = {Visualizing the Loss Landscape of Neural Nets},
+  journal      = {CoRR},
+  volume       = {abs/1712.09913},
+  year         = {2017},
+  url          = {http://arxiv.org/abs/1712.09913},
+  eprinttype    = {arXiv},
+  eprint       = {1712.09913},
+  timestamp    = {Thu, 16 May 2019 13:19:49 +0200},
+  biburl       = {https://dblp.org/rec/journals/corr/abs-1712-09913.bib},
+  bibsource    = {dblp computer science bibliography, https://dblp.org}
+}
+
+@InProceedings{pmlr-v38-choromanska15,
+  title = 	 {{The Loss Surfaces of Multilayer Networks}},
+  author = 	 {Choromanska, Anna and Henaff, MIkael and Mathieu, Michael and Ben Arous, Gerard and LeCun, Yann},
+  booktitle = 	 {Proceedings of the Eighteenth International Conference on Artificial Intelligence and Statistics},
+  pages = 	 {192--204},
+  year = 	 {2015},
+  editor = 	 {Lebanon, Guy and Vishwanathan, S. V. N.},
+  volume = 	 {38},
+  series = 	 {Proceedings of Machine Learning Research},
+  address = 	 {San Diego, California, USA},
+  month = 	 {09--12 May},
+  publisher =    {PMLR},
+  pdf = 	 {http://proceedings.mlr.press/v38/choromanska15.pdf},
+  url = 	 {https://proceedings.mlr.press/v38/choromanska15.html},
+  abstract = 	 {We study the connection between the highly non-convex loss function of a simple model of the fully-connected feed-forward neural network and the Hamiltonian of the spherical spin-glass model under the assumptions of: i) variable independence, ii) redundancy in network parametrization, and iii) uniformity. These assumptions enable us to explain the complexity of the fully decoupled neural network through the prism of the results from random matrix theory. We show that for large-size decoupled networks the lowest critical values of the random loss function form a layered structure and they are located in a well-defined band lower-bounded by the global minimum. The number of local minima outside that band diminishes exponentially with the size of the network. We empirically verify that the mathematical model exhibits similar behavior as the computer simulations, despite the presence of high dependencies in real networks. We conjecture that both simulated annealing and SGD converge to the band of low critical points, and that all critical points found there are local minima of high quality measured by the test error. This emphasizes a major difference between large- and small-size networks where for the latter poor quality local minima have non-zero probability of being recovered. Finally, we prove that recovering the global minimum becomes harder as the network size increases and that it is in practice irrelevant as global minimum often leads to overfitting.}
+}
+
+@inproceedings{dauphin2014,
+author = {Dauphin, Yann N. and Pascanu, Razvan and Gulcehre, Caglar and Cho, Kyunghyun and Ganguli, Surya and Bengio, Yoshua},
+title = {Identifying and Attacking the Saddle Point Problem in High-Dimensional Non-Convex Optimization},
+year = {2014},
+publisher = {MIT Press},
+address = {Cambridge, MA, USA},
+booktitle = {Proceedings of the 27th International Conference on Neural Information Processing Systems - Volume 2},
+pages = {2933–2941},
+numpages = {9},
+location = {Montreal, Canada},
+series = {NIPS'14}
+}
+
+@article{adagrad,
+author = {Duchi, John and Hazan, Elad and Singer, Yoram},
+title = {Adaptive Subgradient Methods for Online Learning and Stochastic Optimization},
+year = {2011},
+issue_date = {2/1/2011},
+publisher = {JMLR.org},
+volume = {12},
+number = {null},
+issn = {1532-4435},
+abstract = {We present a new family of subgradient methods that dynamically incorporate knowledge of the geometry of the data observed in earlier iterations to perform more informative gradient-based learning. Metaphorically, the adaptation allows us to find needles in haystacks in the form of very predictive but rarely seen features. Our paradigm stems from recent advances in stochastic optimization and online learning which employ proximal functions to control the gradient steps of the algorithm. We describe and analyze an apparatus for adaptively modifying the proximal function, which significantly simplifies setting a learning rate and results in regret guarantees that are provably as good as the best proximal function that can be chosen in hindsight. We give several efficient algorithms for empirical risk minimization problems with common and important regularization functions and domain constraints. We experimentally study our theoretical analysis and show that adaptive subgradient methods outperform state-of-the-art, yet non-adaptive, subgradient algorithms.},
+journal = {J. Mach. Learn. Res.},
+month = {jul},
+pages = {2121–2159},
+numpages = {39}
+}
+
+@inproceedings{sgd_better_than_adam,
+author = {Zhou, Pan and Feng, Jiashi and Ma, Chao and Xiong, Caiming and Hoi, Steven and Weinan, E.},
+title = {Towards Theoretically Understanding Why SGD Generalizes Better than ADAM in Deep Learning},
+year = {2020},
+isbn = {9781713829546},
+publisher = {Curran Associates Inc.},
+address = {Red Hook, NY, USA},
+abstract = {It is not clear yet why ADAM-alike adaptive gradient algorithms suffer from worse generalization performance than SGD despite their faster training speed. This work aims to provide understandings on this generalization gap by analyzing their local convergence behaviors. Specifically, we observe the heavy tails of gradient noise in these algorithms. This motivates us to analyze these algorithms through their L\'{e}vy-driven stochastic differential equations (SDEs) because of the similar convergence behaviors of an algorithm and its SDE. Then we establish the escaping time of these SDEs from a local basin. The result shows that (1) the escaping time of both SGD and ADAM depends on the Radon measure of the basin positively and the heaviness of gradient noise negatively; (2) for the same basin, SGD enjoys smaller escaping time than ADAM, mainly because (a) the geometry adaptation in ADAM via adaptively scaling each gradient coordinate well diminishes the anisotropic structure in gradient noise and results in larger Radon measure of a basin; (b) the exponential gradient average in ADAM smooths its gradient and leads to lighter gradient noise tails than SGD. So SGD is more locally unstable than ADAM at sharp minima defined as the minima whose local basins have small Radon measure, and can better escape from them to flatter ones with larger Radon measure. As flat minima here which often refer to the minima at flat or asymmetric basins/valleys often generalize better than sharp ones [1,2], our result explains the better generalization performance of SGD over ADAM. Finally, experimental results confirm our heavy-tailed gradient noise assumption and theoretical affirmation.},
+booktitle = {Proceedings of the 34th International Conference on Neural Information Processing Systems},
+articleno = {1787},
+numpages = {12},
+location = {Vancouver, BC, Canada},
+series = {NIPS'20}
+}
+
+@article{sharp_minima_bad,
+  author       = {Nitish Shirish Keskar and
+                  Dheevatsa Mudigere and
+                  Jorge Nocedal and
+                  Mikhail Smelyanskiy and
+                  Ping Tak Peter Tang},
+  title        = {On Large-Batch Training for Deep Learning: Generalization Gap and
+                  Sharp Minima},
+  journal      = {CoRR},
+  volume       = {abs/1609.04836},
+  year         = {2016},
+  url          = {http://arxiv.org/abs/1609.04836},
+  eprinttype    = {arXiv},
+  eprint       = {1609.04836},
+  timestamp    = {Mon, 13 Aug 2018 16:46:48 +0200},
+  biburl       = {https://dblp.org/rec/journals/corr/KeskarMNST16.bib},
+  bibsource    = {dblp computer science bibliography, https://dblp.org}
 }

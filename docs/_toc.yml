@@ -15,6 +15,7 @@ parts:
 - caption: Deep Learning
   chapters:
   - file: nb/dl/01-intro
+  - file: nb/dl/02-optim
   - file: nb/dl/03-cnn
 
 - caption: MLOps
