@@ -17,6 +17,7 @@ parts:
   - file: nb/dl/02-optim
   - file: nb/nn/00-backprop
   - file: nb/dl/03-cnn
+  - file: nb/dl/04-training
 
 - caption: MLOps
   chapters:
