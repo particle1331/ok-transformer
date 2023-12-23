@@ -1,0 +1,11 @@
+on:
+  schedule:
+    - cron: 0 0 1 * * # monthly
+  
+name: Broken link check
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Broken Link Check
+        uses: technote-space/broken-link-checker-action@v2
