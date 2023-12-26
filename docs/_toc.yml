@@ -33,8 +33,8 @@ parts:
 
 - caption: Notes
   chapters:
-  - file: nb/dk/00-containers
-  - file: nb/dk/01-compose
-  - file: nb/hp/00.ipynb
-  - file: nb/tf/crash-course
+  - file: nb/notes/dk/00-containers
+  - file: nb/notes/dk/01-compose
+  - file: nb/notes/benchmarking
+  - file: nb/notes/tf-course
   # - file: nb/comp/00-algorithms
