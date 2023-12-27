@@ -1,9 +1,0 @@
-version: '3'
-services:
-  redis-server:
-    image: redis
-  web-server:
-    restart: on-failure
-    build: app
-    ports:
-      - 3001:8081

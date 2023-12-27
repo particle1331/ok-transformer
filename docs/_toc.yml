@@ -33,8 +33,9 @@ parts:
 
 - caption: Notes
   chapters:
-  - file: nb/notes/dk/00-containers
-  - file: nb/notes/dk/01-compose
+  # - file: nb/notes/dk/00-containers
+  # - file: nb/notes/dk/01-compose
+  - file: nb/notes/containers
   - file: nb/notes/benchmarking
   - file: nb/notes/tf-course
-  # - file: nb/comp/00-algorithms
+  
