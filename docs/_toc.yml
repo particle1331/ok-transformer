@@ -15,8 +15,9 @@ parts:
   chapters:
   - file: nb/dl/01-intro
   - file: nb/dl/02-optim
-  - file: nb/nn/00-backprop
+  - file: nb/dl/00-backprop
   - file: nb/dl/03-cnn
+  - file: nb/dl/04-training
 
 - caption: MLOps
   chapters:
@@ -32,8 +33,9 @@ parts:
 
 - caption: Notes
   chapters:
-  - file: nb/dk/00-containers
-  - file: nb/dk/01-compose
-  - file: nb/hp/00.ipynb
-  - file: nb/tf/crash-course
-  # - file: nb/comp/00-algorithms
+  # - file: nb/notes/dk/00-containers
+  # - file: nb/notes/dk/01-compose
+  - file: nb/notes/containers
+  - file: nb/notes/benchmarking
+  - file: nb/notes/tf-course
+  

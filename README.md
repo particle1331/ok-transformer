@@ -13,11 +13,15 @@ Entry point: [**OK Transformer** website](https://particle1331.github.io/ok-tran
 A collection of self-contained notebooks on topics in machine 
 learning engineering and operations. I try to cover things that 
 come up often as building blocks for other projects or architectures. 
-Or generally things that I have something to say about or [details 
-to explore](http://www.paulgraham.com/getideas.html). The notebooks run end-to-end with reproducible results between 
-runs. Note that specific values may change (e.g. with 
-different hardware or external dataset versions), but 
-correct conclusions should still hold. 
+Or on topics where I want to [clear up my understanding](http://www.paulgraham.com/words.html),
+or have [details to explore](http://www.paulgraham.com/getideas.html). 
+
+The notebooks 
+should ideally run end-to-end with reproducible results between 
+runs. It is expected that output values may change as there 
+are external dependencies such as hardware and dataset versions, 
+but the conclusions should still generally hold. Please open an issue
+if you find that this is not the case (as I oftentimes do)!
 
 <br>
 
