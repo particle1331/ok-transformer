@@ -180,3 +180,12 @@ def test_addition():
 assert ipytest.run("-vv") == 0
 ```
 
+Colima as docker desktop replacement for macos
+```
+colima start --cpu 4 --memory 4
+colima stop
+
+# using profiles
+colima -p new-profile start
+colima list
+```
