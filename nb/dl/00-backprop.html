@@ -1,0 +1,1487 @@
+
+
+<!DOCTYPE html>
+
+
+<html >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Backpropagation &#8212; OK Transformer</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'nb/dl/00-backprop';</script>
+    <link rel="shortcut icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Convolutional Networks" href="03-cnn.html" />
+    <link rel="prev" title="Optimization" href="02-optim.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="None"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Language Modeling</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../nn/03-batchnorm.html">Batch Normalization</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Deep Learning</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01-intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02-optim.html">Optimization</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Backpropagation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-cnn.html">Convolutional Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04-lm.html">Language Modeling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05-training.html">Activations and Gradients</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Engineering and Ops</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../mlops/01-intro.html">Preliminaries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mlops/02-package.html">Packaging Modeling Code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mlops/03-mlflow.html">Experiment Tracking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mlops/04-tasks.html">Distributed Task Queues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mlops/04-deployment/notes.html">Model Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mlops/06-best-practices/notes.html">Best Engineering Practices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mle/cicd-pipelines.html">Continuous Integration and Deployment Pipelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mle/model-serving-api.html">Prediction Serving API</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Notes</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../notes/containers.html">Docker Containers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notes/benchmarking.html">Benchmarking and Profiling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notes/tf-course.html">TensorFlow Crash Course</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/particle1331/ok-transformer" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/particle1331/ok-transformer/issues/new?title=Issue%20on%20page%20%2Fnb/dl/00-backprop.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Backpropagation</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bp-on-computational-graphs">BP on computational graphs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-and-training-a-neural-net-from-scratch">Creating and training a neural net from scratch</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#graph-vizualization">Graph vizualization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#neural-network">Neural network</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#benchmarking">Benchmarking</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#training-the-network">Training the network!</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#appendix-testing-with-autograd">Appendix: Testing with <code class="docutils literal notranslate"><span class="pre">autograd</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#testing">Testing</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#appendix-bp-equations-for-mlps">Appendix: BP equations for MLPs</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#batch-computation">Batch computation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cross-entropy">Cross entropy</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-checking">Gradient checking</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="backpropagation">
+<span id="backprop"></span><h1>Backpropagation<a class="headerlink" href="#backpropagation" title="Permalink to this headline">#</a></h1>
+<p><img alt="Status" src="https://img.shields.io/static/v1.svg?label=Status&amp;message=Finished&amp;color=brightgreen" />
+<a class="reference external" href="https://github.com/particle1331/ok-transformer/blob/master/docs/nb/dl/00-backprop.ipynb"><img alt="Source" src="https://img.shields.io/static/v1.svg?label=GitHub&amp;message=Source&amp;color=181717&amp;logo=GitHub" /></a>
+<a class="reference external" href="https://github.com/particle1331/ok-transformer"><img alt="Stars" src="https://img.shields.io/github/stars/particle1331/ok-transformer?style=social" /></a></p>
+<hr class="docutils" />
+<p><strong>Readings:</strong>  <span id="id1">[<a class="reference internal" href="../../intro.html#id48" title="Tim Vieira. Evaluating ∇f(x) is as fast as f(x). 9 2016. URL: https://timvieira.github.io/blog/post/2016/09/25/evaluating-fx-is-as-fast-as-fx/.">Vie16</a>]</span> <span id="id2">[<a class="reference internal" href="../../intro.html#id49" title="Sanjeev Arora and Tengyu Ma. Back-propagation, an introduction. 12 2016. URL: http://www.offconvex.org/2016/12/20/backprop/.">AM16</a>]</span> <span id="id3">[<a class="reference internal" href="../../intro.html#id50" title="Elliot Waite. Pytorch autograd explained - in-depth tutorial. 11 2018. URL: https://www.youtube.com/watch?v=MswxJw-8PvE.">Wai18</a>]</span> <span id="id4">[<a class="reference internal" href="../../intro.html#id51" title="Andrej Karpathy. The spelled-out intro to neural networks and backpropagation: building micrograd. 8 2022. URL: https://www.youtube.com/watch?v=VMj-3S1tku0.">Kar22</a>]</span></p>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">#</a></h2>
+<p>In this notebook, we look at <strong>backpropagation</strong> on computational graphs as an algorithm for efficiently computing gradients. Backprop involves local message passing of activations in the forward pass, and gradients in the backward pass. The resulting time complexity is linear in the number of size of the network, i.e. the total number of weights and neurons for neural nets. Neural networks are computational graphs with nodes for differentiable operations. This fact allows scaling training large neural networks. We implement a minimal scalar-valued <strong>autograd engine</strong> and a neural net library on top it to train a small regression model.</p>
+</section>
+<section id="bp-on-computational-graphs">
+<h2>BP on computational graphs<a class="headerlink" href="#bp-on-computational-graphs" title="Permalink to this headline">#</a></h2>
+<p>A neural network can be modelled as a <strong>directed acyclic graph</strong> (DAG) of nodes that implements a function <span class="math notranslate nohighlight">\(f\)</span>, i.e. all computation flows from an input <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{x}}\)</span> to an output node <span class="math notranslate nohighlight">\(f(\boldsymbol{\mathsf{x}})\)</span> with no cycles.
+During training, this is extended to implement the calculation of the loss.
+Recall that our goal is to obtain parameter node values <span class="math notranslate nohighlight">\(\hat{\boldsymbol{\Theta}}\)</span> after optimization (e.g. with SGD) such that the <span class="math notranslate nohighlight">\(f_{\hat{\boldsymbol{\Theta}}}\)</span> minimizes the expected value of a loss function <span class="math notranslate nohighlight">\(\ell.\)</span> Backpropagation allows us to efficiently compute <span class="math notranslate nohighlight">\(\nabla_{\boldsymbol{\Theta}} \ell\)</span> for SGD after <span class="math notranslate nohighlight">\((\boldsymbol{\mathsf{x}}, y) \in \mathcal{B}\)</span> is passed to the input nodes.</p>
+<figure class="align-default" id="compute">
+<a class="reference internal image-reference" href="../../_images/03-comp-graph.png"><img alt="../../_images/03-comp-graph.png" src="../../_images/03-comp-graph.png" style="width: 80%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 36 </span><span class="caption-text">Computational graph of a dense layer. Note that parameter nodes (yellow) always have zero fan-in.</span><a class="headerlink" href="#compute" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p><strong>Forward pass.</strong> Forward pass computes <span class="math notranslate nohighlight">\(f_{\boldsymbol{\Theta}}(\boldsymbol{\mathsf{x}}).\)</span> All compute nodes are executed starting from the input nodes (which evaluates to the input vector <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf x}\)</span>). This passed to its child nodes, and so on up to the loss node. The output value of each node is stored to avoid recomputation for child nodes that depend on the same node. This also preserves the network state for backward pass. Finally, forward pass builds the computational graph which is stored in memory. It follows that forward pass for one input is roughly <span class="math notranslate nohighlight">\(O(E)\)</span> in time and memory where <span class="math notranslate nohighlight">\(E\)</span> is the number of edges of the graph.</p>
+<p><strong>Backward pass.</strong> Backward computes gradients starting from the loss node <span class="math notranslate nohighlight">\(\ell\)</span> down
+to the input nodes <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{x}}.\)</span>
+The gradient of <span class="math notranslate nohighlight">\(\ell\)</span> with respect to itself is <span class="math notranslate nohighlight">\(1\)</span>. This serves as the base step.
+For any other node <span class="math notranslate nohighlight">\(u\)</span> in the graph, we can assume that the <strong>global gradient</strong>
+<span class="math notranslate nohighlight">\({\partial \ell}/{\partial v}\)</span> is cached for each node <span class="math notranslate nohighlight">\(v \in N_u\)</span>, where <span class="math notranslate nohighlight">\(N_u\)</span> are all nodes
+in the graph that depend on <span class="math notranslate nohighlight">\(u\)</span>. On the other hand, the <strong>local gradient</strong>
+<span class="math notranslate nohighlight">\({\partial v}/{\partial u}\)</span> between adjacent nodes is specified
+analytically based on the functional
+dependence of <span class="math notranslate nohighlight">\(v\)</span> upon <span class="math notranslate nohighlight">\(u.\)</span> These are computed at runtime given current node values
+cached during forward pass.</p>
+<p>The global gradient with respect to node <span class="math notranslate nohighlight">\(u\)</span> can then be inductively calculated using the chain
+rule:
+<span class="math notranslate nohighlight">\(\frac{\partial \ell}{\partial u} = \sum_{v \in N_u} \frac{\partial \ell}{\partial v} \frac{\partial v}{\partial u}.\)</span>
+This can be visualized as gradients flowing from the loss node to each network node.
+The flow of gradients will end on parameter and input nodes which depend on no other
+nodes. These are called <strong>leaf nodes</strong>. It follows that the algorithm terminates.</p>
+<figure class="align-default" id="backward-1">
+<a class="reference internal image-reference" href="../../_images/backward-1.svg"><img alt="../../_images/backward-1.svg" src="../../_images/backward-1.svg" width="80%" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 37 </span><span class="caption-text">Computing the global gradient for a single node. Note that gradient type is distinguished by color: <strong>local</strong> (red) and <strong>global</strong> (blue).</span><a class="headerlink" href="#backward-1" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>This can be visualized as gradients flowing to each network node from the loss node. The flow of gradients will end on parameter and input nodes which have zero fan-in. Global gradients are stored in each compute node in the <code class="docutils literal notranslate"><span class="pre">grad</span></code> attribute for use by the next layer, along with node values obtained during forward pass which are used in local gradient computation. Memory can be released after the weights are updated. On the other hand, there is no need to store local gradients as these are computed as needed. Backward pass can be implemented roughly as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">CompGraph</span><span class="p">:</span>
+    <span class="c1"># ...</span>
+
+    <span class="k">def</span> <span class="nf">backward</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">():</span>
+            <span class="n">node</span><span class="o">.</span><span class="n">grad</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">loss_node</span><span class="o">.</span><span class="n">grad</span> <span class="o">=</span> <span class="mf">1.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loss_node</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+
+
+<span class="k">class</span> <span class="nc">Node</span><span class="p">:</span>
+    <span class="c1"># ...</span>
+
+    <span class="k">def</span> <span class="nf">backward</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">parent</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parents</span><span class="p">:</span>
+            <span class="n">parent</span><span class="o">.</span><span class="n">grad</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grad</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">local_grad</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
+            <span class="n">parent</span><span class="o">.</span><span class="n">degree</span> <span class="o">-=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">parent</span><span class="o">.</span><span class="n">degree</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">parent</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Each node has to wait for all incoming gradients from dependent nodes before passing the gradient to its parents. This is done by having a <code class="docutils literal notranslate"><span class="pre">degree</span></code> attribute that tracks whether all gradients from its dependent nodes have accumulated to a parent node. A newly created node starts with zero degree and is incremented each time a child node is created from it. In particular, the loss node has degree zero. Here <code class="docutils literal notranslate"><span class="pre">self.grad</span></code> is the global gradient which is equal to <code class="docutils literal notranslate"><span class="pre">∂L/∂(self)</span></code> while the local gradient <code class="docutils literal notranslate"><span class="pre">self.local_grad</span></code> is equal to <code class="docutils literal notranslate"><span class="pre">∂(self)/∂(parent)</span></code>. So this checks out with the chain rule. See <a class="reference internal" href="#parent-child-nodes"><span class="std std-numref">Fig. 38</span></a> below.</p>
+<figure class="align-default" id="parent-child-nodes">
+<a class="reference internal image-reference" href="../../_images/03-parent-child-nodes.png"><img alt="../../_images/03-parent-child-nodes.png" src="../../_images/03-parent-child-nodes.png" style="width: 100%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 38 </span><span class="caption-text">Equivalent ways of computing the global gradient. On the left, the global gradient is computed by tracking the dependencies from <span class="math notranslate nohighlight">\(u\)</span> to each of its child node during forward pass. This is our formal statement before. Algorithmically, we start from each node in the upper layer. So instead, we contribute one term in the sum to each parent node. Eventually, all terms in the chain rule is accumulated and the parent node fires, sending gradients to its parent nodes in the next layer.</span><a class="headerlink" href="#parent-child-nodes" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Some characteristics of backprop which explains why it is ubiquitous in deep learning:</p>
+<ul class="simple">
+<li><p><strong>Modularity.</strong> Backprop is a useful tool for reasoning about gradient flow and can suggest ways to improve training or network design. Moreover, since it only requires local gradients between nodes, it allows modularity when designing deep neural networks.
+In other words, we can (in principle) arbitrarily connect layers of computation.</p></li>
+</ul>
+<ul class="simple">
+<li><p><strong>Runtime.</strong> Each edge is the DAG is passed exactly once (<a class="reference internal" href="#parent-child-nodes"><span class="std std-numref">Fig. 38</span></a>). Hence, the time complexity for finding global gradients is <span class="math notranslate nohighlight">\(O(n_\mathsf{E})\)</span> where <span class="math notranslate nohighlight">\(n_\mathsf{E}\)</span> is the number of edges in the graph, where we assume that each compute node and local gradient evaluation is constant time. For fully-connected networks, <span class="math notranslate nohighlight">\(n_\mathsf{E} = n_\mathsf{M} + n_\mathsf{V}\)</span> where <span class="math notranslate nohighlight">\(n_\mathsf{M}\)</span> is the number of weights and <span class="math notranslate nohighlight">\(n_\mathsf{V}\)</span> is the number of activations. It follows that one backward pass for an instance is proportional to the network size.</p></li>
+</ul>
+<ul class="simple">
+<li><p><strong>Memory.</strong> Each training step naively requires <span class="math notranslate nohighlight">\(O(2 n_\mathsf{E})\)</span> memory since we store both gradients and values. This can be improved by releasing the gradients and activations of non-leaf nodes in the previous layer once a layer finishes computing its gradient.</p></li>
+</ul>
+<ul class="simple">
+<li><p><strong>GPU parallelism.</strong> Note that forward computation can generally be parallelized in the batch dimension and often times in the layer dimension. This can leverage massive parallelism in the GPU significantly decreasing runtime by trading off memory. The same is true for backward pass which can also be expressed in terms of matrix multiplications! <a class="reference internal" href="#equation-backprop-output">(10)</a></p></li>
+</ul>
+</section>
+<section id="creating-and-training-a-neural-net-from-scratch">
+<h2>Creating and training a neural net from scratch<a class="headerlink" href="#creating-and-training-a-neural-net-from-scratch" title="Permalink to this headline">#</a></h2>
+<p>Recall that all operations must be defined with specific local gradient computation for BP to work. In this section, we will implement a minimal <strong>autograd engine</strong> for creating computational graphs. This starts with the base <code class="docutils literal notranslate"><span class="pre">Node</span></code> class which has a <code class="docutils literal notranslate"><span class="pre">data</span></code> attribute for storing output and a <code class="docutils literal notranslate"><span class="pre">grad</span></code> attribute for storing the global gradient. The base class defines a <code class="docutils literal notranslate"><span class="pre">backward</span></code> method to solve for <code class="docutils literal notranslate"><span class="pre">grad</span></code> as described above.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">final</span>
+
+
+<span class="k">class</span> <span class="nc">Node</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">parents</span><span class="o">=</span><span class="p">()):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">grad</span> <span class="o">=</span> <span class="mi">0</span>             <span class="c1"># ∂(loss)/∂(self)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_degree</span> <span class="o">=</span> <span class="mi">0</span>          <span class="c1"># no. of children</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_parents</span> <span class="o">=</span> <span class="n">parents</span>   <span class="c1"># terminal node </span>
+
+    <span class="nd">@final</span>
+    <span class="k">def</span> <span class="nf">backward</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Send global grads backward to parent nodes.&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">parent</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parents</span><span class="p">:</span>
+            <span class="n">parent</span><span class="o">.</span><span class="n">grad</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grad</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_local_grad</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
+            <span class="n">parent</span><span class="o">.</span><span class="n">_degree</span> <span class="o">-=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">parent</span><span class="o">.</span><span class="n">_degree</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">parent</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+    
+    <span class="k">def</span> <span class="nf">_local_grad</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span> 
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute local grads ∂(self)/∂(parent).&quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Base node has no parents.&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_degree</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">other</span><span class="o">.</span><span class="n">_degree</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">BinaryOpNode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="n">op</span><span class="o">=</span><span class="s1">&#39;+&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_degree</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">other</span><span class="o">.</span><span class="n">_degree</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">BinaryOpNode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="n">op</span><span class="o">=</span><span class="s1">&#39;*&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__pow__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span> <span class="ow">and</span> <span class="n">n</span> <span class="o">!=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_degree</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">PowOp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">relu</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_degree</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">ReLUNode</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">tanh</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_degree</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">TanhNode</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__neg__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span> <span class="o">*</span> <span class="n">Node</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__sub__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span> <span class="o">+</span> <span class="p">(</span><span class="o">-</span><span class="n">other</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Observe that only a handful of operations are needed to implement a fully-connected neural net:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">BinaryOpNode</span><span class="p">(</span><span class="n">Node</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">op</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Binary operation between two nodes.&quot;&quot;&quot;</span>
+        <span class="n">ops</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;+&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="p">,</span>
+            <span class="s1">&#39;*&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">x</span> <span class="o">*</span> <span class="n">y</span>
+        <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_op</span> <span class="o">=</span> <span class="n">op</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">ops</span><span class="p">[</span><span class="n">op</span><span class="p">](</span><span class="n">x</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">data</span><span class="p">),</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span> 
+
+    <span class="k">def</span> <span class="nf">_local_grad</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_op</span> <span class="o">==</span> <span class="s1">&#39;+&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mf">1.0</span>
+                    
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_op</span> <span class="o">==</span> <span class="s1">&#39;*&#39;</span><span class="p">:</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parents</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
+            <span class="n">coparent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parents</span><span class="p">[</span><span class="mi">1</span> <span class="o">-</span> <span class="n">i</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">coparent</span><span class="o">.</span><span class="n">data</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_op</span>
+
+
+<span class="k">class</span> <span class="nc">ReLUNode</span><span class="p">(</span><span class="n">Node</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">data</span> <span class="o">*</span> <span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">data</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,))</span>
+
+    <span class="k">def</span> <span class="nf">_local_grad</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">parent</span><span class="o">.</span><span class="n">data</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;relu&#39;</span>
+
+
+<span class="k">class</span> <span class="nc">TanhNode</span><span class="p">(</span><span class="n">Node</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,))</span>
+
+    <span class="k">def</span> <span class="nf">_local_grad</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">):</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">**</span><span class="mi">2</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;tanh&#39;</span>
+
+
+<span class="k">class</span> <span class="nc">PowOp</span><span class="p">(</span><span class="n">Node</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="n">n</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">data</span> <span class="o">**</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,))</span>
+
+    <span class="k">def</span> <span class="nf">_local_grad</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">*</span> <span class="n">parent</span><span class="o">.</span><span class="n">data</span> <span class="o">**</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;** </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="si">}</span><span class="s2">&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="graph-vizualization">
+<h3>Graph vizualization<a class="headerlink" href="#graph-vizualization" title="Permalink to this headline">#</a></h3>
+<p>The next two functions help to visualize networks. The <code class="docutils literal notranslate"><span class="pre">trace</span></code> function just walks backward into the graph to collect all nodes and edges. This is used by the <code class="docutils literal notranslate"><span class="pre">draw_graph</span></code> which first draws all nodes, then draws all edges. For compute nodes we add a small juncture node which contains the name of the operation.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># https://github.com/karpathy/micrograd/blob/master/trace_graph.ipynb</span>
+<span class="kn">from</span> <span class="nn">graphviz</span> <span class="kn">import</span> <span class="n">Digraph</span>
+
+<span class="k">def</span> <span class="nf">trace</span><span class="p">(</span><span class="n">root</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Builds a set of all nodes and edges in a graph.&quot;&quot;&quot;</span>
+
+    <span class="n">nodes</span><span class="p">,</span> <span class="n">edges</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(),</span> <span class="nb">set</span><span class="p">()</span>
+    
+    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">v</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">:</span>
+            <span class="n">nodes</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">v</span><span class="o">.</span><span class="n">_parents</span><span class="p">:</span>
+                <span class="n">edges</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="n">child</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span>
+                <span class="n">build</span><span class="p">(</span><span class="n">child</span><span class="p">)</span>
+                    
+    <span class="n">build</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">nodes</span><span class="p">,</span> <span class="n">edges</span>
+
+
+<span class="k">def</span> <span class="nf">draw_graph</span><span class="p">(</span><span class="n">root</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Build diagram of computational graph.&quot;&quot;&quot;</span>
+    
+    <span class="n">dot</span> <span class="o">=</span> <span class="n">Digraph</span><span class="p">(</span><span class="nb">format</span><span class="o">=</span><span class="s1">&#39;svg&#39;</span><span class="p">,</span> <span class="n">graph_attr</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;rankdir&#39;</span><span class="p">:</span> <span class="s1">&#39;LR&#39;</span><span class="p">})</span> <span class="c1"># LR = left to right</span>
+    <span class="n">nodes</span><span class="p">,</span> <span class="n">edges</span> <span class="o">=</span> <span class="n">trace</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">:</span>
+
+        <span class="c1"># Add node to graph    </span>
+        <span class="n">uid</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+        <span class="n">dot</span><span class="o">.</span><span class="n">node</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">uid</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;data=</span><span class="si">{</span><span class="n">n</span><span class="o">.</span><span class="n">data</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> | grad=</span><span class="si">{</span><span class="n">n</span><span class="o">.</span><span class="n">grad</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> | deg=</span><span class="si">{</span><span class="n">n</span><span class="o">.</span><span class="n">_degree</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="s1">&#39;record&#39;</span><span class="p">)</span>
+        
+        <span class="c1"># Connect node to op node if operation</span>
+        <span class="c1"># e.g. if (5) = (2) + (3), then draw (5) as (+) -&gt; (5).</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">_parents</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">dot</span><span class="o">.</span><span class="n">node</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">uid</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+            <span class="n">dot</span><span class="o">.</span><span class="n">edge</span><span class="p">(</span><span class="n">uid</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="n">uid</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">child</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">:</span>
+        <span class="c1"># Connect child to the op node of v</span>
+        <span class="n">dot</span><span class="o">.</span><span class="n">edge</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">child</span><span class="p">)),</span> <span class="nb">str</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">v</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
+    
+    <span class="k">return</span> <span class="n">dot</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<p>Creating graph for a dense unit. Observe that <code class="docutils literal notranslate"><span class="pre">x1</span></code> has a degree of 2 since it has two children.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">w1</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="n">w2</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span>
+<span class="n">b</span>  <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="mf">4.0</span><span class="p">)</span>
+<span class="n">x</span>  <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span>
+<span class="n">t</span>  <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="mf">3.0</span><span class="p">)</span>
+
+<span class="n">z</span> <span class="o">=</span> <span class="n">w1</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">w2</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">b</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">z</span><span class="o">.</span><span class="n">relu</span><span class="p">()</span>
+<span class="n">draw_graph</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/035a9848e796150fbd56c8084bb0321a132dd630841b48b46803a5814fed088f.svg" src="../../_images/035a9848e796150fbd56c8084bb0321a132dd630841b48b46803a5814fed088f.svg" /></div>
+</div>
+<p>Backward pass can be done by setting the initial gradient of the final node, then calling backward on it. Recall for the loss node <code class="docutils literal notranslate"><span class="pre">loss.grad</span> <span class="pre">=</span> <span class="pre">1.0</span></code>. Observe that all gradients check out. Also, all degrees are zero, which means we did not overshoot the updates. This also means we can’t execute <code class="docutils literal notranslate"><span class="pre">.backward()</span></code> twice.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span><span class="o">.</span><span class="n">grad</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">y</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+<span class="n">draw_graph</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/bd20a902e84082a51ffa34e1b109b1da77fe9bd143228130a985389d12e7f0f3.svg" src="../../_images/bd20a902e84082a51ffa34e1b109b1da77fe9bd143228130a985389d12e7f0f3.svg" /></div>
+</div>
+</section>
+<section id="neural-network">
+<h3>Neural network<a class="headerlink" href="#neural-network" title="Permalink to this headline">#</a></h3>
+<p>Here we construct the neural network module. The <code class="docutils literal notranslate"><span class="pre">Module</span></code> class defines an abstract class that maintains a list of the parameters used in forward pass implemented in <code class="docutils literal notranslate"><span class="pre">__call__</span></code>. The decorator <code class="docutils literal notranslate"><span class="pre">&#64;final</span></code> is to prevent any inheriting class from overriding the methods as doing so would result in a warning (or an error with a type checker).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
+
+<span class="k">class</span> <span class="nc">Module</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_parameters</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="nd">@final</span>
+    <span class="k">def</span> <span class="nf">parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parameters</span>
+
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="nd">@final</span>
+    <span class="k">def</span> <span class="nf">zero_grad</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">():</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">grad</span> <span class="o">=</span> <span class="mi">0</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">_parameters</span></code> attribute is defined so that the parameter list is not constructed at each call of the <code class="docutils literal notranslate"><span class="pre">parameters()</span></code> method. Implementing layers from neurons:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">Neuron</span><span class="p">(</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_in</span><span class="p">,</span> <span class="n">nonlinear</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_in</span> <span class="o">=</span> <span class="n">n_in</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">act</span> <span class="o">=</span> <span class="n">activation</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nonlin</span> <span class="o">=</span> <span class="n">nonlinear</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="p">[</span><span class="n">Node</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">())</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_in</span><span class="p">)]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_parameters</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">w</span> <span class="o">+</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="p">]</span> 
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_in</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">((</span><span class="n">x</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_in</span><span class="p">)),</span> <span class="n">start</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">nonlin</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">act</span> <span class="o">==</span> <span class="s1">&#39;tanh&#39;</span><span class="p">:</span>
+                <span class="n">out</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">tanh</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">act</span> <span class="o">==</span> <span class="s1">&#39;relu&#39;</span><span class="p">:</span>
+                <span class="n">out</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">relu</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Activation not supported.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">out</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">act</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">nonlin</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;linear&#39;</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span>
+
+
+<span class="k">class</span> <span class="nc">Layer</span><span class="p">(</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_in</span><span class="p">,</span> <span class="n">n_out</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">neurons</span> <span class="o">=</span> <span class="p">[</span><span class="n">Neuron</span><span class="p">(</span><span class="n">n_in</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_out</span><span class="p">)]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_parameters</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">neurons</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">n</span><span class="o">.</span><span class="n">parameters</span><span class="p">()]</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">neurons</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">out</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">out</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Layer[</span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">neurons</span><span class="p">)</span><span class="si">}</span><span class="s2">]&quot;</span>
+
+
+<span class="k">class</span> <span class="nc">MLP</span><span class="p">(</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_in</span><span class="p">,</span> <span class="n">n_outs</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">):</span>
+        <span class="n">sizes</span> <span class="o">=</span> <span class="p">[</span><span class="n">n_in</span><span class="p">]</span> <span class="o">+</span> <span class="n">n_outs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">layers</span> <span class="o">=</span> <span class="p">[</span><span class="n">Layer</span><span class="p">(</span><span class="n">sizes</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">sizes</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">n_outs</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">activation</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">n_outs</span><span class="p">))]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_parameters</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">layer</span><span class="o">.</span><span class="n">parameters</span><span class="p">()]</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">layer</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;MLP[</span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">layer</span><span class="p">)</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">layer</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">)</span><span class="si">}</span><span class="s2">]&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Testing model init and model call. Note that final node has no activation:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">MLP</span><span class="p">(</span><span class="n">n_in</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_outs</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="n">pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">([</span><span class="n">x</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pred</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>MLP[Layer[relu(1), relu(1)], Layer[relu(2), relu(2)], Layer[linear(2)]]
+0.20429304314825944
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">draw_graph</span><span class="p">(</span><span class="n">pred</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/b9d6df276e38837d02b668e262c2874d7ecae273e5737f4be3d490c693d86be3.svg" src="../../_images/b9d6df276e38837d02b668e262c2874d7ecae273e5737f4be3d490c693d86be3.svg" /></div>
+</div>
+</section>
+<section id="benchmarking">
+<span id="nn-benchmark"></span><h3>Benchmarking<a class="headerlink" href="#benchmarking" title="Permalink to this headline">#</a></h3>
+<p>Recall BP has time and memory complexity that is <strong>linear</strong> in the network size. This assumes each node executes in constant time and the outputs are stored. Moreover, the gradient should never be asymptotically slower than the function (assuming local gradient computation takes constant time). Testing this here empirically.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tqdm.notebook</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">matplotlib_inline</span> <span class="kn">import</span> <span class="n">backend_inline</span>
+<span class="n">backend_inline</span><span class="o">.</span><span class="n">set_matplotlib_formats</span><span class="p">(</span><span class="s1">&#39;svg&#39;</span><span class="p">)</span>
+
+
+<span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="n">Node</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)]</span> <span class="o">*</span> <span class="mi">3</span>
+<span class="n">network_size</span>  <span class="o">=</span> <span class="p">[]</span>
+<span class="n">fwd_times</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">bwd_times</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">15</span><span class="p">)):</span>
+    <span class="n">nouts</span> <span class="o">=</span> <span class="p">[</span><span class="mi">200</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">MLP</span><span class="p">(</span><span class="n">n_in</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">n_outs</span><span class="o">=</span><span class="n">nouts</span><span class="p">)</span>
+    
+    <span class="n">fwd_times</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">bwd_times</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">process_time</span><span class="p">()</span>
+        <span class="n">pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">process_time</span><span class="p">()</span>
+        <span class="n">fwd_times</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span>
+
+        <span class="n">pred</span><span class="o">.</span><span class="n">grad</span> <span class="o">=</span> <span class="mf">1.0</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">process_time</span><span class="p">()</span>
+        <span class="n">pred</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+        <span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">process_time</span><span class="p">()</span>
+        <span class="n">bwd_times</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span>
+
+    <span class="n">network_size</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">())</span> <span class="o">+</span> <span class="nb">sum</span><span class="p">(</span><span class="n">nouts</span><span class="p">)</span> <span class="o">+</span> <span class="mi">3</span><span class="p">)</span>
+
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">size</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">network_size</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">j</span> <span class="o">==</span> <span class="mi">4</span> <span class="ow">and</span> <span class="n">i</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">network_size</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">fwd_times</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C0&quot;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;forward&quot;</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">bwd_times</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C1&quot;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;backward&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">fwd_times</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C0&quot;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">bwd_times</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C1&quot;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;n hidden&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ticklabel_format</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;sci&quot;</span><span class="p">,</span> <span class="n">scilimits</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;dotted&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "c3e4f92aa9224b4ab17c77eff63dc0b7", "version_major": 2, "version_minor": 0}</script><img alt="../../_images/898ba047057c8da9cd960244424b06881bd1121d4575cc714da5903a5a32ee11.svg" src="../../_images/898ba047057c8da9cd960244424b06881bd1121d4575cc714da5903a5a32ee11.svg" /></div>
+</div>
+<p><strong>Figure.</strong> Roughly linear time complexity in network size for both forward and backward passes.</p>
+</section>
+<section id="training-the-network">
+<h3>Training the network!<a class="headerlink" href="#training-the-network" title="Permalink to this headline">#</a></h3>
+<p><strong>Dataset.</strong> Our task is to learn from noisy data points around a true curve:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">N</span> <span class="o">=</span> <span class="mi">500</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+<span class="n">Y_true</span> <span class="o">=</span> <span class="n">X</span> <span class="o">**</span> <span class="mi">2</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">Y_true</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">N</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../../_images/94ebd06b7a076cf143ab22c2cf96042702a6e4b11056ab81be9254da6341b398.svg" src="../../_images/94ebd06b7a076cf143ab22c2cf96042702a6e4b11056ab81be9254da6341b398.svg" /></div>
+</div>
+<p><strong>Data loader.</strong> Helper for loading the samples:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">random</span>
+
+<span class="k">class</span> <span class="nc">DataLoader</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Iterate over a partition of the dataset.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span> <span class="o">=</span> <span class="p">[(</span><span class="n">Node</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">Node</span><span class="p">(</span><span class="n">y</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">dataset</span><span class="p">]</span>
+    
+    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Model training.</strong> The function <code class="docutils literal notranslate"><span class="pre">optim_step</span></code> implements one step of SGD with batch size 1. Here <code class="docutils literal notranslate"><span class="pre">loss_fn</span></code> just computes the MSE between two nodes.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">optim_step</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">eps</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">():</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">data</span> <span class="o">-=</span> <span class="n">eps</span> <span class="o">*</span> <span class="n">p</span><span class="o">.</span><span class="n">grad</span> 
+
+<span class="k">def</span> <span class="nf">loss_fn</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">y_true</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">y_pred</span> <span class="o">-</span> <span class="n">y_true</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Running the training algorithm:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">dataset</span><span class="p">,</span> <span class="n">epochs</span><span class="p">):</span>
+    <span class="n">dataloader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
+    <span class="n">history</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">)):</span>
+        <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">dataloader</span><span class="o">.</span><span class="n">load</span><span class="p">():</span>
+            <span class="n">loss</span> <span class="o">=</span> <span class="n">loss_fn</span><span class="p">(</span><span class="n">model</span><span class="p">([</span><span class="n">x</span><span class="p">]),</span> <span class="n">y</span><span class="p">)</span>
+            <span class="n">loss</span><span class="o">.</span><span class="n">grad</span> <span class="o">=</span> <span class="mf">1.0</span>
+            <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+            <span class="n">optim_step</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">)</span>
+            
+            <span class="n">model</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+            <span class="n">history</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loss</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">history</span>
+
+<span class="n">dataset</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">))</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">MLP</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;tanh&#39;</span><span class="p">)</span>
+<span class="n">losses</span> <span class="o">=</span> <span class="n">train</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">dataset</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "28a85b0b6d5e449fbef8c8fb76d5109f", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<p>Loss curve becomes more stable as we train futher:</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">window</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">loss_avg</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">losses</span><span class="p">)):</span>
+    <span class="n">loss_avg</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">losses</span><span class="p">[</span><span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">i</span> <span class="o">-</span> <span class="n">window</span><span class="p">):</span><span class="n">i</span><span class="p">]))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">loss_avg</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;loss (avg)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;steps&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../../_images/98a26abeda1f21b102d406f1aff328c9a9e4217b2b96e25886bbf65da40a0f26.svg" src="../../_images/98a26abeda1f21b102d406f1aff328c9a9e4217b2b96e25886bbf65da40a0f26.svg" /></div>
+</div>
+<p>Model learned: ヾ( ˃ᴗ˂ )◞ • *✰</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="p">[</span><span class="n">model</span><span class="p">([</span><span class="n">Node</span><span class="p">(</span><span class="n">_</span><span class="p">)])</span><span class="o">.</span><span class="n">data</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">X</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;model&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C1&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;dotted&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../../_images/287f3c87453f99490d30f0677cab18434bff29d0bdb9ac19f803369a80a81780.svg" src="../../_images/287f3c87453f99490d30f0677cab18434bff29d0bdb9ac19f803369a80a81780.svg" /></div>
+</div>
+</section>
+</section>
+<section id="appendix-testing-with-autograd">
+<h2>Appendix: Testing with <code class="docutils literal notranslate"><span class="pre">autograd</span></code><a class="headerlink" href="#appendix-testing-with-autograd" title="Permalink to this headline">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">autograd</span></code> package allows automatic differentiation by building computational graphs on the fly every time we pass data through our model. Autograd tracks which data combined through which operations to produce the output. This allows us to take derivatives over ordinary imperative code. This functionality is consistent with the memory and time requirements outlined above for BP.</p>
+<p><strong>Scalars.</strong> Here we calculate <span class="math notranslate nohighlight">\(\mathsf{y} = \boldsymbol{\mathsf x}^\top \boldsymbol{\mathsf x} = \sum_i {\boldsymbol{\mathsf{x}}_i}^2\)</span> where the initialized tensor <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{x}}\)</span> initially has no gradient (i.e. <code class="docutils literal notranslate"><span class="pre">None</span></code>). Calling backward on <span class="math notranslate nohighlight">\(\mathsf{y}\)</span> results in gradients being stored on the leaf tensor <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{x}}.\)</span> Note that unlike our implementation, there is no need to set <code class="docutils literal notranslate"><span class="pre">y.grad</span> <span class="pre">=</span> <span class="pre">1.0</span></code>. Moreover, doing so would result in an error as <span class="math notranslate nohighlight">\(\mathsf{y}\)</span> is not a <a class="reference external" href="https://pytorch.org/docs/stable/generated/torch.Tensor.is_leaf.html">leaf node</a> in the graph.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="nn">F</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2.0.0
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">grad</span><span class="p">)</span>
+
+<span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">@</span> <span class="n">x</span> 
+<span class="n">y</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span> 
+<span class="nb">print</span><span class="p">((</span><span class="n">x</span><span class="o">.</span><span class="n">grad</span> <span class="o">==</span> <span class="mi">2</span><span class="o">*</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>None
+True
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Vectors.</strong> Let <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf y} = g(\boldsymbol{\mathsf x})\)</span> and let <span class="math notranslate nohighlight">\(\boldsymbol{{\mathsf v}}\)</span> be a vector having the same length as <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf y}.\)</span> Then <code class="docutils literal notranslate"><span class="pre">y.backward(v)</span></code> calculates
+<span class="math notranslate nohighlight">\(\sum_i {\boldsymbol{\mathsf v}}_i \frac{\partial {\boldsymbol{\mathsf y}}_i}{\partial {\boldsymbol{\mathsf x}}_j}\)</span>
+resulting in a vector of same length as <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{x}}\)</span> stored in <code class="docutils literal notranslate"><span class="pre">x.grad</span></code>. Note that the terms on the right are the local gradients. Setting <span class="math notranslate nohighlight">\({\boldsymbol{\mathsf v}} = \frac{\partial \mathcal{L} }{\partial \boldsymbol{\mathsf y}}\)</span> gives us the vector <span class="math notranslate nohighlight">\(\frac{\partial \mathcal{L} }{\partial \boldsymbol{\mathsf x}}.\)</span> Below <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf y}(\boldsymbol{\mathsf x}) = [x_0, x_1].\)</span></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">v</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
+
+<span class="c1"># Computing the Jacobian by hand</span>
+<span class="n">J</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span>
+    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float</span>
+<span class="p">)</span>
+
+<span class="c1"># Confirming the above formula</span>
+<span class="n">y</span><span class="o">.</span><span class="n">backward</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+<span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">grad</span> <span class="o">==</span> <span class="n">v</span> <span class="o">@</span> <span class="n">J</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor(True)
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Remark.</strong> Gradient computation is not useful for tensors that is not part of backprop. Hence, we want to wrap our code in a <code class="docutils literal notranslate"><span class="pre">torch.no_grad()</span></code> context (or inside a function decorated with <code class="docutils literal notranslate"><span class="pre">&#64;torch.no_grad()</span></code>) so that a computation graph is not built saving memory and compute. Note that the <code class="docutils literal notranslate"><span class="pre">.detach()</span></code> method returns a new tensor detached from the current graph but shares the same storage with the original one. In-place modifications on either tensor can result in subtle bugs.</p>
+<section id="testing">
+<h3>Testing<a class="headerlink" href="#testing" title="Permalink to this headline">#</a></h3>
+<p>Finally, we write our tests with <code class="docutils literal notranslate"><span class="pre">autograd</span></code> to check the correctness of our implementation:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="o">-</span><span class="mf">4.0</span><span class="p">)</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">Node</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="n">x</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">z</span><span class="o">.</span><span class="n">relu</span><span class="p">()</span> <span class="o">+</span> <span class="n">z</span> <span class="o">*</span> <span class="n">x</span><span class="o">.</span><span class="n">tanh</span><span class="p">()</span>
+<span class="n">h</span> <span class="o">=</span> <span class="p">(</span><span class="n">z</span> <span class="o">*</span> <span class="n">z</span><span class="p">)</span><span class="o">.</span><span class="n">relu</span><span class="p">()</span>
+<span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">h</span> <span class="o">+</span> <span class="n">q</span> <span class="o">+</span> <span class="n">q</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">tanh</span><span class="p">()</span>
+<span class="n">y</span><span class="o">.</span><span class="n">grad</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">y</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+
+<span class="n">x_node</span><span class="p">,</span> <span class="n">y_node</span><span class="p">,</span> <span class="n">z_node</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span>
+<span class="n">draw_graph</span><span class="p">(</span><span class="n">y_node</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/9a9dd37312210dbb4585e137dcdde9deb96923d7289a9d464446b3b6f68011a3.svg" src="../../_images/9a9dd37312210dbb4585e137dcdde9deb96923d7289a9d464446b3b6f68011a3.svg" /></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="o">-</span><span class="mf">4.0</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">z</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">x</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">z</span><span class="o">.</span><span class="n">relu</span><span class="p">()</span> <span class="o">+</span> <span class="n">z</span> <span class="o">*</span> <span class="n">x</span><span class="o">.</span><span class="n">tanh</span><span class="p">()</span>
+<span class="n">h</span> <span class="o">=</span> <span class="p">(</span><span class="n">z</span> <span class="o">*</span> <span class="n">z</span><span class="p">)</span><span class="o">.</span><span class="n">relu</span><span class="p">()</span>
+<span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">h</span> <span class="o">+</span> <span class="n">q</span> <span class="o">+</span> <span class="n">q</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">tanh</span><span class="p">()</span>
+
+<span class="n">z</span><span class="o">.</span><span class="n">retain_grad</span><span class="p">()</span>
+<span class="n">y</span><span class="o">.</span><span class="n">retain_grad</span><span class="p">()</span>
+<span class="n">y</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+
+<span class="n">x_torch</span><span class="p">,</span> <span class="n">y_torch</span><span class="p">,</span> <span class="n">z_torch</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span>
+
+<span class="c1"># forward</span>
+<span class="n">errors</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">x_node</span><span class="o">.</span><span class="n">data</span> <span class="o">-</span> <span class="n">x_torch</span><span class="o">.</span><span class="n">item</span><span class="p">()))</span>
+<span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">y_node</span><span class="o">.</span><span class="n">data</span> <span class="o">-</span> <span class="n">y_torch</span><span class="o">.</span><span class="n">item</span><span class="p">()))</span>
+<span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">z_node</span><span class="o">.</span><span class="n">data</span> <span class="o">-</span> <span class="n">z_torch</span><span class="o">.</span><span class="n">item</span><span class="p">()))</span>
+
+<span class="c1"># backward</span>
+<span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">x_node</span><span class="o">.</span><span class="n">grad</span> <span class="o">-</span> <span class="n">x_torch</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">item</span><span class="p">()))</span>
+<span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">y_node</span><span class="o">.</span><span class="n">grad</span> <span class="o">-</span> <span class="n">y_torch</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">item</span><span class="p">()))</span>
+<span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">z_node</span><span class="o">.</span><span class="n">grad</span> <span class="o">-</span> <span class="n">z_torch</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">item</span><span class="p">()))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Max absolute error: </span><span class="si">{</span><span class="nb">max</span><span class="p">(</span><span class="n">errors</span><span class="p">)</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Max absolute error: 7.48e-08
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="appendix-bp-equations-for-mlps">
+<span id="backprop-appendix-backpropagation-equations-for-mlps"></span><h2>Appendix: BP equations for MLPs<a class="headerlink" href="#appendix-bp-equations-for-mlps" title="Permalink to this headline">#</a></h2>
+<p>Closed-form expressions for input and output gradients
+is more efficient to compute since
+no explicit passing of gradients between nodes is performed.
+Moreover, such expressions allow us to see how to express it in terms of matrix
+operations which are computed in parallel.
+In this section, we derive BP equations specifically for MLPs.
+Recall that a dense layer with weights <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{w}}_j \in \mathbb{R}^d\)</span>
+and bias <span class="math notranslate nohighlight">\({b}_j \in \mathbb{R}\)</span> computes given an input <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{x}} \in \mathbb{R}^d\)</span>
+the following equations for <span class="math notranslate nohighlight">\(j = 1, \ldots, h\)</span> where <span class="math notranslate nohighlight">\(h\)</span> is the layer width:</p>
+<div class="math notranslate nohighlight" id="equation-fully-connected-layer">
+<span class="eqno">(9)<a class="headerlink" href="#equation-fully-connected-layer" title="Permalink to this equation">#</a></span>\[\begin{split}\begin{aligned}
+    z_j &amp;= \boldsymbol{\mathsf{x}} \cdot \boldsymbol{\mathsf{w}}_j + {b}_j \\
+    y_j &amp;= \phi\left( z_j \right) \\
+\end{aligned}\end{split}\]</div>
+<p>Given global gradients
+<span class="math notranslate nohighlight">\(\partial \ell / \partial y_j\)</span>
+that flow into the layer, we compute the global gradients of the nodes
+<span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{z}}\)</span>, <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{w}}\)</span>, <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{b}}\)</span>, and <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{x}}\)</span>
+in the layer.
+As discussed above, this can be done by tracking backward dependencies in
+the computational graph (<a class="reference internal" href="#fully-connected-backprop-drawio"><span class="std std-numref">Fig. 39</span></a>).</p>
+<figure class="align-default" id="fully-connected-backprop-drawio">
+<a class="reference internal image-reference" href="../../_images/fully-connected-backprop.drawio.svg"><img alt="../../_images/fully-connected-backprop.drawio.svg" src="../../_images/fully-connected-backprop.drawio.svg" width="50%" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 39 </span><span class="caption-text">Node dependencies in compute nodes of a fully connected layer. All nodes <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{z}}_k\)</span> depend on the node <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{y}}_j.\)</span></span><a class="headerlink" href="#fully-connected-backprop-drawio" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Note that there can be cross-dependencies for activations such as softmax.
+But for typical activation functions <span class="math notranslate nohighlight">\(\phi\)</span> its <a class="reference external" href="https://mathworld.wolfram.com/Jacobian.html">Jacobian</a>
+<span class="math notranslate nohighlight">\(\mathsf{J}^{\phi}_{kj} = \frac{\partial y_k}{\partial z_j}\)</span>
+reduces to a diagonal matrix. Following backward dependencies
+for the compute nodes:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align}
+\frac{\partial \ell}{\partial {z}_j} &amp;= \sum_k \frac{\partial \ell}{\partial {y}_k}  \frac{\partial {y}_k}{\partial {z}_j} =  \sum_k \frac{\partial \ell}{\partial {y}_k} \mathsf{J}^{\phi}_{kj} \\
+\frac{\partial \ell}{\partial {x}_i} &amp;= \sum_j \frac{\partial \ell}{\partial {z}_j} \frac{\partial {z}_j}{\partial {x}_i} = \sum_j \frac{\partial \ell}{\partial {z}_j} {w}_{ij} = \sum_j \frac{\partial \ell}{\partial {z}_j} {w}_{ji}^{\top}.
+\end{align}\end{split}\]</div>
+<p>Note that the second equation uses the computed gradients for the output nodes. Next, we compute gradients for the weights:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align}
+\frac{\partial \ell}{\partial{w}_{ij}} 
+&amp;= \frac{\partial \ell}{\partial{z}_{j}} \frac{\partial{z}_{j}}{\partial{w}_{ij}} 
+= {x}_{i} \frac{\partial \ell}{\partial{z}_{j}} \label{eq:gradient_weight} \\
+\frac{\partial \ell}{\partial{b}_{j}} 
+&amp;= \frac{\partial \ell}{\partial{z}_{j}}  \frac{\partial{z}_{j}} {\partial{b}_{j}} 
+= \frac{\partial \ell}{\partial{z}_{j}}. \label{eq:gradient_bias}
+\end{align}\end{split}\]</div>
+<p>Observe the dependence of the weight gradient on the input makes it sensitive to scaling.
+This can introduce an effective scalar factor to the learning rate that is specific to
+each input dimension, making SGD diverge at early stages of training. This motivates
+network input normalization and layer output normalization.</p>
+<section id="batch-computation">
+<h3>Batch computation<a class="headerlink" href="#batch-computation" title="Permalink to this headline">#</a></h3>
+<p>Let <span class="math notranslate nohighlight">\(B\)</span> be the batch size. Processing a batch of inputs in parallel, in principle, creates a graph
+consisting of <span class="math notranslate nohighlight">\(B\)</span> copies of the original computational graph that share the same parameters.
+The outputs of these combine to form the loss node <span class="math notranslate nohighlight">\(\mathcal{L} = \frac{1}{B}\sum_b \ell_b.\)</span> For usual activations, <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{J}}^\phi = \text{diag}(\phi^\prime(\boldsymbol{\mathsf{z}}))\)</span>. The output and input gradients can be written in the following matrix notation for fast computation:</p>
+<div class="math notranslate nohighlight" id="equation-backprop-output">
+<span class="eqno">(10)<a class="headerlink" href="#equation-backprop-output" title="Permalink to this equation">#</a></span>\[\begin{aligned}
+\frac{\partial \mathcal{L}}{\partial \boldsymbol{\mathsf{Z}}} &amp;= \frac{\partial \mathcal{L}}{\partial \boldsymbol{\mathsf{Y}}} \odot {\phi}^{\prime}(\boldsymbol{\mathsf{Z}})
+\end{aligned}\]</div>
+<div class="math notranslate nohighlight" id="equation-backprop-input">
+<span class="eqno">(11)<a class="headerlink" href="#equation-backprop-input" title="Permalink to this equation">#</a></span>\[\begin{aligned}
+\frac{\partial \mathcal{L}}{\partial \boldsymbol{\mathsf{X}}} &amp;= \frac{\partial \mathcal{L}}{\partial \boldsymbol{\mathsf{Z}}}\, \boldsymbol{\mathsf{W}}^\top \hspace{18pt}
+\end{aligned}\]</div>
+<p>These correspond to the equations above since there is no dependence across batch instances. Note that the stacked output tensors <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{Z}}\)</span> and <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{Y}}\)</span> have shape <span class="math notranslate nohighlight">\((B, h)\)</span> where <span class="math notranslate nohighlight">\(h\)</span> is the layer width and <span class="math notranslate nohighlight">\(B\)</span> is the batch size. The stacked input tensor <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{X}}\)</span> has shape <span class="math notranslate nohighlight">\((B, d)\)</span> where <span class="math notranslate nohighlight">\(d\)</span> is the input dimension. Finally, the weight tensor <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{W}}\)</span> has shape <span class="math notranslate nohighlight">\((d, h).\)</span> For the weights, the contribution of the entire batch have to be accumulated (<a class="reference internal" href="#weight-backprop-drawio"><span class="std std-numref">Fig. 40</span></a>):</p>
+<div class="math notranslate nohighlight" id="equation-backprop-weights">
+<span class="eqno">(12)<a class="headerlink" href="#equation-backprop-weights" title="Permalink to this equation">#</a></span>\[\begin{align}
+\frac{\partial \mathcal{L}}{\partial{\boldsymbol{\mathsf{W}}}} 
+= \boldsymbol{\mathsf{X}}^\top \frac{\partial \mathcal{L}}{\partial \boldsymbol{\mathsf{Z}}}. \hspace{30pt}
+\end{align}\]</div>
+<div class="math notranslate nohighlight" id="equation-backprop-bias">
+<span class="eqno">(13)<a class="headerlink" href="#equation-backprop-bias" title="Permalink to this equation">#</a></span>\[\begin{align}
+\frac{\partial \mathcal{L}}{\partial{\boldsymbol{\mathsf{b}}}} 
+= [1, \ldots, 1] \, \frac{\partial \mathcal{L}}{\partial \boldsymbol{\mathsf{Z}}}.
+\end{align}\]</div>
+<p><strong>Remark.</strong> One way to remember these equations is that the shapes must check out.</p>
+<br>
+<figure class="align-default" id="weight-backprop-drawio">
+<a class="reference internal image-reference" href="../../_images/weight-backprop.drawio.svg"><img alt="../../_images/weight-backprop.drawio.svg" src="../../_images/weight-backprop.drawio.svg" width="30%" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 40 </span><span class="caption-text">Node dependencies for a weight node. The nodes <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{z}}_{bj}\)</span> depend on <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{w}}_{ij}\)</span> for <span class="math notranslate nohighlight">\(b = 1, \ldots, B.\)</span></span><a class="headerlink" href="#weight-backprop-drawio" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="cross-entropy">
+<h3>Cross entropy<a class="headerlink" href="#cross-entropy" title="Permalink to this headline">#</a></h3>
+<p>In this section, we compute the gradient across the <strong>cross-entropy loss</strong>.
+This can be calculated using backpropagation, but we will derive it
+symbolically to get a closed-form formula. Recall that cross-entropy loss computes
+for logits <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{s}}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\ell 
+&amp;= -\log \frac{\exp({s_{y}})}{\sum_{k=1}^m \exp({{s}_{k}})} \\
+&amp;= - s_{y} + \log \sum_{k=1}^m \exp({s_k}).
+\end{aligned}
+\end{split}\]</div>
+<p>Calculating the derivatives, we get</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\frac{\partial \ell}{\partial s_j} 
+&amp;= - \delta_{j}^y + \frac{\exp({s_j})}{\sum_{k=1}^m \exp({s_k})} \\ \\
+&amp;= - \delta_{j}^y + \text{softmax}(s_j) = 
+\left\{
+\begin{array}{l}
+p_j \quad \quad\;\;\; \text{if $\;j \neq y$}\\
+p_y - 1 \quad \text{else}\\
+\end{array}
+\right.
+\end{aligned}
+\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\delta_{j}^y\)</span> is the <a class="reference external" href="https://en.wikipedia.org/wiki/Kronecker_delta">Kronecker delta</a>.
+This makes sense: having output values in nodes that do not correspond
+to the true class only contributes to increasing the loss. This effect is particularly strong
+when the model is confidently wrong such that <span class="math notranslate nohighlight">\(p_y \approx 0\)</span> on the true class and
+<span class="math notranslate nohighlight">\(p_{j^*} \approx 1\)</span> where <span class="math notranslate nohighlight">\(j^* = \text{arg max}_j\, s_j\)</span>
+is the predicted wrong class.
+On the other hand,
+increasing values in the node for the true class results in decreasing loss for all nodes.
+In this case,
+<span class="math notranslate nohighlight">\(\text{softmax}(\boldsymbol{\mathsf{s}}) \approx \mathbf{1}_y,\)</span> and
+<span class="math notranslate nohighlight">\({\partial \ell}/{\partial \boldsymbol{\mathsf{s}}}\)</span> becomes close to the zero vector,
+so that <span class="math notranslate nohighlight">\(\nabla_{\boldsymbol{\Theta}} \ell\)</span> is also close to zero.</p>
+<p>The gradient of the logits <span class="math notranslate nohighlight">\({\boldsymbol{\mathsf{S}}}\)</span> can be written in matrix form
+where <span class="math notranslate nohighlight">\(\mathcal{L} = \frac{1}{B}\sum_b \ell_b\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-backprop-cross-entropy">
+<span class="eqno">(14)<a class="headerlink" href="#equation-backprop-cross-entropy" title="Permalink to this equation">#</a></span>\[\begin{aligned}
+\frac{\partial \mathcal{L}}{\partial {\boldsymbol{\mathsf{S}}}} 
+&amp;= - \frac{1}{B} \left( \boldsymbol{\delta} - \text{softmax}({\boldsymbol{\mathsf{S}}}) \right).
+\end{aligned}\]</div>
+<p><strong>Remark.</strong> Examples with similar features but different labels can contribute to a smoothing between
+the labels of the predicted probability vector. This is nice since we can use the probability
+value as a measure of confidence. We should also expect a noisy loss curve in the presence of significant label noise.</p>
+</section>
+<section id="gradient-checking">
+<h3>Gradient checking<a class="headerlink" href="#gradient-checking" title="Permalink to this headline">#</a></h3>
+<p>Computing the cross-entropy for a batch:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">B</span> <span class="o">=</span> <span class="mi">32</span>
+<span class="n">N</span> <span class="o">=</span> <span class="mi">27</span>
+
+<span class="c1"># forward pass</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="n">N</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">B</span><span class="p">,))</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">w</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">N</span><span class="p">,</span>      <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">x</span> <span class="o">@</span> <span class="n">w</span> <span class="o">+</span> <span class="n">b</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">y</span><span class="p">]:</span>
+    <span class="n">node</span><span class="o">.</span><span class="n">retain_grad</span><span class="p">()</span>
+
+<span class="c1"># backprop batch loss</span>
+<span class="n">loss</span> <span class="o">=</span> <span class="o">-</span><span class="n">torch</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="nb">range</span><span class="p">(</span><span class="n">B</span><span class="p">),</span> <span class="n">t</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">B</span>
+<span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Plotting the gradient of the logits:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span> <span class="o">*</span> <span class="n">B</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="o">-</span><span class="n">F</span><span class="o">.</span><span class="n">one_hot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">num_classes</span><span class="o">=</span><span class="n">N</span><span class="p">)</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;$B$&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;$B$&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;$N$&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;$N$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/3c1d251d2c9dfc8820d86518c25b94647ddf8aec064af468f26d52f6646128a5.svg" src="../../_images/3c1d251d2c9dfc8820d86518c25b94647ddf8aec064af468f26d52f6646128a5.svg" /></div>
+</div>
+<p><strong>Figure.</strong> Gradient of the logits for given batch (left) and actual targets (right). Notice the sharp contribution to decreasing loss by increasing the logit of the correct class. Other nodes contribute to increasing the loss. It’s hard to see, but incorrect pixels have positive values that sum to the pixel value in the target. Checking this to ensure correctness:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor(2.0609e-09)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Recall that the above equations were vectorized with the convention that the gradient with respect to a tensor <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{v}}\)</span> has the same shape as <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{v}}.\)</span> In PyTorch, <code class="docutils literal notranslate"><span class="pre">v.grad</span></code> is the global gradient with respect to <code class="docutils literal notranslate"><span class="pre">v</span></code> of the tensor that called <code class="docutils literal notranslate"><span class="pre">.backward()</span></code> (i.e. <code class="docutils literal notranslate"><span class="pre">loss</span></code> in our case). The following computation should give us an intuition of how gradients flow backwards through the neural net starting from the loss to all intermediate results:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">J</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">y</span><span class="o">**</span><span class="mi">2</span>                                    <span class="c1"># Jacobian</span>
+<span class="n">δ_tk</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">one_hot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">num_classes</span><span class="o">=</span><span class="n">N</span><span class="p">)</span>              <span class="c1"># Kronecker delta</span>
+<span class="n">dy</span> <span class="o">=</span> <span class="o">-</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">B</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">δ_tk</span> <span class="o">-</span> <span class="n">F</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>   <span class="c1"># logits grad</span>
+<span class="n">dz</span> <span class="o">=</span> <span class="n">dy</span> <span class="o">*</span> <span class="n">J</span>
+<span class="n">dx</span> <span class="o">=</span> <span class="n">dz</span> <span class="o">@</span> <span class="n">w</span><span class="o">.</span><span class="n">T</span>
+<span class="n">dw</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">dz</span>
+<span class="n">db</span> <span class="o">=</span> <span class="n">dz</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Refer to <a class="reference internal" href="#equation-backprop-cross-entropy">(14)</a>, <a class="reference internal" href="#equation-backprop-output">(10)</a>, <a class="reference internal" href="#equation-backprop-input">(11)</a>, <a class="reference internal" href="#equation-backprop-weights">(12)</a>, and <a class="reference internal" href="#equation-backprop-bias">(13)</a> above. These equations can be checked using <code class="docutils literal notranslate"><span class="pre">autograd</span></code> as follows:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">compare</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+    <span class="n">exact</span>  <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">dt</span> <span class="o">==</span> <span class="n">t</span><span class="o">.</span><span class="n">grad</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+    <span class="n">approx</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">grad</span><span class="p">,</span> <span class="n">rtol</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">)</span>
+    <span class="n">maxdiff</span> <span class="o">=</span> <span class="p">(</span><span class="n">dt</span> <span class="o">-</span> <span class="n">t</span><span class="o">.</span><span class="n">grad</span><span class="p">)</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">name</span><span class="si">:</span><span class="s1">&lt;3s</span><span class="si">}</span><span class="s1"> | exact: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">exact</span><span class="p">)</span><span class="si">:</span><span class="s1">5s</span><span class="si">}</span><span class="s1"> | approx: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">approx</span><span class="p">)</span><span class="si">:</span><span class="s1">5s</span><span class="si">}</span><span class="s1"> | maxdiff: </span><span class="si">{</span><span class="n">maxdiff</span><span class="si">:</span><span class="s1">.2e</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+
+<span class="n">compare</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">dy</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">compare</span><span class="p">(</span><span class="s1">&#39;z&#39;</span><span class="p">,</span> <span class="n">dz</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+<span class="n">compare</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">dx</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+<span class="n">compare</span><span class="p">(</span><span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">dw</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
+<span class="n">compare</span><span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">db</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>y   | exact: False | approx: True  | maxdiff: 1.86e-09
+z   | exact: False | approx: True  | maxdiff: 1.16e-10
+x   | exact: False | approx: True  | maxdiff: 1.86e-09
+w   | exact: False | approx: True  | maxdiff: 1.86e-09
+b   | exact: False | approx: True  | maxdiff: 2.33e-10
+</pre></div>
+</div>
+</div>
+</div>
+<hr class="docutils" />
+<p>■</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./nb/dl"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="02-optim.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Optimization</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="03-cnn.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Convolutional Networks</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bp-on-computational-graphs">BP on computational graphs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-and-training-a-neural-net-from-scratch">Creating and training a neural net from scratch</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#graph-vizualization">Graph vizualization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#neural-network">Neural network</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#benchmarking">Benchmarking</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#training-the-network">Training the network!</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#appendix-testing-with-autograd">Appendix: Testing with <code class="docutils literal notranslate"><span class="pre">autograd</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#testing">Testing</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#appendix-bp-equations-for-mlps">Appendix: BP equations for MLPs</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#batch-computation">Batch computation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cross-entropy">Cross entropy</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-checking">Gradient checking</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            <div class="bd-footer-content__inner">
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By 𝗽𝗮𝗿𝘁𝗶𝗰𝗹𝗲𝟭𝟯𝟯𝟭. Powered by <a href="https://jupyterbook.org">Jupyter Book</a>.
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div></div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

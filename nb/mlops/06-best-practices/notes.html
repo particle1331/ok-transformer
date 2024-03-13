@@ -1,0 +1,1872 @@
+
+
+<!DOCTYPE html>
+
+
+<html >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Best Engineering Practices &#8212; OK Transformer</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+
+  
+  <link href="../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d" />
+
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/clipboard.min.js"></script>
+    <script src="../../../_static/copybutton.js"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../../_static/togglebutton.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'nb/mlops/06-best-practices/notes';</script>
+    <link rel="shortcut icon" href="../../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Continuous Integration and Deployment Pipelines" href="../../mle/cicd-pipelines.html" />
+    <link rel="prev" title="Model Deployment" href="../04-deployment/notes.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="None"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../../../intro.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Language Modeling</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../nn/03-batchnorm.html">Batch Normalization</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Deep Learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../dl/01-intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dl/02-optim.html">Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dl/00-backprop.html">Backpropagation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dl/03-cnn.html">Convolutional Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dl/04-lm.html">Language Modeling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dl/05-training.html">Activations and Gradients</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Engineering and Ops</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../01-intro.html">Preliminaries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-package.html">Packaging Modeling Code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-mlflow.html">Experiment Tracking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-tasks.html">Distributed Task Queues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-deployment/notes.html">Model Deployment</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Best Engineering Practices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../mle/cicd-pipelines.html">Continuous Integration and Deployment Pipelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../mle/model-serving-api.html">Prediction Serving API</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Notes</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../notes/containers.html">Docker Containers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notes/benchmarking.html">Benchmarking and Profiling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notes/tf-course.html">TensorFlow Crash Course</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/particle1331/ok-transformer" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/particle1331/ok-transformer/issues/new?title=Issue%20on%20page%20%2Fnb/mlops/06-best-practices/notes.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Best Engineering Practices</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#testing-python-code-with-pytest">Testing Python code with pytest</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-unit-tests">Adding unit tests</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#refactoring-the-lambda-function">Refactoring the lambda function</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#further-unit-tests">Further unit tests</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-callbacks">Adding callbacks</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#appendix-source-code">Appendix: Source code</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#integration-tests">Integration tests</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#testing-the-lambda-container">Testing the Lambda container</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#differences-with-deepdiff">Differences with DeepDiff</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-a-local-model-for-testing">Adding a local model for testing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#automating-the-test">Automating the test</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#returning-error-codes">Returning error codes</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#code-quality">Code quality</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#linting">Linting</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#formatting">Formatting</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#imports">Imports</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#git-pre-commit-hooks">Git pre-commit hooks</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#makefiles-and-make">Makefiles and make</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="best-engineering-practices">
+<h1>Best Engineering Practices<a class="headerlink" href="#best-engineering-practices" title="Permalink to this headline">#</a></h1>
+<p><img alt="Status" src="https://img.shields.io/static/v1.svg?label=Status&amp;message=Updating&amp;color=blue" />
+<a class="reference external" href="https://github.com/particle1331/ok-transformer/blob/master/docs/nb/mlops/04-deployment"><img alt="Source" src="https://img.shields.io/static/v1.svg?label=GitHub&amp;message=Source&amp;color=181717&amp;logo=GitHub" /></a>
+<a class="reference external" href="https://github.com/particle1331/ok-transformer"><img alt="Stars" src="https://img.shields.io/github/stars/particle1331/ok-transformer?style=social" /></a></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>𝗔𝘁𝘁𝗿𝗶𝗯𝘂𝘁𝗶𝗼𝗻: Notes for Module 6 of the MLOps Zoomcamp (2022) by DataTalks.Club.
+</pre></div>
+</div>
+<hr class="docutils" />
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">#</a></h2>
+<p>In this module, we will cover best practices for developing and deploying our code. We will take our example <a class="reference external" href="https://particle1331.github.io/ok-transformer/nb/mlops/04-deployment/notes.html#streaming-deploying-models-with-kinesis-and-lambda">streaming code</a> from a previous module, break it down into testable units, and generally just improve it with software engineering best practices.</p>
+<p>More precisely, we create and automate unit and integration testing, code quality checks, and add pre-commit hooks for all of these. We will also look at how to use <code class="docutils literal notranslate"><span class="pre">make</span></code> which is a nice tools for abstracting and automating repetitive but involved tasks.</p>
+</section>
+<section id="testing-python-code-with-pytest">
+<h2>Testing Python code with pytest<a class="headerlink" href="#testing-python-code-with-pytest" title="Permalink to this headline">#</a></h2>
+<p>Let us look at the <a class="reference external" href="https://github.com/DataTalksClub/mlops-zoomcamp/blob/main/04-deployment/streaming/lambda_function.py">streaming module</a> that we will work on:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">boto3</span>
+<span class="kn">import</span> <span class="nn">base64</span>
+
+<span class="kn">import</span> <span class="nn">mlflow</span>
+
+
+<span class="c1"># Load environmental variables</span>
+<span class="n">PREDICTIONS_STREAM_NAME</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;PREDICTIONS_STREAM_NAME&#39;</span><span class="p">,</span> <span class="s1">&#39;ride_predictions&#39;</span><span class="p">)</span>
+<span class="n">RUN_ID</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;RUN_ID&#39;</span><span class="p">)</span>
+<span class="n">TEST_RUN</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;TEST_RUN&#39;</span><span class="p">,</span> <span class="s1">&#39;False&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;True&#39;</span>
+
+<span class="c1"># Load model from S3</span>
+<span class="n">logged_model</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;s3://mlflow-models-ron/1/</span><span class="si">{</span><span class="n">RUN_ID</span><span class="si">}</span><span class="s1">/artifacts/model&#39;</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">mlflow</span><span class="o">.</span><span class="n">pyfunc</span><span class="o">.</span><span class="n">load_model</span><span class="p">(</span><span class="n">logged_model</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">prepare_features</span><span class="p">(</span><span class="n">ride</span><span class="p">):</span>
+    <span class="n">features</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">features</span><span class="p">[</span><span class="s1">&#39;PU_DO&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">_</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">ride</span><span class="p">[</span><span class="s1">&#39;PULocationID&#39;</span><span class="p">],</span> <span class="n">ride</span><span class="p">[</span><span class="s1">&#39;DOLocationID&#39;</span><span class="p">])</span>
+    <span class="n">features</span><span class="p">[</span><span class="s1">&#39;trip_distance&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ride</span><span class="p">[</span><span class="s1">&#39;trip_distance&#39;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">features</span>
+
+
+<span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="n">features</span><span class="p">):</span>
+    <span class="n">pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">pred</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+
+<span class="k">def</span> <span class="nf">lambda_handler</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+    
+    <span class="n">predictions_events</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="n">event</span><span class="p">[</span><span class="s1">&#39;Records&#39;</span><span class="p">]:</span>
+        <span class="n">encoded_data</span> <span class="o">=</span> <span class="n">record</span><span class="p">[</span><span class="s1">&#39;kinesis&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
+        <span class="n">decoded_data</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64decode</span><span class="p">(</span><span class="n">encoded_data</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+        <span class="n">ride_event</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">decoded_data</span><span class="p">)</span>
+
+        <span class="n">ride</span> <span class="o">=</span> <span class="n">ride_event</span><span class="p">[</span><span class="s1">&#39;ride&#39;</span><span class="p">]</span>
+        <span class="n">ride_id</span> <span class="o">=</span> <span class="n">ride_event</span><span class="p">[</span><span class="s1">&#39;ride_id&#39;</span><span class="p">]</span>
+    
+        <span class="n">features</span> <span class="o">=</span> <span class="n">prepare_features</span><span class="p">(</span><span class="n">ride</span><span class="p">)</span>
+        <span class="n">prediction</span> <span class="o">=</span> <span class="n">predict</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>
+    
+        <span class="n">prediction_event</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;model&#39;</span><span class="p">:</span> <span class="s1">&#39;ride_duration_prediction_model&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="s1">&#39;123&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;prediction&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;ride_duration&#39;</span><span class="p">:</span> <span class="n">prediction</span><span class="p">,</span>
+                <span class="s1">&#39;ride_id&#39;</span><span class="p">:</span> <span class="n">ride_id</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">TEST_RUN</span><span class="p">:</span>
+            <span class="n">kinesis_client</span> <span class="o">=</span> <span class="n">boto3</span><span class="o">.</span><span class="n">client</span><span class="p">(</span><span class="s1">&#39;kinesis&#39;</span><span class="p">)</span>
+            <span class="n">kinesis_client</span><span class="o">.</span><span class="n">put_record</span><span class="p">(</span>
+                <span class="n">StreamName</span><span class="o">=</span><span class="n">PREDICTIONS_STREAM_NAME</span><span class="p">,</span>
+                <span class="n">Data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">prediction_event</span><span class="p">),</span>
+                <span class="n">PartitionKey</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">ride_id</span><span class="p">)</span>
+            <span class="p">)</span>
+        
+        <span class="n">predictions_events</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">prediction_event</span><span class="p">)</span>
+
+
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s1">&#39;predictions&#39;</span><span class="p">:</span> <span class="n">predictions_events</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+<p>To review, first this script loads the environmental variables and the model from S3. Then, it defines two helper functions for preprocessing and making prediction with the model. The most important function in this script is <code class="docutils literal notranslate"><span class="pre">lambda_handler</span></code> which takes in an <code class="docutils literal notranslate"><span class="pre">event</span></code> which contains a batch of events from the input stream. This explains the outer loop over <code class="docutils literal notranslate"><span class="pre">event['Records']</span></code>.</p>
+<p>Inside this block, the data is decoded and a prediction is made which is packaged as an event for the output stream. If this function is in production, i.e. outside of a test run, then the prediction event is written on the output stream. In this case, a Kinesis client is instantiated, and an output event is written to the specific predictions stream.</p>
+<section id="adding-unit-tests">
+<h3>Adding unit tests<a class="headerlink" href="#adding-unit-tests" title="Permalink to this headline">#</a></h3>
+<p>First, we will create a <code class="docutils literal notranslate"><span class="pre">tests/</span></code> folder where we will put all our tests. We will be using <code class="docutils literal notranslate"><span class="pre">pipenv</span></code> to manage our environment. See the <a class="reference external" href="https://particle1331.github.io/ok-transformer/nb/mlops/04-deployment/notes.html#setting-up-the-environment-with-pipenv">previous module</a> for details. We will start with the following Pipfile:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[[source]]</span>
+<span class="na">url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;https://pypi.org/simple&quot;</span>
+<span class="na">verify_ssl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">true</span>
+<span class="na">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;pypi&quot;</span>
+
+<span class="k">[packages]</span>
+<span class="na">boto3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;*&quot;</span>
+<span class="na">mlflow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;*&quot;</span>
+<span class="na">scikit-learn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;==1.0.2&quot;</span>
+
+<span class="k">[dev-packages]</span>
+<span class="na">pytest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;*&quot;</span>
+
+<span class="k">[requires]</span>
+<span class="na">python_version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;3.9&quot;</span>
+</pre></div>
+</div>
+<p>Notice that this installs <a class="reference external" href="https://docs.pytest.org/en/7.1.x/">pytest</a> as a dev dependency. Let us create one test:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># tests/model_test.py</span>
+<span class="kn">import</span> <span class="nn">lambda_function</span>
+
+
+<span class="k">def</span> <span class="nf">test_prepare_features</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test preprocessing.&quot;&quot;&quot;</span>
+
+    <span class="n">ride</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;PULocationID&quot;</span><span class="p">:</span> <span class="mi">130</span><span class="p">,</span>
+        <span class="s2">&quot;DOLocationID&quot;</span><span class="p">:</span> <span class="mi">205</span><span class="p">,</span>
+        <span class="s2">&quot;trip_distance&quot;</span><span class="p">:</span> <span class="mf">3.66</span>
+    <span class="p">}</span>
+
+    <span class="n">actual_features</span> <span class="o">=</span> <span class="n">lambda_function</span><span class="o">.</span><span class="n">prepare_features</span><span class="p">(</span><span class="n">ride</span><span class="p">)</span>
+    
+    <span class="n">expected_features</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;PU_DO&#39;</span><span class="p">:</span> <span class="s1">&#39;130_205&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;trip_distance&#39;</span><span class="p">:</span> <span class="mf">3.66</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="k">assert</span> <span class="n">actual_features</span> <span class="o">==</span> <span class="n">expected_features</span>
+</pre></div>
+</div>
+<p>Before running this, since this test is not related to the model, we can comment out the block that loads the model from S3 to make this test run faster. Tests can be run either by doing <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">pytest</span></code> on the terminal:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nv">pytest</span>
+<span class="o">========================</span><span class="w"> </span><span class="nb">test</span><span class="w"> </span>session<span class="w"> </span><span class="nv">starts</span><span class="w"> </span><span class="o">========================</span>
+platform<span class="w"> </span>darwin<span class="w"> </span>--<span class="w"> </span>Python<span class="w"> </span><span class="m">3</span>.9.12,<span class="w"> </span>pytest-7.1.2,<span class="w"> </span>pluggy-1.0.0
+rootdir:<span class="w"> </span>/Users/particle1331/code/ok-transformer/docs/nb/mlops/06-best-practices
+plugins:<span class="w"> </span>anyio-3.6.1
+collected<span class="w"> </span><span class="m">1</span><span class="w"> </span>item
+
+tests/model_test.py<span class="w"> </span>.<span class="w">                                         </span><span class="o">[</span><span class="m">100</span>%<span class="o">]</span>
+
+<span class="o">=========================</span><span class="w"> </span><span class="m">1</span><span class="w"> </span>passed<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">1</span>.03s<span class="w"> </span><span class="o">=========================</span>
+</pre></div>
+</div>
+<p>Or using the UI in VS Code after selecting pytest in the configuration:</p>
+<figure class="align-default" id="id1">
+<a class="reference internal image-reference" href="../../../_images/vs-code-testing.png"><img alt="../../../_images/vs-code-testing.png" src="../../../_images/vs-code-testing.png" style="width: 40em;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 116 </span><span class="caption-text">Testing user interface in VS Code.</span><a class="headerlink" href="#id1" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Another thing we should always try is to deliberately <strong>break</strong> the tests. This makes sure that tests cover the changes being made. For example, we may forget adding <code class="docutils literal notranslate"><span class="pre">assert</span></code> statements which means the test are passed trivially.</p>
+<p>Notice that unit tests act as invariants that must remain true even if particular implementation details around them changes. This is nice since the tests make sure that the important parts of the code are functioning even if we change or refactor things around it. And also allows fast iteration, we know that we are not making breaking changes to the code. In its extreme form, this practice is called <a class="reference external" href="https://en.wikipedia.org/wiki/Test-driven_development">test-driven development</a> (TDD).</p>
+</section>
+<section id="refactoring-the-lambda-function">
+<h3>Refactoring the lambda function<a class="headerlink" href="#refactoring-the-lambda-function" title="Permalink to this headline">#</a></h3>
+<p>Note that we had to manually comment out things in our tests. This is not really great. Also, it would fail if our dev environment cannot connect to S3. A way to fix this is to create a special class which we can call <code class="docutils literal notranslate"><span class="pre">Model</span></code> containing all the logic of the original function, but with parts that are easier to test.</p>
+<p>For this we modify <code class="docutils literal notranslate"><span class="pre">lambda_function.py</span></code> as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># lambda_function.py</span>
+<span class="kn">import</span> <span class="nn">model</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="c1"># Load environmental variables</span>
+<span class="n">PREDICTIONS_STREAM_NAME</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;PREDICTIONS_STREAM_NAME&#39;</span><span class="p">,</span> <span class="s1">&#39;ride_predictions&#39;</span><span class="p">)</span>
+<span class="n">RUN_ID</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;RUN_ID&#39;</span><span class="p">)</span>
+<span class="n">TEST_RUN</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;TEST_RUN&#39;</span><span class="p">,</span> <span class="s1">&#39;False&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;True&#39;</span>
+
+
+<span class="n">model_service</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">init</span><span class="p">(</span>
+    <span class="n">predictions_stream_name</span><span class="o">=</span><span class="n">PREDICTIONS_STREAM_NAME</span><span class="p">,</span>
+    <span class="n">run_id</span><span class="o">=</span><span class="n">RUN_ID</span><span class="p">,</span>
+    <span class="n">test_run</span><span class="o">=</span><span class="n">TEST_RUN</span>
+<span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">lambda_handler</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">model_service</span><span class="o">.</span><span class="n">lambda_handler</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Here <code class="docutils literal notranslate"><span class="pre">predictions_stream_name</span></code> is specified as the stream where the function writes to. The stream where the function reads from need not be specified since this is configured in AWS Lambda. Then, we need to specify <code class="docutils literal notranslate"><span class="pre">run_id</span></code> to determine the model in S3 to use. Finally, <code class="docutils literal notranslate"><span class="pre">test_run</span></code> is simply a flag to indicate that we are in development mode (i.e. so we don’t write on the output stream which may be already deployed during the development of this code). These are variables that are configured when the Docker container is run.</p>
+<p>All of these variables determine a prediction service called <code class="docutils literal notranslate"><span class="pre">model_service</span></code> which abstracts away the process of predicting on an event. In particular, this means that we don’t test directly on the actual <code class="docutils literal notranslate"><span class="pre">lambda_function</span></code> that is exposed by the container. (Although, we will see later that this is still covered with integration tests, since these make sure that everything is working together.) This is implemented in the following class:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># model.py</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">boto3</span>
+<span class="kn">import</span> <span class="nn">base64</span>
+
+<span class="kn">import</span> <span class="nn">mlflow</span>
+
+
+<span class="k">def</span> <span class="nf">load_model</span><span class="p">(</span><span class="n">run_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="n">logged_model</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;s3://mlflow-models-ron/1/</span><span class="si">{</span><span class="n">run_id</span><span class="si">}</span><span class="s1">/artifacts/model&#39;</span>
+    <span class="n">model</span> <span class="o">=</span>  <span class="n">mlflow</span><span class="o">.</span><span class="n">pyfunc</span><span class="o">.</span><span class="n">load_model</span><span class="p">(</span><span class="n">logged_model</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">model</span>
+
+
+<span class="k">def</span> <span class="nf">base64_decode</span><span class="p">(</span><span class="n">encoded_data</span><span class="p">):</span>
+    <span class="n">decoded_data</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64decode</span><span class="p">(</span><span class="n">encoded_data</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+    <span class="n">ride_event</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">decoded_data</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ride_event</span>
+
+
+<span class="k">class</span> <span class="nc">ModelService</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">model_version</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model_version</span> <span class="o">=</span> <span class="n">model_version</span>
+
+    <span class="k">def</span> <span class="nf">prepare_features</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ride</span><span class="p">):</span>
+        <span class="n">features</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">features</span><span class="p">[</span><span class="s1">&#39;PU_DO&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">_</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">ride</span><span class="p">[</span><span class="s1">&#39;PULocationID&#39;</span><span class="p">],</span> <span class="n">ride</span><span class="p">[</span><span class="s1">&#39;DOLocationID&#39;</span><span class="p">])</span>
+        <span class="n">features</span><span class="p">[</span><span class="s1">&#39;trip_distance&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ride</span><span class="p">[</span><span class="s1">&#39;trip_distance&#39;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">features</span>
+
+    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">features</span><span class="p">):</span>
+        <span class="n">pred</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">pred</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+
+    <span class="k">def</span> <span class="nf">lambda_handler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+    
+        <span class="n">predictions_events</span> <span class="o">=</span> <span class="p">[]</span>
+        
+        <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="n">event</span><span class="p">[</span><span class="s1">&#39;Records&#39;</span><span class="p">]:</span>
+            <span class="n">encoded_data</span> <span class="o">=</span> <span class="n">record</span><span class="p">[</span><span class="s1">&#39;kinesis&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
+            <span class="n">ride_event</span> <span class="o">=</span> <span class="n">base64_decode</span><span class="p">(</span><span class="n">encoded_data</span><span class="p">)</span>
+
+            <span class="n">ride</span> <span class="o">=</span> <span class="n">ride_event</span><span class="p">[</span><span class="s1">&#39;ride&#39;</span><span class="p">]</span>
+            <span class="n">ride_id</span> <span class="o">=</span> <span class="n">ride_event</span><span class="p">[</span><span class="s1">&#39;ride_id&#39;</span><span class="p">]</span>
+        
+            <span class="n">features</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prepare_features</span><span class="p">(</span><span class="n">ride</span><span class="p">)</span>
+            <span class="n">prediction</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>
+        
+            <span class="n">prediction_event</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;model&#39;</span><span class="p">:</span> <span class="s1">&#39;ride_duration_prediction_model&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_version</span><span class="p">,</span>
+                <span class="s1">&#39;prediction&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s1">&#39;ride_duration&#39;</span><span class="p">:</span> <span class="n">prediction</span><span class="p">,</span>
+                    <span class="s1">&#39;ride_id&#39;</span><span class="p">:</span> <span class="n">ride_id</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+
+            <span class="c1"># if not TEST_RUN:</span>
+            <span class="c1">#     kinesis_client = boto3.client(&#39;kinesis&#39;)</span>
+            <span class="c1">#     kinesis_client.put_record(</span>
+            <span class="c1">#         StreamName=PREDICTIONS_STREAM_NAME,</span>
+            <span class="c1">#         Data=json.dumps(prediction_event),</span>
+            <span class="c1">#         PartitionKey=str(ride_id)</span>
+            <span class="c1">#     )</span>
+            
+            <span class="n">predictions_events</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">prediction_event</span><span class="p">)</span>
+
+
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s1">&#39;predictions&#39;</span><span class="p">:</span> <span class="n">predictions_events</span>
+        <span class="p">}</span>
+
+
+<span class="k">def</span> <span class="nf">init</span><span class="p">(</span><span class="n">predictions_stream_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">run_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">test_run</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">load_model</span><span class="p">(</span><span class="n">run_id</span><span class="p">)</span>
+    <span class="n">model_service</span> <span class="o">=</span> <span class="n">ModelService</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">model_version</span><span class="o">=</span><span class="n">run_id</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">model_service</span>
+</pre></div>
+</div>
+<p>Note that the attributes of the class are informed by the methods that we collect inside of it. For example, we also version the models with <code class="docutils literal notranslate"><span class="pre">run_id</span></code>, hence the <code class="docutils literal notranslate"><span class="pre">model_version</span></code> attribute. This information is packaged along with the prediction. Also notice that the functionality for writing outputs is commented out. For now, we focus on getting correct predictions.</p>
+</section>
+<section id="further-unit-tests">
+<h3>Further unit tests<a class="headerlink" href="#further-unit-tests" title="Permalink to this headline">#</a></h3>
+<p>Note that the unit tests should fail now after refactoring. Modifying the code so that it uses the <code class="docutils literal notranslate"><span class="pre">ModelService</span></code> class:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># tests/model_test.py</span>
+<span class="o">...</span>
+
+<span class="k">def</span> <span class="nf">test_prepare_features</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test preprocessing.&quot;&quot;&quot;</span>
+
+    <span class="n">ride</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;PULocationID&quot;</span><span class="p">:</span> <span class="mi">130</span><span class="p">,</span>
+        <span class="s2">&quot;DOLocationID&quot;</span><span class="p">:</span> <span class="mi">205</span><span class="p">,</span>
+        <span class="s2">&quot;trip_distance&quot;</span><span class="p">:</span> <span class="mf">3.66</span>
+    <span class="p">}</span>
+
+    <span class="n">model_service</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">ModelService</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">model_version</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    
+    <span class="n">actual_features</span> <span class="o">=</span> <span class="n">model_service</span><span class="o">.</span><span class="n">prepare_features</span><span class="p">(</span><span class="n">ride</span><span class="p">)</span>
+    
+    <span class="n">expected_features</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;PU_DO&#39;</span><span class="p">:</span> <span class="s1">&#39;130_205&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;trip_distance&#39;</span><span class="p">:</span> <span class="mf">3.66</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="k">assert</span> <span class="n">actual_features</span> <span class="o">==</span> <span class="n">expected_features</span>
+
+<span class="o">...</span>
+</pre></div>
+</div>
+<p>Adding more tests on units of functionalities. For example, we can test the decoding base 64 inputs.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># tests/model_test.py</span>
+<span class="o">...</span>
+
+<span class="k">def</span> <span class="nf">test_base64_decode</span><span class="p">():</span>
+
+    <span class="n">base64_input</span> <span class="o">=</span> <span class="s2">&quot;eyAgICAgICAgICAicmlkZSI6IHsgICAgICAgICAgICAgICJQVUxvY2F0aW9uSUQiOiAxMzAsICAgICAgICAgICAgICAiRE9Mb2NhdGlvbklEIjogMjA1LCAgICAgICAgICAgICAgInRyaXBfZGlzdGFuY2UiOiAzLjY2ICAgICAgICAgIH0sICAgICAgICAgICJyaWRlX2lkIjogMTIzICAgICAgfQ==&quot;</span>
+    
+    <span class="n">actual_result</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">base64_decode</span><span class="p">(</span><span class="n">base64_input</span><span class="p">)</span>
+    
+    <span class="n">expected_result</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;ride&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;PULocationID&quot;</span><span class="p">:</span> <span class="mi">130</span><span class="p">,</span>
+            <span class="s2">&quot;DOLocationID&quot;</span><span class="p">:</span> <span class="mi">205</span><span class="p">,</span>
+            <span class="s2">&quot;trip_distance&quot;</span><span class="p">:</span> <span class="mf">3.66</span>
+        <span class="p">},</span> 
+        <span class="s2">&quot;ride_id&quot;</span><span class="p">:</span> <span class="mi">123</span>
+    <span class="p">}</span>
+
+    <span class="k">assert</span> <span class="n">actual_result</span> <span class="o">==</span> <span class="n">expected_result</span>
+
+<span class="o">...</span>
+</pre></div>
+</div>
+<p>For now we are setting <code class="docutils literal notranslate"><span class="pre">model=None</span></code> since this functionality does not use any model. Now, we want to test predict so we want to have a model to test with. We want to avoid connecting to S3 in our dev environment as it adds additional overhead to our tests. Also, there is no reason yet to spend time on things like access credentials when we are only testing bits of functionality. So we will create a <strong>mock model</strong> which mimics all relevant attributes and methods of real models for prediction.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># tests/model_test.py</span>
+<span class="o">...</span>
+
+<span class="k">class</span> <span class="nc">ModelMock</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span> 
+
+    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">]</span> <span class="o">*</span> <span class="n">n</span>
+
+
+<span class="k">def</span> <span class="nf">test_predict</span><span class="p">():</span>
+    
+    <span class="n">features</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;PU_DO&#39;</span><span class="p">:</span> <span class="s1">&#39;130_205&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;trip_distance&#39;</span><span class="p">:</span> <span class="mf">3.66</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="n">model_mock</span> <span class="o">=</span> <span class="n">ModelMock</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="mf">10.0</span><span class="p">)</span>
+    <span class="n">model_service</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">ModelService</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model_mock</span><span class="p">,</span> <span class="n">model_version</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+    <span class="n">actual_result</span> <span class="o">=</span> <span class="n">model_service</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>
+    <span class="n">expected_result</span> <span class="o">=</span> <span class="mf">10.0</span>
+
+    <span class="k">assert</span> <span class="n">actual_result</span> <span class="o">==</span> <span class="n">expected_result</span>
+</pre></div>
+</div>
+<p>Finally, we would like to test the <code class="docutils literal notranslate"><span class="pre">ModelService.lambda_handler</span></code> function:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># tests/model_test.py</span>
+<span class="o">...</span>
+
+<span class="k">def</span> <span class="nf">test_lambda_handler</span><span class="p">():</span>
+    
+    <span class="n">event</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;Records&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;kinesis&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="s2">&quot;eyAgICAgICAgICAicmlkZSI6IHsgICAgICAgICAgICAgICJQVUxvY2F0aW9uSUQiOiAxMzAsICAgICAgICAgICAgICAiRE9Mb2NhdGlvbklEIjogMjA1LCAgICAgICAgICAgICAgInRyaXBfZGlzdGFuY2UiOiAzLjY2ICAgICAgICAgIH0sICAgICAgICAgICJyaWRlX2lkIjogMTIzICAgICAgfQ==&quot;</span><span class="p">,</span>
+                <span class="p">},</span>
+            <span class="p">}</span>
+        <span class="p">]</span>
+    <span class="p">}</span>
+
+    <span class="n">model_mock</span> <span class="o">=</span> <span class="n">ModelMock</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="mf">10.0</span><span class="p">)</span>
+    <span class="n">model_service</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">ModelService</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model_mock</span><span class="p">,</span> <span class="n">model_version</span><span class="o">=</span><span class="s2">&quot;model-mock&quot;</span><span class="p">)</span>
+
+    <span class="n">actual_result</span> <span class="o">=</span> <span class="n">model_service</span><span class="o">.</span><span class="n">lambda_handler</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+    <span class="n">expected_result</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;predictions&#39;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s1">&#39;model&#39;</span><span class="p">:</span> <span class="s1">&#39;ride_duration_prediction_model&#39;</span><span class="p">,</span> 
+                <span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="s1">&#39;model-mock&#39;</span><span class="p">,</span> 
+                <span class="s1">&#39;prediction&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s1">&#39;ride_duration&#39;</span><span class="p">:</span> <span class="mf">10.0</span><span class="p">,</span>
+                    <span class="s1">&#39;ride_id&#39;</span><span class="p">:</span> <span class="mi">123</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">]</span>
+    <span class="p">}</span>
+
+    <span class="k">assert</span> <span class="n">actual_result</span> <span class="o">==</span> <span class="n">expected_result</span>
+</pre></div>
+</div>
+</section>
+<section id="adding-callbacks">
+<h3>Adding callbacks<a class="headerlink" href="#adding-callbacks" title="Permalink to this headline">#</a></h3>
+<p>We covered pretty much everything except the writing on the output stream. Note that this part of the <code class="docutils literal notranslate"><span class="pre">lambda_handler</span></code> code seems out of place. All other functionalities are geared towards prediction and now, if we include writing on an output stream, the model service has to know about the Kinesis client, the stream name, etc.</p>
+<p>Instead, what we can do is define a separate unit that handles what happens <strong>after</strong> the prediction is done, i.e. a <strong>callback</strong> on prediction events. This is called every time the model service completes a prediction. Putting something on the Kinesis stream would be one of the callbacks.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># model.py</span>
+<span class="o">...</span>
+
+<span class="k">class</span> <span class="nc">ModelService</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">model_version</span><span class="p">,</span> <span class="n">callbacks</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model_version</span> <span class="o">=</span> <span class="n">model_version</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">callbacks</span> <span class="o">=</span> <span class="n">callbacks</span> <span class="ow">or</span> <span class="p">[]</span>
+
+    <span class="o">...</span>
+
+    <span class="k">def</span> <span class="nf">lambda_handler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+    
+        <span class="n">predictions_events</span> <span class="o">=</span> <span class="p">[]</span>
+        
+        <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="n">event</span><span class="p">[</span><span class="s1">&#39;Records&#39;</span><span class="p">]:</span>
+            
+            <span class="o">...</span>
+        
+            <span class="n">prediction_event</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;model&#39;</span><span class="p">:</span> <span class="s1">&#39;ride_duration_prediction_model&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_version</span><span class="p">,</span>
+                <span class="s1">&#39;prediction&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s1">&#39;ride_duration&#39;</span><span class="p">:</span> <span class="n">prediction</span><span class="p">,</span>
+                    <span class="s1">&#39;ride_id&#39;</span><span class="p">:</span> <span class="n">ride_id</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+
+            <span class="k">for</span> <span class="n">callback</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">callbacks</span><span class="p">:</span>     <span class="c1"># !</span>
+                <span class="n">callback</span><span class="p">(</span><span class="n">prediction_event</span><span class="p">)</span>
+            
+            <span class="n">predictions_events</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">prediction_event</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s1">&#39;predictions&#39;</span><span class="p">:</span> <span class="n">predictions_events</span>
+        <span class="p">}</span>
+
+<span class="o">...</span>
+</pre></div>
+</div>
+<p>Notice that callbacks act on prediction events, e.g. writes them to Kinesis streams. Below we modify the <code class="docutils literal notranslate"><span class="pre">init</span></code> function to include the Kinesis callback which we package into a class since we need a callable. Here we simply pass a reference to the <code class="docutils literal notranslate"><span class="pre">put_record</span></code> method which acts on prediction events in the <code class="docutils literal notranslate"><span class="pre">callbacks</span></code> list.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># model.py</span>
+<span class="o">...</span>
+
+<span class="k">class</span> <span class="nc">KinesisCallback</span><span class="p">:</span>
+    
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kinesis_client</span><span class="p">,</span> <span class="n">predictions_stream_name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kinesis_client</span> <span class="o">=</span> <span class="n">kinesis_client</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">predictions_stream_name</span> <span class="o">=</span> <span class="n">predictions_stream_name</span>
+
+    <span class="k">def</span> <span class="nf">put_record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prediction_event</span><span class="p">):</span>
+        <span class="n">ride_id</span> <span class="o">=</span> <span class="n">prediction_event</span><span class="p">[</span><span class="s1">&#39;prediction&#39;</span><span class="p">][</span><span class="s1">&#39;ride_id&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kinesis_client</span><span class="o">.</span><span class="n">put_record</span><span class="p">(</span>
+            <span class="n">StreamName</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">predictions_stream_name</span><span class="p">,</span>
+            <span class="n">Data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">prediction_event</span><span class="p">),</span>
+            <span class="n">PartitionKey</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">ride_id</span><span class="p">)</span>
+        <span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">init</span><span class="p">(</span><span class="n">predictions_stream_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">run_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">test_run</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialize model_service for lambda_function module.&quot;&quot;&quot;</span>
+
+    <span class="n">model</span> <span class="o">=</span> <span class="n">load_model</span><span class="p">(</span><span class="n">run_id</span><span class="p">)</span>
+    <span class="n">callbacks</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">test_run</span><span class="p">:</span>
+        <span class="n">kinesis_client</span> <span class="o">=</span> <span class="n">boto3</span><span class="o">.</span><span class="n">client</span><span class="p">(</span><span class="s1">&#39;kinesis&#39;</span><span class="p">)</span>
+        <span class="n">kinesis_callback</span> <span class="o">=</span> <span class="n">KinesisCallback</span><span class="p">(</span><span class="n">kinesis_client</span><span class="p">,</span> <span class="n">predictions_stream_name</span><span class="p">)</span>
+        <span class="n">callbacks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">kinesis_callback</span><span class="o">.</span><span class="n">put_record</span><span class="p">)</span>
+
+    <span class="n">model_service</span> <span class="o">=</span> <span class="n">ModelService</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">model_version</span><span class="o">=</span><span class="n">run_id</span><span class="p">,</span> <span class="n">callbacks</span><span class="o">=</span><span class="n">callbacks</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">model_service</span>
+</pre></div>
+</div>
+<p>This looks really really nice. We will test this later with a local cloud setup!</p>
+</section>
+<section id="appendix-source-code">
+<h3>Appendix: Source code<a class="headerlink" href="#appendix-source-code" title="Permalink to this headline">#</a></h3>
+<p>See here for the <a class="reference external" href="https://github.com/particle1331/ok-transformer/tree/2a5cad64632e098cc305bfe0dfb8bd1242135939/docs/nb/mlops/06-best-practices/code">finished code</a> for this section. Final directory structure at the end should look like:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>.
+├── Dockerfile
+├── Pipfile
+├── Pipfile.lock
+├── lambda_function.py
+├── model.py
+└── tests
+    ├── __init__.py
+    └── model_test.py
+</pre></div>
+</div>
+</section>
+</section>
+<section id="integration-tests">
+<h2>Integration tests<a class="headerlink" href="#integration-tests" title="Permalink to this headline">#</a></h2>
+<p>In the last section, we refactored our original code for our lambda function and created tests. But these tests are quite limited. They only test only functions. They don’t test that the entire thing still works. Recall that we have <code class="docutils literal notranslate"><span class="pre">test_docker.py</span></code> which sort of checks that predictions still work for the container as a whole. At this point, we can build and run the container to make sure that this code still works as a whole.</p>
+<p><strong>Remarks.</strong> Note that the goal of integration testing is not to test the accuracy of predictions, but only that prediction with the Lambda container works and it has the correct input and output signature.</p>
+<section id="testing-the-lambda-container">
+<h3>Testing the Lambda container<a class="headerlink" href="#testing-the-lambda-container" title="Permalink to this headline">#</a></h3>
+<p>Bulding and running the container and running the <code class="docutils literal notranslate"><span class="pre">test_docker</span></code> script can be done along with writing the unit tests, or after refactoring, so that no drastic change is done without making sure everything still are integrated well. But we only get to do this here for the sake of presentation.</p>
+<div class="highlight-Dockerfile notranslate"><div class="highlight"><pre><span></span><span class="k">FROM</span><span class="w"> </span><span class="s">public.ecr.aws/lambda/python:3.9</span>
+
+<span class="k">RUN</span><span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-U<span class="w"> </span>pip
+<span class="k">RUN</span><span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>pipenv
+
+<span class="k">COPY</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="s2">&quot;Pipfile&quot;</span>,<span class="w"> </span><span class="s2">&quot;Pipfile.lock&quot;</span>,<span class="w"> </span><span class="s2">&quot;./&quot;</span><span class="w"> </span><span class="o">]</span>
+
+<span class="k">RUN</span><span class="w"> </span>pipenv<span class="w"> </span>install<span class="w"> </span>--system<span class="w"> </span>--deploy
+
+<span class="k">COPY</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="s2">&quot;lambda_function.py&quot;</span>,<span class="w"> </span><span class="s2">&quot;model.py&quot;</span>,<span class="w"> </span><span class="s2">&quot;./&quot;</span><span class="w"> </span><span class="o">]</span>
+
+<span class="k">CMD</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">&quot;lambda_function.lambda_handler&quot;</span><span class="w"> </span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Building:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span>stream-model-duration:v2<span class="w"> </span>.
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="o">+</span><span class="p">]</span> <span class="n">Building</span> <span class="mf">1.2</span><span class="n">s</span> <span class="p">(</span><span class="mi">11</span><span class="o">/</span><span class="mi">11</span><span class="p">)</span> <span class="n">FINISHED</span>
+ <span class="o">=&gt;</span> <span class="p">[</span><span class="n">internal</span><span class="p">]</span> <span class="n">load</span> <span class="n">build</span> <span class="n">definition</span> <span class="kn">from</span> <span class="nn">Dockerfile</span>            <span class="mf">0.0</span><span class="n">s</span>
+ <span class="o">=&gt;</span> <span class="o">=&gt;</span> <span class="n">transferring</span> <span class="n">dockerfile</span><span class="p">:</span> <span class="mi">37</span><span class="n">B</span>                             <span class="mf">0.0</span><span class="n">s</span>
+ <span class="o">=&gt;</span> <span class="p">[</span><span class="n">internal</span><span class="p">]</span> <span class="n">load</span> <span class="o">.</span><span class="n">dockerignore</span>                               <span class="mf">0.0</span><span class="n">s</span>
+ <span class="o">=&gt;</span> <span class="o">=&gt;</span> <span class="n">transferring</span> <span class="n">context</span><span class="p">:</span> <span class="mi">2</span><span class="n">B</span>                                 <span class="mf">0.0</span><span class="n">s</span>
+ <span class="o">=&gt;</span> <span class="p">[</span><span class="n">internal</span><span class="p">]</span> <span class="n">load</span> <span class="n">metadata</span> <span class="k">for</span> <span class="n">public</span><span class="o">.</span><span class="n">ecr</span><span class="o">.</span><span class="n">aws</span><span class="o">/</span><span class="k">lambda</span><span class="o">/</span><span class="n">python</span><span class="p">:</span>  <span class="mf">1.0</span><span class="n">s</span>
+ <span class="o">=&gt;</span> <span class="p">[</span><span class="mi">1</span><span class="o">/</span><span class="mi">6</span><span class="p">]</span> <span class="n">FROM</span> <span class="n">public</span><span class="o">.</span><span class="n">ecr</span><span class="o">.</span><span class="n">aws</span><span class="o">/</span><span class="k">lambda</span><span class="o">/</span><span class="n">python</span><span class="p">:</span><span class="mf">3.9</span><span class="nd">@sha256</span><span class="p">:</span><span class="mi">3</span><span class="n">dda276</span>  <span class="mf">0.0</span><span class="n">s</span>
+ <span class="o">=&gt;</span> <span class="p">[</span><span class="n">internal</span><span class="p">]</span> <span class="n">load</span> <span class="n">build</span> <span class="n">context</span>                               <span class="mf">0.0</span><span class="n">s</span>
+ <span class="o">=&gt;</span> <span class="o">=&gt;</span> <span class="n">transferring</span> <span class="n">context</span><span class="p">:</span> <span class="mf">2.64</span><span class="n">kB</span>                             <span class="mf">0.0</span><span class="n">s</span>
+ <span class="o">=&gt;</span> <span class="n">CACHED</span> <span class="p">[</span><span class="mi">2</span><span class="o">/</span><span class="mi">6</span><span class="p">]</span> <span class="n">RUN</span> <span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="n">pip</span>                         <span class="mf">0.0</span><span class="n">s</span>
+ <span class="o">=&gt;</span> <span class="n">CACHED</span> <span class="p">[</span><span class="mi">3</span><span class="o">/</span><span class="mi">6</span><span class="p">]</span> <span class="n">RUN</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">pipenv</span>                         <span class="mf">0.0</span><span class="n">s</span>
+ <span class="o">=&gt;</span> <span class="n">CACHED</span> <span class="p">[</span><span class="mi">4</span><span class="o">/</span><span class="mi">6</span><span class="p">]</span> <span class="n">COPY</span> <span class="p">[</span> <span class="n">Pipfile</span><span class="p">,</span> <span class="n">Pipfile</span><span class="o">.</span><span class="n">lock</span><span class="p">,</span> <span class="o">./</span> <span class="p">]</span>             <span class="mf">0.0</span><span class="n">s</span>
+ <span class="o">=&gt;</span> <span class="n">CACHED</span> <span class="p">[</span><span class="mi">5</span><span class="o">/</span><span class="mi">6</span><span class="p">]</span> <span class="n">RUN</span> <span class="n">pipenv</span> <span class="n">install</span> <span class="o">--</span><span class="n">system</span> <span class="o">--</span><span class="n">deploy</span>           <span class="mf">0.0</span><span class="n">s</span>
+ <span class="o">=&gt;</span> <span class="p">[</span><span class="mi">6</span><span class="o">/</span><span class="mi">6</span><span class="p">]</span> <span class="n">COPY</span> <span class="p">[</span> <span class="n">lambda_function</span><span class="o">.</span><span class="n">py</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">py</span><span class="p">,</span> <span class="o">./</span> <span class="p">]</span>             <span class="mf">0.0</span><span class="n">s</span>
+ <span class="o">=&gt;</span> <span class="n">exporting</span> <span class="n">to</span> <span class="n">image</span>                                          <span class="mf">0.0</span><span class="n">s</span>
+ <span class="o">=&gt;</span> <span class="o">=&gt;</span> <span class="n">exporting</span> <span class="n">layers</span>                                         <span class="mf">0.0</span><span class="n">s</span>
+ <span class="o">=&gt;</span> <span class="o">=&gt;</span> <span class="n">writing</span> <span class="n">image</span> <span class="n">sha256</span><span class="p">:</span><span class="mf">26e91</span><span class="n">ec8b6a57ba80437dc8ee278c92dfd</span>  <span class="mf">0.0</span><span class="n">s</span>
+ <span class="o">=&gt;</span> <span class="o">=&gt;</span> <span class="n">naming</span> <span class="n">to</span> <span class="n">docker</span><span class="o">.</span><span class="n">io</span><span class="o">/</span><span class="n">library</span><span class="o">/</span><span class="n">stream</span><span class="o">-</span><span class="n">model</span><span class="o">-</span><span class="n">duration</span><span class="p">:</span><span class="n">v2</span>     <span class="mf">0.0</span><span class="n">s</span>
+</pre></div>
+</div>
+<p>Running:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>run<span class="w"> </span>-it<span class="w"> </span>--rm<span class="w"> </span>-p<span class="w"> </span><span class="m">8080</span>:8080<span class="w"> </span>--env-file<span class="w"> </span>.env<span class="w"> </span>stream-model-duration:v2
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>24 Jul 2022 02:31:10,656 [INFO] (rapid) exec &#39;/var/runtime/bootstrap&#39; (cwd=/var/task, handler=)
+24 Jul 2022 02:31:14,705 [INFO] (rapid) extensionsDisabledByLayer(/opt/disable-extensions-jwigqn8j) -&gt; stat /opt/disable-extensions-jwigqn8j: no such file or directory
+24 Jul 2022 02:31:14,707 [WARNING] (rapid) Cannot list external agents error=open /opt/extensions: no such file or directory
+START RequestId: aa21ad77-9ae1-49bc-a7d2-a7bfa3e42266 Version: $LATEST
+</pre></div>
+</div>
+<p>Note that this uses a <code class="docutils literal notranslate"><span class="pre">.env</span></code> file for defining environmental variables:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># .env</span>
+<span class="nv">RUN_ID</span><span class="o">=</span>f4e2242a53a3410d89c061d1958ae70a
+<span class="nv">TEST_RUN</span><span class="o">=</span>True
+<span class="nv">PREDICTIONS_STREAM_NAME</span><span class="o">=</span>ride_predictions
+<span class="nv">AWS_PROFILE</span><span class="o">=</span>mlops
+<span class="nv">AWS_DEFAULT_REGION</span><span class="o">=</span>us-east-1
+</pre></div>
+</div>
+<p>Testing prediction using the following script:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># test_docker.py</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">event</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;Records&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;kinesis&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;kinesisSchemaVersion&quot;</span><span class="p">:</span> <span class="s2">&quot;1.0&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;partitionKey&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;sequenceNumber&quot;</span><span class="p">:</span> <span class="s2">&quot;49630706038424016596026506533782471779140474214180454402&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="s2">&quot;eyAgICAgICAgICAicmlkZSI6IHsgICAgICAgICAgICAgICJQVUxvY2F0aW9uSUQiOiAxMzAsICAgICAgICAgICAgICAiRE9Mb2NhdGlvbklEIjogMjA1LCAgICAgICAgICAgICAgInRyaXBfZGlzdGFuY2UiOiAzLjY2ICAgICAgICAgIH0sICAgICAgICAgICJyaWRlX2lkIjogMTIzICAgICAgfQ==&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;approximateArrivalTimestamp&quot;</span><span class="p">:</span> <span class="mf">1655944485.718</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;eventSource&quot;</span><span class="p">:</span> <span class="s2">&quot;aws:kinesis&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;eventVersion&quot;</span><span class="p">:</span> <span class="s2">&quot;1.0&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;eventID&quot;</span><span class="p">:</span> <span class="s2">&quot;shardId-000000000000:49630706038424016596026506533782471779140474214180454402&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;eventName&quot;</span><span class="p">:</span> <span class="s2">&quot;aws:kinesis:record&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;invokeIdentityArn&quot;</span><span class="p">:</span> <span class="s2">&quot;arn:aws:iam::241297376613:role/lambda-kinesis-role&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;awsRegion&quot;</span><span class="p">:</span> <span class="s2">&quot;us-east-1&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;eventSourceARN&quot;</span><span class="p">:</span> <span class="s2">&quot;arn:aws:kinesis:us-east-1:241297376613:stream/ride_events&quot;</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>    
+    <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;http://localhost:8080/2015-03-31/functions/function/invocations&#39;</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">event</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>Running <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">test_docker.py</span></code> on the terminal. Looks like the lambda function is still working inside the container. That is, it can do download the model from S3, decode the input data, and make a prediction that is exposed in the lambda container.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>pipenv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>test_docker.py
+<span class="o">{</span>
+<span class="w">    </span><span class="s1">&#39;predictions&#39;</span>:<span class="w"> </span><span class="o">[</span>
+<span class="w">        </span><span class="o">{</span>
+<span class="w">            </span><span class="s1">&#39;model&#39;</span>:<span class="w"> </span><span class="s1">&#39;ride_duration_prediction_model&#39;</span>,<span class="w"> </span>
+<span class="w">            </span><span class="s1">&#39;version&#39;</span>:<span class="w"> </span><span class="s1">&#39;f4e2242a53a3410d89c061d1958ae70a&#39;</span>,<span class="w"> </span>
+<span class="w">            </span><span class="s1">&#39;prediction&#39;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">                </span><span class="s1">&#39;ride_duration&#39;</span>:<span class="w"> </span><span class="m">18</span>.210770674183355,<span class="w"> </span>
+<span class="w">                </span><span class="s1">&#39;ride_id&#39;</span>:<span class="w"> </span><span class="m">123</span>
+<span class="w">            </span><span class="o">}</span>
+<span class="w">        </span><span class="o">}</span>
+<span class="w">    </span><span class="o">]</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>Note that this isn’t yet a proper test, i.e. we just printed something and checked the print if it looked correct. In the next section, we change this into something that can be automated with <code class="docutils literal notranslate"><span class="pre">pytest</span></code>.</p>
+</section>
+<section id="differences-with-deepdiff">
+<h3>Differences with DeepDiff<a class="headerlink" href="#differences-with-deepdiff" title="Permalink to this headline">#</a></h3>
+<p>To get fine-grained control over the differences between JSON outputs, we install a dev dependency called <a class="reference external" href="https://zepworks.com/deepdiff/current/index.html">DeepDiff</a>. This library works for any two Python objects, so this can be a really useful tool to use with the pytest library.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pipenv<span class="w"> </span>install<span class="w"> </span>--dev<span class="w"> </span>deepdiff
+</pre></div>
+</div>
+<p>Modifying our <code class="docutils literal notranslate"><span class="pre">test_docker.py</span></code> script to simulate change, also adding an <code class="docutils literal notranslate"><span class="pre">assert</span></code> to trigger an exception:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># test_docker.py</span>
+<span class="o">...</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;http://localhost:8080/2015-03-31/functions/function/invocations&#39;</span>
+<span class="n">actual_response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">event</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;actual response:&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">actual_response</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">))</span>
+
+<span class="n">expected_response</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;predictions&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s1">&#39;model&#39;</span><span class="p">:</span> <span class="s1">&#39;ride_duration_prediction_model&#39;</span><span class="p">,</span> 
+            <span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="s1">&#39;f4e2242a53a3410d89c061d1958ae70a&#39;</span><span class="p">,</span> 
+            <span class="s1">&#39;prediction&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;ride_duration&#39;</span><span class="p">:</span> <span class="mf">18.0</span><span class="p">,</span>  <span class="c1"># &lt;-</span>
+                <span class="s1">&#39;ride_id&#39;</span><span class="p">:</span> <span class="mi">123</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+
+<span class="n">diff</span> <span class="o">=</span> <span class="n">DeepDiff</span><span class="p">(</span><span class="n">actual_response</span><span class="p">,</span> <span class="n">expected_response</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">diff:&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">diff</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">))</span>
+
+<span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">diff</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
+</pre></div>
+</div>
+<p>Running this we get:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>python<span class="w"> </span>test_docker.py
+actual<span class="w"> </span>response:
+<span class="o">{</span>
+<span class="w">    </span><span class="s2">&quot;predictions&quot;</span>:<span class="w"> </span><span class="o">[</span>
+<span class="w">        </span><span class="o">{</span>
+<span class="w">            </span><span class="s2">&quot;model&quot;</span>:<span class="w"> </span><span class="s2">&quot;ride_duration_prediction_model&quot;</span>,
+<span class="w">            </span><span class="s2">&quot;version&quot;</span>:<span class="w"> </span><span class="s2">&quot;f4e2242a53a3410d89c061d1958ae70a&quot;</span>,
+<span class="w">            </span><span class="s2">&quot;prediction&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">                </span><span class="s2">&quot;ride_duration&quot;</span>:<span class="w"> </span><span class="m">18</span>.210770674183355,
+<span class="w">                </span><span class="s2">&quot;ride_id&quot;</span>:<span class="w"> </span><span class="m">123</span>
+<span class="w">            </span><span class="o">}</span>
+<span class="w">        </span><span class="o">}</span>
+<span class="w">    </span><span class="o">]</span>
+<span class="o">}</span>
+
+diff:
+<span class="o">{</span>
+<span class="w">    </span><span class="s2">&quot;values_changed&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">        </span><span class="s2">&quot;root[&#39;predictions&#39;][0][&#39;prediction&#39;][&#39;ride_duration&#39;]&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">            </span><span class="s2">&quot;new_value&quot;</span>:<span class="w"> </span><span class="m">18</span>.210770674183355,
+<span class="w">            </span><span class="s2">&quot;old_value&quot;</span>:<span class="w"> </span><span class="m">18</span>.0
+<span class="w">        </span><span class="o">}</span>
+<span class="w">    </span><span class="o">}</span>
+<span class="o">}</span>
+Traceback<span class="w"> </span><span class="o">(</span>most<span class="w"> </span>recent<span class="w"> </span>call<span class="w"> </span>last<span class="o">)</span>:
+<span class="w">  </span>File<span class="w"> </span><span class="s2">&quot;/Users/particle1331/code/ok-transformer/docs/nb/mlops/06-best-practices/code/integration-test/test_docker.py&quot;</span>,<span class="w"> </span>line<span class="w"> </span><span class="m">52</span>,<span class="w"> </span><span class="k">in</span><span class="w"> </span>&lt;module&gt;
+<span class="w">    </span>assert<span class="w"> </span>len<span class="o">(</span>diff<span class="o">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">1</span>
+AssertionError
+</pre></div>
+</div>
+<p>Here it is indicated precisely where in the passed object did the values change, i.e. from <code class="docutils literal notranslate"><span class="pre">18.0</span></code> to <code class="docutils literal notranslate"><span class="pre">18.210[...]</span></code> in <code class="docutils literal notranslate"><span class="pre">root['predictions'][0]['prediction']['ride_duration']</span></code>. For numeric values, e.g. predictions, we can pass <code class="docutils literal notranslate"><span class="pre">math_epsilon=0.1</span></code> in <code class="docutils literal notranslate"><span class="pre">DeepDiff</span></code> which compares numbers with <code class="docutils literal notranslate"><span class="pre">lambda</span> <span class="pre">x,</span> <span class="pre">y:</span> <span class="pre">math.isclose(x,</span> <span class="pre">y,</span> <span class="pre">abs_tol=0.1)</span></code>. See <a class="reference external" href="https://zepworks.com/deepdiff/current/index.html">docs</a> for more options.</p>
+</section>
+<section id="adding-a-local-model-for-testing">
+<h3>Adding a local model for testing<a class="headerlink" href="#adding-a-local-model-for-testing" title="Permalink to this headline">#</a></h3>
+<p>Since we only want to test whether our container is able to make predictions, we want to have the option of using a local model. Note that everything should still work since we write the code in such a way that everything is the same except for the particular model path. Also, the accuracy of the model is not an issue since that is tested elsewhere (e.g. before staging).</p>
+<p>First, we copy the contents of an MLflow artifacts folder into <code class="docutils literal notranslate"><span class="pre">integration-test/model/</span></code> as shown:</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../../../_images/model-contents.png"><img alt="../../../_images/model-contents.png" src="../../../_images/model-contents.png" style="width: 20em;" /></a>
+</figure>
+<p>Note that these are artifacts of a different MLflow run than what we have been loading from S3. Refactoring the code a bit to use <code class="docutils literal notranslate"><span class="pre">model_location</span></code> and <code class="docutils literal notranslate"><span class="pre">model_version</span></code> which are now more general. All environmental variables are loaded in the <code class="docutils literal notranslate"><span class="pre">lambda_function</span></code> script which is sort of our main file:</p>
+<aside class="margin sidebar">
+<p class="sidebar-title"></p>
+<p><a class="reference external" href="https://github.com/particle1331/ok-transformer/blob/175e9ce8dd2f8038be36a2f9f1b8e920d7e84c94/docs/nb/mlops/06-best-practices/code/lambda_function.py"><code class="docutils literal notranslate"><span class="pre">lambda_function.py</span></code></a></p>
+</aside>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># lambda_function.py</span>
+
+<span class="n">PREDICTIONS_STREAM_NAME</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;PREDICTIONS_STREAM_NAME&#39;</span><span class="p">,</span> <span class="s1">&#39;ride_predictions&#39;</span><span class="p">)</span>
+<span class="n">MODEL_LOCATION</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;MODEL_LOCATION&#39;</span><span class="p">)</span>
+<span class="n">MODEL_BUCKET</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;MODEL_BUCKET&#39;</span><span class="p">,</span> <span class="s1">&#39;mlflow-models-ron&#39;</span><span class="p">)</span>
+<span class="n">EXPERIMENT_ID</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;MLFLOW_EXPERIMENT_ID&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">)</span>
+<span class="n">RUN_ID</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;RUN_ID&#39;</span><span class="p">)</span>
+<span class="n">TEST_RUN</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;TEST_RUN&#39;</span><span class="p">,</span> <span class="s1">&#39;False&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;True&#39;</span>
+
+
+<span class="k">if</span> <span class="n">MODEL_LOCATION</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">logged_model</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;s3://</span><span class="si">{</span><span class="n">MODEL_BUCKET</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">EXPERIMENT_ID</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">RUN_ID</span><span class="si">}</span><span class="s1">/artifacts/model&#39;</span>
+    <span class="n">model_version</span> <span class="o">=</span> <span class="n">RUN_ID</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">model_location</span> <span class="o">=</span> <span class="n">MODEL_LOCATION</span>
+    <span class="n">model_version</span> <span class="o">=</span> <span class="s1">&#39;localtest&#39;</span>
+
+
+<span class="n">model_service</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">init</span><span class="p">(</span>
+    <span class="n">predictions_stream_name</span><span class="o">=</span><span class="n">PREDICTIONS_STREAM_NAME</span><span class="p">,</span>
+    <span class="n">model_location</span><span class="o">=</span><span class="n">model_location</span><span class="p">,</span>
+    <span class="n">model_version</span><span class="o">=</span><span class="n">model_version</span><span class="p">,</span>
+    <span class="n">test_run</span><span class="o">=</span><span class="n">TEST_RUN</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">lambda_handler</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">model_service</span><span class="o">.</span><span class="n">lambda_handler</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We introduce the <code class="docutils literal notranslate"><span class="pre">model_location</span></code> variable which is either an S3 path or a local path. Model version depends on whether the model comes from local disk or from S3. All functions are modified accordingly, such as <code class="docutils literal notranslate"><span class="pre">model.init</span></code> which we look at below. Note that <code class="docutils literal notranslate"><span class="pre">load_model</span></code> now just abstracts the load script from MLflow, instead of constructing the path.</p>
+<aside class="margin sidebar">
+<p class="sidebar-title"></p>
+<p><a class="reference external" href="https://github.com/particle1331/ok-transformer/blob/175e9ce8dd2f8038be36a2f9f1b8e920d7e84c94/docs/nb/mlops/06-best-practices/code/model.py"><code class="docutils literal notranslate"><span class="pre">model.py</span></code></a></p>
+</aside>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># model.py</span>
+<span class="o">...</span>
+
+<span class="k">def</span> <span class="nf">load_model</span><span class="p">(</span><span class="n">model_location</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load MLflow model from path.&quot;&quot;&quot;</span>
+    <span class="n">model</span> <span class="o">=</span>  <span class="n">mlflow</span><span class="o">.</span><span class="n">pyfunc</span><span class="o">.</span><span class="n">load_model</span><span class="p">(</span><span class="n">model_location</span><span class="p">)</span>    
+    <span class="k">return</span> <span class="n">model</span>
+
+<span class="o">...</span>
+
+<span class="k">def</span> <span class="nf">init</span><span class="p">(</span>
+        <span class="n">predictions_stream_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> 
+        <span class="n">model_location</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>   <span class="c1"># &lt;-</span>
+        <span class="n">model_version</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>    <span class="c1"># &lt;-</span>
+        <span class="n">test_run</span><span class="p">:</span> <span class="nb">bool</span>
+    <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialize model_service for lambda_function module.&quot;&quot;&quot;</span>
+
+    <span class="n">model</span> <span class="o">=</span> <span class="n">load_model</span><span class="p">(</span><span class="n">model_location</span><span class="p">)</span>   <span class="c1"># &lt;-</span>
+    
+    <span class="o">...</span>
+
+    <span class="n">model_service</span> <span class="o">=</span> <span class="n">ModelService</span><span class="p">(</span>
+        <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> 
+        <span class="n">model_version</span><span class="o">=</span><span class="n">model_version</span><span class="p">,</span>     <span class="c1"># &lt;-</span>
+        <span class="n">callbacks</span><span class="o">=</span><span class="n">callbacks</span><span class="p">,</span>
+    <span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">model_service</span>
+</pre></div>
+</div>
+<p>Note that the Dockerfile will not change, but we will mount the local <code class="docutils literal notranslate"><span class="pre">model</span></code> folder to the container while it is running. The following script will be executed inside the <code class="docutils literal notranslate"><span class="pre">integation-test</span></code> folder.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span>stream-model-duration:v2<span class="w"> </span>.
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>run<span class="w"> </span>-it<span class="w"> </span>--rm<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-p<span class="w"> </span><span class="m">8080</span>:8080<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--env-file<span class="w"> </span>.env<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-v<span class="w"> </span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>/model:/app/model<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>stream-model-duration:v2
+</pre></div>
+</div>
+<p>Keep in mind that model location is relative to the container, not the dev environment:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># integration-test/.env</span>
+<span class="nv">MODEL_LOCATION</span><span class="o">=</span>/app/model
+<span class="nv">RUN_ID</span><span class="o">=</span>f4e2242a53a3410d89c061d1958ae70a
+<span class="nv">EXPERIMENT_ID</span><span class="o">=</span><span class="m">1</span>
+<span class="nv">TEST_RUN</span><span class="o">=</span>True
+<span class="nv">AWS_PROFILE</span><span class="o">=</span>mlops
+<span class="nv">AWS_DEFAULT_REGION</span><span class="o">=</span>us-east-1
+</pre></div>
+</div>
+<p>This is a different model so we have to modify the expected response with the new prediction:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">joblib</span>
+
+<span class="n">model_path</span> <span class="o">=</span> <span class="s1">&#39;code/integration-test/model/model.pkl&#39;</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">joblib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">model_path</span><span class="p">)</span>
+<span class="n">expected_features</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;PU_DO&#39;</span><span class="p">:</span> <span class="s1">&#39;130_205&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;trip_distance&#39;</span><span class="p">:</span> <span class="mf">3.66</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">expected_features</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s1">.10f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>18.2536313889
+</pre></div>
+</div>
+</div>
+</div>
+<p>Modifying accordingly:</p>
+<aside class="margin sidebar">
+<p class="sidebar-title"></p>
+<p><a class="reference external" href="https://github.com/particle1331/ok-transformer/blob/175e9ce8dd2f8038be36a2f9f1b8e920d7e84c94/docs/nb/mlops/06-best-practices/code/integration-test/test_docker.py"><code class="docutils literal notranslate"><span class="pre">test_docker.py</span></code></a></p>
+</aside>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># integration_test/test_docker.py</span>
+<span class="o">...</span>
+
+<span class="n">expected_response</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;predictions&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s1">&#39;model&#39;</span><span class="p">:</span> <span class="s1">&#39;ride_duration_prediction_model&#39;</span><span class="p">,</span> 
+            <span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="s1">&#39;localtest&#39;</span><span class="p">,</span>                 <span class="c1"># &lt;-</span>
+            <span class="s1">&#39;prediction&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;ride_duration&#39;</span><span class="p">:</span> <span class="mf">18.2536313889</span><span class="p">,</span>     <span class="c1"># &lt;-</span>
+                <span class="s1">&#39;ride_id&#39;</span><span class="p">:</span> <span class="mi">123</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+
+<span class="n">diff</span> <span class="o">=</span> <span class="n">DeepDiff</span><span class="p">(</span><span class="n">expected_response</span><span class="p">,</span> <span class="n">actual_response</span><span class="p">,</span> <span class="n">math_epsilon</span><span class="o">=</span><span class="mf">1e-7</span><span class="p">)</span>   <span class="c1"># &lt;-</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">diff:&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">diff</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">))</span>
+
+
+<span class="o">...</span>
+</pre></div>
+</div>
+<p>Running the container test:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>python<span class="w"> </span>code/integration-test/test_docker.py
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>actual response:
+{
+    &quot;predictions&quot;: [
+        {
+            &quot;model&quot;: &quot;ride_duration_prediction_model&quot;,
+            &quot;version&quot;: &quot;localtest&quot;,
+            &quot;prediction&quot;: {
+                &quot;ride_duration&quot;: 18.25363138888259,
+                &quot;ride_id&quot;: 123
+            }
+        }
+    ]
+}
+
+diff:
+{}
+</pre></div>
+</div>
+</div>
+</div>
+<p>Checking if unit tests are still working:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pytest<span class="w"> </span>code/tests<span class="w"> </span>.<span class="w"> </span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">============================= test session starts ==============================</span>
+platform darwin -- Python 3.9.12, pytest-7.1.2, pluggy-1.0.0
+rootdir: /Users/particle1331/code/ok-transformer/docs/nb/mlops/06-best-practices
+plugins: anyio-3.5.0
+collected 4 items                                                              
+
+<span class=" -Color -Color-Bold">code/tests/model_test.py </span><span class=" -Color -Color-Bold -Color-Bold-Green">.</span><span class=" -Color -Color-Green">...                                            [100%]</span>
+
+<span class=" -Color -Color-Green">============================== </span><span class=" -Color -Color-Bold -Color-Bold-Green">4 passed</span><span class=" -Color -Color-Green"> in 1.50s ===============================</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="automating-the-test">
+<h3>Automating the test<a class="headerlink" href="#automating-the-test" title="Permalink to this headline">#</a></h3>
+<p>Observe that we have to build the Docker image, run it, and run the test script. In this section, we will automate this process completely with a simple script. But we want to change the run script to <code class="docutils literal notranslate"><span class="pre">docker-compose</span></code> because it would be easier to track all these configuration in a <code class="docutils literal notranslate"><span class="pre">.yml</span></code> file:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># integration-test/docker-compose.yml</span>
+<span class="nt">services</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">backend</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${LOCAL_IMAGE_NAME}</span>
+<span class="w">    </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;8080:8080&quot;</span>
+<span class="w">    </span><span class="nt">environment</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PREDICTIONS_STREAM_NAME=ride_predictions</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">TEST_RUN=True</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">AWS_DEFAULT_REGION=us-east-1</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MODEL_LOCATION=/app/model</span>
+<span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;./model:/app/model&quot;</span>
+</pre></div>
+</div>
+<p>Continuing now with our script <code class="docutils literal notranslate"><span class="pre">integration-test/run.sh</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env bash</span>
+
+<span class="nb">cd</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>dirname<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$0</span><span class="s2">&quot;</span><span class="k">)</span><span class="s2">&quot;</span>
+
+<span class="nb">export</span><span class="w"> </span><span class="nv">LOCAL_TAG</span><span class="o">=</span><span class="sb">`</span>date<span class="w"> </span>+<span class="s2">&quot;%Y-%m-%d-%H-%M&quot;</span><span class="sb">`</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">LOCAL_IMAGE_NAME</span><span class="o">=</span><span class="s2">&quot;stream-model-duration:</span><span class="si">${</span><span class="nv">LOCAL_TAG</span><span class="si">}</span><span class="s2">&quot;</span>
+
+docker<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span><span class="si">${</span><span class="nv">LOCAL_IMAGE_NAME</span><span class="si">}</span><span class="w"> </span>..
+
+docker-compose<span class="w"> </span>up<span class="w"> </span>-d
+
+sleep<span class="w"> </span><span class="m">1</span>
+
+pipenv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>test_docker.py
+
+docker-compose<span class="w"> </span>down
+</pre></div>
+</div>
+<p>The first line ensures that this runs in <code class="docutils literal notranslate"><span class="pre">bash</span></code>. Then, it will change directory to the same directory as <code class="docutils literal notranslate"><span class="pre">test_docker.py</span></code>. It will go one level up to build the Docker image. Next, the script executes <code class="docutils literal notranslate"><span class="pre">docker-compose</span> <span class="pre">up</span> <span class="pre">-d</span></code>. This runs the Docker image with <code class="docutils literal notranslate"><span class="pre">${LOCAL_IMAGE_NAME}</span></code> in detached mode. Otherwise, it will just keep running in the terminal and the next commands will not push through. It’s a good idea to give the terminal some time after starting the Docker container, so we execute <code class="docutils literal notranslate"><span class="pre">sleep</span> <span class="pre">1</span></code>. Then, we run our container test script. Finally, we remove the resources with <code class="docutils literal notranslate"><span class="pre">docker-compose</span> <span class="pre">down</span></code>.</p>
+<p>Running the script:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sh<span class="w"> </span>run.sh
+<span class="o">[</span>+<span class="o">]</span><span class="w"> </span>Building<span class="w"> </span><span class="m">0</span>.4s<span class="w"> </span><span class="o">(</span><span class="m">11</span>/11<span class="o">)</span><span class="w"> </span><span class="nv">FINISHED</span>
+<span class="w"> </span><span class="o">=</span>&gt;<span class="w"> </span><span class="o">[</span>internal<span class="o">]</span><span class="w"> </span>load<span class="w"> </span>build<span class="w"> </span>definition<span class="w"> </span>from<span class="w"> </span>Dockerfile<span class="w">            </span><span class="m">0</span>.0s
+<span class="w"> </span><span class="o">=</span>&gt;<span class="w"> </span><span class="o">=</span>&gt;<span class="w"> </span>transferring<span class="w"> </span>dockerfile:<span class="w"> </span>37B<span class="w">                             </span><span class="m">0</span>.0s
+<span class="w"> </span><span class="o">=</span>&gt;<span class="w"> </span><span class="o">[</span>internal<span class="o">]</span><span class="w"> </span>load<span class="w"> </span>.dockerignore<span class="w">                               </span><span class="m">0</span>.0s
+<span class="w"> </span><span class="o">=</span>&gt;<span class="w"> </span><span class="o">=</span>&gt;<span class="w"> </span>transferring<span class="w"> </span>context:<span class="w"> </span>2B<span class="w">                                 </span><span class="m">0</span>.0s
+<span class="w"> </span><span class="o">=</span>&gt;<span class="w"> </span><span class="o">[</span>internal<span class="o">]</span><span class="w"> </span>load<span class="w"> </span>metadata<span class="w"> </span><span class="k">for</span><span class="w"> </span>public.ecr.aws/lambda/python:<span class="w">  </span><span class="m">0</span>.3s
+<span class="w"> </span><span class="o">=</span>&gt;<span class="w"> </span><span class="o">[</span>internal<span class="o">]</span><span class="w"> </span>load<span class="w"> </span>build<span class="w"> </span>context<span class="w">                               </span><span class="m">0</span>.0s
+<span class="w"> </span><span class="o">=</span>&gt;<span class="w"> </span><span class="o">=</span>&gt;<span class="w"> </span>transferring<span class="w"> </span>context:<span class="w"> </span>128B<span class="w">                               </span><span class="m">0</span>.0s
+<span class="w"> </span><span class="o">=</span>&gt;<span class="w"> </span><span class="o">[</span><span class="m">1</span>/6<span class="o">]</span><span class="w"> </span>FROM<span class="w"> </span>public.ecr.aws/lambda/python:3.9@sha256:3dda276<span class="w">  </span><span class="m">0</span>.0s
+<span class="w"> </span><span class="o">=</span>&gt;<span class="w"> </span>CACHED<span class="w"> </span><span class="o">[</span><span class="m">2</span>/6<span class="o">]</span><span class="w"> </span>RUN<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-U<span class="w"> </span>pip<span class="w">                         </span><span class="m">0</span>.0s
+<span class="w"> </span><span class="o">=</span>&gt;<span class="w"> </span>CACHED<span class="w"> </span><span class="o">[</span><span class="m">3</span>/6<span class="o">]</span><span class="w"> </span>RUN<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>pipenv<span class="w">                         </span><span class="m">0</span>.0s
+<span class="w"> </span><span class="o">=</span>&gt;<span class="w"> </span>CACHED<span class="w"> </span><span class="o">[</span><span class="m">4</span>/6<span class="o">]</span><span class="w"> </span>COPY<span class="w"> </span><span class="o">[</span><span class="w"> </span>Pipfile,<span class="w"> </span>Pipfile.lock,<span class="w"> </span>./<span class="w"> </span><span class="o">]</span><span class="w">             </span><span class="m">0</span>.0s
+<span class="w"> </span><span class="o">=</span>&gt;<span class="w"> </span>CACHED<span class="w"> </span><span class="o">[</span><span class="m">5</span>/6<span class="o">]</span><span class="w"> </span>RUN<span class="w"> </span>pipenv<span class="w"> </span>install<span class="w"> </span>--system<span class="w"> </span>--deploy<span class="w">           </span><span class="m">0</span>.0s
+<span class="w"> </span><span class="o">=</span>&gt;<span class="w"> </span>CACHED<span class="w"> </span><span class="o">[</span><span class="m">6</span>/6<span class="o">]</span><span class="w"> </span>COPY<span class="w"> </span><span class="o">[</span><span class="w"> </span>lambda_function.py,<span class="w"> </span>model.py,<span class="w"> </span>./<span class="w"> </span><span class="o">]</span><span class="w">      </span><span class="m">0</span>.0s
+<span class="w"> </span><span class="o">=</span>&gt;<span class="w"> </span>exporting<span class="w"> </span>to<span class="w"> </span>image<span class="w">                                          </span><span class="m">0</span>.0s
+<span class="w"> </span><span class="o">=</span>&gt;<span class="w"> </span><span class="o">=</span>&gt;<span class="w"> </span>exporting<span class="w"> </span>layers<span class="w">                                         </span><span class="m">0</span>.0s
+<span class="w"> </span><span class="o">=</span>&gt;<span class="w"> </span><span class="o">=</span>&gt;<span class="w"> </span>writing<span class="w"> </span>image<span class="w"> </span>sha256:ce4bdf23e33a8cd20e3d0906ac71f92470<span class="w">  </span><span class="m">0</span>.0s
+<span class="w"> </span><span class="o">=</span>&gt;<span class="w"> </span><span class="o">=</span>&gt;<span class="w"> </span>naming<span class="w"> </span>to<span class="w"> </span>docker.io/library/stream-model-duration:2022-<span class="w">  </span><span class="m">0</span>.0s
+<span class="o">[</span>+<span class="o">]</span><span class="w"> </span>Running<span class="w"> </span><span class="m">2</span>/2
+<span class="w"> </span>⠿<span class="w"> </span>Network<span class="w"> </span>integration-test_default<span class="w">      </span>Created<span class="w">                </span><span class="m">0</span>.0s
+<span class="w"> </span>⠿<span class="w"> </span>Container<span class="w"> </span>integration-test-backend-1<span class="w">  </span>Started<span class="w">                </span><span class="m">0</span>.4s
+Loading<span class="w"> </span>.env<span class="w"> </span>environment<span class="w"> </span>variables...
+actual<span class="w"> </span>response:
+<span class="o">{</span>
+<span class="w">    </span><span class="s2">&quot;predictions&quot;</span>:<span class="w"> </span><span class="o">[</span>
+<span class="w">        </span><span class="o">{</span>
+<span class="w">            </span><span class="s2">&quot;model&quot;</span>:<span class="w"> </span><span class="s2">&quot;ride_duration_prediction_model&quot;</span>,
+<span class="w">            </span><span class="s2">&quot;version&quot;</span>:<span class="w"> </span><span class="s2">&quot;localtest&quot;</span>,
+<span class="w">            </span><span class="s2">&quot;prediction&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">                </span><span class="s2">&quot;ride_duration&quot;</span>:<span class="w"> </span><span class="m">18</span>.253631388882592,
+<span class="w">                </span><span class="s2">&quot;ride_id&quot;</span>:<span class="w"> </span><span class="m">123</span>
+<span class="w">            </span><span class="o">}</span>
+<span class="w">        </span><span class="o">}</span>
+<span class="w">    </span><span class="o">]</span>
+<span class="o">}</span>
+
+diff:
+<span class="o">{}</span>
+<span class="o">[</span>+<span class="o">]</span><span class="w"> </span>Running<span class="w"> </span><span class="m">2</span>/1
+<span class="w"> </span>⠿<span class="w"> </span>Container<span class="w"> </span>integration-test-backend-1<span class="w">  </span>Removed<span class="w">                </span><span class="m">0</span>.4s
+<span class="w"> </span>⠿<span class="w"> </span>Network<span class="w"> </span>integration-test_default<span class="w">      </span>Removed<span class="w">                </span><span class="m">0</span>.0s
+</pre></div>
+</div>
+<p>Notice that we also change the container tag to the current date and time:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>docker<span class="w"> </span>image<span class="w"> </span>ls
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>REPOSITORY              TAG                IMAGE ID       CREATED       SIZE
+stream-model-duration   2022-07-25-20-03   ce4bdf23e33a   3 hours ago   1.34GB
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="returning-error-codes">
+<h3>Returning error codes<a class="headerlink" href="#returning-error-codes" title="Permalink to this headline">#</a></h3>
+<p>Error codes of previous executed commands can obtained in bash using <code class="docutils literal notranslate"><span class="pre">$?</span></code>. This can be used in CI/CD pipelines. But here we will use it to indicate that our integration test failed. The error code of the integration test can be stored as follows:</p>
+<aside class="margin sidebar">
+<p class="sidebar-title"></p>
+<p><a class="reference external" href="https://github.com/particle1331/ok-transformer/blob/e6acea4021340efeef3704f3ce4a8ad90a66a7f8/docs/nb/mlops/06-best-practices/code/integration-test/run.sh#L14-L24"><code class="docutils literal notranslate"><span class="pre">run.sh</span></code></a></p>
+</aside>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>...
+
+pipenv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>test_docker.py
+
+<span class="nv">ERROR_CODE</span><span class="o">=</span><span class="nv">$?</span>
+
+<span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="si">${</span><span class="nv">ERROR_CODE</span><span class="si">}</span><span class="w"> </span>!<span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span>docker-compose<span class="w"> </span>logs
+<span class="k">fi</span>
+
+docker-compose<span class="w"> </span>down
+
+<span class="nb">exit</span><span class="w"> </span><span class="si">${</span><span class="nv">ERROR_CODE</span><span class="si">}</span>
+</pre></div>
+</div>
+<p>The last line returns the error code to the terminal. Testing this with the current tests will return error code <code class="docutils literal notranslate"><span class="pre">0</span></code>. Failing the test will result in an error code of <code class="docutils literal notranslate"><span class="pre">1</span></code>. This can be used in a CI/CD job resulting in a failed job and we can return the logs.</p>
+<!-- ## Testing cloud services with LocalStack --><!-- Recall that since we set `TEST_RUN=True`, we are not testing the part of the code that writes to a Kinesis stream. And because we changed the code, it might not be working at this point. In this section, we will look at how we can test AWS services, such as S3 and Kinesis, even without using an AWS account. This thing will work completely locally and should be useful for testing and developing cloud services without having to wait on cloud resources. --><!-- For this we will use [LocalStack](https://github.com/localstack/localstack). From the project page it is claimed that LocalStack provides a fully functional local AWS cloud stack for developing and testing your cloud & Serverless apps offline. This should be really useful for us. To start LocalStack with Docker: --><!-- ```bash
+docker run --rm -it -p 4566:4566 -p 4510-4559:4510-4559 localstack/localstack
+``` --><!-- Kinesis with LocalStack can be added to our `docker-compose.yml` file as follows: --><!-- ```
+# docker-compose.yml -->
+</section>
+</section>
+<section id="code-quality">
+<h2>Code quality<a class="headerlink" href="#code-quality" title="Permalink to this headline">#</a></h2>
+<p>In this section, we will talk about code quality. Specifically, we talk about <strong>linting</strong> and <strong>code formatting</strong>. Previously, we already covered code quality, but in the point of view of reliability. That code is doing what it is supposed to do. Now we want to talk about the readability as well as code quality. This is also related to maintainability of the code base.</p>
+<p>For static code analysis, i.e. detecting code smells, we will use <a class="reference external" href="https://pylint.pycqa.org/en/latest/">pylint</a>. And for code formatting, or styling, we will be using <a class="reference external" href="https://black.readthedocs.io/en/stable/">Black</a>. Both of these tools adhere to PEP 8, the Python style guide. Finally, we will use <a class="reference external" href="https://pycqa.github.io/isort/">isort</a> for ordering our imports.</p>
+<section id="linting">
+<h3>Linting<a class="headerlink" href="#linting" title="Permalink to this headline">#</a></h3>
+<p>First, let’s run <code class="docutils literal notranslate"><span class="pre">pylint</span></code> for all files in the <code class="docutils literal notranslate"><span class="pre">code/</span></code> directory to see what it outputs:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ pylint --recursive=y .
+************* Module model
+model.py:12:53: C0303: Trailing whitespace (trailing-whitespace)
+model.py:50:0: C0303: Trailing whitespace (trailing-whitespace)
+model.py:53:0: C0303: Trailing whitespace (trailing-whitespace)
+...
+model.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+model.py:16:0: C0116: Missing function or method docstring (missing-function-docstring)
+model.py:22:0: C0115: Missing class docstring (missing-class-docstring)
+model.py:29:4: C0116: Missing function or method docstring (missing-function-docstring)
+model.py:31:28: C0209: Formatting a regular string which could be a f-string (consider-using-f-string)
+...
+model.py:74:0: C0115: Missing class docstring (missing-class-docstring)
+model.py:80:4: C0116: Missing function or method docstring (missing-function-docstring)
+model.py:74:0: R0903: Too few public methods (1/2) (too-few-public-methods)
+model.py:4:0: C0411: standard import &quot;import base64&quot; should be placed before &quot;import boto3&quot; (wrong-import-order)
+model.py:1:0: W0611: Unused import os (unused-import)
+model.py:6:0: W0611: Unused import joblib (unused-import)
+************* Module lambda_function
+lambda_function.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+lambda_function.py:18:4: C0103: Constant name &quot;model_version&quot; doesn&#39;t conform to UPPER_CASE naming style (invalid-name)
+lambda_function.py:29:0: C0116: Missing function or method docstring (missing-function-docstring)
+lambda_function.py:29:26: W0613: Unused argument &#39;context&#39; (unused-argument)
+lambda_function.py:2:0: C0411: standard import &quot;import os&quot; should be placed before &quot;import model&quot; (wrong-import-order)
+************* Module tests.model_test
+tests/model_test.py:6:26: C0303: Trailing whitespace (trailing-whitespace)
+tests/model_test.py:24:0: C0303: Trailing whitespace (trailing-whitespace)
+tests/model_test.py:35:0: C0301: Line too long (245/100) (line-too-long)
+tests/model_test.py:36:0: C0303: Trailing whitespace (trailing-whitespace)
+...
+tests/model_test.py:8:22: C0103: Argument name &quot;X&quot; doesn&#39;t conform to snake_case naming style (invalid-name)
+tests/model_test.py:9:8: C0103: Variable name &quot;n&quot; doesn&#39;t conform to snake_case naming style (invalid-name)
+tests/model_test.py:4:0: R0903: Too few public methods (1/2) (too-few-public-methods)
+tests/model_test.py:33:0: C0116: Missing function or method docstring (missing-function-docstring)
+...
+************* Module test_docker
+integration-test/test_docker.py:14:0: C0301: Line too long (251/100) (line-too-long)
+integration-test/test_docker.py:19:0: C0301: Line too long (103/100) (line-too-long)
+integration-test/test_docker.py:38:54: C0303: Trailing whitespace (trailing-whitespace)
+integration-test/test_docker.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+integration-test/test_docker.py:29:0: C0103: Constant name &quot;url&quot; doesn&#39;t conform to UPPER_CASE naming style (invalid-name)
+
+-----------------------------------
+Your code has been rated at 5.56/10
+</pre></div>
+</div>
+<p>So we see that it has a bunch of rules, for example, no trailing whitespaces. These are whitespaces at the end of each line. Missing docstrings are also flagged. Another recommendation is to use f-strings instead of <code class="docutils literal notranslate"><span class="pre">.format</span></code> for string formatting.</p>
+<figure class="align-default" id="id2">
+<a class="reference internal image-reference" href="../../../_images/trailing-whitespace.png"><img alt="../../../_images/trailing-whitespace.png" src="../../../_images/trailing-whitespace.png" style="width: 38em;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 117 </span><span class="caption-text">Pylint flags trailing whitespace at line 12, after column 53, of <code class="docutils literal notranslate"><span class="pre">model.py</span></code>.</span><a class="headerlink" href="#id2" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Something more convenient in VS Code is to <code class="docutils literal notranslate"><span class="pre">CMD+SHIFT+P</span></code> and <code class="docutils literal notranslate"><span class="pre">Python:</span> <span class="pre">Select</span> <span class="pre">Linter</span></code> to get warnings on the UI level. This is easier than reading through the above output.</p>
+<figure class="align-default" id="id3">
+<a class="reference internal image-reference" href="../../../_images/pylint-warnings.png"><img alt="../../../_images/pylint-warnings.png" src="../../../_images/pylint-warnings.png" style="width: 38em;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 118 </span><span class="caption-text">Highlighted warnings in VS Code along with an explanation from pylint.</span><a class="headerlink" href="#id3" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Some of these errors we don’t really care about. So we can actually configure pylint using <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code>. See here for all <a class="reference external" href="https://pylint.pycqa.org/en/latest/user_guide/messages/messages_overview.html">pylint messages</a>. Messages that we don’t care about can also be copied from the above output (e.g. <code class="docutils literal notranslate"><span class="pre">too-few-public-methods</span></code> or <code class="docutils literal notranslate"><span class="pre">invalid-name</span></code> for variables <code class="docutils literal notranslate"><span class="pre">X</span></code> and <code class="docutils literal notranslate"><span class="pre">n</span></code> which are fine for machine learning applications).</p>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="c1"># pyproject.toml</span>
+
+<span class="k">[tool.pylint.messages_control]</span>
+<span class="n">max-line-length</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">88</span>
+<span class="n">disable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
+<span class="w">  </span><span class="s">&quot;missing-docstring&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="s">&quot;unused-argument&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="s">&quot;missing-class-docstring&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="s">&quot;missing-function-docstring&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="s">&quot;invalid-name&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p>Running pylint again. Note that score improves:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>❯ pylint --recursive=y .
+************* Module /Users/particle1331/code/ok-transformer/docs/nb/mlops/06-best-practices/code/pyproject.toml
+pyproject.toml:1:0: W0012: Unknown option value for &#39;--disable&#39;, expected a valid pylint message and got &#39;final-newline&#39; (unknown-option-value)
+************* Module model
+model.py:12:53: C0303: Trailing whitespace (trailing-whitespace)
+...
+model.py:31:28: C0209: Formatting a regular string which could be a f-string (consider-using-f-string)
+model.py:4:0: C0411: standard import &quot;import base64&quot; should be placed before &quot;import boto3&quot; (wrong-import-order)
+model.py:1:0: W0611: Unused import os (unused-import)
+model.py:6:0: W0611: Unused import joblib (unused-import)
+************* Module lambda_function
+lambda_function.py:18:4: C0103: Constant name &quot;model_version&quot; doesn&#39;t conform to UPPER_CASE naming style (invalid-name)
+lambda_function.py:2:0: C0411: standard import &quot;import os&quot; should be placed before &quot;import model&quot; (wrong-import-order)
+************* Module tests.model_test
+tests/model_test.py:6:26: C0303: Trailing whitespace (trailing-whitespace)
+tests/model_test.py:24:0: C0303: Trailing whitespace (trailing-whitespace)
+tests/model_test.py:35:0: C0301: Line too long (245/88) (line-too-long)
+...
+tests/model_test.py:8:22: C0103: Argument name &quot;X&quot; doesn&#39;t conform to snake_case naming style (invalid-name)
+tests/model_test.py:9:8: C0103: Variable name &quot;n&quot; doesn&#39;t conform to snake_case naming style (invalid-name)
+************* Module test_docker
+integration-test/test_docker.py:13:0: C0301: Line too long (93/88) (line-too-long)
+...
+integration-test/test_docker.py:38:54: C0303: Trailing whitespace (trailing-whitespace)
+integration-test/test_docker.py:29:0: C0103: Constant name &quot;url&quot; doesn&#39;t conform to UPPER_CASE naming style (invalid-name)
+
+------------------------------------------------------------------
+Your code has been rated at 7.01/10 (previous run: 5.64/10, +1.37)
+</pre></div>
+</div>
+<p>If we want to suppress messages for specific parts of the code, we can use the following:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># model.py</span>
+<span class="o">...</span>
+
+<span class="k">class</span> <span class="nc">KinesisCallback</span><span class="p">:</span>
+    <span class="c1"># pylint: disable=too-few-public-methods</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kinesis_client</span><span class="p">,</span> <span class="n">predictions_stream_name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kinesis_client</span> <span class="o">=</span> <span class="n">kinesis_client</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">predictions_stream_name</span> <span class="o">=</span> <span class="n">predictions_stream_name</span>
+
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p>For <code class="docutils literal notranslate"><span class="pre">line-too-long</span></code> for base 64 inputs, we define the following function which is used to read <code class="docutils literal notranslate"><span class="pre">data.b64</span></code> which stores the encoded string. Note that pylint catches error of failing to specify the encoding. This is actually useful since not specifying the encoding can fail in Linux systems.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># model.py</span>
+<span class="o">...</span>
+
+<span class="k">def</span> <span class="nf">read_text</span><span class="p">(</span><span class="n">file</span><span class="p">):</span>
+    <span class="n">test_directory</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">test_directory</span> <span class="o">/</span> <span class="n">file</span><span class="p">,</span> <span class="s1">&#39;rt&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f_in</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">f_in</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+<span class="o">...</span>
+</pre></div>
+</div>
+<p>Similarly, for <code class="docutils literal notranslate"><span class="pre">integration-test/test_docker.py</span></code>, we save and load the <code class="docutils literal notranslate"><span class="pre">event</span></code> from an <code class="docutils literal notranslate"><span class="pre">event.json</span></code> file. After all of these changes, and removing unused imports, running <code class="docutils literal notranslate"><span class="pre">pylint</span> <span class="pre">--recursive=y</span> <span class="pre">.</span></code> gives a score of <code class="docutils literal notranslate"><span class="pre">8.10/10</span></code>. The messages that are left are all regarding whitespaces and import ordering. For these, we will use an tools for automatic code formatting and import sorter.</p>
+</section>
+<section id="formatting">
+<h3>Formatting<a class="headerlink" href="#formatting" title="Permalink to this headline">#</a></h3>
+<p>To view changes that are not yet applied we can use the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>❯<span class="w"> </span>black<span class="w"> </span>--diff<span class="w"> </span>model.py
+---<span class="w"> </span>model.py<span class="w">	</span><span class="m">2022</span>-07-29<span class="w"> </span><span class="m">20</span>:16:30.129099<span class="w"> </span>+0000
++++<span class="w"> </span>model.py<span class="w">	</span><span class="m">2022</span>-07-29<span class="w"> </span><span class="m">20</span>:26:13.503436<span class="w"> </span>+0000
+@@<span class="w"> </span>-5,106<span class="w"> </span>+5,101<span class="w"> </span>@@
+<span class="w"> </span>import<span class="w"> </span>mlflow
+
+
+<span class="w"> </span>def<span class="w"> </span>load_model<span class="o">(</span>model_location<span class="o">)</span>:
+<span class="w">     </span><span class="s2">&quot;&quot;&quot;Load MLflow model from path.&quot;&quot;&quot;</span>
+-<span class="w">    </span><span class="nv">model</span><span class="w"> </span><span class="o">=</span><span class="w">  </span>mlflow.pyfunc.load_model<span class="o">(</span>model_location<span class="o">)</span>
++<span class="w">    </span><span class="nv">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>mlflow.pyfunc.load_model<span class="o">(</span>model_location<span class="o">)</span>
+<span class="w">     </span><span class="k">return</span><span class="w"> </span>model
+
+
+<span class="w"> </span>def<span class="w"> </span>base64_decode<span class="o">(</span>encoded_data<span class="o">)</span>:
+-<span class="w">    </span><span class="nv">decoded_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>base64.b64decode<span class="o">(</span>encoded_data<span class="o">)</span>.decode<span class="o">(</span><span class="s1">&#39;utf-8&#39;</span><span class="o">)</span>
++<span class="w">    </span><span class="nv">decoded_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>base64.b64decode<span class="o">(</span>encoded_data<span class="o">)</span>.decode<span class="o">(</span><span class="s2">&quot;utf-8&quot;</span><span class="o">)</span>
+<span class="w">     </span><span class="nv">ride_event</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>json.loads<span class="o">(</span>decoded_data<span class="o">)</span>
+<span class="w">     </span><span class="k">return</span><span class="w"> </span>ride_event
+
+
+<span class="w"> </span>class<span class="w"> </span>ModelService:
+-
+<span class="w">     </span>def<span class="w"> </span>__init__<span class="o">(</span>self,<span class="w"> </span>model,<span class="w"> </span>model_version,<span class="w"> </span><span class="nv">callbacks</span><span class="o">=</span>None<span class="o">)</span>:
+<span class="w">         </span>self.model<span class="w"> </span><span class="o">=</span><span class="w"> </span>model
+<span class="w">         </span>self.model_version<span class="w"> </span><span class="o">=</span><span class="w"> </span>model_version
+<span class="w">         </span>self.callbacks<span class="w"> </span><span class="o">=</span><span class="w"> </span>callbacks<span class="w"> </span>or<span class="w"> </span><span class="o">[]</span>
+
+<span class="w">     </span>def<span class="w"> </span>prepare_features<span class="o">(</span>self,<span class="w"> </span>ride<span class="o">)</span>:
+<span class="w">         </span><span class="nv">features</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">{}</span>
+-<span class="w">        </span>features<span class="o">[</span><span class="s1">&#39;PU_DO&#39;</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>f<span class="s2">&quot;{ride[&#39;PULocationID&#39;]}_{ride[&#39;DOLocationID&#39;]}&quot;</span>
+-<span class="w">        </span>features<span class="o">[</span><span class="s1">&#39;trip_distance&#39;</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>ride<span class="o">[</span><span class="s1">&#39;trip_distance&#39;</span><span class="o">]</span>
++<span class="w">        </span>features<span class="o">[</span><span class="s2">&quot;PU_DO&quot;</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>f<span class="s2">&quot;{ride[&#39;PULocationID&#39;]}_{ride[&#39;DOLocationID&#39;]}&quot;</span>
++<span class="w">        </span>features<span class="o">[</span><span class="s2">&quot;trip_distance&quot;</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>ride<span class="o">[</span><span class="s2">&quot;trip_distance&quot;</span><span class="o">]</span>
+<span class="w">         </span><span class="k">return</span><span class="w"> </span>features
+
+<span class="w">     </span>def<span class="w"> </span>predict<span class="o">(</span>self,<span class="w"> </span>features<span class="o">)</span>:
+<span class="w">         </span><span class="nv">pred</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>self.model.predict<span class="o">(</span>features<span class="o">)</span>
+<span class="w">         </span><span class="k">return</span><span class="w"> </span>float<span class="o">(</span>pred<span class="o">[</span><span class="m">0</span><span class="o">])</span>
+
+-
+<span class="w">     </span>def<span class="w"> </span>lambda_handler<span class="o">(</span>self,<span class="w"> </span>event<span class="o">)</span>:
+
+<span class="w">         </span><span class="nv">predictions_events</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[]</span>
+
+-<span class="w">        </span><span class="k">for</span><span class="w"> </span>record<span class="w"> </span><span class="k">in</span><span class="w"> </span>event<span class="o">[</span><span class="s1">&#39;Records&#39;</span><span class="o">]</span>:
+-<span class="w">            </span><span class="nv">encoded_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>record<span class="o">[</span><span class="s1">&#39;kinesis&#39;</span><span class="o">][</span><span class="s1">&#39;data&#39;</span><span class="o">]</span>
++<span class="w">        </span><span class="k">for</span><span class="w"> </span>record<span class="w"> </span><span class="k">in</span><span class="w"> </span>event<span class="o">[</span><span class="s2">&quot;Records&quot;</span><span class="o">]</span>:
++<span class="w">            </span><span class="nv">encoded_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>record<span class="o">[</span><span class="s2">&quot;kinesis&quot;</span><span class="o">][</span><span class="s2">&quot;data&quot;</span><span class="o">]</span>
+<span class="w">             </span><span class="nv">ride_event</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>base64_decode<span class="o">(</span>encoded_data<span class="o">)</span>
+
+-<span class="w">            </span><span class="nv">ride</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>ride_event<span class="o">[</span><span class="s1">&#39;ride&#39;</span><span class="o">]</span>
+-<span class="w">            </span><span class="nv">ride_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>ride_event<span class="o">[</span><span class="s1">&#39;ride_id&#39;</span><span class="o">]</span>
+-
++<span class="w">            </span><span class="nv">ride</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>ride_event<span class="o">[</span><span class="s2">&quot;ride&quot;</span><span class="o">]</span>
++<span class="w">            </span><span class="nv">ride_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>ride_event<span class="o">[</span><span class="s2">&quot;ride_id&quot;</span><span class="o">]</span>
++
+<span class="w">             </span><span class="nv">features</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>self.prepare_features<span class="o">(</span>ride<span class="o">)</span>
+<span class="w">             </span><span class="nv">prediction</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>self.predict<span class="o">(</span>features<span class="o">)</span>
+-
++
+<span class="w">             </span><span class="nv">prediction_event</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">{</span>
+-<span class="w">                </span><span class="s1">&#39;model&#39;</span>:<span class="w"> </span><span class="s1">&#39;ride_duration_prediction_model&#39;</span>,
+-<span class="w">                </span><span class="s1">&#39;version&#39;</span>:<span class="w"> </span>self.model_version,
+-<span class="w">                </span><span class="s1">&#39;prediction&#39;</span>:<span class="w"> </span><span class="o">{</span>
+-<span class="w">                    </span><span class="s1">&#39;ride_duration&#39;</span>:<span class="w"> </span>prediction,
+-<span class="w">                    </span><span class="s1">&#39;ride_id&#39;</span>:<span class="w"> </span>ride_id,
+-<span class="w">                </span><span class="o">}</span>
++<span class="w">                </span><span class="s2">&quot;model&quot;</span>:<span class="w"> </span><span class="s2">&quot;ride_duration_prediction_model&quot;</span>,
++<span class="w">                </span><span class="s2">&quot;version&quot;</span>:<span class="w"> </span>self.model_version,
++<span class="w">                </span><span class="s2">&quot;prediction&quot;</span>:<span class="w"> </span><span class="o">{</span>
++<span class="w">                    </span><span class="s2">&quot;ride_duration&quot;</span>:<span class="w"> </span>prediction,
++<span class="w">                    </span><span class="s2">&quot;ride_id&quot;</span>:<span class="w"> </span>ride_id,
++<span class="w">                </span><span class="o">}</span>,
+<span class="w">             </span><span class="o">}</span>
+
+<span class="w">             </span><span class="k">for</span><span class="w"> </span>callback<span class="w"> </span><span class="k">in</span><span class="w"> </span>self.callbacks:
+<span class="w">                 </span>callback<span class="o">(</span>prediction_event<span class="o">)</span>
+-
++
+<span class="w">             </span>predictions_events.append<span class="o">(</span>prediction_event<span class="o">)</span>
+
+-
+-<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="o">{</span>
+-<span class="w">            </span><span class="s1">&#39;predictions&#39;</span>:<span class="w"> </span>predictions_events
+-<span class="w">        </span><span class="o">}</span>
++<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="o">{</span><span class="s2">&quot;predictions&quot;</span>:<span class="w"> </span>predictions_events<span class="o">}</span>
+
+
+<span class="w"> </span>class<span class="w"> </span>KinesisCallback:
+<span class="w">     </span><span class="c1"># pylint: disable=too-few-public-methods</span>
+
+<span class="w">     </span>def<span class="w"> </span>__init__<span class="o">(</span>self,<span class="w"> </span>kinesis_client,<span class="w"> </span>predictions_stream_name<span class="o">)</span>:
+<span class="w">         </span>self.kinesis_client<span class="w"> </span><span class="o">=</span><span class="w"> </span>kinesis_client
+<span class="w">         </span>self.predictions_stream_name<span class="w"> </span><span class="o">=</span><span class="w"> </span>predictions_stream_name
+
+<span class="w">     </span>def<span class="w"> </span>put_record<span class="o">(</span>self,<span class="w"> </span>prediction_event<span class="o">)</span>:
+-<span class="w">        </span><span class="nv">ride_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>prediction_event<span class="o">[</span><span class="s1">&#39;prediction&#39;</span><span class="o">][</span><span class="s1">&#39;ride_id&#39;</span><span class="o">]</span>
++<span class="w">        </span><span class="nv">ride_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>prediction_event<span class="o">[</span><span class="s2">&quot;prediction&quot;</span><span class="o">][</span><span class="s2">&quot;ride_id&quot;</span><span class="o">]</span>
+<span class="w">         </span>self.kinesis_client.put_record<span class="o">(</span>
+<span class="w">             </span><span class="nv">StreamName</span><span class="o">=</span>self.predictions_stream_name,
+<span class="w">             </span><span class="nv">Data</span><span class="o">=</span>json.dumps<span class="o">(</span>prediction_event<span class="o">)</span>,
+-<span class="w">            </span><span class="nv">PartitionKey</span><span class="o">=</span>str<span class="o">(</span>ride_id<span class="o">)</span>
++<span class="w">            </span><span class="nv">PartitionKey</span><span class="o">=</span>str<span class="o">(</span>ride_id<span class="o">)</span>,
+<span class="w">         </span><span class="o">)</span>
+
+
+<span class="w"> </span>def<span class="w"> </span>init<span class="o">(</span>
+-<span class="w">        </span>predictions_stream_name:<span class="w"> </span>str,
+-<span class="w">        </span>model_location:<span class="w"> </span>str,
+-<span class="w">        </span>model_version:<span class="w"> </span>str,
+-<span class="w">        </span>test_run:<span class="w"> </span>bool
+-<span class="w">    </span><span class="o">)</span>:
++<span class="w">    </span>predictions_stream_name:<span class="w"> </span>str,
++<span class="w">    </span>model_location:<span class="w"> </span>str,
++<span class="w">    </span>model_version:<span class="w"> </span>str,
++<span class="w">    </span>test_run:<span class="w"> </span>bool,
++<span class="o">)</span>:
+<span class="w">     </span><span class="s2">&quot;&quot;&quot;Initialize model_service for lambda_function module.&quot;&quot;&quot;</span>
+
+<span class="w">     </span><span class="nv">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>load_model<span class="o">(</span>model_location<span class="o">)</span>
+-
++
+<span class="w">     </span><span class="nv">callbacks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[]</span>
+<span class="w">     </span><span class="k">if</span><span class="w"> </span>not<span class="w"> </span>test_run:
+-<span class="w">        </span><span class="nv">kinesis_client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>boto3.client<span class="o">(</span><span class="s1">&#39;kinesis&#39;</span><span class="o">)</span>
++<span class="w">        </span><span class="nv">kinesis_client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>boto3.client<span class="o">(</span><span class="s2">&quot;kinesis&quot;</span><span class="o">)</span>
+<span class="w">         </span><span class="nv">kinesis_callback</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>KinesisCallback<span class="o">(</span>kinesis_client,<span class="w"> </span>predictions_stream_name<span class="o">)</span>
+<span class="w">         </span>callbacks.append<span class="o">(</span>kinesis_callback.put_record<span class="o">)</span>
+
+<span class="w">     </span><span class="nv">model_service</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>ModelService<span class="o">(</span>
+-<span class="w">        </span><span class="nv">model</span><span class="o">=</span>model,
+-<span class="w">        </span><span class="nv">model_version</span><span class="o">=</span>model_version,
++<span class="w">        </span><span class="nv">model</span><span class="o">=</span>model,
++<span class="w">        </span><span class="nv">model_version</span><span class="o">=</span>model_version,
+<span class="w">         </span><span class="nv">callbacks</span><span class="o">=</span>callbacks,
+<span class="w">     </span><span class="o">)</span>
+-
++
+<span class="w">     </span><span class="k">return</span><span class="w"> </span>model_service
+would<span class="w"> </span>reformat<span class="w"> </span>model.py
+
+All<span class="w"> </span><span class="k">done</span>!<span class="w"> </span>✨<span class="w"> </span>🍰<span class="w"> </span>✨
+<span class="m">1</span><span class="w"> </span>file<span class="w"> </span>would<span class="w"> </span>be<span class="w"> </span>reformatted.
+</pre></div>
+</div>
+<p>Note that this mostly involve replacing single quotes with double quotes, adding trailing commas to last items, and removing whitespaces. This looks fine so let’s apply it:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>black<span class="w"> </span>model.py
+reformatted<span class="w"> </span>model.py
+
+All<span class="w"> </span><span class="k">done</span>!<span class="w"> </span>✨<span class="w"> </span>🍰<span class="w"> </span>✨
+<span class="m">1</span><span class="w"> </span>file<span class="w"> </span>reformatted.
+$<span class="w"> </span>git<span class="w"> </span>status
+On<span class="w"> </span>branch<span class="w"> </span>mlops
+Your<span class="w"> </span>branch<span class="w"> </span>is<span class="w"> </span>up<span class="w"> </span>to<span class="w"> </span>date<span class="w"> </span>with<span class="w"> </span><span class="s1">&#39;origin/mlops&#39;</span>.
+
+Changes<span class="w"> </span>not<span class="w"> </span>staged<span class="w"> </span><span class="k">for</span><span class="w"> </span>commit:
+<span class="w">  </span><span class="o">(</span>use<span class="w"> </span><span class="s2">&quot;git add &lt;file&gt;...&quot;</span><span class="w"> </span>to<span class="w"> </span>update<span class="w"> </span>what<span class="w"> </span>will<span class="w"> </span>be<span class="w"> </span>committed<span class="o">)</span>
+<span class="w">  </span><span class="o">(</span>use<span class="w"> </span><span class="s2">&quot;git restore &lt;file&gt;...&quot;</span><span class="w"> </span>to<span class="w"> </span>discard<span class="w"> </span>changes<span class="w"> </span><span class="k">in</span><span class="w"> </span>working<span class="w"> </span>directory<span class="o">)</span>
+<span class="w">	</span>modified:<span class="w">   </span>model.py
+
+no<span class="w"> </span>changes<span class="w"> </span>added<span class="w"> </span>to<span class="w"> </span>commit<span class="w"> </span><span class="o">(</span>use<span class="w"> </span><span class="s2">&quot;git add&quot;</span><span class="w"> </span>and/or<span class="w"> </span><span class="s2">&quot;git commit -a&quot;</span><span class="o">)</span>
+</pre></div>
+</div>
+<figure class="align-default" id="id4">
+<a class="reference internal image-reference" href="../../../_images/black-changes.png"><img alt="../../../_images/black-changes.png" src="../../../_images/black-changes.png" style="width: 45em;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 119 </span><span class="caption-text">Changes in <code class="docutils literal notranslate"><span class="pre">model.py</span></code> after using <code class="docutils literal notranslate"><span class="pre">black</span></code>.</span><a class="headerlink" href="#id4" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>For black to not single quotes we can use the flag <code class="docutils literal notranslate"><span class="pre">-S</span></code> or <code class="docutils literal notranslate"><span class="pre">--skip-string-normalization</span></code>. Note that if we want black to not convert manually multi-line formatted dictionaries to one-liners we can add a trailing comma on the last item. Or we can add this in the <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> for black:</p>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="c1"># pyproject.toml</span>
+<span class="p">...</span>
+
+<span class="k">[tool.black]</span>
+<span class="n">line-length</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">88</span>
+<span class="n">target-version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s">&#39;py39&#39;</span><span class="p">]</span>
+<span class="n">skip-string-normalization</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
+</pre></div>
+</div>
+</section>
+<section id="imports">
+<h3>Imports<a class="headerlink" href="#imports" title="Permalink to this headline">#</a></h3>
+<p>Running pylint again shows that we only have import ordering left:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>pylint<span class="w"> </span>--recursive<span class="o">=</span>y<span class="w"> </span>.
+*************<span class="w"> </span>Module<span class="w"> </span>model
+model.py:3:0:<span class="w"> </span>C0411:<span class="w"> </span>standard<span class="w"> </span>import<span class="w"> </span><span class="s2">&quot;import base64&quot;</span><span class="w"> </span>should<span class="w"> </span>be<span class="w"> </span>placed<span class="w"> </span>before<span class="w"> </span><span class="s2">&quot;import boto3&quot;</span><span class="w"> </span><span class="o">(</span>wrong-import-order<span class="o">)</span>
+*************<span class="w"> </span>Module<span class="w"> </span>lambda_function
+lambda_function.py:2:0:<span class="w"> </span>C0411:<span class="w"> </span>standard<span class="w"> </span>import<span class="w"> </span><span class="s2">&quot;import os&quot;</span><span class="w"> </span>should<span class="w"> </span>be<span class="w"> </span>placed<span class="w"> </span>before<span class="w"> </span><span class="s2">&quot;import model&quot;</span><span class="w"> </span><span class="o">(</span>wrong-import-order<span class="o">)</span>
+*************<span class="w"> </span>Module<span class="w"> </span>tests.model_test
+tests/model_test.py:2:0:<span class="w"> </span>C0411:<span class="w"> </span>standard<span class="w"> </span>import<span class="w"> </span><span class="s2">&quot;import pathlib&quot;</span><span class="w"> </span>should<span class="w"> </span>be<span class="w"> </span>placed<span class="w"> </span>before<span class="w"> </span><span class="s2">&quot;import model&quot;</span><span class="w"> </span><span class="o">(</span>wrong-import-order<span class="o">)</span>
+
+------------------------------------------------------------------
+Your<span class="w"> </span>code<span class="w"> </span>has<span class="w"> </span>been<span class="w"> </span>rated<span class="w"> </span>at<span class="w"> </span><span class="m">9</span>.75/10<span class="w"> </span><span class="o">(</span>previous<span class="w"> </span>run:<span class="w"> </span><span class="m">9</span>.75/10,<span class="w"> </span>+0.00<span class="o">)</span>
+</pre></div>
+</div>
+<p>For this we will use isort. The following configuration sorts imports in increasing length, for readability. Here <code class="docutils literal notranslate"><span class="pre">multi_line_output</span> <span class="pre">=</span> <span class="pre">3</span></code> is the familiar convention where break imports into multiple lines by means of parentheses (see <a class="reference external" href="https://pycqa.github.io/isort/docs/configuration/multi_line_output_modes.html#3-vertical-hanging-indent">here</a>).</p>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="c1"># pyproject.toml</span>
+<span class="p">...</span>
+
+<span class="k">[tool.isort]</span>
+<span class="n">multi_line_output</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span>
+<span class="n">length_sort</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
+</pre></div>
+</div>
+<p>Running isort and pylint now:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>isort<span class="w"> </span>.
+Fixing<span class="w"> </span>code/model.py
+Fixing<span class="w"> </span>code/lambda_function.py
+Fixing<span class="w"> </span>code/tests/model_test.py
+Fixing<span class="w"> </span>code/integration-test/test_docker.py
+$<span class="w"> </span>pylint<span class="w"> </span>--recursive<span class="o">=</span>y<span class="w"> </span>.
+
+-------------------------------------------------------------------
+Your<span class="w"> </span>code<span class="w"> </span>has<span class="w"> </span>been<span class="w"> </span>rated<span class="w"> </span>at<span class="w"> </span><span class="m">10</span>.00/10<span class="w"> </span><span class="o">(</span>previous<span class="w"> </span>run:<span class="w"> </span><span class="m">9</span>.75/10,<span class="w"> </span>+0.25<span class="o">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="git-pre-commit-hooks">
+<h2>Git pre-commit hooks<a class="headerlink" href="#git-pre-commit-hooks" title="Permalink to this headline">#</a></h2>
+<p>The nice thing about the tools discussed in the previous section is that these can all be run automatically. For example, in the following order. In this section, we will see how to do this using <strong>pre-commit hooks</strong>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>isort<span class="w"> </span>.
+black<span class="w"> </span>.
+pylint<span class="w"> </span>--recursive<span class="o">=</span>y<span class="w"> </span>.
+pytest<span class="w"> </span>tests/
+sh<span class="w"> </span>integration-test/run.sh
+</pre></div>
+</div>
+</section>
+<section id="makefiles-and-make">
+<h2>Makefiles and make<a class="headerlink" href="#makefiles-and-make" title="Permalink to this headline">#</a></h2>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./nb/mlops/06-best-practices"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../04-deployment/notes.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Model Deployment</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../../mle/cicd-pipelines.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Continuous Integration and Deployment Pipelines</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#testing-python-code-with-pytest">Testing Python code with pytest</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-unit-tests">Adding unit tests</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#refactoring-the-lambda-function">Refactoring the lambda function</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#further-unit-tests">Further unit tests</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-callbacks">Adding callbacks</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#appendix-source-code">Appendix: Source code</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#integration-tests">Integration tests</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#testing-the-lambda-container">Testing the Lambda container</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#differences-with-deepdiff">Differences with DeepDiff</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-a-local-model-for-testing">Adding a local model for testing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#automating-the-test">Automating the test</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#returning-error-codes">Returning error codes</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#code-quality">Code quality</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#linting">Linting</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#formatting">Formatting</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#imports">Imports</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#git-pre-commit-hooks">Git pre-commit hooks</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#makefiles-and-make">Makefiles and make</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            <div class="bd-footer-content__inner">
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By 𝗽𝗮𝗿𝘁𝗶𝗰𝗹𝗲𝟭𝟯𝟯𝟭. Powered by <a href="https://jupyterbook.org">Jupyter Book</a>.
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div></div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

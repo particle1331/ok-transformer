@@ -1,0 +1,1319 @@
+
+
+<!DOCTYPE html>
+
+
+<html >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Packaging Modeling Code &#8212; OK Transformer</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'nb/mlops/02-package';</script>
+    <link rel="shortcut icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Experiment Tracking" href="03-mlflow.html" />
+    <link rel="prev" title="Preliminaries" href="01-intro.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="None"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Language Modeling</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../nn/03-batchnorm.html">Batch Normalization</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Deep Learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../dl/01-intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dl/02-optim.html">Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dl/00-backprop.html">Backpropagation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dl/03-cnn.html">Convolutional Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dl/04-lm.html">Language Modeling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dl/05-training.html">Activations and Gradients</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Engineering and Ops</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01-intro.html">Preliminaries</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Packaging Modeling Code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-mlflow.html">Experiment Tracking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04-tasks.html">Distributed Task Queues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04-deployment/notes.html">Model Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06-best-practices/notes.html">Best Engineering Practices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mle/cicd-pipelines.html">Continuous Integration and Deployment Pipelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mle/model-serving-api.html">Prediction Serving API</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Notes</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../notes/containers.html">Docker Containers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notes/benchmarking.html">Benchmarking and Profiling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notes/tf-course.html">TensorFlow Crash Course</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/particle1331/ok-transformer" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/particle1331/ok-transformer/issues/new?title=Issue%20on%20page%20%2Fnb/mlops/02-package.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Packaging Modeling Code</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modeling-code">Modeling code</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#packaging">Packaging</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#config">Config</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modules">Modules</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#testing">Testing</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#debugger">Debugger</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-engineering">Feature engineering</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#code-quality">Code quality</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#code-coverage">Code coverage</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#makefile">Makefile</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#automated-tests">Automated tests</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="packaging-modeling-code">
+<h1>Packaging Modeling Code<a class="headerlink" href="#packaging-modeling-code" title="Permalink to this headline">#</a></h1>
+<p><img alt="Status" src="https://img.shields.io/static/v1.svg?label=Status&amp;message=Finished&amp;color=brightgreen" />
+<a class="reference external" href="https://github.com/particle1331/ok-transformer/blob/master/docs/nb/mlops/02-package.ipynb"><img alt="Source" src="https://img.shields.io/static/v1.svg?label=GitHub&amp;message=Source&amp;color=181717&amp;logo=GitHub" /></a>
+<a class="reference external" href="https://github.com/particle1331/ok-transformer"><img alt="Stars" src="https://img.shields.io/github/stars/particle1331/ok-transformer?style=social" /></a></p>
+<hr class="docutils" />
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">#</a></h2>
+<p>In this notebook, we will <strong>package</strong> utilities to train the <a class="reference internal" href="01-intro.html#intro-modeling-ride-duration"><span class="std std-ref">ride duration model</span></a> from our previous notebook. Packaging allows us to wrap our model training code and make it available to other consuming applications as a dependency, but with the additional benefits of version control, clear metadata, and reproducibility. We will also show how to approach <strong>testing</strong> as a way to demonstrate minimal  use-cases of the package. The directory structure of our package is as follows. Note that different concerns are nicely separated at the file level. This makes our code easier to maintain.</p>
+</section>
+<section id="modeling-code">
+<h2>Modeling code<a class="headerlink" href="#modeling-code" title="Permalink to this headline">#</a></h2>
+<p>Installing the package:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>-U<span class="w"> </span>git+https://github.com/particle1331/ride-duration-prediction.git@v0.0.3<span class="w"> </span>--upgrade<span class="w"> </span>--no-deps<span class="w"> </span>--force-reinstall<span class="w"> </span>&gt;<span class="w"> </span>/dev/null
+<span class="o">!</span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;\nSuccessfully installed:  </span><span class="k">$(</span>pip<span class="w"> </span>list<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>ride-duration-prediction<span class="k">)</span><span class="s2">/</span><span class="k">$(</span>wget<span class="w"> </span>--header<span class="o">=</span><span class="s1">&#39;Accept: application/vnd.github.VERSION.sha&#39;</span><span class="w"> </span>-qO-<span class="w"> </span>commit_id<span class="w">  </span>http://api.github.com/repos/particle1331/ride-duration-prediction/commits/v0.0.3<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-c<span class="w"> </span><span class="m">7</span><span class="k">)</span><span class="s2">&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  Running command git clone --filter=blob:none --quiet https://github.com/particle1331/ride-duration-prediction.git /private/var/folders/jq/9vsvd9252_349lsng_5gc_jw0000gn/T/pip-req-build-250x1m__
+  Running command git checkout -b v0.0.3 --track origin/v0.0.3
+  Switched to a new branch &#39;v0.0.3&#39;
+  branch &#39;v0.0.3&#39; set up to track &#39;origin/v0.0.3&#39;.
+
+Successfully installed:  ride-duration-prediction       0.0.3/b864097
+</pre></div>
+</div>
+</div>
+</div>
+<p>File tree highlights separation between different concerns in the code:</p>
+<aside class="margin sidebar">
+<p class="sidebar-title"></p>
+<p><a class="reference external" href="https://github.com/particle1331/ride-duration-prediction/tree/v0.0.3"><code class="docutils literal notranslate"><span class="pre">/tree/v0.0.3</span></code></a></p>
+</aside>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ tree
+.
+├── LICENSE
+├── Makefile
+├── Pipfile
+├── Pipfile.lock
+├── README.md
+├── pyproject.toml
+├── ride_duration
+│   ├── __init__.py
+│   ├── config
+│   │   ├── __init__.py
+│   │   └── core.py
+│   ├── config.yml
+│   ├── data
+│   │   ├── green_tripdata_2021-01.parquet
+│   │   └── green_tripdata_2021-02.parquet
+│   ├── models
+│   │   └── model_pipe.pkl
+│   ├── processing.py
+│   ├── tests
+│   │   ├── __init__.py
+│   │   ├── conftest.py
+│   │   ├── test_config.py
+│   │   ├── test_pipeline.py
+│   │   └── test_processing.py
+│   └── utils.py
+├── scripts
+│   └── get_taxi_data.sh
+└── setup.cfg
+</pre></div>
+</div>
+<p><strong>Remark.</strong> Note that applications and packages are different things. An application is a compute environment that runs code on data. Packages on the other hand are just code. In particular, dev artifacts such as <a class="reference external" href="https://github.com/particle1331/ride-duration-prediction/blob/v0.0.3/Pipfile"><code class="docutils literal notranslate"><span class="pre">Pipfile</span></code></a> and <a class="reference external" href="https://github.com/particle1331/ride-duration-prediction/blob/v0.0.3/Pipfile.lock"><code class="docutils literal notranslate"><span class="pre">Pipfile.lock</span></code></a> are not shipped along with the source files. On the other hand, we include tests to ensure expected behavior in the installation environment. See <a class="reference internal" href="01-intro.html#pipenv-virtual-env"><span class="std std-ref">the previous notebook</span></a> for a discussion of Pipenv.</p>
+<aside class="margin sidebar">
+<p class="sidebar-title"></p>
+<p><a class="reference external" href="https://github.com/particle1331/ride-duration-prediction/blob/v0.0.3/Pipfile"><code class="docutils literal notranslate"><span class="pre">Pipfile</span></code></a></p>
+</aside>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[[source]]</span>
+<span class="na">url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;https://pypi.org/simple&quot;</span>
+<span class="na">verify_ssl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">true</span>
+<span class="na">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;pypi&quot;</span>
+
+<span class="k">[packages]</span>
+<span class="na">matplotlib</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;*&quot;</span>
+<span class="na">strictyaml</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;*&quot;</span>
+<span class="na">pydantic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;*&quot;</span>
+<span class="na">seaborn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;*&quot;</span>
+<span class="na">pandas</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&gt;=1.5.0&quot;</span>
+
+<span class="k">[dev-packages]</span>
+<span class="na">ride-duration-prediction</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">{editable = true, path = &quot;.&quot;}</span>
+<span class="na">scikit-learn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&gt;=1.0.0&quot;</span>
+<span class="na">fastparquet</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;*&quot;</span>
+<span class="na">requests</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;*&quot;</span>
+<span class="na">notebook</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;*&quot;</span>
+<span class="na">coverage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;*&quot;</span>
+<span class="na">joblib</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;*&quot;</span>
+<span class="na">pytest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;*&quot;</span>
+<span class="na">flake8</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;*&quot;</span>
+<span class="na">pylint</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;*&quot;</span>
+<span class="na">isort</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;*&quot;</span>
+<span class="na">black</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;*&quot;</span>
+
+<span class="k">[requires]</span>
+<span class="na">python_version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;3.9&quot;</span>
+</pre></div>
+</div>
+<p><strong>Remark.</strong> Note that unpinned versions are OK since there is the lock file.</p>
+<section id="packaging">
+<h3>Packaging<a class="headerlink" href="#packaging" title="Permalink to this headline">#</a></h3>
+<p>Setting up <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> as build backend:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="c1"># pyproject.toml</span>
+<span class="k">[build-system]</span>
+<span class="na">requires</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">[&quot;setuptools&quot;]</span>
+<span class="na">build-backend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;setuptools.build_meta&quot;</span>
+</pre></div>
+</div>
+<p>Imports made in the module scripts are gathered in <code class="docutils literal notranslate"><span class="pre">install_requires</span></code>. These are the abstract requirements minimally needed to run the package. This is a bit different from a requirements file which lists pinned versions for the purpose of achieving repeatable installations on a complete environment.</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="c1"># setup.cfg</span>
+<span class="k">[metadata]</span>
+<span class="na">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">ride-duration-prediction</span>
+<span class="na">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">0.0.3</span>
+<span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Predicting ride duration of NYC Green taxis based on TLC Trip Record Data.&quot;</span>
+
+<span class="k">[options]</span>
+<span class="na">packages</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">find:</span>
+<span class="na">include_package_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">True</span>
+<span class="na">python_requires</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&gt;=3.9</span>
+<span class="na">install_requires</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="na">pandas &gt;</span><span class="o">=</span><span class="w"> </span><span class="s">1.5.0</span>
+<span class="w">    </span><span class="na">strictyaml</span>
+<span class="w">    </span><span class="na">matplotlib</span>
+<span class="w">    </span><span class="na">pydantic</span>
+<span class="w">    </span><span class="na">seaborn</span>
+
+<span class="k">[options.package_data]</span>
+<span class="na">ride_duration</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">*.yml, data/*.parquet, models/*.pkl</span>
+</pre></div>
+</div>
+<p>Note that we also specify to include certain data files for testing. See the <a class="reference external" href="https://setuptools.pypa.io/en/latest/userguide/declarative_config.html">here</a> for more options. The full list of shipped files can be viewed in the <code class="docutils literal notranslate"><span class="pre">SOURCES.txt</span></code> file of the generated <code class="docutils literal notranslate"><span class="pre">egg-info</span></code> folder after building.</p>
+</section>
+<section id="config">
+<h3>Config<a class="headerlink" href="#config" title="Permalink to this headline">#</a></h3>
+<p>The following script contains paths to project directories and creates the core <code class="docutils literal notranslate"><span class="pre">config</span></code> object of the project from the <code class="docutils literal notranslate"><span class="pre">config.yml</span></code> file:</p>
+<aside class="margin sidebar">
+<p class="sidebar-title"></p>
+<p><strong>Advanced:</strong> <a class="reference external" href="https://docs.pydantic.dev/latest/usage/settings/">Pydantic settings</a></p>
+</aside>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># ride_duration/config/core.py</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
+<span class="kn">from</span> <span class="nn">strictyaml</span> <span class="kn">import</span> <span class="n">load</span>
+
+<span class="c1"># Project directories</span>
+<span class="n">PACKAGE_ROOT</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parents</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">ROOT</span> <span class="o">=</span> <span class="n">PACKAGE_ROOT</span><span class="o">.</span><span class="n">parent</span>
+<span class="n">CONFIG_FILE_PATH</span> <span class="o">=</span> <span class="n">PACKAGE_ROOT</span> <span class="o">/</span> <span class="s2">&quot;config.yml&quot;</span>
+<span class="n">DATASET_DIR</span> <span class="o">=</span> <span class="n">PACKAGE_ROOT</span> <span class="o">/</span> <span class="s2">&quot;data&quot;</span>
+<span class="n">MODEL_DIR</span> <span class="o">=</span> <span class="n">PACKAGE_ROOT</span> <span class="o">/</span> <span class="s2">&quot;models&quot;</span>
+
+
+<span class="c1"># Load core config object</span>
+<span class="k">class</span> <span class="nc">Config</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">TARGET</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">TARGET_MIN</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">TARGET_MAX</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">RANDOM_STATE</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">FEATURES</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">NUM_FEATURES</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">CAT_FEATURES</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">TRAIN_SAMPLE</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">VALID_SAMPLE</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">MODEL_SAMPLE</span><span class="p">:</span> <span class="nb">str</span>
+
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">CONFIG_FILE_PATH</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">config_file</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+<span class="n">config</span> <span class="o">=</span> <span class="n">Config</span><span class="p">(</span><span class="o">**</span><span class="n">load</span><span class="p">(</span><span class="n">config_file</span><span class="p">)</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">config.yml</span></code> file contains data processing and model training parameters:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># ride_duration/config.yml</span>
+<span class="nt">RANDOM_STATE</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
+
+<span class="nt">TARGET</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">duration</span>
+<span class="nt">TARGET_MIN</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="nt">TARGET_MAX</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">60</span>
+
+<span class="nt">TRAIN_SAMPLE</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;green_tripdata_2021-01.parquet&quot;</span>
+<span class="nt">VALID_SAMPLE</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;green_tripdata_2021-02.parquet&quot;</span>
+<span class="nt">MODEL_SAMPLE</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;model_pipe.pkl&quot;</span>
+
+<span class="nt">FEATURES</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PULocationID</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DOLocationID</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">trip_distance</span>
+
+<span class="nt">CAT_FEATURES</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PULocationID</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DOLocationID</span>
+
+<span class="nt">NUM_FEATURES</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">trip_distance</span>
+</pre></div>
+</div>
+</section>
+<section id="modules">
+<h3>Modules<a class="headerlink" href="#modules" title="Permalink to this headline">#</a></h3>
+<p>Training and data processing utilities are collected the <code class="docutils literal notranslate"><span class="pre">utils</span></code> module. The motivation for the code is provided in the <a class="reference internal" href="01-intro.html#intro-modeling-ride-duration"><span class="std std-ref">previous notebook</span></a>. The first function adds a ride duration column which is our target variable. The problem domain is narrowed down to rides taking one minute to one hour. The other two functions are utilities for feature processing and visualization, respectively.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ride_duration</span> <span class="kn">import</span> <span class="n">utils</span>
+
+utils<span class="o">??</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Red">Type:</span>        module
+<span class=" -Color -Color-Red">String form:</span> &lt;module &#39;ride_duration.utils&#39; from &#39;/Users/particle1331/opt/miniconda3/envs/ai/lib/python3.9/site-packages/ride_duration/utils.py&#39;&gt;
+<span class=" -Color -Color-Red">File:</span>        ~/opt/miniconda3/envs/ai/lib/python3.9/site-packages/ride_duration/utils.py
+<span class=" -Color -Color-Red">Source:</span>     
+<span class=" -Color -Color-Green">import</span> seaborn <span class=" -Color -Color-Green">as</span> sns
+<span class=" -Color -Color-Green">import</span> matplotlib<span class=" -Color -Color-Blue">.</span>pyplot <span class=" -Color -Color-Green">as</span> plt
+
+<span class=" -Color -Color-Green">from</span> ride_duration<span class=" -Color -Color-Blue">.</span>config <span class=" -Color -Color-Green">import</span> config
+
+
+<span class=" -Color -Color-Green">def</span> create_target_column<span class=" -Color -Color-Blue">(</span>df<span class=" -Color -Color-Blue">):</span>
+    <span class=" -Color -Color-Blue">&quot;Create target column.&quot;</span>
+    df<span class=" -Color -Color-Blue">[</span>config<span class=" -Color -Color-Blue">.</span>TARGET<span class=" -Color -Color-Blue">]</span> <span class=" -Color -Color-Blue">=</span> df<span class=" -Color -Color-Blue">.</span>lpep_dropoff_datetime <span class=" -Color -Color-Blue">-</span> df<span class=" -Color -Color-Blue">.</span>lpep_pickup_datetime
+    df<span class=" -Color -Color-Blue">[</span>config<span class=" -Color -Color-Blue">.</span>TARGET<span class=" -Color -Color-Blue">]</span> <span class=" -Color -Color-Blue">=</span> df<span class=" -Color -Color-Blue">.</span>duration<span class=" -Color -Color-Blue">.</span>dt<span class=" -Color -Color-Blue">.</span>total_seconds<span class=" -Color -Color-Blue">()</span> <span class=" -Color -Color-Blue">/</span> <span class=" -Color -Color-Cyan">60</span>
+    <span class=" -Color -Color-Green">return</span> df
+
+
+<span class=" -Color -Color-Green">def</span> filter_ride_duration<span class=" -Color -Color-Blue">(</span>df<span class=" -Color -Color-Blue">):</span>
+    <span class=" -Color -Color-Blue">&quot;&quot;&quot;Filter rides with target outliers.&quot;&quot;&quot;</span>
+    mask <span class=" -Color -Color-Blue">=</span> <span class=" -Color -Color-Blue">(</span>df<span class=" -Color -Color-Blue">.</span>duration <span class=" -Color -Color-Blue">&gt;=</span> config<span class=" -Color -Color-Blue">.</span>TARGET_MIN<span class=" -Color -Color-Blue">)</span> <span class=" -Color -Color-Blue">&amp;</span> <span class=" -Color -Color-Blue">(</span>df<span class=" -Color -Color-Blue">.</span>duration <span class=" -Color -Color-Blue">&lt;=</span> config<span class=" -Color -Color-Blue">.</span>TARGET_MAX<span class=" -Color -Color-Blue">)</span>
+    <span class=" -Color -Color-Green">return</span> df<span class=" -Color -Color-Blue">[</span>mask<span class=" -Color -Color-Blue">]</span>
+
+
+<span class=" -Color -Color-Green">def</span> plot_duration_histograms<span class=" -Color -Color-Blue">(</span>y_train<span class=" -Color -Color-Blue">,</span> yp_train<span class=" -Color -Color-Blue">,</span> y_valid<span class=" -Color -Color-Blue">,</span> yp_valid<span class=" -Color -Color-Blue">):</span>
+    <span class=" -Color -Color-Blue">&quot;&quot;&quot;Plot true and prediction distributions of ride duration.&quot;&quot;&quot;</span>
+
+    <span class=" -Color -Color-Red"># fmt: off</span>
+    fig<span class=" -Color -Color-Blue">,</span> ax <span class=" -Color -Color-Blue">=</span> plt<span class=" -Color -Color-Blue">.</span>subplots<span class=" -Color -Color-Blue">(</span><span class=" -Color -Color-Cyan">1</span><span class=" -Color -Color-Blue">,</span> <span class=" -Color -Color-Cyan">2</span><span class=" -Color -Color-Blue">,</span> figsize<span class=" -Color -Color-Blue">=(</span><span class=" -Color -Color-Cyan">8</span><span class=" -Color -Color-Blue">,</span> <span class=" -Color -Color-Cyan">4</span><span class=" -Color -Color-Blue">))</span>
+    pred_config <span class=" -Color -Color-Blue">=</span> dict<span class=" -Color -Color-Blue">(</span>label<span class=" -Color -Color-Blue">=&#39;pred&#39;,</span> color<span class=" -Color -Color-Blue">=&#39;C0&#39;,</span> stat<span class=" -Color -Color-Blue">=&#39;density&#39;,</span> kde<span class=" -Color -Color-Blue">=</span><span class=" -Color -Color-Green">True</span><span class=" -Color -Color-Blue">)</span>
+    true_config <span class=" -Color -Color-Blue">=</span> dict<span class=" -Color -Color-Blue">(</span>label<span class=" -Color -Color-Blue">=&#39;true&#39;,</span> color<span class=" -Color -Color-Blue">=&#39;C1&#39;,</span> stat<span class=" -Color -Color-Blue">=&#39;density&#39;,</span> kde<span class=" -Color -Color-Blue">=</span><span class=" -Color -Color-Green">True</span><span class=" -Color -Color-Blue">)</span>
+
+    ax<span class=" -Color -Color-Blue">[</span><span class=" -Color -Color-Cyan">0</span><span class=" -Color -Color-Blue">].</span>set_title<span class=" -Color -Color-Blue">(&quot;train&quot;)</span>
+    sns<span class=" -Color -Color-Blue">.</span>histplot<span class=" -Color -Color-Blue">(</span>yp_train<span class=" -Color -Color-Blue">,</span> ax<span class=" -Color -Color-Blue">=</span>ax<span class=" -Color -Color-Blue">[</span><span class=" -Color -Color-Cyan">0</span><span class=" -Color -Color-Blue">],</span> <span class=" -Color -Color-Blue">**</span>pred_config<span class=" -Color -Color-Blue">)</span>
+    sns<span class=" -Color -Color-Blue">.</span>histplot<span class=" -Color -Color-Blue">(</span>y_train<span class=" -Color -Color-Blue">,</span>  ax<span class=" -Color -Color-Blue">=</span>ax<span class=" -Color -Color-Blue">[</span><span class=" -Color -Color-Cyan">0</span><span class=" -Color -Color-Blue">],</span> <span class=" -Color -Color-Blue">**</span>true_config<span class=" -Color -Color-Blue">)</span>
+
+    ax<span class=" -Color -Color-Blue">[</span><span class=" -Color -Color-Cyan">1</span><span class=" -Color -Color-Blue">].</span>set_title<span class=" -Color -Color-Blue">(&quot;valid&quot;)</span>
+    sns<span class=" -Color -Color-Blue">.</span>histplot<span class=" -Color -Color-Blue">(</span>yp_valid<span class=" -Color -Color-Blue">,</span> ax<span class=" -Color -Color-Blue">=</span>ax<span class=" -Color -Color-Blue">[</span><span class=" -Color -Color-Cyan">1</span><span class=" -Color -Color-Blue">],</span> <span class=" -Color -Color-Blue">**</span>pred_config<span class=" -Color -Color-Blue">)</span>
+    sns<span class=" -Color -Color-Blue">.</span>histplot<span class=" -Color -Color-Blue">(</span>y_valid<span class=" -Color -Color-Blue">,</span>  ax<span class=" -Color -Color-Blue">=</span>ax<span class=" -Color -Color-Blue">[</span><span class=" -Color -Color-Cyan">1</span><span class=" -Color -Color-Blue">],</span> <span class=" -Color -Color-Blue">**</span>true_config<span class=" -Color -Color-Blue">)</span>
+
+    ax<span class=" -Color -Color-Blue">[</span><span class=" -Color -Color-Cyan">0</span><span class=" -Color -Color-Blue">].</span>legend<span class=" -Color -Color-Blue">()</span>
+    ax<span class=" -Color -Color-Blue">[</span><span class=" -Color -Color-Cyan">1</span><span class=" -Color -Color-Blue">].</span>legend<span class=" -Color -Color-Blue">()</span>
+    fig<span class=" -Color -Color-Blue">.</span>tight_layout<span class=" -Color -Color-Blue">()</span>
+
+    <span class=" -Color -Color-Green">return</span> fig
+</pre></div>
+</div>
+</div>
+</div>
+<p>Next, we look at functions for preprocessing during training and inference. This cleans the dataset, separates features from targets, and narrows down the feature columns to <code class="docutils literal notranslate"><span class="pre">config.FEATURES</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ride_duration</span> <span class="kn">import</span> <span class="n">processing</span>
+
+processing<span class="o">??</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Red">Type:</span>        module
+<span class=" -Color -Color-Red">String form:</span> &lt;module &#39;ride_duration.processing&#39; from &#39;/Users/particle1331/opt/miniconda3/envs/ai/lib/python3.9/site-packages/ride_duration/processing.py&#39;&gt;
+<span class=" -Color -Color-Red">File:</span>        ~/opt/miniconda3/envs/ai/lib/python3.9/site-packages/ride_duration/processing.py
+<span class=" -Color -Color-Red">Source:</span>     
+<span class=" -Color -Color-Green">import</span> pandas <span class=" -Color -Color-Green">as</span> pd
+
+<span class=" -Color -Color-Green">from</span> ride_duration<span class=" -Color -Color-Blue">.</span>utils <span class=" -Color -Color-Green">import</span> create_target_column<span class=" -Color -Color-Blue">,</span> filter_ride_duration
+<span class=" -Color -Color-Green">from</span> ride_duration<span class=" -Color -Color-Blue">.</span>config <span class=" -Color -Color-Green">import</span> config
+
+
+<span class=" -Color -Color-Green">def</span> preprocess<span class=" -Color -Color-Blue">(</span>data<span class=" -Color -Color-Blue">:</span> pd<span class=" -Color -Color-Blue">.</span>DataFrame<span class=" -Color -Color-Blue">,</span> target<span class=" -Color -Color-Blue">:</span> bool<span class=" -Color -Color-Blue">,</span> filter_target<span class=" -Color -Color-Blue">:</span> bool <span class=" -Color -Color-Blue">=</span> <span class=" -Color -Color-Green">False</span><span class=" -Color -Color-Blue">):</span>
+    <span class=" -Color -Color-Blue">&quot;&quot;&quot;Process and clean data for feature transformation.&quot;&quot;&quot;</span>
+
+    data<span class=" -Color -Color-Blue">[</span>config<span class=" -Color -Color-Blue">.</span>CAT_FEATURES<span class=" -Color -Color-Blue">]</span> <span class=" -Color -Color-Blue">=</span> data<span class=" -Color -Color-Blue">[</span>config<span class=" -Color -Color-Blue">.</span>CAT_FEATURES<span class=" -Color -Color-Blue">].</span>astype<span class=" -Color -Color-Blue">(</span>str<span class=" -Color -Color-Blue">)</span>
+    data<span class=" -Color -Color-Blue">[</span>config<span class=" -Color -Color-Blue">.</span>NUM_FEATURES<span class=" -Color -Color-Blue">]</span> <span class=" -Color -Color-Blue">=</span> data<span class=" -Color -Color-Blue">[</span>config<span class=" -Color -Color-Blue">.</span>NUM_FEATURES<span class=" -Color -Color-Blue">].</span>astype<span class=" -Color -Color-Blue">(</span>float<span class=" -Color -Color-Blue">)</span>
+
+    <span class=" -Color -Color-Green">if</span> target<span class=" -Color -Color-Blue">:</span>
+        data <span class=" -Color -Color-Blue">=</span> create_target_column<span class=" -Color -Color-Blue">(</span>data<span class=" -Color -Color-Blue">)</span>
+        <span class=" -Color -Color-Green">if</span> filter_target<span class=" -Color -Color-Blue">:</span>
+            data <span class=" -Color -Color-Blue">=</span> filter_ride_duration<span class=" -Color -Color-Blue">(</span>data<span class=" -Color -Color-Blue">)</span>
+
+        X <span class=" -Color -Color-Blue">=</span> data<span class=" -Color -Color-Blue">[</span>config<span class=" -Color -Color-Blue">.</span>FEATURES<span class=" -Color -Color-Blue">]</span>
+        y <span class=" -Color -Color-Blue">=</span> data<span class=" -Color -Color-Blue">[</span>config<span class=" -Color -Color-Blue">.</span>TARGET<span class=" -Color -Color-Blue">].</span>values
+
+        <span class=" -Color -Color-Green">return</span> X<span class=" -Color -Color-Blue">,</span> y
+
+    <span class=" -Color -Color-Green">else</span><span class=" -Color -Color-Blue">:</span>
+        X <span class=" -Color -Color-Blue">=</span> data<span class=" -Color -Color-Blue">[</span>config<span class=" -Color -Color-Blue">.</span>FEATURES<span class=" -Color -Color-Blue">]</span>
+        <span class=" -Color -Color-Green">return</span> X
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Remark.</strong> Stateful feature transformations are pushed to consuming applications.</p>
+</section>
+</section>
+<section id="testing">
+<h2>Testing<a class="headerlink" href="#testing" title="Permalink to this headline">#</a></h2>
+<p>Testing that test artifacts are included and that configured columns are correct:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ride_duration.tests</span> <span class="kn">import</span> <span class="n">conftest</span><span class="p">,</span> <span class="n">test_config</span><span class="p">,</span> <span class="n">test_pipeline</span><span class="p">,</span> <span class="n">test_processing</span>
+
+test_config<span class="o">??</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Red">Type:</span>        module
+<span class=" -Color -Color-Red">String form:</span> &lt;module &#39;ride_duration.tests.test_config&#39; from &#39;/Users/particle1331/opt/miniconda3/envs/ai/lib/python3.9/site-packages/ride_duration/tests/test_config.py&#39;&gt;
+<span class=" -Color -Color-Red">File:</span>        ~/opt/miniconda3/envs/ai/lib/python3.9/site-packages/ride_duration/tests/test_config.py
+<span class=" -Color -Color-Red">Source:</span>     
+<span class=" -Color -Color-Green">import</span> os
+
+<span class=" -Color -Color-Green">from</span> ride_duration<span class=" -Color -Color-Blue">.</span>config <span class=" -Color -Color-Green">import</span> MODEL_DIR<span class=" -Color -Color-Blue">,</span> DATASET_DIR<span class=" -Color -Color-Blue">,</span> config
+
+
+<span class=" -Color -Color-Green">def</span> test<span class=" -Color -Color-Blue">():</span>
+    <span class=" -Color -Color-Green">assert</span> os<span class=" -Color -Color-Blue">.</span>path<span class=" -Color -Color-Blue">.</span>exists<span class=" -Color -Color-Blue">(</span>DATASET_DIR <span class=" -Color -Color-Blue">/</span> config<span class=" -Color -Color-Blue">.</span>TRAIN_SAMPLE<span class=" -Color -Color-Blue">)</span>
+    <span class=" -Color -Color-Green">assert</span> os<span class=" -Color -Color-Blue">.</span>path<span class=" -Color -Color-Blue">.</span>exists<span class=" -Color -Color-Blue">(</span>DATASET_DIR <span class=" -Color -Color-Blue">/</span> config<span class=" -Color -Color-Blue">.</span>VALID_SAMPLE<span class=" -Color -Color-Blue">)</span>
+    <span class=" -Color -Color-Green">assert</span> os<span class=" -Color -Color-Blue">.</span>path<span class=" -Color -Color-Blue">.</span>exists<span class=" -Color -Color-Blue">(</span>MODEL_DIR <span class=" -Color -Color-Blue">/</span> config<span class=" -Color -Color-Blue">.</span>MODEL_SAMPLE<span class=" -Color -Color-Blue">)</span>
+    <span class=" -Color -Color-Green">assert</span> set<span class=" -Color -Color-Blue">(</span>config<span class=" -Color -Color-Blue">.</span>CAT_FEATURES <span class=" -Color -Color-Blue">+</span> config<span class=" -Color -Color-Blue">.</span>NUM_FEATURES<span class=" -Color -Color-Blue">)</span> <span class=" -Color -Color-Blue">&lt;=</span> set<span class=" -Color -Color-Blue">(</span>config<span class=" -Color -Color-Blue">.</span>FEATURES<span class=" -Color -Color-Blue">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>To minimize boilerplate, we define the following <a class="reference external" href="https://docs.pytest.org/en/6.2.x/fixture.html">fixtures</a>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>conftest<span class="o">??</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Red">Type:</span>        module
+<span class=" -Color -Color-Red">String form:</span> &lt;module &#39;ride_duration.tests.conftest&#39; from &#39;/Users/particle1331/opt/miniconda3/envs/ai/lib/python3.9/site-packages/ride_duration/tests/conftest.py&#39;&gt;
+<span class=" -Color -Color-Red">File:</span>        ~/opt/miniconda3/envs/ai/lib/python3.9/site-packages/ride_duration/tests/conftest.py
+<span class=" -Color -Color-Red">Source:</span>     
+<span class=" -Color -Color-Green">import</span> joblib
+<span class=" -Color -Color-Green">import</span> pandas <span class=" -Color -Color-Green">as</span> pd
+<span class=" -Color -Color-Green">import</span> pytest
+
+<span class=" -Color -Color-Green">from</span> ride_duration<span class=" -Color -Color-Blue">.</span>config <span class=" -Color -Color-Green">import</span> MODEL_DIR<span class=" -Color -Color-Blue">,</span> DATASET_DIR<span class=" -Color -Color-Blue">,</span> config
+
+
+<span class=" -Color -Color-Blue">@</span>pytest<span class=" -Color -Color-Blue">.</span>fixture
+<span class=" -Color -Color-Green">def</span> train<span class=" -Color -Color-Blue">():</span>
+    <span class=" -Color -Color-Green">return</span> pd<span class=" -Color -Color-Blue">.</span>read_parquet<span class=" -Color -Color-Blue">(</span>DATASET_DIR <span class=" -Color -Color-Blue">/</span> config<span class=" -Color -Color-Blue">.</span>TRAIN_SAMPLE<span class=" -Color -Color-Blue">)</span>
+
+
+<span class=" -Color -Color-Blue">@</span>pytest<span class=" -Color -Color-Blue">.</span>fixture
+<span class=" -Color -Color-Green">def</span> valid<span class=" -Color -Color-Blue">():</span>
+    <span class=" -Color -Color-Green">return</span> pd<span class=" -Color -Color-Blue">.</span>read_parquet<span class=" -Color -Color-Blue">(</span>DATASET_DIR <span class=" -Color -Color-Blue">/</span> config<span class=" -Color -Color-Blue">.</span>VALID_SAMPLE<span class=" -Color -Color-Blue">)</span>
+
+
+<span class=" -Color -Color-Blue">@</span>pytest<span class=" -Color -Color-Blue">.</span>fixture
+<span class=" -Color -Color-Green">def</span> model<span class=" -Color -Color-Blue">():</span>
+    <span class=" -Color -Color-Green">return</span> joblib<span class=" -Color -Color-Blue">.</span>load<span class=" -Color -Color-Blue">(</span>MODEL_DIR <span class=" -Color -Color-Blue">/</span> config<span class=" -Color -Color-Blue">.</span>MODEL_SAMPLE<span class=" -Color -Color-Blue">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The next two tests the <code class="docutils literal notranslate"><span class="pre">preprocess</span></code> function. This function is used both during training and inference. During training, we expect that a target column is added and that the dataset is filtered. This is not true during inference.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>test_processing<span class="o">??</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Red">Type:</span>        module
+<span class=" -Color -Color-Red">String form:</span> &lt;module &#39;ride_duration.tests.test_processing&#39; from &#39;/Users/particle1331/opt/miniconda3/envs/ai/lib/python3.9/site-packages/ride_duration/tests/test_processing.py&#39;&gt;
+<span class=" -Color -Color-Red">File:</span>        ~/opt/miniconda3/envs/ai/lib/python3.9/site-packages/ride_duration/tests/test_processing.py
+<span class=" -Color -Color-Red">Source:</span>     
+<span class=" -Color -Color-Green">from</span> ride_duration<span class=" -Color -Color-Blue">.</span>config <span class=" -Color -Color-Green">import</span> config
+<span class=" -Color -Color-Green">from</span> ride_duration<span class=" -Color -Color-Blue">.</span>processing <span class=" -Color -Color-Green">import</span> preprocess
+
+
+<span class=" -Color -Color-Green">def</span> test_preprocess_target_filter<span class=" -Color -Color-Blue">(</span>train<span class=" -Color -Color-Blue">):</span>
+    output <span class=" -Color -Color-Blue">=</span> preprocess<span class=" -Color -Color-Blue">(</span>train<span class=" -Color -Color-Blue">,</span> target<span class=" -Color -Color-Blue">=</span><span class=" -Color -Color-Green">True</span><span class=" -Color -Color-Blue">,</span> filter_target<span class=" -Color -Color-Blue">=</span><span class=" -Color -Color-Green">True</span><span class=" -Color -Color-Blue">)</span>
+    X<span class=" -Color -Color-Blue">,</span> y <span class=" -Color -Color-Blue">=</span> output
+
+    <span class=" -Color -Color-Green">assert</span> len<span class=" -Color -Color-Blue">(</span>X<span class=" -Color -Color-Blue">)</span> <span class=" -Color -Color-Blue">==</span> len<span class=" -Color -Color-Blue">(</span>y<span class=" -Color -Color-Blue">)</span>
+    <span class=" -Color -Color-Green">assert</span> X<span class=" -Color -Color-Blue">.</span>shape<span class=" -Color -Color-Blue">[</span><span class=" -Color -Color-Cyan">0</span><span class=" -Color -Color-Blue">]</span> <span class=" -Color -Color-Blue">&lt;=</span> train<span class=" -Color -Color-Blue">.</span>shape<span class=" -Color -Color-Blue">[</span><span class=" -Color -Color-Cyan">0</span><span class=" -Color -Color-Blue">]</span>
+    <span class=" -Color -Color-Green">assert</span> X<span class=" -Color -Color-Blue">.</span>shape<span class=" -Color -Color-Blue">[</span><span class=" -Color -Color-Cyan">1</span><span class=" -Color -Color-Blue">]</span> <span class=" -Color -Color-Blue">==</span> len<span class=" -Color -Color-Blue">(</span>config<span class=" -Color -Color-Blue">.</span>FEATURES<span class=" -Color -Color-Blue">)</span>
+    <span class=" -Color -Color-Green">assert</span> sorted<span class=" -Color -Color-Blue">(</span>list<span class=" -Color -Color-Blue">(</span>X<span class=" -Color -Color-Blue">.</span>columns<span class=" -Color -Color-Blue">))</span> <span class=" -Color -Color-Blue">==</span> sorted<span class=" -Color -Color-Blue">(</span>config<span class=" -Color -Color-Blue">.</span>FEATURES<span class=" -Color -Color-Blue">)</span>
+    <span class=" -Color -Color-Green">assert</span> config<span class=" -Color -Color-Blue">.</span>TARGET <span class=" -Color -Color-Green">not</span> <span class=" -Color -Color-Green">in</span> X<span class=" -Color -Color-Blue">.</span>columns
+
+
+<span class=" -Color -Color-Green">def</span> test_preprocess_target_nofilter<span class=" -Color -Color-Blue">(</span>train<span class=" -Color -Color-Blue">):</span>
+    output <span class=" -Color -Color-Blue">=</span> preprocess<span class=" -Color -Color-Blue">(</span>train<span class=" -Color -Color-Blue">,</span> target<span class=" -Color -Color-Blue">=</span><span class=" -Color -Color-Green">True</span><span class=" -Color -Color-Blue">,</span> filter_target<span class=" -Color -Color-Blue">=</span><span class=" -Color -Color-Green">False</span><span class=" -Color -Color-Blue">)</span>
+    X<span class=" -Color -Color-Blue">,</span> y <span class=" -Color -Color-Blue">=</span> output
+
+    <span class=" -Color -Color-Green">assert</span> len<span class=" -Color -Color-Blue">(</span>X<span class=" -Color -Color-Blue">)</span> <span class=" -Color -Color-Blue">==</span> len<span class=" -Color -Color-Blue">(</span>y<span class=" -Color -Color-Blue">)</span>
+    <span class=" -Color -Color-Green">assert</span> X<span class=" -Color -Color-Blue">.</span>shape<span class=" -Color -Color-Blue">[</span><span class=" -Color -Color-Cyan">0</span><span class=" -Color -Color-Blue">]</span> <span class=" -Color -Color-Blue">==</span> train<span class=" -Color -Color-Blue">.</span>shape<span class=" -Color -Color-Blue">[</span><span class=" -Color -Color-Cyan">0</span><span class=" -Color -Color-Blue">]</span>
+    <span class=" -Color -Color-Green">assert</span> X<span class=" -Color -Color-Blue">.</span>shape<span class=" -Color -Color-Blue">[</span><span class=" -Color -Color-Cyan">1</span><span class=" -Color -Color-Blue">]</span> <span class=" -Color -Color-Blue">==</span> len<span class=" -Color -Color-Blue">(</span>config<span class=" -Color -Color-Blue">.</span>FEATURES<span class=" -Color -Color-Blue">)</span>
+    <span class=" -Color -Color-Green">assert</span> sorted<span class=" -Color -Color-Blue">(</span>list<span class=" -Color -Color-Blue">(</span>X<span class=" -Color -Color-Blue">.</span>columns<span class=" -Color -Color-Blue">))</span> <span class=" -Color -Color-Blue">==</span> sorted<span class=" -Color -Color-Blue">(</span>config<span class=" -Color -Color-Blue">.</span>FEATURES<span class=" -Color -Color-Blue">)</span>
+    <span class=" -Color -Color-Green">assert</span> config<span class=" -Color -Color-Blue">.</span>TARGET <span class=" -Color -Color-Green">not</span> <span class=" -Color -Color-Green">in</span> X<span class=" -Color -Color-Blue">.</span>columns
+
+
+<span class=" -Color -Color-Green">def</span> test_preprocess_inference<span class=" -Color -Color-Blue">(</span>train<span class=" -Color -Color-Blue">):</span>
+    X <span class=" -Color -Color-Blue">=</span> preprocess<span class=" -Color -Color-Blue">(</span>train<span class=" -Color -Color-Blue">,</span> target<span class=" -Color -Color-Blue">=</span><span class=" -Color -Color-Green">False</span><span class=" -Color -Color-Blue">)</span>
+
+    <span class=" -Color -Color-Green">assert</span> sorted<span class=" -Color -Color-Blue">(</span>list<span class=" -Color -Color-Blue">(</span>X<span class=" -Color -Color-Blue">.</span>columns<span class=" -Color -Color-Blue">))</span> <span class=" -Color -Color-Blue">==</span> sorted<span class=" -Color -Color-Blue">(</span>config<span class=" -Color -Color-Blue">.</span>FEATURES<span class=" -Color -Color-Blue">)</span>
+    <span class=" -Color -Color-Green">assert</span> X<span class=" -Color -Color-Blue">.</span>shape<span class=" -Color -Color-Blue">[</span><span class=" -Color -Color-Cyan">0</span><span class=" -Color -Color-Blue">]</span> <span class=" -Color -Color-Blue">==</span> train<span class=" -Color -Color-Blue">.</span>shape<span class=" -Color -Color-Blue">[</span><span class=" -Color -Color-Cyan">0</span><span class=" -Color -Color-Blue">]</span>
+    <span class=" -Color -Color-Green">assert</span> X<span class=" -Color -Color-Blue">.</span>shape<span class=" -Color -Color-Blue">[</span><span class=" -Color -Color-Cyan">1</span><span class=" -Color -Color-Blue">]</span> <span class=" -Color -Color-Blue">==</span> len<span class=" -Color -Color-Blue">(</span>config<span class=" -Color -Color-Blue">.</span>FEATURES<span class=" -Color -Color-Blue">)</span>
+    <span class=" -Color -Color-Green">assert</span> config<span class=" -Color -Color-Blue">.</span>TARGET <span class=" -Color -Color-Green">not</span> <span class=" -Color -Color-Green">in</span> X<span class=" -Color -Color-Blue">.</span>columns
+</pre></div>
+</div>
+</div>
+</div>
+<p>Finally, we test running a simple training and inference pipeline. Here our tests just checks for catastrophic loss of model performance which can indicate a bug, and at the very least checks that the training and inference code runs end-to-end.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>test_pipeline<span class="o">??</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Red">Type:</span>        module
+<span class=" -Color -Color-Red">String form:</span> &lt;module &#39;ride_duration.tests.test_pipeline&#39; from &#39;/Users/particle1331/opt/miniconda3/envs/ai/lib/python3.9/site-packages/ride_duration/tests/test_pipeline.py&#39;&gt;
+<span class=" -Color -Color-Red">File:</span>        ~/opt/miniconda3/envs/ai/lib/python3.9/site-packages/ride_duration/tests/test_pipeline.py
+<span class=" -Color -Color-Red">Source:</span>     
+<span class=" -Color -Color-Green">import</span> math
+
+<span class=" -Color -Color-Green">from</span> sklearn<span class=" -Color -Color-Blue">.</span>metrics <span class=" -Color -Color-Green">import</span> mean_squared_error
+<span class=" -Color -Color-Green">from</span> sklearn<span class=" -Color -Color-Blue">.</span>pipeline <span class=" -Color -Color-Green">import</span> make_pipeline
+<span class=" -Color -Color-Green">from</span> sklearn<span class=" -Color -Color-Blue">.</span>linear_model <span class=" -Color -Color-Green">import</span> LinearRegression
+<span class=" -Color -Color-Green">from</span> sklearn<span class=" -Color -Color-Blue">.</span>preprocessing <span class=" -Color -Color-Green">import</span> FunctionTransformer
+<span class=" -Color -Color-Green">from</span> sklearn<span class=" -Color -Color-Blue">.</span>feature_extraction <span class=" -Color -Color-Green">import</span> DictVectorizer
+
+<span class=" -Color -Color-Green">from</span> ride_duration<span class=" -Color -Color-Blue">.</span>processing <span class=" -Color -Color-Green">import</span> preprocess
+
+
+<span class=" -Color -Color-Green">def</span> convert_to_dict<span class=" -Color -Color-Blue">(</span>df<span class=" -Color -Color-Blue">):</span>
+    <span class=" -Color -Color-Blue">&quot;&quot;&quot;Convert dataframe to feature dicts.&quot;&quot;&quot;</span>
+    <span class=" -Color -Color-Green">return</span> df<span class=" -Color -Color-Blue">.</span>to_dict<span class=" -Color -Color-Blue">(</span>orient<span class=" -Color -Color-Blue">=&#39;records&#39;)</span>
+
+
+<span class=" -Color -Color-Green">def</span> test_pipeline_training<span class=" -Color -Color-Blue">(</span>train<span class=" -Color -Color-Blue">,</span> valid<span class=" -Color -Color-Blue">):</span>
+    X_train<span class=" -Color -Color-Blue">,</span> y_train <span class=" -Color -Color-Blue">=</span> preprocess<span class=" -Color -Color-Blue">(</span>train<span class=" -Color -Color-Blue">,</span> target<span class=" -Color -Color-Blue">=</span><span class=" -Color -Color-Green">True</span><span class=" -Color -Color-Blue">,</span> filter_target<span class=" -Color -Color-Blue">=</span><span class=" -Color -Color-Green">True</span><span class=" -Color -Color-Blue">)</span>
+    X_valid<span class=" -Color -Color-Blue">,</span> y_valid <span class=" -Color -Color-Blue">=</span> preprocess<span class=" -Color -Color-Blue">(</span>valid<span class=" -Color -Color-Blue">,</span> target<span class=" -Color -Color-Blue">=</span><span class=" -Color -Color-Green">True</span><span class=" -Color -Color-Blue">,</span> filter_target<span class=" -Color -Color-Blue">=</span><span class=" -Color -Color-Green">True</span><span class=" -Color -Color-Blue">)</span>
+
+    <span class=" -Color -Color-Red"># Fit model pipeline (stateful transforms + model)</span>
+    pipe <span class=" -Color -Color-Blue">=</span> make_pipeline<span class=" -Color -Color-Blue">(</span>
+        FunctionTransformer<span class=" -Color -Color-Blue">(</span>convert_to_dict<span class=" -Color -Color-Blue">),</span>
+        DictVectorizer<span class=" -Color -Color-Blue">(),</span>
+        LinearRegression<span class=" -Color -Color-Blue">(),</span>
+    <span class=" -Color -Color-Blue">)</span>
+
+    pipe<span class=" -Color -Color-Blue">.</span>fit<span class=" -Color -Color-Blue">(</span>X_train<span class=" -Color -Color-Blue">,</span> y_train<span class=" -Color -Color-Blue">)</span>
+
+    <span class=" -Color -Color-Red"># Check performance</span>
+    yp_train <span class=" -Color -Color-Blue">=</span> pipe<span class=" -Color -Color-Blue">.</span>predict<span class=" -Color -Color-Blue">(</span>X_train<span class=" -Color -Color-Blue">)</span>
+    yp_valid <span class=" -Color -Color-Blue">=</span> pipe<span class=" -Color -Color-Blue">.</span>predict<span class=" -Color -Color-Blue">(</span>X_valid<span class=" -Color -Color-Blue">)</span>
+
+    mse_train <span class=" -Color -Color-Blue">=</span> mean_squared_error<span class=" -Color -Color-Blue">(</span>y_train<span class=" -Color -Color-Blue">,</span> yp_train<span class=" -Color -Color-Blue">,</span> squared<span class=" -Color -Color-Blue">=</span><span class=" -Color -Color-Green">False</span><span class=" -Color -Color-Blue">)</span>
+    mse_valid <span class=" -Color -Color-Blue">=</span> mean_squared_error<span class=" -Color -Color-Blue">(</span>y_valid<span class=" -Color -Color-Blue">,</span> yp_valid<span class=" -Color -Color-Blue">,</span> squared<span class=" -Color -Color-Blue">=</span><span class=" -Color -Color-Green">False</span><span class=" -Color -Color-Blue">)</span>
+
+    <span class=" -Color -Color-Green">assert</span> mse_train <span class=" -Color -Color-Blue">&lt;=</span> <span class=" -Color -Color-Cyan">12.0</span>
+    <span class=" -Color -Color-Green">assert</span> mse_valid <span class=" -Color -Color-Blue">&lt;=</span> <span class=" -Color -Color-Cyan">15.0</span>
+
+
+<span class=" -Color -Color-Green">def</span> test_pipeline_inference<span class=" -Color -Color-Blue">(</span>model<span class=" -Color -Color-Blue">,</span> valid<span class=" -Color -Color-Blue">):</span>
+    X <span class=" -Color -Color-Blue">=</span> preprocess<span class=" -Color -Color-Blue">(</span>valid<span class=" -Color -Color-Blue">,</span> target<span class=" -Color -Color-Blue">=</span><span class=" -Color -Color-Green">False</span><span class=" -Color -Color-Blue">)</span>
+    yp <span class=" -Color -Color-Blue">=</span> model<span class=" -Color -Color-Blue">.</span>predict<span class=" -Color -Color-Blue">(</span>X<span class=" -Color -Color-Blue">)</span>
+
+    <span class=" -Color -Color-Green">assert</span> math<span class=" -Color -Color-Blue">.</span>isclose<span class=" -Color -Color-Blue">(</span>yp<span class=" -Color -Color-Blue">.</span>mean<span class=" -Color -Color-Blue">(),</span> <span class=" -Color -Color-Cyan">16.0</span><span class=" -Color -Color-Blue">,</span> abs_tol<span class=" -Color -Color-Blue">=</span><span class=" -Color -Color-Cyan">5.0</span><span class=" -Color -Color-Blue">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Remark.</strong> Model training and inference is streamlined by using <strong>pipelines</strong> which tests that the error rate is within expected range. Really cool. The pipeline can be directly used for inference on prepared data since the vectorizer is trained along with the model. Also note that the model is being evaluated on rides with filtered duration (i.e. duration between 1 and 60 minutes).</p>
+<p>Running all tests in our current environment:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pytest<span class="w"> </span>-W<span class="w"> </span>ignore<span class="w"> </span>~/opt/miniconda3/envs/ai/lib/python3.9/site-packages/ride_duration/tests<span class="w"> </span>-vv
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">============================= test session starts ==============================</span>
+platform darwin -- Python 3.9.15, pytest-7.2.0, pluggy-1.0.0 -- /Users/particle1331/opt/miniconda3/envs/ai/bin/python3.9
+cachedir: .pytest_cache
+benchmark: 4.0.0 (defaults: timer=time.perf_counter disable_gc=False min_rounds=5 min_time=0.000005 max_time=1.0 calibration_precision=10 warmup=False warmup_iterations=100000)
+rootdir: /Users/particle1331
+plugins: anyio-3.6.2, benchmark-4.0.0
+collected 6 items                                                              
+
+<span class=" -Color -Color-Bold">../../../../../opt/miniconda3/envs/ai/lib/python3.9/site-packages/ride_duration/tests/test_config.py::test </span><span class=" -Color -Color-Bold -Color-Bold-Green">PASSED</span><span class=" -Color -Color-Green"> [ 16%]</span>
+../../../../../opt/miniconda3/envs/ai/lib/python3.9/site-packages/ride_duration/tests/test_pipeline.py::test_pipeline_training <span class=" -Color -Color-Green">PASSED [ 33%]</span>
+../../../../../opt/miniconda3/envs/ai/lib/python3.9/site-packages/ride_duration/tests/test_pipeline.py::test_pipeline_inference <span class=" -Color -Color-Green">PASSED [ 50%]</span>
+../../../../../opt/miniconda3/envs/ai/lib/python3.9/site-packages/ride_duration/tests/test_processing.py::test_preprocess_target_filter <span class=" -Color -Color-Green">PASSED [ 66%]</span>
+../../../../../opt/miniconda3/envs/ai/lib/python3.9/site-packages/ride_duration/tests/test_processing.py::test_preprocess_target_nofilter <span class=" -Color -Color-Green">PASSED [ 83%]</span>
+../../../../../opt/miniconda3/envs/ai/lib/python3.9/site-packages/ride_duration/tests/test_processing.py::test_preprocess_inference <span class=" -Color -Color-Green">PASSED [100%]</span>
+
+<span class=" -Color -Color-Green">============================== </span><span class=" -Color -Color-Bold -Color-Bold-Green">6 passed</span><span class=" -Color -Color-Green"> in 1.68s ===============================</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="debugger">
+<h3>Debugger<a class="headerlink" href="#debugger" title="Permalink to this headline">#</a></h3>
+<aside class="margin sidebar">
+<p class="sidebar-title"></p>
+<p>🐞</p>
+</aside>
+<p>Tests are best developed using <a class="reference external" href="https://www.cs.auckland.ac.nz/references/unix/digital/APZ7EETE/DOCU_002.HTM">debugger</a>.
+TDD is awkward for the kind of experimental work that we are doing. Instead, we use tests to ensure correctness for minimal use cases. This also serves to document how code is used, and ensure that the API is being followed between refactors.</p>
+<figure class="align-default" id="id1">
+<a class="reference internal image-reference" href="../../_images/tests-debugger.png"><img alt="../../_images/tests-debugger.png" src="../../_images/tests-debugger.png" style="width: 45em;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 54 </span><span class="caption-text">Use-case analysis and test development using a debugger.</span><a class="headerlink" href="#id1" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<aside class="margin sidebar">
+<p class="sidebar-title"></p>
+<p><strong>Debugger features</strong></p>
+</aside>
+<p>Using a debugger allows development at multiple scales by stepping in and out of breakpoints (i.e. the nontrivial parts of the code) and monitor the program state and namespace with variable tracking. A test sets up a minimal use case which allows exploring variables and code state using watch, call stack, and the <strong>debug console</strong>. This setup combines the freedom of grokking in notebooks with the strictness of a script. Pretty cool!</p>
+</section>
+</section>
+<section id="feature-engineering">
+<h2>Feature engineering<a class="headerlink" href="#feature-engineering" title="Permalink to this headline">#</a></h2>
+<p>Here we extend the above model training code in the test scripts by adding interaction between pickup and dropoff locations. This also demonstrates how to use the packaged modeling code for the next steps of our project.</p>
+<aside class="margin sidebar">
+<p class="sidebar-title"></p>
+<figure class="align-default" id="id2">
+<a class="reference internal image-reference" href="../../_images/bench.png"><img alt="../../_images/bench.png" src="../../_images/bench.png" style="width: 20em;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 55 </span><span class="caption-text">PU-DO pairs as feature.</span><a class="headerlink" href="#id2" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+</aside>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="kn">from</span> <span class="nn">toolz</span> <span class="kn">import</span> <span class="n">compose</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_squared_error</span>
+<span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">make_pipeline</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">FunctionTransformer</span>
+<span class="kn">from</span> <span class="nn">sklearn.feature_extraction</span> <span class="kn">import</span> <span class="n">DictVectorizer</span>
+
+<span class="kn">from</span> <span class="nn">ride_duration.utils</span> <span class="kn">import</span> <span class="n">plot_duration_histograms</span>
+<span class="kn">from</span> <span class="nn">ride_duration.config</span> <span class="kn">import</span> <span class="n">config</span>
+<span class="kn">from</span> <span class="nn">ride_duration.processing</span> <span class="kn">import</span> <span class="n">preprocess</span>
+
+<span class="kn">from</span> <span class="nn">matplotlib_inline</span> <span class="kn">import</span> <span class="n">backend_inline</span>
+<span class="n">backend_inline</span><span class="o">.</span><span class="n">set_matplotlib_formats</span><span class="p">(</span><span class="s1">&#39;svg&#39;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">convert_to_dict</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(</span><span class="n">orient</span><span class="o">=</span><span class="s2">&quot;records&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">add_pudo_column</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;PU_DO&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;PULocationID&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;DOLocationID&quot;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">df</span>
+
+
+<span class="c1"># Load dataset</span>
+<span class="n">train</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="s2">&quot;data/green_tripdata_2021-01.parquet&quot;</span><span class="p">)</span>
+<span class="n">valid</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="s2">&quot;data/green_tripdata_2021-02.parquet&quot;</span><span class="p">)</span>
+
+<span class="c1"># Preprocess</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span> <span class="o">=</span> <span class="n">preprocess</span><span class="p">(</span><span class="n">train</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">filter_target</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">X_valid</span><span class="p">,</span> <span class="n">y_valid</span> <span class="o">=</span> <span class="n">preprocess</span><span class="p">(</span><span class="n">valid</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">filter_target</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Feature engg + selection</span>
+<span class="n">transforms</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">add_pudo_column</span><span class="p">,</span>
+    <span class="k">lambda</span> <span class="n">df</span><span class="p">:</span> <span class="n">df</span><span class="p">[[</span><span class="s2">&quot;PU_DO&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">config</span><span class="o">.</span><span class="n">NUM_FEATURES</span><span class="p">]</span>
+<span class="p">]</span>
+
+<span class="n">X_train</span> <span class="o">=</span> <span class="n">compose</span><span class="p">(</span><span class="o">*</span><span class="n">transforms</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">])(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">X_valid</span> <span class="o">=</span> <span class="n">compose</span><span class="p">(</span><span class="o">*</span><span class="n">transforms</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">])(</span><span class="n">X_valid</span><span class="p">)</span>
+
+<span class="c1"># Fit model pipeline</span>
+<span class="n">pipe</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span>
+    <span class="n">FunctionTransformer</span><span class="p">(</span><span class="n">convert_to_dict</span><span class="p">),</span> 
+    <span class="n">DictVectorizer</span><span class="p">(),</span> 
+    <span class="n">LinearRegression</span><span class="p">()</span>
+<span class="p">)</span>
+
+<span class="n">pipe</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># Check performance</span>
+<span class="n">yp_train</span> <span class="o">=</span> <span class="n">pipe</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">yp_valid</span> <span class="o">=</span> <span class="n">pipe</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_valid</span><span class="p">)</span>
+<span class="n">mse_train</span> <span class="o">=</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">yp_train</span><span class="p">,</span> <span class="n">squared</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">mse_valid</span> <span class="o">=</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_valid</span><span class="p">,</span> <span class="n">yp_valid</span><span class="p">,</span> <span class="n">squared</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># Plotting</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">plot_duration_histograms</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">yp_train</span><span class="p">,</span> <span class="n">y_valid</span><span class="p">,</span> <span class="n">yp_valid</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/fa9d22175b622177ef2ccdee5e032f56809cea49ea91657fbf467ca8266d2c14.svg" src="../../_images/fa9d22175b622177ef2ccdee5e032f56809cea49ea91657fbf467ca8266d2c14.svg" /></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;RMSE (train):&quot;</span><span class="p">,</span> <span class="n">mse_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;RMSE (valid):&quot;</span><span class="p">,</span> <span class="n">mse_valid</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>RMSE (train): 5.699564118198945
+RMSE (valid): 7.758715206931833
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Remark.</strong> This exactly reproduces our <a class="reference internal" href="01-intro.html#using-interaction-features"><span class="std std-ref">previous results</span></a>. Note that the dict vectorizer in the pipeline returns a zero vector for categories it has not encountered in training.</p>
+</section>
+<section id="code-quality">
+<h2>Code quality<a class="headerlink" href="#code-quality" title="Permalink to this headline">#</a></h2>
+<p>Settings for <a class="reference external" href="https://github.com/PyCQA/isort"><code class="docutils literal notranslate"><span class="pre">isort</span></code></a>, <a class="reference external" href="https://pylint.readthedocs.io/en/latest/">pylint</a>, and <a class="reference external" href="https://github.com/psf/black"><code class="docutils literal notranslate"><span class="pre">black</span></code></a> are included in the <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> file as follows. Warnings from pylint that are not relevant can be ignored as shown. Make sure to commit before running the formatters since they cause changes to the code.</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="c1"># pyproject.toml</span>
+<span class="na">...</span>
+
+<span class="k">[tool.black]</span>
+<span class="na">line-length</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">88</span>
+<span class="na">skip-string-normalization</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">true</span>
+
+<span class="k">[tool.isort]</span>
+<span class="na">multi_line_output</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">3</span>
+<span class="na">length_sort</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">true</span>
+
+<span class="k">[tool.pylint.messages_control]</span>
+<span class="na">max-line-length</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">88</span>
+<span class="na">disable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">[</span>
+<span class="w">    </span><span class="na">&quot;invalid-name&quot;,</span>
+<span class="w">    </span><span class="na">&quot;wrong-import-position&quot;,</span>
+<span class="w">    </span><span class="na">&quot;missing-class-docstring&quot;,</span>
+<span class="w">    </span><span class="na">&quot;missing-function-docstring&quot;,</span>
+<span class="w">    </span><span class="na">&quot;unspecified-encoding&quot;,</span>
+<span class="w">    </span><span class="na">&quot;no-name-in-module&quot;,</span>
+<span class="w">    </span><span class="na">&quot;missing-docstring&quot;,</span>
+<span class="w">    </span><span class="na">&quot;wrong-import-order&quot;,</span>
+<span class="w">    </span><span class="na">&quot;trailing-whitespace&quot;,</span>
+<span class="w">    </span><span class="na">&quot;too-few-public-methods&quot;</span>
+<span class="na">]</span>
+</pre></div>
+</div>
+<p>Running the formatters:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>black<span class="w"> </span>.
+reformatted<span class="w"> </span>/Users/particle1331/code/ride-duration-prediction/ride_duration/utils.py
+
+All<span class="w"> </span><span class="k">done</span>!<span class="w"> </span>✨<span class="w"> </span>🍰<span class="w"> </span>✨
+<span class="m">1</span><span class="w"> </span>file<span class="w"> </span>reformatted,<span class="w"> </span><span class="m">3</span><span class="w"> </span>files<span class="w"> </span>left<span class="w"> </span>unchanged.
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>isort<span class="w"> </span>.
+Fixing<span class="w"> </span>/Users/particle1331/code/ride-duration-prediction/ride_duration/config/core.py
+Skipped<span class="w"> </span><span class="m">1</span><span class="w"> </span>files
+</pre></div>
+</div>
+<p>Suggestions from pylint can be followed iteratively until we are satisfied:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>pylint<span class="w"> </span>--recursive<span class="o">=</span>y<span class="w"> </span>ride_duration
+*************<span class="w"> </span>Module<span class="w"> </span>ride_duration.processing
+ride_duration/processing.py:14:4:<span class="w"> </span>R1705:<span class="w"> </span>Unnecessary<span class="w"> </span><span class="s2">&quot;else&quot;</span><span class="w"> </span>after<span class="w"> </span><span class="s2">&quot;return&quot;</span>,<span class="w"> </span>remove<span class="w"> </span>the<span class="w"> </span><span class="s2">&quot;else&quot;</span><span class="w"> </span>and<span class="w"> </span>de-indent<span class="w"> </span>the<span class="w"> </span>code<span class="w"> </span>inside<span class="w"> </span>it<span class="w"> </span><span class="o">(</span>no-else-return<span class="o">)</span>
+*************<span class="w"> </span>Module<span class="w"> </span>ride_duration.tests.test_processing
+ride_duration/tests/test_processing.py:50:8:<span class="w"> </span>W0108:<span class="w"> </span>Lambda<span class="w"> </span>may<span class="w"> </span>not<span class="w"> </span>be<span class="w"> </span>necessary<span class="w"> </span><span class="o">(</span>unnecessary-lambda<span class="o">)</span>
+
+------------------------------------------------------------------
+Your<span class="w"> </span>code<span class="w"> </span>has<span class="w"> </span>been<span class="w"> </span>rated<span class="w"> </span>at<span class="w"> </span><span class="m">9</span>.87/10<span class="w"> </span><span class="o">(</span>previous<span class="w"> </span>run:<span class="w"> </span><span class="m">9</span>.80/10,<span class="w"> </span>+0.07<span class="o">)</span>
+</pre></div>
+</div>
+<br><figure class="align-default" id="id3">
+<a class="reference internal image-reference" href="../../_images/black-diff.png"><img alt="../../_images/black-diff.png" src="../../_images/black-diff.png" style="width: 45em;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 56 </span><span class="caption-text">Code diff after using <code class="docutils literal notranslate"><span class="pre">black</span></code>.</span><a class="headerlink" href="#id3" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<section id="code-coverage">
+<h3>Code coverage<a class="headerlink" href="#code-coverage" title="Permalink to this headline">#</a></h3>
+<p>One metric for test completeness is <strong>code coverage</strong>. This can be checked using the <a class="reference external" href="https://coverage.readthedocs.io/en/latest/">coverage</a> library as follows:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>coverage<span class="w"> </span>run<span class="w"> </span>-m<span class="w"> </span>pytest<span class="w"> </span><span class="nv">ride_duration</span>
+<span class="o">========================</span><span class="w"> </span><span class="nb">test</span><span class="w"> </span>session<span class="w"> </span><span class="nv">starts</span><span class="w"> </span><span class="o">=========================</span>
+platform<span class="w"> </span>darwin<span class="w"> </span>--<span class="w"> </span>Python<span class="w"> </span><span class="m">3</span>.9.15,<span class="w"> </span>pytest-7.3.1,<span class="w"> </span>pluggy-1.0.0
+rootdir:<span class="w"> </span>/Users/particle1331/code/ride-duration-prediction
+plugins:<span class="w"> </span>anyio-3.7.0
+collected<span class="w"> </span><span class="m">6</span><span class="w"> </span>items
+
+ride_duration/tests/test_config.py<span class="w"> </span>.<span class="w">                           </span><span class="o">[</span><span class="w"> </span><span class="m">16</span>%<span class="o">]</span>
+ride_duration/tests/test_pipeline.py<span class="w"> </span>..<span class="w">                        </span><span class="o">[</span><span class="w"> </span><span class="m">50</span>%<span class="o">]</span>
+ride_duration/tests/test_processing.py<span class="w"> </span>...<span class="w">                     </span><span class="o">[</span><span class="m">100</span>%<span class="o">]</span>
+
+<span class="o">=========================</span><span class="w"> </span><span class="m">6</span><span class="w"> </span>passed<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">2</span>.35s<span class="w"> </span><span class="o">==========================</span>
+
+$<span class="w"> </span>coverage<span class="w"> </span>report<span class="w"> </span>-m
+Name<span class="w">                                     </span>Stmts<span class="w">   </span>Miss<span class="w">  </span>Cover<span class="w">   </span>Missing
+----------------------------------------------------------------------
+ride_duration/__init__.py<span class="w">                    </span><span class="m">0</span><span class="w">      </span><span class="m">0</span><span class="w">   </span><span class="m">100</span>%
+ride_duration/config/__init__.py<span class="w">             </span><span class="m">1</span><span class="w">      </span><span class="m">0</span><span class="w">   </span><span class="m">100</span>%
+ride_duration/config/core.py<span class="w">                </span><span class="m">22</span><span class="w">      </span><span class="m">0</span><span class="w">   </span><span class="m">100</span>%
+ride_duration/processing.py<span class="w">                 </span><span class="m">15</span><span class="w">      </span><span class="m">0</span><span class="w">   </span><span class="m">100</span>%
+ride_duration/tests/__init__.py<span class="w">              </span><span class="m">0</span><span class="w">      </span><span class="m">0</span><span class="w">   </span><span class="m">100</span>%
+ride_duration/tests/conftest.py<span class="w">             </span><span class="m">13</span><span class="w">      </span><span class="m">0</span><span class="w">   </span><span class="m">100</span>%
+ride_duration/tests/test_config.py<span class="w">           </span><span class="m">7</span><span class="w">      </span><span class="m">0</span><span class="w">   </span><span class="m">100</span>%
+ride_duration/tests/test_pipeline.py<span class="w">        </span><span class="m">24</span><span class="w">      </span><span class="m">0</span><span class="w">   </span><span class="m">100</span>%
+ride_duration/tests/test_processing.py<span class="w">      </span><span class="m">24</span><span class="w">      </span><span class="m">0</span><span class="w">   </span><span class="m">100</span>%
+ride_duration/utils.py<span class="w">                      </span><span class="m">24</span><span class="w">     </span><span class="m">13</span><span class="w">    </span><span class="m">46</span>%<span class="w">   </span><span class="m">24</span>-40
+----------------------------------------------------------------------
+TOTAL<span class="w">                                      </span><span class="m">130</span><span class="w">     </span><span class="m">13</span><span class="w">    </span><span class="m">90</span>%
+</pre></div>
+</div>
+<p><strong>Remark.</strong> Since our approach to testing has been to act as a form of documentation and integration (as opposed to strict <a class="reference external" href="https://realpython.com/python-cli-testing/#mocks">unit testing</a>), a high number indicates that our examples cover most of the code base. Observe our tests fail to cover plotting which is fine since it only serves to make nice plots and has no virtually no point of failure.</p>
+</section>
+<section id="makefile">
+<h3>Makefile<a class="headerlink" href="#makefile" title="Permalink to this headline">#</a></h3>
+<p>Notice that the amount of commands that we need to run keeps growing as we proceed into the project. One way to simplify repetitive commands is by using <a class="reference external" href="http://www.sis.pitt.edu/mbsclass/tutorial/advanced/makefile/whatis.htm">makefiles</a>. Usual commands are collected in <code class="docutils literal notranslate"><span class="pre">./Makefile</span></code> as follows:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>clean:<span class="w"> </span>clean-test<span class="w"> </span>clean-build
+<span class="w">	</span>find<span class="w"> </span>.<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;.vscode&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>xargs<span class="w"> </span>rm<span class="w"> </span>-rf
+<span class="w">	</span>find<span class="w"> </span>.<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;.DS_Store&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>xargs<span class="w"> </span>rm
+<span class="w">	</span>find<span class="w"> </span>.<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;__pycache__&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>xargs<span class="w"> </span>rm<span class="w"> </span>-rf
+<span class="w">	</span>find<span class="w"> </span>.<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;.ipynb_checkpoints&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>xargs<span class="w"> </span>rm<span class="w"> </span>-rf
+
+clean-build:
+<span class="w">	</span>rm<span class="w"> </span>-rf<span class="w"> </span>build/
+<span class="w">	</span>rm<span class="w"> </span>-rf<span class="w"> </span>dist/
+<span class="w">	</span>rm<span class="w"> </span>-rf<span class="w"> </span>.eggs/
+<span class="w">	</span>find<span class="w"> </span>.<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;.egg&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>xargs<span class="w"> </span>rm<span class="w"> </span>-rf
+<span class="w">	</span>find<span class="w"> </span>.<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;.egg-info&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>xargs<span class="w"> </span>rm<span class="w"> </span>-rf
+
+clean-test:
+<span class="w">	</span>rm<span class="w"> </span>-f<span class="w"> </span>.coverage
+<span class="w">	</span>rm<span class="w"> </span>-rf<span class="w"> </span>htmlcov/
+<span class="w">	</span>find<span class="w"> </span>.<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;.pytest_cache&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>xargs<span class="w"> </span>rm<span class="w"> </span>-rf
+
+lint:
+<span class="w">	</span>pylint<span class="w"> </span>--recursive<span class="o">=</span>y<span class="w"> </span>ride_duration
+
+test:
+<span class="w">	</span>pytest<span class="w"> </span>-W<span class="w"> </span>ignore<span class="w"> </span>-vv<span class="w"> </span>ride_duration
+
+format:
+<span class="w">	</span>isort<span class="w"> </span>.
+<span class="w">	</span>black<span class="w"> </span>.
+
+coverage:
+<span class="w">	</span>coverage<span class="w"> </span>run<span class="w"> </span>-m<span class="w"> </span>pytest<span class="w"> </span>ride_duration
+<span class="w">	</span>coverage<span class="w"> </span>report<span class="w"> </span>-m
+</pre></div>
+</div>
+<p>The above computation of code coverage can now be done simply with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>make<span class="w"> </span>coverage
+coverage<span class="w"> </span>run<span class="w"> </span>-m<span class="w"> </span>pytest<span class="w"> </span><span class="nv">ride_duration</span>
+<span class="o">===============</span><span class="w"> </span><span class="nb">test</span><span class="w"> </span>session<span class="w"> </span><span class="nv">starts</span><span class="w"> </span><span class="o">===============</span>
+...
+</pre></div>
+</div>
+</section>
+<section id="automated-tests">
+<h3>Automated tests<a class="headerlink" href="#automated-tests" title="Permalink to this headline">#</a></h3>
+<p>In this section, we look at running <strong>automated tests</strong> at each pull request (PR) and push to the <code class="docutils literal notranslate"><span class="pre">main</span></code> branch. Note that we only do tests on the main branch. Tests for each push ensures that the
+tests are executed in case there is direct push on the main branch. The following file based on <a class="reference external" href="https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python">this reference</a> is created on the root directory of the project:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># .github/workflows/tests.yml</span>
+<span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tests</span>
+
+<span class="nt">on</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">push</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">branches</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">main</span>
+<span class="w">  </span><span class="nt">pull_request</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">branches</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">main</span>
+
+<span class="nt">jobs</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">build</span><span class="p">:</span>
+
+<span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+<span class="w">    </span><span class="nt">strategy</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">matrix</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">python-version</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;3.9&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;3.10&quot;</span><span class="p p-Indicator">]</span>
+
+<span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v3</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Set up Python ${{ matrix.python-version }}</span>
+<span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/setup-python@v4</span>
+<span class="w">        </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">python-version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ matrix.python-version }}</span>
+<span class="w">      </span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Install dependencies</span>
+<span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">          </span><span class="no">python -m pip install --upgrade pip</span>
+<span class="w">          </span><span class="no">pip install pipenv</span>
+<span class="w">          </span><span class="no">pipenv install --dev --system --deploy</span>
+
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Test with pytest</span>
+<span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">          </span><span class="no">pytest -W ignore ride_duration</span>
+</pre></div>
+</div>
+<p>This shows that we run the tests on both Python 3.9 and 3.10 on an Ubuntu machine. The two important steps here are the installation step which installs Pipenv and the test step which runs pytest on our package. After committing this file to GitHub, we can see the workflow in the <a class="reference external" href="https://docs.github.com/en/actions">Actions</a> tab:</p>
+<figure class="align-default" id="id4">
+<a class="reference internal image-reference" href="../../_images/actions-tab.png"><img alt="../../_images/actions-tab.png" src="../../_images/actions-tab.png" style="width: 100%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 57 </span><span class="caption-text">Workflow automatically registers. This also provides a status badge for the <code class="docutils literal notranslate"><span class="pre">main</span></code> branch: <a class="reference external" href="https://github.com/particle1331/ride-duration-prediction/actions/workflows/tests.yml"><img alt="Tests" src="https://github.com/particle1331/ride-duration-prediction/actions/workflows/tests.yml/badge.svg?branch=main" /></a>. Clicking the workflow name lists all runs for this workflow. The badge indicates that the latest run is successful.</span><a class="headerlink" href="#id4" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Tests automatically run with every PR. Here we create a branch that <a class="reference external" href="https://github.com/particle1331/ride-duration-prediction/commit/550c536614cd34bc622a924347272a4f0ac36d63">fails a test</a>. Running tests on PRs ensures that failing code is not merged:</p>
+<figure class="align-default" id="id5">
+<a class="reference internal image-reference" href="../../_images/failing-test-pr.png"><img alt="../../_images/failing-test-pr.png" src="../../_images/failing-test-pr.png" style="width: 100%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 58 </span><span class="caption-text">PR with a failing test. This should be closed. Note that the tests are run on Python 3.9 and 3.10 but other jobs are cancelled once one test fails.</span><a class="headerlink" href="#id5" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./nb/mlops"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="01-intro.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Preliminaries</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="03-mlflow.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Experiment Tracking</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modeling-code">Modeling code</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#packaging">Packaging</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#config">Config</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modules">Modules</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#testing">Testing</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#debugger">Debugger</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-engineering">Feature engineering</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#code-quality">Code quality</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#code-coverage">Code coverage</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#makefile">Makefile</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#automated-tests">Automated tests</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            <div class="bd-footer-content__inner">
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By 𝗽𝗮𝗿𝘁𝗶𝗰𝗹𝗲𝟭𝟯𝟯𝟭. Powered by <a href="https://jupyterbook.org">Jupyter Book</a>.
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div></div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

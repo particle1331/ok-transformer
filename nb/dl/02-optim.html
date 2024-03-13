@@ -1,0 +1,1462 @@
+
+
+<!DOCTYPE html>
+
+
+<html >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Optimization &#8212; OK Transformer</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'nb/dl/02-optim';</script>
+    <link rel="shortcut icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Backpropagation" href="00-backprop.html" />
+    <link rel="prev" title="Introduction" href="01-intro.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="None"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Language Modeling</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../nn/03-batchnorm.html">Batch Normalization</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Deep Learning</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01-intro.html">Introduction</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="00-backprop.html">Backpropagation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-cnn.html">Convolutional Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04-lm.html">Language Modeling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05-training.html">Activations and Gradients</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Engineering and Ops</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../mlops/01-intro.html">Preliminaries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mlops/02-package.html">Packaging Modeling Code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mlops/03-mlflow.html">Experiment Tracking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mlops/04-tasks.html">Distributed Task Queues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mlops/04-deployment/notes.html">Model Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mlops/06-best-practices/notes.html">Best Engineering Practices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mle/cicd-pipelines.html">Continuous Integration and Deployment Pipelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mle/model-serving-api.html">Prediction Serving API</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Notes</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../notes/containers.html">Docker Containers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notes/benchmarking.html">Benchmarking and Profiling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notes/tf-course.html">TensorFlow Crash Course</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/particle1331/ok-transformer" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/particle1331/ok-transformer/issues/new?title=Issue%20on%20page%20%2Fnb/dl/02-optim.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Optimization</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-descent">Gradient descent</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loss-landscape">Loss landscape</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#local-minima">Local minima</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plateaus">Plateaus</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#saddle-points">Saddle points</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#momentum-methods">Momentum methods</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#momentum">Momentum</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rmsprop">RMSProp</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#adam">Adam</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sgd">SGD</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hyperparameters">Hyperparameters</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#batch-size">Batch size</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-rate">Learning rate</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id20">Momentum</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="optimization">
+<span id="dl-02-optim"></span><h1>Optimization<a class="headerlink" href="#optimization" title="Permalink to this headline">#</a></h1>
+<p><img alt="Status" src="https://img.shields.io/static/v1.svg?label=Status&amp;message=Finished&amp;color=brightgreen" />
+<a class="reference external" href="https://github.com/particle1331/ok-transformer/blob/master/docs/nb/dl/02-optim.ipynb"><img alt="Source" src="https://img.shields.io/static/v1.svg?label=GitHub&amp;message=Source&amp;color=181717&amp;logo=GitHub" /></a>
+<a class="reference external" href="https://github.com/particle1331/ok-transformer"><img alt="Stars" src="https://img.shields.io/github/stars/particle1331/ok-transformer?style=social" /></a></p>
+<hr class="docutils" />
+<p><strong>Readings:</strong>  <a class="reference external" href="https://cs182sp21.github.io/static/slides/lec-4.pdf">[CS182-lec4]</a> <a class="reference external" href="https://uvadlc-notebooks.readthedocs.io/en/latest/tutorial_notebooks/tutorial4/Optimization_and_Initialization.html">[UvA-Tutorial4]</a></p>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">#</a></h2>
+<p>Recall that we can visualize <span class="math notranslate nohighlight">\(\mathcal{L}_{\mathcal{D}}(\boldsymbol{\Theta})\)</span> as a surface (<a class="reference internal" href="#loss-surface"><span class="std std-numref">Fig. 24</span></a>).
+This is also known as the <strong>loss landscape</strong>. Gradient descent finds the minimum by
+locally moving in the direction of greatest decrease in loss (<a class="reference internal" href="#gradient-descent-1d"><span class="std std-numref">Fig. 25</span></a>). The step size depends on
+the learning rate that has to be tuned well: a too large value can result in overshooting
+the minimum, while a too small learning rate can result in slow convergence or being stuck in a
+local minimum. In this notebook, we will discuss situations where gradient descent works,
+situations where it works poorly, and ways we can improve it.</p>
+<br><figure class="align-default" id="loss-surface">
+<a class="reference internal image-reference" href="../../_images/02-loss-surface.png"><img alt="../../_images/02-loss-surface.png" src="../../_images/02-loss-surface.png" style="width: 60%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 24 </span><span class="caption-text">Loss surface for a model with two weights. Source: <a class="reference external" href="https://cs182sp21.github.io/static/slides/lec-4.pdf">[CS182-lec4]</a></span><a class="headerlink" href="#loss-surface" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="gradient-descent-1d">
+<a class="reference internal image-reference" href="../../_images/02-gradient-descent-1d.png"><img alt="../../_images/02-gradient-descent-1d.png" src="../../_images/02-gradient-descent-1d.png" style="width: 60%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 25 </span><span class="caption-text">Gradient descent in 1-dimension.
+Next step moves opposite to the direction of the slope. Moreover, step size is scaled
+based on the magnitude of the slope. Source: <a class="reference external" href="https://cs182sp21.github.io/static/slides/lec-4.pdf">[CS182-lec4]</a></span><a class="headerlink" href="#gradient-descent-1d" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="gradient-descent">
+<h2>Gradient descent<a class="headerlink" href="#gradient-descent" title="Permalink to this headline">#</a></h2>
+<p>To experiment with GD algorithms, we create a template class. The template implements a method for zeroing out the gradients.
+The only method that needs to be changed is how to update parameters in <code class="docutils literal notranslate"><span class="pre">update_param</span></code> for specific algorithms.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+
+<span class="k">class</span> <span class="nc">OptimizerBase</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">lr</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="n">params</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lr</span> <span class="o">=</span> <span class="n">lr</span>
+
+    <span class="k">def</span> <span class="nf">zero_grad</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">grad</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">detach_</span><span class="p">()</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">zero_</span><span class="p">()</span>
+
+    <span class="nd">@torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">grad</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">update_param</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">update_param</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Our first algorithm is GD which we discussed in the previous notebook:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">GD</span><span class="p">(</span><span class="n">OptimizerBase</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">lr</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">lr</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">update_param</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+        <span class="n">p</span> <span class="o">+=</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">lr</span> <span class="o">*</span> <span class="n">p</span><span class="o">.</span><span class="n">grad</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We will test with the following synthetic loss surface (i.e. not generated with data):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># https://uvadlc-notebooks.readthedocs.io/en/latest/tutorial_notebooks/tutorial4/Optimization_and_Initialization.html</span>
+<span class="k">def</span> <span class="nf">pathological_loss</span><span class="p">(</span><span class="n">w0</span><span class="p">,</span> <span class="n">w1</span><span class="p">):</span>
+    <span class="n">l1</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">w0</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="mf">0.01</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">w1</span><span class="p">)</span>
+    <span class="n">l2</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">w1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">l1</span> <span class="o">+</span> <span class="n">l2</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">matplotlib_inline</span> <span class="kn">import</span> <span class="n">backend_inline</span>
+<span class="kn">from</span> <span class="nn">mpl_toolkits.mplot3d</span> <span class="kn">import</span> <span class="n">Axes3D</span> 
+<span class="n">backend_inline</span><span class="o">.</span><span class="n">set_matplotlib_formats</span><span class="p">(</span><span class="s1">&#39;svg&#39;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">plot_surface</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">x_min</span><span class="o">=-</span><span class="mi">5</span><span class="p">,</span> <span class="n">x_max</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">y_min</span><span class="o">=-</span><span class="mi">5</span><span class="p">,</span> <span class="n">y_max</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="mi">50</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">x_min</span><span class="p">,</span> <span class="n">x_max</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">y_min</span><span class="p">,</span> <span class="n">y_max</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+    <span class="n">Z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+            <span class="n">Z</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]),</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]))</span>
+    
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot_surface</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;viridis&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;$w_0$&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;$w_1$&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+    
+
+<span class="k">def</span> <span class="nf">plot_contourf</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">w_hist</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">x_min</span><span class="o">=-</span><span class="mi">5</span><span class="p">,</span> <span class="n">x_max</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">y_min</span><span class="o">=-</span><span class="mi">5</span><span class="p">,</span> <span class="n">y_max</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">x_min</span><span class="p">,</span> <span class="n">x_max</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">y_min</span><span class="p">,</span> <span class="n">y_max</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+    <span class="n">Z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+            <span class="n">Z</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]),</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]))</span>
+
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">w_hist</span><span class="p">)):</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">w_hist</span><span class="p">[</span><span class="n">t</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">w_hist</span><span class="p">[</span><span class="n">t</span><span class="p">][</span><span class="mi">0</span><span class="p">]],</span> <span class="p">[</span><span class="n">w_hist</span><span class="p">[</span><span class="n">t</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">w_hist</span><span class="p">[</span><span class="n">t</span><span class="p">][</span><span class="mi">1</span><span class="p">]],</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;viridis&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">w_hist</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">w_hist</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">facecolors</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;$w_0$&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;$w_1$&#39;</span><span class="p">)</span>
+
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
+<span class="n">plot_surface</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">pathological_loss</span><span class="p">,</span> <span class="n">x_min</span><span class="o">=-</span><span class="mi">5</span><span class="p">,</span> <span class="n">x_max</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">y_min</span><span class="o">=-</span><span class="mi">100</span><span class="p">,</span> <span class="n">y_max</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;loss surface&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../../_images/2e85dfbead21af166818aff7571c2fca23ce389edd53e1d521cbad6793a08229.svg" src="../../_images/2e85dfbead21af166818aff7571c2fca23ce389edd53e1d521cbad6793a08229.svg" /></div>
+</div>
+<p>The following optimization algorithm purely operates on the loss surface as a function of weights.
+It starts with initial weights <code class="docutils literal notranslate"><span class="pre">w_init</span></code>, then updates this weight iteratively by computing the
+gradient of the loss function (which constructs a computational graph). The weight update step
+depends on the particular optimizer class used.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">train_curve</span><span class="p">(</span>
+    <span class="n">optim</span><span class="p">:</span> <span class="n">OptimizerBase</span><span class="p">,</span> 
+    <span class="n">optim_params</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> 
+    <span class="n">w_init</span><span class="o">=</span><span class="p">[</span><span class="mf">5.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">],</span> 
+    <span class="n">loss_fn</span><span class="o">=</span><span class="n">pathological_loss</span><span class="p">,</span> 
+    <span class="n">num_steps</span><span class="o">=</span><span class="mi">100</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return trajectory of optimizer through loss surface from init point.&quot;&quot;&quot;</span>
+
+    <span class="n">w_init</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">w_init</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">()</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">w_init</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">optim</span> <span class="o">=</span> <span class="n">optim</span><span class="p">([</span><span class="n">w</span><span class="p">],</span> <span class="o">**</span><span class="n">optim_params</span><span class="p">)</span>
+    <span class="n">points</span> <span class="o">=</span> <span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="n">w</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">w</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">loss_fn</span><span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">w</span><span class="p">[</span><span class="mi">1</span><span class="p">])])]</span>
+    
+    <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_steps</span><span class="p">):</span>
+        <span class="n">optim</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">loss_fn</span><span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">w</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+        <span class="n">optim</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+
+        <span class="c1"># logging</span>
+        <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+            <span class="n">z</span> <span class="o">=</span> <span class="n">loss</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">w</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">z</span><span class="p">]))</span>
+
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Gradient descent from the same initial point with different learning rates:</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plot_gd_steps</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">optim</span><span class="p">,</span> <span class="n">optim_params</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">label_map</span><span class="o">=</span><span class="p">{},</span> <span class="n">w_init</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">2.5</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">],</span> <span class="n">num_steps</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="o">**</span><span class="n">plot_kw</span><span class="p">):</span>
+    <span class="n">label</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">+</span> <span class="s2">&quot; (&quot;</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">label_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">optim_params</span><span class="o">.</span><span class="n">items</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot;)&quot;</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">train_curve</span><span class="p">(</span><span class="n">optim</span><span class="p">,</span> <span class="n">optim_params</span><span class="p">,</span> <span class="n">w_init</span><span class="o">=</span><span class="n">w_init</span><span class="p">,</span> <span class="n">num_steps</span><span class="o">=</span><span class="n">num_steps</span><span class="p">)</span>
+    <span class="n">plot_contourf</span><span class="p">(</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">f</span><span class="o">=</span><span class="n">pathological_loss</span><span class="p">,</span> <span class="n">w_hist</span><span class="o">=</span><span class="n">path</span><span class="p">,</span> <span class="n">x_min</span><span class="o">=-</span><span class="mi">10</span><span class="p">,</span> <span class="n">x_max</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">y_min</span><span class="o">=-</span><span class="mi">10</span><span class="p">,</span> <span class="n">y_max</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="o">**</span><span class="n">plot_kw</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">path</span><span class="p">)[:,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">plot_kw</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;color&quot;</span><span class="p">),</span> <span class="n">zorder</span><span class="o">=</span><span class="n">plot_kw</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;zorder&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;steps&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;loss&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;dotted&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">path</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">plot_gd_steps</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">optim</span><span class="o">=</span><span class="n">GD</span><span class="p">,</span> <span class="n">optim_params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;lr&quot;</span><span class="p">:</span> <span class="mf">3.0</span><span class="p">},</span> <span class="n">w_init</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">],</span> <span class="n">label_map</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;lr&quot;</span><span class="p">:</span> <span class="sa">r</span><span class="s2">&quot;$\eta$&quot;</span><span class="p">},</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">)</span>
+<span class="n">plot_gd_steps</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">optim</span><span class="o">=</span><span class="n">GD</span><span class="p">,</span> <span class="n">optim_params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;lr&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">},</span> <span class="n">w_init</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">],</span> <span class="n">label_map</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;lr&quot;</span><span class="p">:</span> <span class="sa">r</span><span class="s2">&quot;$\eta$&quot;</span><span class="p">},</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
+<span class="n">plot_gd_steps</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">optim</span><span class="o">=</span><span class="n">GD</span><span class="p">,</span> <span class="n">optim_params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;lr&quot;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">},</span> <span class="n">w_init</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">],</span> <span class="n">label_map</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;lr&quot;</span><span class="p">:</span> <span class="sa">r</span><span class="s2">&quot;$\eta$&quot;</span><span class="p">},</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/27194f1eb91965ffdbdba3d05d74a18bf973e384a46ca2a679806f3d987aece9.svg" src="../../_images/27194f1eb91965ffdbdba3d05d74a18bf973e384a46ca2a679806f3d987aece9.svg" /></div>
+</div>
+<p>The direction of steepest descent does not always point to the minimum. Depending on the learning rate, it can oscillate around a minimum, or it can get stuck in a flat region of the surface.</p>
+</section>
+<section id="loss-landscape">
+<h2>Loss landscape<a class="headerlink" href="#loss-landscape" title="Permalink to this headline">#</a></h2>
+<p>For convex functions, gradient descent has strong guarantees of converging. However, the loss surface of neural networks
+are generally nonconvex. Clever dimensionality reduction techniques allow us to visualize loss function curvature despite the very large number of parameters (<a class="reference internal" href="#visualizing-loss"><span class="std std-numref">Fig. 26</span></a> from <span id="id1">[<a class="reference internal" href="../../intro.html#id88" title="Hao Li, Zheng Xu, Gavin Taylor, and Tom Goldstein. Visualizing the loss landscape of neural nets. CoRR, 2017. URL: http://arxiv.org/abs/1712.09913, arXiv:1712.09913.">LXTG17</a>]</span>). Notice that there are <strong>plateaus</strong> (or flat minimas) and <strong>local minimas</strong> which makes gradient descent hard. In high-dimension <strong>saddle points</strong> are the most common critical points.</p>
+<br><figure class="align-default" id="visualizing-loss">
+<a class="reference internal image-reference" href="../../_images/02-visualizing-loss.png"><img alt="../../_images/02-visualizing-loss.png" src="../../_images/02-visualizing-loss.png" style="width: 80%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 26 </span><span class="caption-text">The loss surfaces of ResNet-56 with (<strong>right</strong>) and without (<strong>left</strong>) skip connections.
+The loss surface on the right looks better although there are still some flatness. <span id="id2">[<a class="reference internal" href="../../intro.html#id88" title="Hao Li, Zheng Xu, Gavin Taylor, and Tom Goldstein. Visualizing the loss landscape of neural nets. CoRR, 2017. URL: http://arxiv.org/abs/1712.09913, arXiv:1712.09913.">LXTG17</a>]</span></span><a class="headerlink" href="#visualizing-loss" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<aside class="margin sidebar">
+<p class="sidebar-title"></p>
+<p><strong>Reading</strong>: <br>
+<a class="reference external" href="https://www.offconvex.org/2016/03/22/saddlepoints/">Escaping from Saddle Points</a></p>
+</aside>
+<figure class="align-default" id="optima-type">
+<a class="reference internal image-reference" href="../../_images/02-optima-type.png"><img alt="../../_images/02-optima-type.png" src="../../_images/02-optima-type.png" style="width: 100%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 27 </span><span class="caption-text">Types of critical points. Source: <a class="reference external" href="https://cs182sp21.github.io/static/slides/lec-4.pdf">[CS182-lec4]</a></span><a class="headerlink" href="#optima-type" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<section id="local-minima">
+<h3>Local minima<a class="headerlink" href="#local-minima" title="Permalink to this headline">#</a></h3>
+<p>Local minimas are very scary, in principle, since gradient descent could converge to a
+solution that is <em>arbitrarily worse</em> than the global optimum. Surprisingly, this becomes
+less of an issue as the number of parameters increases, as they
+tend to be not much worse than global optima. <a class="reference internal" href="#id4"><span class="std std-numref">Fig. 28</span></a>
+below shows that for larger networks the test loss variance between training
+runs become
+smaller. This indicates that local minima tend to be increasingly equivalent
+as we increase network size.</p>
+<figure class="align-default" id="id4">
+<a class="reference internal image-reference" href="../../_images/02-local-minima.png"><img alt="../../_images/02-local-minima.png" src="../../_images/02-local-minima.png" style="width: 80%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 28 </span><span class="caption-text">Test loss of 1000 networks on a scaled-down version of MNIST, where
+each image was downsampled to size 10×10. The networks have one hidden layer
+and with 25, 50, 100, 250, and 500 hidden units,
+each one starting from a random set of parameters sampled uniformly within the unit cube.
+All networks were trained for 200 epochs using SGD with
+learning rate decay. Source: <span id="id3">[<a class="reference internal" href="../../intro.html#id89" title="Anna Choromanska, MIkael Henaff, Michael Mathieu, Gerard Ben Arous, and Yann LeCun. The Loss Surfaces of Multilayer Networks. In Guy Lebanon and S. V. N. Vishwanathan, editors, Proceedings of the Eighteenth International Conference on Artificial Intelligence and Statistics, volume 38 of Proceedings of Machine Learning Research, 192–204. San Diego, California, USA, 09–12 May 2015. PMLR. URL: https://proceedings.mlr.press/v38/choromanska15.html.">CHM+15</a>]</span></span><a class="headerlink" href="#id4" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="plateaus">
+<h3>Plateaus<a class="headerlink" href="#plateaus" title="Permalink to this headline">#</a></h3>
+<p>Plateaus are regions in the loss landscape with small gradients. It can also be a flat local minima. Below the initial weights is in a plateau, and the optimizer with small learning rate gets stuck and fails to converge. Large learning rate allows the optimizer to escape such regions. So we cannot just choose small learning rate to prevent oscillations. We will see later that <strong>momentum</strong> helps to overcome this tradeoff.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">plot_gd_steps</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">optim</span><span class="o">=</span><span class="n">GD</span><span class="p">,</span> <span class="n">optim_params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;lr&quot;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">},</span> <span class="n">w_init</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">4.0</span><span class="p">,</span>  <span class="mf">6.0</span><span class="p">],</span> <span class="n">label_map</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;lr&quot;</span><span class="p">:</span> <span class="sa">r</span><span class="s2">&quot;$\eta$&quot;</span><span class="p">},</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">)</span>
+<span class="n">plot_gd_steps</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">optim</span><span class="o">=</span><span class="n">GD</span><span class="p">,</span> <span class="n">optim_params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;lr&quot;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">},</span> <span class="n">w_init</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">4.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.0</span><span class="p">],</span> <span class="n">label_map</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;lr&quot;</span><span class="p">:</span> <span class="sa">r</span><span class="s2">&quot;$\eta$&quot;</span><span class="p">},</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../../_images/7224ae2e480cf75603ef6f8460742b732d8b198bee3081f721ca56d2b81a5e1f.svg" src="../../_images/7224ae2e480cf75603ef6f8460742b732d8b198bee3081f721ca56d2b81a5e1f.svg" /></div>
+</div>
+</section>
+<section id="saddle-points">
+<h3>Saddle points<a class="headerlink" href="#saddle-points" title="Permalink to this headline">#</a></h3>
+<aside class="margin sidebar">
+<p class="sidebar-title"></p>
+<p><strong>Reading:</strong> <br>
+<a class="reference external" href="https://www.offconvex.org/2016/03/22/saddlepoints/">Escaping from Saddle Points</a></p>
+</aside>
+<p>Saddle points are critical points (i.e. gradient zero) that are local minimum in some dimensions but local maximum in other dimensions. Neural networks have a lot of symmetry which can result in exponentially many local minima. Saddle points naturally arise
+in paths that connect these local minima (<a class="reference internal" href="#connected-minima"><span class="std std-numref">Fig. 29</span></a>).
+It takes a long time to escape a saddle point since it is usually surrounded by high-loss plateaus <span id="id5">[<a class="reference internal" href="../../intro.html#id90" title="Yann N. Dauphin, Razvan Pascanu, Caglar Gulcehre, Kyunghyun Cho, Surya Ganguli, and Yoshua Bengio. Identifying and attacking the saddle point problem in high-dimensional non-convex optimization. In Proceedings of the 27th International Conference on Neural Information Processing Systems - Volume 2, NIPS'14, 2933–2941. Cambridge, MA, USA, 2014. MIT Press.">DPG+14</a>]</span>.
+A saddle point looks like a special structure. But in high-dimension, it turns out that most optima are saddle points.</p>
+<figure class="align-default" id="connected-minima">
+<a class="reference internal image-reference" href="../../_images/02-connected-minima.png"><img alt="../../_images/02-connected-minima.png" src="../../_images/02-connected-minima.png" style="width: 60%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 29 </span><span class="caption-text">Paths between two minimas result in a saddle point. Source: <a class="reference external" href="https://www.offconvex.org/2016/03/22/saddlepoints/">[offconvex.org]</a></span><a class="headerlink" href="#connected-minima" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>The Hessian <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{H}}\)</span> at the critical point of a surface is a matrix containing second derivatives at that point. We will see shortly that these characterize the local curvature. From <a class="reference external" href="https://en.wikipedia.org/wiki/Symmetry_of_second_derivatives#Schwarz's_theorem">Schwarz’s theorem</a>, mixed partials are equal assuming the second partial derivatives are continuous around the optima. It follows that <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{H}}\)</span> is symmetric, and from the <a class="reference external" href="https://github.com/particle1331/computational-linear-algebra/blob/master/chapters/02-svd.ipynb">Real Spectral Theorem</a>, <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{H}}\)</span> is diagonalizable with real eigenvalues. It turns out that local curvature is characterized by whether the eigenvalues are negative, zero, or positive.</p>
+<p>If all eigenvalues of the Hessian are positive, it is <a class="reference external" href="https://en.wikipedia.org/wiki/Definite_matrix">positive-definite</a>, i.e. <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{x}}^\top \boldsymbol{\mathsf{H}}\, \boldsymbol{\mathsf{x}} &gt; 0\)</span> for <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{x}} \neq \boldsymbol{0}.\)</span> This follows directly from the spectral decomposition <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{H}} = \boldsymbol{\mathsf{U}} \boldsymbol{\Lambda} \boldsymbol{\mathsf{U}}^\top\)</span> such that <span class="math notranslate nohighlight">\(\boldsymbol{\Lambda}\)</span> is the diagonal matrix of eigenvalues of <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{H}}\)</span> and <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{U}}\)</span> is an orthogonal matrix with corresponding unit eigenvectors as columns. This is the multivariable equivalent of <strong>concave up</strong>. On the other hand, if all eigenvalues of <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{H}}\)</span> are negative, then it is negative-definite or <strong>concave down</strong>. To see this, observe that the Taylor expansion at the critical point is:</p>
+<div class="math notranslate nohighlight">
+\[
+\Delta \mathcal{L}_{\mathcal{D}} = \frac{1}{2} \Delta \boldsymbol{\Theta}^\top \boldsymbol{\mathsf{H}}\, \Delta \boldsymbol{\Theta} + O(\Delta \boldsymbol{\Theta}^3).
+\]</div>
+<p>If any eigenvalue is zero, more information is needed (i.e. we need third order terms). Finally, if the eigenvalues are mixed, we get a <strong>saddle point</strong> where there are orthogonal directions corresponding to eigenvectors where the loss decreases and directions where the loss increases. Getting <span class="math notranslate nohighlight">\(M = |\boldsymbol{\Theta}|\)</span> eigenvalues of the same sign or having one zero eigenvalue is relatively rare for large networks with complex loss surfaces, so that the probability that the critical point is a saddle point is high.</p>
+</section>
+</section>
+<section id="momentum-methods">
+<h2>Momentum methods<a class="headerlink" href="#momentum-methods" title="Permalink to this headline">#</a></h2>
+<section id="momentum">
+<h3>Momentum<a class="headerlink" href="#momentum" title="Permalink to this headline">#</a></h3>
+<p>Recall that high learning rate allows the optimizer to overcome plateaus. However, this can result in oscillation. The intuition behind <strong>momentum</strong> is that if successive gradient steps point in different
+directions, we should cancel off the directions that disagree. Moreover, if successive gradient steps point in similar directions, we
+should go faster in that direction. Simply adding gradients can result in extreme step size, so exponential averaging using a parameter <span class="math notranslate nohighlight">\(0 \leq \beta &lt; 1\)</span> is used:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\boldsymbol{\mathsf{m}}^t &amp;= \beta \, \boldsymbol{\mathsf{m}}^{t-1} + (1 - \beta) \, \nabla_{\boldsymbol{\Theta}}\, f(\boldsymbol{\Theta}^{t}) \\
+\boldsymbol{\boldsymbol{\Theta}}^{t+1} &amp;= \boldsymbol{\boldsymbol{\Theta}}^{t} - \eta \, \boldsymbol{\mathsf{m}}^{t}.
+\end{aligned}
+\end{split}\]</div>
+<p>Note that <span class="math notranslate nohighlight">\(\beta = 0\)</span> is just regular GD.
+In the following implementation, we add an extra parameter <code class="docutils literal notranslate"><span class="pre">momentum=0.0</span></code> to the <code class="docutils literal notranslate"><span class="pre">GD</span></code> class for <span class="math notranslate nohighlight">\(\beta\)</span>. Observe that the optimizer is now <strong>stateful</strong>: the attribute <code class="docutils literal notranslate"><span class="pre">self.m</span></code> stores the momentum vector <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{m}}^t\)</span> above as a dictionary with parameter keys. We will set <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{m}}^0 = \boldsymbol{0}\)</span> and <span class="math notranslate nohighlight">\(\boldsymbol{\Theta}^1 = \boldsymbol{\Theta}_{\text{init}}.\)</span></p>
+<aside class="margin sidebar">
+<p class="sidebar-title"></p>
+<p>Saving the <code class="docutils literal notranslate"><span class="pre">state_dict</span></code> for the optimizer and model in PyTorch allows to <a class="reference external" href="https://pytorch.org/tutorials/beginner/saving_loading_models.html#saving-loading-a-general-checkpoint-for-inference-and-or-resuming-training">resume training</a>.</p>
+</aside>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">GD</span><span class="p">(</span><span class="n">OptimizerBase</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">lr</span><span class="p">,</span> <span class="n">momentum</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">lr</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">beta</span> <span class="o">=</span> <span class="n">momentum</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">m</span> <span class="o">=</span> <span class="p">{</span><span class="n">p</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">data</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">update_param</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">m</span><span class="p">[</span><span class="n">p</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">m</span><span class="p">[</span><span class="n">p</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta</span><span class="p">)</span> <span class="o">*</span> <span class="n">p</span><span class="o">.</span><span class="n">grad</span>
+        <span class="n">p</span> <span class="o">+=</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">lr</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">m</span><span class="p">[</span><span class="n">p</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">label_map_gdm</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;lr&quot;</span><span class="p">:</span> <span class="sa">r</span><span class="s2">&quot;$\eta$&quot;</span><span class="p">,</span> <span class="s2">&quot;momentum&quot;</span><span class="p">:</span> <span class="sa">r</span><span class="s2">&quot;$\beta$&quot;</span><span class="p">}</span>
+<span class="n">plot_gd_steps</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">optim</span><span class="o">=</span><span class="n">GD</span><span class="p">,</span> <span class="n">optim_params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;lr&quot;</span><span class="p">:</span> <span class="mf">3.0</span><span class="p">},</span>                  <span class="n">w_init</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">],</span> <span class="n">label_map</span><span class="o">=</span><span class="n">label_map_gdm</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">)</span>
+<span class="n">plot_gd_steps</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">optim</span><span class="o">=</span><span class="n">GD</span><span class="p">,</span> <span class="n">optim_params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;lr&quot;</span><span class="p">:</span> <span class="mf">3.0</span><span class="p">,</span> <span class="s2">&quot;momentum&quot;</span><span class="p">:</span> <span class="mf">0.9</span><span class="p">},</span> <span class="n">w_init</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">],</span> <span class="n">label_map</span><span class="o">=</span><span class="n">label_map_gdm</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;steps&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;loss&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;dotted&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../../_images/225c52974ae4978bb27f7cc78cbcd856ff1fc5b02676d5249fb532effa03b384.svg" src="../../_images/225c52974ae4978bb27f7cc78cbcd856ff1fc5b02676d5249fb532effa03b384.svg" /></div>
+</div>
+<p>The optimizer is able to escape in initial plateau due to a high learning rate.
+Then, it overshoots resulting in delayed decrease in loss.
+Between roughly 60-80 steps, the optimizer escapes the lower plateau
+by accumulating small gradients toward the minimum.
+Finally, it oscillates around the minimum but these eventually die down due to the effect of momentum.</p>
+<p><strong>Remark.</strong> Momentum is aptly named since <span class="math notranslate nohighlight">\(\beta\)</span> can be thought of as the mass of a ball rolling down the surface to a minimum. It resists force (gradients), and maintains an inertia (momentum state vector) from previous updates.</p>
+</section>
+<section id="rmsprop">
+<h3>RMSProp<a class="headerlink" href="#rmsprop" title="Permalink to this headline">#</a></h3>
+<p>The relative magnitude of gradient is not very informative: only its <strong>sign</strong> is.
+Moreover, it changes during the course of training. Near the minimum it becomes small
+slowing down convergence.
+This makes it difficult to tune learning rate for different functions, or for different
+points on the same function. To fix this,
+<strong>RMSProp</strong> normalizes the gradient along each dimension.
+It estimates the size of the gradient using exponential averaging with <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{v}}^0 = \mathbf{0}\)</span> and <span class="math notranslate nohighlight">\(\boldsymbol{\Theta}^1 = \boldsymbol{\Theta}_{\text{init}}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\boldsymbol{\mathsf{v}}^t &amp;= \beta \, \boldsymbol{\mathsf{v}}^{t-1} + (1 - \beta) \, \left( \nabla_{\boldsymbol{\Theta}}\, f(\boldsymbol{\Theta}^{t}) \right)^2 \\
+\boldsymbol{\boldsymbol{\Theta}}^{t+1} &amp;= \boldsymbol{\boldsymbol{\Theta}}^{t} - \eta \, \frac{1}{\sqrt{\boldsymbol{\mathsf{v}}^{t}}} \nabla_{\boldsymbol{\Theta}}\, f(\boldsymbol{\Theta}^{t}).
+\end{aligned}
+\end{split}\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">RMSProp</span><span class="p">(</span><span class="n">OptimizerBase</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">lr</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">0.9</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">lr</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">beta</span> <span class="o">=</span> <span class="n">beta</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">v</span> <span class="o">=</span> <span class="p">{</span><span class="n">p</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">data</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">update_param</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">v</span><span class="p">[</span><span class="n">p</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">v</span><span class="p">[</span><span class="n">p</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta</span><span class="p">)</span> <span class="o">*</span> <span class="n">p</span><span class="o">.</span><span class="n">grad</span> <span class="o">**</span> <span class="mi">2</span>
+        <span class="n">p</span> <span class="o">+=</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">lr</span> <span class="o">*</span> <span class="n">p</span><span class="o">.</span><span class="n">grad</span> <span class="o">/</span> <span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">v</span><span class="p">[</span><span class="n">p</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Notice that gradient normalization allows escaping plateaus:</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">label_map_rmsprop</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;lr&quot;</span><span class="p">:</span> <span class="sa">r</span><span class="s2">&quot;$\eta$&quot;</span><span class="p">,</span> <span class="s2">&quot;beta&quot;</span><span class="p">:</span> <span class="sa">r</span><span class="s2">&quot;$\beta$&quot;</span><span class="p">}</span>
+<span class="n">plot_gd_steps</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">optim</span><span class="o">=</span><span class="n">GD</span><span class="p">,</span>      <span class="n">optim_params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;lr&quot;</span><span class="p">:</span> <span class="mf">0.6</span><span class="p">},</span>              <span class="n">w_init</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">],</span> <span class="n">label_map</span><span class="o">=</span><span class="n">label_map_gdm</span><span class="p">,</span>     <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">)</span>
+<span class="n">plot_gd_steps</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">optim</span><span class="o">=</span><span class="n">RMSProp</span><span class="p">,</span> <span class="n">optim_params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;lr&quot;</span><span class="p">:</span> <span class="mf">0.6</span><span class="p">,</span> <span class="s2">&quot;beta&quot;</span><span class="p">:</span> <span class="mf">0.9</span><span class="p">},</span> <span class="n">w_init</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">],</span> <span class="n">label_map</span><span class="o">=</span><span class="n">label_map_rmsprop</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;steps&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;loss&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;dotted&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../../_images/3c7022ebc6ecb81e7257b1b7327fbcf8264957d7db1b681251d00b1f5e3a0973.svg" src="../../_images/3c7022ebc6ecb81e7257b1b7327fbcf8264957d7db1b681251d00b1f5e3a0973.svg" /></div>
+</div>
+<p>The initial update has size <span class="math notranslate nohighlight">\(\frac{\eta}{\sqrt{1 - \beta}} \geq \eta\)</span> in each direction. Later if the current gradient is smaller than previous gradients, then the current update suddenly becomes small. This can be seen near the minimum. Conversely, if the current gradient is relatively larger than previous updates, then <span class="math notranslate nohighlight">\(\frac{1}{\sqrt{\boldsymbol{\mathsf{v}}^{t}}} \nabla_{\boldsymbol{\Theta}}\, f(\boldsymbol{\Theta}^{t})\)</span> is large. This again can be observed in the latter part of the training, after the steps become small in the minimum.</p>
+<p><strong>Remark.</strong> RMSProp have erratic properties, nevertheless it exhibits <strong>adaptive learning rates</strong>. That is, it looks like regular gradient descent but with dynamic effective learning rate in each parameter direction. Adam discussed next uses this and improves upon the defects of RMSProp.</p>
+</section>
+<section id="adam">
+<h3>Adam<a class="headerlink" href="#adam" title="Permalink to this headline">#</a></h3>
+<p>Notice that RMSProp experiences oscillations around the minimum. <strong>Adam</strong> <span id="id6">[<a class="reference internal" href="../../intro.html#id45" title="Diederik P. Kingma and Jimmy Ba. Adam: A method for stochastic optimization. In Yoshua Bengio and Yann LeCun, editors, 3rd International Conference on Learning Representations, ICLR 2015, San Diego, CA, USA, May 7-9, 2015, Conference Track Proceedings. 2015. URL: http://arxiv.org/abs/1412.6980.">KB15</a>]</span> fixes this by combining momentum with RMSProp. Adam also uses bias correction so that gradients dominate during early stages of training instead of the state vectors which are initially set to zero. Let <span class="math notranslate nohighlight">\(0 \leq \beta_1 &lt; 1\)</span>, <span class="math notranslate nohighlight">\(0 \leq \beta_2 &lt; 1\)</span>, and <span class="math notranslate nohighlight">\(0 &lt; \epsilon \ll 1.\)</span> Set <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{m}}^0 = \boldsymbol{\mathsf{v}}^0  = \mathbf{0}\)</span> and <span class="math notranslate nohighlight">\(\boldsymbol{\Theta}^1 = \boldsymbol{\Theta}_{\text{init}}.\)</span> Starting with <span class="math notranslate nohighlight">\(t = 1\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\boldsymbol{\mathsf{m}}^t &amp;= \beta_1 \, \boldsymbol{\mathsf{m}}^{t-1} + (1 - \beta_1) \, \nabla_{\boldsymbol{\Theta}}\, f(\boldsymbol{\Theta}^{t}) \\
+\boldsymbol{\mathsf{v}}^t &amp;= \beta_2 \, \boldsymbol{\mathsf{v}}^{t-1} + (1 - \beta_2) \, \left( \nabla_{\boldsymbol{\Theta}}\, f(\boldsymbol{\Theta}^{t}) \right)^2 \\
+\hat{\boldsymbol{\mathsf{m}}}^t &amp;= \frac{\boldsymbol{\mathsf{m}}^t}{1 - {\beta_1}^t} \\
+\hat{\boldsymbol{\mathsf{v}}}^t &amp;= \frac{\boldsymbol{\mathsf{v}}^t}{1 - {\beta_2}^t} \\
+\boldsymbol{\boldsymbol{\Theta}}^{t+1} &amp;= \boldsymbol{\boldsymbol{\Theta}}^{t} - \eta \, \frac{1}{\sqrt{\hat{\boldsymbol{\mathsf{v}}}^{t}} + \epsilon} \cdot \hat{\boldsymbol{\mathsf{m}}}^t.
+\end{aligned}
+\end{split}\]</div>
+<p>The set of parameters is <span class="math notranslate nohighlight">\(\eta = 0.001\)</span>, <span class="math notranslate nohighlight">\(\beta_1 = 0.9\)</span>, <span class="math notranslate nohighlight">\(\beta_2 = 0.999\)</span> and <span class="math notranslate nohighlight">\(\epsilon = 10^{-8}\)</span> is a good starting point. Here we choose <span class="math notranslate nohighlight">\(\beta_2 &gt; \beta_1\)</span> since gradient magnitude usually does not change as fast as its direction so we choose a larger momentum. Note that similar to RMSProp, the update size autotunes, so that the learning rate <span class="math notranslate nohighlight">\(\eta\)</span> is roughly indicative of the update size.</p>
+<p><strong>Bias correction.</strong> Let <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{g}}^t = \nabla_{\boldsymbol{\Theta}}\, f(\boldsymbol{\Theta}^{t}).\)</span> Note that time <span class="math notranslate nohighlight">\(t = 1\)</span> corresponds to the initial point in the loss surface where <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{g}}^1 = \nabla_{\boldsymbol{\Theta}}\, f(\boldsymbol{\Theta}_{\text{init}})\)</span>. This also means that <span class="math notranslate nohighlight">\(t\)</span> is the number of gradients that are summed when computing the exponential average. Observe that</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\boldsymbol{\mathsf{m}}^1
+&amp;= (1 - \beta_1)\, \boldsymbol{\mathsf{g}}^1\\\\
+\boldsymbol{\mathsf{m}}^2
+&amp;= \beta_1\, \boldsymbol{\mathsf{m}}^1 + (1 - \beta_1)\, \boldsymbol{\mathsf{g}}^2 \\
+&amp;= \beta_1\, (1 - \beta_1)\, \boldsymbol{\mathsf{g}}^1 + (1 - \beta_1)\, \boldsymbol{\mathsf{g}}^2\\
+&amp;= (1 - \beta_1) \left({\beta_1}\,\boldsymbol{\mathsf{g}}^1 + \boldsymbol{\mathsf{g}}^2 \right).\\\\
+\boldsymbol{\mathsf{m}}^3 
+&amp;= \beta_1\, \boldsymbol{\mathsf{m}}^2 + (1 - \beta_1)\, \boldsymbol{\mathsf{g}}^3 \\
+&amp;= \beta_1\, (1 - \beta_1)\,(\beta_1  \, \boldsymbol{\mathsf{g}}^1 +  \, \boldsymbol{\mathsf{g}}^2) + (1 - \beta_1)\, \boldsymbol{\mathsf{g}}^3\\
+&amp;= (1 - \beta_1) \left({\beta_1}^2 \boldsymbol{\mathsf{g}}^1 + {\beta_1}\, \boldsymbol{\mathsf{g}}^2 + \boldsymbol{\mathsf{g}}^3 \right).\\
+\end{aligned}
+\end{split}\]</div>
+<p>This slows down training at early steps where the terms in the sum are few, so that <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{m}}^t\)</span> is small. Recall that <span class="math notranslate nohighlight">\((1 - {\beta_1}^{3}) = (1 - {\beta_1}) \sum_{t = 0}^2 {\beta_1}^t.\)</span> Dividing with this gets us a proper average that is biased towards recent gradients:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\hat{\boldsymbol{\mathsf{m}}}^3 &amp;= \frac{{\beta_1}^2 \boldsymbol{\mathsf{g}}^1 + {\beta_1}\, \boldsymbol{\mathsf{g}}^2 + \boldsymbol{\mathsf{g}}^3}{{\beta_1}^2 + {\beta_1} + 1}.\\
+\end{aligned}
+\end{split}\]</div>
+<p>This calculation extends inductively. For <span class="math notranslate nohighlight">\(t = 1\)</span>, <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{m}}^1 = (1 - \beta_1)\,\boldsymbol{\mathsf{g}}^1\)</span> whereas with bias correction we get <span class="math notranslate nohighlight">\(\hat{\boldsymbol{\mathsf{m}}}^1 = \boldsymbol{\mathsf{g}}^1.\)</span> The following implementation gets this right with <code class="docutils literal notranslate"><span class="pre">self.t[p]</span> <span class="pre">=</span> <span class="pre">1</span></code> at the initial point. Note that bias correction in momentum only works because of the auto-learning rate tuning with <span class="math notranslate nohighlight">\(1 / \sqrt{\hat{\boldsymbol{\mathsf{v}}}^t}\)</span>. Otherwise, the optimizer rolls down a slope too fast, missing the minimum!</p>
+<br><div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Adam</span><span class="p">(</span><span class="n">OptimizerBase</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">beta1</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">beta2</span><span class="o">=</span><span class="mf">0.999</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">lr</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">beta1</span> <span class="o">=</span> <span class="n">beta1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">beta2</span> <span class="o">=</span> <span class="n">beta2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">m</span> <span class="o">=</span> <span class="p">{</span><span class="n">p</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">data</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">v</span> <span class="o">=</span> <span class="p">{</span><span class="n">p</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">data</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="p">{</span><span class="n">p</span><span class="p">:</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">}</span>    <span class="c1"># Params are updated one by one.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eps</span> <span class="o">=</span> <span class="n">eps</span>
+
+    <span class="k">def</span> <span class="nf">update_param</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">[</span><span class="n">p</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">m</span><span class="p">[</span><span class="n">p</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta1</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">m</span><span class="p">[</span><span class="n">p</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta1</span><span class="p">)</span> <span class="o">*</span> <span class="n">p</span><span class="o">.</span><span class="n">grad</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">v</span><span class="p">[</span><span class="n">p</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">v</span><span class="p">[</span><span class="n">p</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta2</span><span class="p">)</span> <span class="o">*</span> <span class="n">p</span><span class="o">.</span><span class="n">grad</span> <span class="o">**</span> <span class="mi">2</span>
+        <span class="n">m_hat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">m</span><span class="p">[</span><span class="n">p</span><span class="p">]</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta1</span> <span class="o">**</span> <span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">[</span><span class="n">p</span><span class="p">])</span>
+        <span class="n">v_hat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">v</span><span class="p">[</span><span class="n">p</span><span class="p">]</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta2</span> <span class="o">**</span> <span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">[</span><span class="n">p</span><span class="p">])</span>
+        <span class="n">p</span> <span class="o">+=</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">lr</span> <span class="o">*</span> <span class="n">m_hat</span> <span class="o">/</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">v_hat</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">eps</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">label_map_adam</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;lr&quot;</span><span class="p">:</span> <span class="sa">r</span><span class="s2">&quot;$\eta$&quot;</span><span class="p">,</span> <span class="s2">&quot;beta1&quot;</span><span class="p">:</span> <span class="sa">r</span><span class="s2">&quot;$\beta_1$&quot;</span><span class="p">,</span> <span class="s2">&quot;beta2&quot;</span><span class="p">:</span> <span class="sa">r</span><span class="s2">&quot;$\beta_2$&quot;</span><span class="p">}</span>
+<span class="n">plot_gd_steps</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">optim</span><span class="o">=</span><span class="n">GD</span><span class="p">,</span>      <span class="n">optim_params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;lr&quot;</span><span class="p">:</span> <span class="mf">0.3</span><span class="p">},</span>                               <span class="n">w_init</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">],</span> <span class="n">label_map</span><span class="o">=</span><span class="n">label_map_gdm</span><span class="p">,</span>     <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">)</span>
+<span class="n">plot_gd_steps</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">optim</span><span class="o">=</span><span class="n">GD</span><span class="p">,</span>      <span class="n">optim_params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;lr&quot;</span><span class="p">:</span> <span class="mf">0.3</span><span class="p">,</span> <span class="s2">&quot;momentum&quot;</span><span class="p">:</span> <span class="mf">0.9</span><span class="p">},</span>              <span class="n">w_init</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">],</span> <span class="n">label_map</span><span class="o">=</span><span class="n">label_map_gdm</span><span class="p">,</span>     <span class="n">color</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">)</span>
+<span class="n">plot_gd_steps</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">optim</span><span class="o">=</span><span class="n">Adam</span><span class="p">,</span>    <span class="n">optim_params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;lr&quot;</span><span class="p">:</span> <span class="mf">0.3</span><span class="p">,</span> <span class="s2">&quot;beta1&quot;</span><span class="p">:</span> <span class="mf">0.9</span><span class="p">,</span> <span class="s2">&quot;beta2&quot;</span><span class="p">:</span> <span class="mf">0.999</span><span class="p">},</span> <span class="n">w_init</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">],</span> <span class="n">label_map</span><span class="o">=</span><span class="n">label_map_adam</span><span class="p">,</span>    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">)</span>
+<span class="n">plot_gd_steps</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">optim</span><span class="o">=</span><span class="n">RMSProp</span><span class="p">,</span> <span class="n">optim_params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;lr&quot;</span><span class="p">:</span> <span class="mf">0.3</span><span class="p">,</span> <span class="s2">&quot;beta&quot;</span><span class="p">:</span> <span class="mf">0.9</span><span class="p">},</span>                  <span class="n">w_init</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">],</span> <span class="n">label_map</span><span class="o">=</span><span class="n">label_map_rmsprop</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;steps&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;loss&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;dotted&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../../_images/2f097f6500fb9dd9cce4b83e976701f2bb99843ab43c3c322a2cbc848e21c7c3.svg" src="../../_images/2f097f6500fb9dd9cce4b83e976701f2bb99843ab43c3c322a2cbc848e21c7c3.svg" /></div>
+</div>
+<p>The effect of momentum in Adam can be seen by the dampening of oscillations. Observe that for RMSProp, the oscillations do not die out near the minimum. Moreover, at the start of training where gradient updates do not cancel out, Adam has a step size of <span class="math notranslate nohighlight">\(\eta\)</span> in each direction. Then adaptive learning rate helps to regulate the step size as the gradient tends to zero around the minimum.</p>
+<p>Trying out a larger learning rate:</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">plot_gd_steps</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">optim</span><span class="o">=</span><span class="n">GD</span><span class="p">,</span>      <span class="n">optim_params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;lr&quot;</span><span class="p">:</span> <span class="mf">2.5</span><span class="p">},</span>                               <span class="n">w_init</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">],</span> <span class="n">label_map</span><span class="o">=</span><span class="n">label_map_gdm</span><span class="p">,</span>     <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">)</span>
+<span class="n">plot_gd_steps</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">optim</span><span class="o">=</span><span class="n">GD</span><span class="p">,</span>      <span class="n">optim_params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;lr&quot;</span><span class="p">:</span> <span class="mf">2.5</span><span class="p">,</span> <span class="s2">&quot;momentum&quot;</span><span class="p">:</span> <span class="mf">0.9</span><span class="p">},</span>              <span class="n">w_init</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">],</span> <span class="n">label_map</span><span class="o">=</span><span class="n">label_map_gdm</span><span class="p">,</span>     <span class="n">color</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">)</span>
+<span class="n">plot_gd_steps</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">optim</span><span class="o">=</span><span class="n">Adam</span><span class="p">,</span>    <span class="n">optim_params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;lr&quot;</span><span class="p">:</span> <span class="mf">2.5</span><span class="p">,</span> <span class="s2">&quot;beta1&quot;</span><span class="p">:</span> <span class="mf">0.9</span><span class="p">,</span> <span class="s2">&quot;beta2&quot;</span><span class="p">:</span> <span class="mf">0.999</span><span class="p">},</span> <span class="n">w_init</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">],</span> <span class="n">label_map</span><span class="o">=</span><span class="n">label_map_adam</span><span class="p">,</span>    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">)</span>
+<span class="n">plot_gd_steps</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">optim</span><span class="o">=</span><span class="n">RMSProp</span><span class="p">,</span> <span class="n">optim_params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;lr&quot;</span><span class="p">:</span> <span class="mf">2.5</span><span class="p">,</span> <span class="s2">&quot;beta&quot;</span><span class="p">:</span> <span class="mf">0.9</span><span class="p">},</span>                  <span class="n">w_init</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">],</span> <span class="n">label_map</span><span class="o">=</span><span class="n">label_map_rmsprop</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;steps&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;loss&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;dotted&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../../_images/95e8d59386facc24982a73a8b6d8575d8fafb035defc148560ed868d3abe5c1b.svg" src="../../_images/95e8d59386facc24982a73a8b6d8575d8fafb035defc148560ed868d3abe5c1b.svg" /></div>
+</div>
+<p>Adam converges faster than GD since the update step, like RMSProp, is not as dependent on the magnitude of the gradient. However, the loss with Adam fluctuates a bit near the end of training. This can be attributed to the oscillations changing orientation, since the step size does not stabilize to zero. This is consistent with folk knowledge that SGD with momentum (see below), if tuned well and given enough time to converge, performs better than Adam. This is discussed further below.</p>
+<p><strong>Remark.</strong> Note that the gradient is coupled with the averaging technique in Adam. If we include regularization or weight decay in the loss, this means weight decay is likewise coupled. This is fixed in <strong>AdamW</strong> <span id="id7">[<a class="reference internal" href="../../intro.html#id99" title="Ilya Loshchilov and Frank Hutter. Fixing weight decay regularization in adam. CoRR, 2017. URL: http://arxiv.org/abs/1711.05101, arXiv:1711.05101.">LH17</a>]</span> which adjusts the weight decay term to appear in the gradient update:</p>
+<div class="math notranslate nohighlight">
+\[
+\boldsymbol{\boldsymbol{\Theta}}^{t+1} = \boldsymbol{\boldsymbol{\Theta}}^{t} 
+- \eta \, 
+\left( 
+    \frac{\hat{\boldsymbol{\mathsf{m}}}^t}{\sqrt{\hat{\boldsymbol{\mathsf{v}}}^{t}} + \epsilon}
+    + \lambda^t \,\boldsymbol{\Theta}
+\right)
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\lambda^t\)</span> is the weight decay term at time <span class="math notranslate nohighlight">\(t.\)</span> See <a class="reference external" href="https://pytorch.org/docs/stable/generated/torch.optim.AdamW.html">AdamW implementation</a> in PyTorch.</p>
+</section>
+</section>
+<section id="sgd">
+<h2>SGD<a class="headerlink" href="#sgd" title="Permalink to this headline">#</a></h2>
+<p>Gradient descent computes gradients for each instance in the training set.
+This can be expensive for large datasets.
+Note that can take a random subset
+<span class="math notranslate nohighlight">\(\mathcal{B} \subset \mathcal{D}\)</span> such that <span class="math notranslate nohighlight">\(B = |\mathcal{B}| \ll |\mathcal{D}|\)</span>
+and still get an unbiased estimate <span class="math notranslate nohighlight">\(\mathcal{L}_{\mathcal{B}} \approx \mathcal{L}_\mathcal{D}\)</span>
+of the empirical loss surface.
+This method is called <strong>Stochastic Gradient Descent</strong> (SGD). This makes sense since <span class="math notranslate nohighlight">\(\mathcal{L}_\mathcal{D}\)</span> is also an estimate of the true loss surface that is fixed at each training step.
+SGD a lot cheaper to compute compared to batch GD allowing training to progress faster with more updates.
+Moreover, SGD has been shown to escape saddle points with some theoretical guarantees <span id="id8">[<a class="reference internal" href="../../intro.html#id90" title="Yann N. Dauphin, Razvan Pascanu, Caglar Gulcehre, Kyunghyun Cho, Surya Ganguli, and Yoshua Bengio. Identifying and attacking the saddle point problem in high-dimensional non-convex optimization. In Proceedings of the 27th International Conference on Neural Information Processing Systems - Volume 2, NIPS'14, 2933–2941. Cambridge, MA, USA, 2014. MIT Press.">DPG+14</a>]</span>.
+The update rule for SGD is given by:</p>
+<div class="math notranslate nohighlight">
+\[
+\boldsymbol{\Theta}^{t+1} = \boldsymbol{\Theta}^t - \eta\; \nabla_{\boldsymbol{\Theta}}\, \mathcal L_{\mathcal{B}}(\boldsymbol{\Theta}^t)
+\]</div>
+<p>Typically, we take <span class="math notranslate nohighlight">\(B = 8, 32, 64, 128, 256.\)</span> Note that SGD is essentially GD above it just replaces the function <span class="math notranslate nohighlight">\(f\)</span> at each step with <span class="math notranslate nohighlight">\(\mathcal{L}_{\mathcal{B}}.\)</span> Hence, all modifications of GD discussed have the same update rule for SGD.
+The same results and observations also mostly hold. Although, now we have to reason with noisy approximations <span class="math notranslate nohighlight">\(f_t \approx f\)</span> at each step unlike before where it is fixed.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+
+<span class="k">def</span> <span class="nf">loss</span><span class="p">(</span><span class="n">w0</span><span class="p">,</span> <span class="n">w1</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">((</span><span class="n">X</span> <span class="o">@</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">w0</span><span class="p">,</span> <span class="n">w1</span><span class="p">])</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">grad</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">B</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Gradient step for the MSE loss function&quot;&quot;&quot;</span>
+    <span class="n">dw</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="p">((</span><span class="n">X</span> <span class="o">@</span> <span class="n">w</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">X</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">dw</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">dw</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">sgd</span><span class="p">(</span><span class="n">w0</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">eta</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">B</span><span class="o">=</span><span class="mi">32</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return sequence of weights from GD.&quot;&quot;&quot;</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">steps</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+    <span class="n">w</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">w0</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">steps</span><span class="p">):</span>
+        <span class="n">batch</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">B</span><span class="p">,))</span>
+        <span class="n">u</span> <span class="o">=</span> <span class="n">w</span><span class="p">[</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span>
+        <span class="n">w</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">u</span> <span class="o">-</span> <span class="n">eta</span> <span class="o">*</span> <span class="n">grad</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">X</span><span class="p">[</span><span class="n">batch</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">batch</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">w</span>
+
+
+<span class="c1"># Generate data</span>
+<span class="n">B</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">low</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">n</span><span class="p">)</span>
+<span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">w_min</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="n">X</span> <span class="o">@</span> <span class="n">w_min</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.05</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>  <span class="c1"># data: y = -1 + 3x + noise</span>
+
+<span class="c1"># Gradient descent</span>
+<span class="n">w_init</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">]</span>
+<span class="n">w_step_gd</span>  <span class="o">=</span> <span class="n">sgd</span><span class="p">(</span><span class="n">w_init</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">eta</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">B</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">))</span>
+<span class="n">w_step_sgd</span> <span class="o">=</span> <span class="n">sgd</span><span class="p">(</span><span class="n">w_init</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">eta</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">B</span><span class="o">=</span><span class="n">B</span><span class="p">)</span>
+
+<span class="c1"># Create a figure and two subplots</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">11</span><span class="p">))</span>
+<span class="n">ax1</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">221</span><span class="p">)</span>
+<span class="n">ax2</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">222</span><span class="p">)</span>
+<span class="n">ax3</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">223</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
+<span class="n">ax4</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">224</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
+
+<span class="c1"># Call the functions with the respective axes</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plot_contourf</span><span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">partial</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">),</span> <span class="n">w_step_gd</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">)</span>
+<span class="n">plot_contourf</span><span class="p">(</span><span class="n">ax2</span><span class="p">,</span> <span class="n">partial</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">),</span> <span class="n">w_step_sgd</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">)</span>
+<span class="n">plot_surface</span><span class="p">(</span><span class="n">ax3</span><span class="p">,</span> <span class="n">partial</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">),</span> <span class="n">N</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+    <span class="n">batch</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">B</span><span class="p">,))</span>
+    <span class="n">plot_surface</span><span class="p">(</span><span class="n">ax4</span><span class="p">,</span> <span class="n">f</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="p">[</span><span class="n">batch</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">[</span><span class="n">batch</span><span class="p">]),</span> <span class="n">N</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;GD&quot;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;SGD (B=</span><span class="si">{</span><span class="n">B</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+<span class="n">ax3</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">loss surface&quot;</span><span class="p">)</span>
+<span class="n">ax4</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">loss approx. (B=</span><span class="si">{</span><span class="n">B</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../../_images/a3eb45b4d6e61a08fcde90ad341313c1891ac50f906a7f5476daddf99cca0239.svg" src="../../_images/a3eb45b4d6e61a08fcde90ad341313c1891ac50f906a7f5476daddf99cca0239.svg" /></div>
+</div>
+<br><p><strong>Remark.</strong> Randomly sampling from <span class="math notranslate nohighlight">\(N \gg 1\)</span> points at each step is expensive. Instead, we typically just shuffle the dataset once, then iterate over it with slices of size <span class="math notranslate nohighlight">\(B\)</span>. This is essentially sampling without replacement which turns out that this is more <a class="reference external" href="https://www.d2l.ai/chapter_optimization/sgd.html#stochastic-gradients-and-finite-samples">data efficient</a> (i.e. the model gets to see more varied data). One such pass over the dataset is called an <strong>epoch</strong>. This is done for example when using PyTorch DataLoaders:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">DataLoader</span>
+
+<span class="n">train_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Epoch 1:&quot;</span><span class="p">)</span>
+<span class="p">[</span><span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">train_loader</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Epoch 2:&quot;</span><span class="p">)</span>
+<span class="p">[</span><span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">train_loader</span><span class="p">];</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:
+tensor([7, 8])
+tensor([5, 4])
+tensor([0, 6])
+tensor([2, 9])
+tensor([1, 3])
+
+Epoch 2:
+tensor([6, 3])
+tensor([7, 5])
+tensor([9, 8])
+tensor([4, 2])
+tensor([0, 1])
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="hyperparameters">
+<h2>Hyperparameters<a class="headerlink" href="#hyperparameters" title="Permalink to this headline">#</a></h2>
+<section id="batch-size">
+<h3>Batch size<a class="headerlink" href="#batch-size" title="Permalink to this headline">#</a></h3>
+<p>Setting powers of 2 for batch size <span class="math notranslate nohighlight">\(B = 16, 32, 64, ..., 512\)</span> tends to generally work well.
+Starting with <span class="math notranslate nohighlight">\(B = 32\)</span> is recommended for image tasks <span id="id9">[<a class="reference internal" href="../../intro.html#id97" title="Dominic Masters and Carlo Luschi. Revisiting small batch training for deep neural networks. CoRR, 2018. URL: http://arxiv.org/abs/1804.07612, arXiv:1804.07612.">ML18</a>]</span>.
+Note that we may need to train with large batch sizes depending on the network architecture, the
+nature of the training distribution, or if we have large compute <span id="id10">[<a class="reference internal" href="../../intro.html#id68" title="Priya Goyal, Piotr Dollár, Ross Girshick, Pieter Noordhuis, Lukasz Wesolowski, Aapo Kyrola, Andrew Tulloch, Yangqing Jia, and Kaiming He. Accurate, large minibatch sgd: training imagenet in 1 hour. 2017. URL: https://arxiv.org/abs/1706.02677, doi:10.48550/ARXIV.1706.02677.">GDG+17</a>]</span>.
+Conversely, we are sometimes forced to use small batches due to resource constraints.</p>
+<p><strong>Large batch.</strong> Naively increasing <span class="math notranslate nohighlight">\(B\)</span> can result in worse generalization (<a class="reference internal" href="#large-batch-training"><span class="std std-numref">Fig. 30</span></a>).
+This has been attributed to large batch size decreasing gradient noise up to a certain threshold <span id="id11">[<a class="reference internal" href="../../intro.html#id96" title="Diego Granziol, Stefan Zohren, and Stephen Roberts. Learning rates as a function of batch size: a random matrix theory approach to neural network training. 2021. arXiv:2006.09092.">GZR21</a>]</span>.
+The existence of a threshold may explain <a class="reference internal" href="#imagenet-1-hour"><span class="std std-numref">Fig. 32</span></a> in <span id="id12">[<a class="reference internal" href="../../intro.html#id68" title="Priya Goyal, Piotr Dollár, Ross Girshick, Pieter Noordhuis, Lukasz Wesolowski, Aapo Kyrola, Andrew Tulloch, Yangqing Jia, and Kaiming He. Accurate, large minibatch sgd: training imagenet in 1 hour. 2017. URL: https://arxiv.org/abs/1706.02677, doi:10.48550/ARXIV.1706.02677.">GDG+17</a>]</span>
+where the simple scaling rule breaks down.
+To counteract this effect, <span id="id13">[<a class="reference internal" href="../../intro.html#id68" title="Priya Goyal, Piotr Dollár, Ross Girshick, Pieter Noordhuis, Lukasz Wesolowski, Aapo Kyrola, Andrew Tulloch, Yangqing Jia, and Kaiming He. Accurate, large minibatch sgd: training imagenet in 1 hour. 2017. URL: https://arxiv.org/abs/1706.02677, doi:10.48550/ARXIV.1706.02677.">GDG+17</a>]</span> suggests scaling up the learning rate
+by the same factor that we increase batch size (<a class="reference internal" href="#imagenet-1-hour"><span class="std std-numref">Fig. 32</span></a>).</p>
+<figure class="align-default" id="large-batch-training">
+<a class="reference internal image-reference" href="../../_images/02-large-batch-training.png"><img alt="../../_images/02-large-batch-training.png" src="../../_images/02-large-batch-training.png" style="width: 600px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 30 </span><span class="caption-text"><span id="id14">[<a class="reference internal" href="../../intro.html#id93" title="Nitish Shirish Keskar, Dheevatsa Mudigere, Jorge Nocedal, Mikhail Smelyanskiy, and Ping Tak Peter Tang. On large-batch training for deep learning: generalization gap and sharp minima. CoRR, 2016. URL: http://arxiv.org/abs/1609.04836, arXiv:1609.04836.">KMN+16b</a>]</span> All models are trained in PyTorch using <a class="reference external" href="https://pytorch.org/docs/stable/generated/torch.optim.Adam.html">Adam</a>
+with default parameters. Large batch training (LB) uses 10% of the dataset while small batch (SB) uses <span class="math notranslate nohighlight">\(B = 256\)</span>.
+Recall that generalization gap reflects model bias and therefore is generally a
+function of network architecture.
+The table shows results for models that were not overfitted to the training distribution.</span><a class="headerlink" href="#large-batch-training" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p><strong>Small batch.</strong> This generally results in slow and unstable convergence since
+the loss surface is poorly approximated at each step.
+This is fixed by <strong>gradient accumulation</strong>
+which simulates a larger batch size by adding
+gradients from multiple small batches before performing a weight update.
+Here accumulation step is increased by the same factor that batch size is
+decreased. This also means training takes longer by roughly the same factor.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">batch</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">train_loader</span><span class="p">):</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">batch</span>
+    <span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">loss_fn</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">outputs</span><span class="p">)</span> <span class="o">/</span> <span class="n">accumulation_steps</span>
+    <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="n">accumulation_steps</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+        <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+</pre></div>
+</div>
+<br><p><strong>Remark.</strong> GPU is underutilized when <span class="math notranslate nohighlight">\(B\)</span> is small, and we can get OOM when <span class="math notranslate nohighlight">\(B\)</span> is large.
+In general, hardware constraints should be considered in parallel with theory.
+GPU can idle if there is lots of CPU processing on a large batch, for example. One can set
+<code class="docutils literal notranslate"><span class="pre">pin_device=True</span></code> can be set in the data loader to speed up data transfers to
+the GPU by leveraging <a class="reference external" href="https://leimao.github.io/blog/Page-Locked-Host-Memory-Data-Transfer/">page locked memory</a>.
+Similar tricks
+(i.e. magic configs, <a class="reference internal" href="#gpu-tricks"><span class="std std-numref">Fig. 31</span></a>) have to be tested empirically to see whether it works on your
+use-case. These are hard to figure out based on first principles.</p>
+<figure class="align-default" id="gpu-tricks">
+<a class="reference internal image-reference" href="../../_images/02-gpu-tricks.png"><img alt="../../_images/02-gpu-tricks.png" src="../../_images/02-gpu-tricks.png" style="width: 600px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 31 </span><span class="caption-text">A <a class="reference external" href="https://twitter.com/karpathy/status/1299921324333170689?s=20">tweet</a> by Andrej Karpathy
+on tricks to optimize Pytorch code. The linked <a class="reference external" href="https://www.youtube.com/watch?v=9mS1fIYj1So">video</a>.</span><a class="headerlink" href="#gpu-tricks" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="learning-rate">
+<h3>Learning rate<a class="headerlink" href="#learning-rate" title="Permalink to this headline">#</a></h3>
+<p>Finding an optimal learning rate is essential for both better
+performance and faster convergence. From our experiments, this is
+true even for optimizers (like Adam) that have adaptive learning rates.
+Note that the choice of learning rate depends on the batch size. If we
+find a good base learning rate and want to change the batch size,
+we have to scale the learning rate with the same factor <span id="id15">[<a class="reference internal" href="../../intro.html#id68" title="Priya Goyal, Piotr Dollár, Ross Girshick, Pieter Noordhuis, Lukasz Wesolowski, Aapo Kyrola, Andrew Tulloch, Yangqing Jia, and Kaiming He. Accurate, large minibatch sgd: training imagenet in 1 hour. 2017. URL: https://arxiv.org/abs/1706.02677, doi:10.48550/ARXIV.1706.02677.">GDG+17</a>]</span> <span id="id16">[<a class="reference internal" href="../../intro.html#id96" title="Diego Granziol, Stefan Zohren, and Stephen Roberts. Learning rates as a function of batch size: a random matrix theory approach to neural network training. 2021. arXiv:2006.09092.">GZR21</a>]</span>.
+This means smaller learning rate for smaller batches, and vice-versa (<a class="reference internal" href="#imagenet-1-hour"><span class="std std-numref">Fig. 32</span></a>).</p>
+<p>In practice, we start with setting an appropriate batch size since this depends on
+constraints such as GPU efficiency and
+CPU processing code and implementation, as well as data transfer latency. Then, proceed with configuring learning rate tuning (i.e. choice of base learning rate and LR decay policy) discussed in this section.</p>
+<figure class="align-default" id="imagenet-1-hour">
+<a class="reference internal image-reference" href="../../_images/02-imagenet-1-hour.png"><img alt="../../_images/02-imagenet-1-hour.png" src="../../_images/02-imagenet-1-hour.png" style="width: 500px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 32 </span><span class="caption-text">From <span id="id17">[<a class="reference internal" href="../../intro.html#id68" title="Priya Goyal, Piotr Dollár, Ross Girshick, Pieter Noordhuis, Lukasz Wesolowski, Aapo Kyrola, Andrew Tulloch, Yangqing Jia, and Kaiming He. Accurate, large minibatch sgd: training imagenet in 1 hour. 2017. URL: https://arxiv.org/abs/1706.02677, doi:10.48550/ARXIV.1706.02677.">GDG+17</a>]</span>.  For all experiments
+<span class="math notranslate nohighlight">\(B \leftarrow aB\)</span> and <span class="math notranslate nohighlight">\(\eta \leftarrow a\eta\)</span>
+sizes are set. Note that a simple warmup phase for the first few epochs of
+training until the learning rate stabilizes to <span class="math notranslate nohighlight">\(\eta\)</span> since
+early steps are away from any minima, hence can be unstable.
+All other hyper-parameters are kept fixed. Using this
+simple approach, accuracy of our models is invariant to minibatch
+size (up to an 8k minibatch size). As an aside the authors were able to train
+ResNet-50 on ImageNet in 1 hour using 256 GPUs. The scaling efficiency they obtained
+is 90% relative to the baseline of using 8 GPUs.</span><a class="headerlink" href="#imagenet-1-hour" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p><strong>LR finder.</strong> The following is a parameter-free approach to finding a good base learning rate.
+The idea is to select a base learning rate that is as large as possible without the loss diverging
+at early steps of training.
+This allows the optimizer to initially explore the surface with less risk of
+getting stuck in plateaus.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">num_steps</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">lre_min</span> <span class="o">=</span> <span class="o">-</span><span class="mf">2.0</span>
+<span class="n">lre_max</span> <span class="o">=</span>  <span class="mf">0.6</span>
+<span class="n">lre</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">lre_min</span><span class="p">,</span> <span class="n">lre_max</span><span class="p">,</span> <span class="n">num_steps</span><span class="p">)</span>
+<span class="n">lrs</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">**</span> <span class="n">lre</span>
+<span class="n">w</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">FloatTensor</span><span class="p">([</span><span class="o">-</span><span class="mf">4.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">4.0</span><span class="p">]),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">optim</span> <span class="o">=</span> <span class="n">Adam</span><span class="p">([</span><span class="n">w</span><span class="p">],</span> <span class="n">lr</span><span class="o">=</span><span class="n">lrs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="n">losses</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_steps</span><span class="p">):</span>
+    <span class="n">optim</span><span class="o">.</span><span class="n">lr</span> <span class="o">=</span> <span class="n">lrs</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>   <span class="c1"># (!) change LR at each step</span>
+    <span class="n">optim</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">pathological_loss</span><span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">w</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+    <span class="n">optim</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+    <span class="n">losses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lrs</span><span class="o">.</span><span class="n">detach</span><span class="p">(),</span> <span class="n">losses</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;learning rate&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;loss&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;dotted&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="mf">2.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;dashed&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;base LR&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../../_images/c20ec32829fad182a436ffeaab40912ff1e930cc9115193e9998bb2c3a1183e5.svg" src="../../_images/c20ec32829fad182a436ffeaab40912ff1e930cc9115193e9998bb2c3a1183e5.svg" /></div>
+</div>
+<p>Notice that sampling is biased towards small learning rates. This makes sense since large learning rates tend to diverge. The graph is not representative for practical problems since the network is small and the loss surface is relatively simple. But following the algorithm, <code class="docutils literal notranslate"><span class="pre">lr=2.0</span></code> may be chosen as the base learning rate.</p>
+<br><p><strong>LR scheduling.</strong> Learning rate has to be decayed to later help with convergence.
+The following modifies the training script to include a simple schedule. Repeating the same experiment above for RMSProp and GD which had issues with oscillation:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">train_curve</span><span class="p">(</span>
+    <span class="n">optim</span><span class="p">:</span> <span class="n">OptimizerBase</span><span class="p">,</span> 
+    <span class="n">optim_params</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> 
+    <span class="n">w_init</span><span class="o">=</span><span class="p">[</span><span class="mf">5.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">],</span> 
+    <span class="n">loss_fn</span><span class="o">=</span><span class="n">pathological_loss</span><span class="p">,</span> 
+    <span class="n">num_steps</span><span class="o">=</span><span class="mi">100</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return trajectory of optimizer through loss surface from init point.&quot;&quot;&quot;</span>
+
+    <span class="n">w_init</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">w_init</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">()</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">w_init</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">optim</span> <span class="o">=</span> <span class="n">optim</span><span class="p">([</span><span class="n">w</span><span class="p">],</span> <span class="o">**</span><span class="n">optim_params</span><span class="p">)</span>
+    <span class="n">points</span> <span class="o">=</span> <span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="n">w</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">w</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">loss_fn</span><span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">w</span><span class="p">[</span><span class="mi">1</span><span class="p">])])]</span>
+    
+    <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_steps</span><span class="p">):</span>
+        <span class="n">optim</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">loss_fn</span><span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">w</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+        <span class="n">optim</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+
+        <span class="c1"># logging</span>
+        <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+            <span class="n">z</span> <span class="o">=</span> <span class="n">loss</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">w</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">z</span><span class="p">]))</span>
+
+        <span class="c1"># LR schedule (!)</span>
+        <span class="k">if</span> <span class="n">step</span> <span class="o">%</span> <span class="mi">70</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">optim</span><span class="o">.</span><span class="n">lr</span> <span class="o">*=</span> <span class="mf">0.5</span>
+
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">plot_gd_steps</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">optim</span><span class="o">=</span><span class="n">GD</span><span class="p">,</span>      <span class="n">optim_params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;lr&quot;</span><span class="p">:</span> <span class="mf">3.0</span><span class="p">},</span>              <span class="n">w_init</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">],</span> <span class="n">label_map</span><span class="o">=</span><span class="n">label_map_gdm</span><span class="p">,</span>     <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">)</span>
+<span class="n">plot_gd_steps</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">optim</span><span class="o">=</span><span class="n">RMSProp</span><span class="p">,</span> <span class="n">optim_params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;lr&quot;</span><span class="p">:</span> <span class="mf">3.0</span><span class="p">,</span> <span class="s2">&quot;beta&quot;</span><span class="p">:</span> <span class="mf">0.9</span><span class="p">},</span> <span class="n">w_init</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">],</span> <span class="n">label_map</span><span class="o">=</span><span class="n">label_map_rmsprop</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;steps&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;loss&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="mi">70</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;dashed&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="mi">140</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;dashed&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="mi">210</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;dashed&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;LR step&#39;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;dotted&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../../_images/d70708c8f6e3565e2b2843c04f3a0e0097c307fda7dcd61f9b2c5701fd00c12f.svg" src="../../_images/d70708c8f6e3565e2b2843c04f3a0e0097c307fda7dcd61f9b2c5701fd00c12f.svg" /></div>
+</div>
+<p>Learning rate decay decreases GD oscillation drastically. The schedule <span class="math notranslate nohighlight">\(\boldsymbol{\boldsymbol{\Theta}}^{t+1} = \boldsymbol{\boldsymbol{\Theta}}^{t} - \eta \frac{1}{\alpha^t} \, \boldsymbol{\mathsf{m}}^{t}\)</span> where <span class="math notranslate nohighlight">\(\alpha^t = 2^{\lfloor t / 100 \rfloor}\)</span> is known as <strong>step LR decay</strong>. Note that this augments the second-moment for RMSProp which already auto-tunes the learning rate. Here we are able to start with a large learning rate allowing the optimizer to escape the first plateau earlier than before. Note that decay only decreases learning rate which can cause slow convergence. Some schedules implement <strong>warm restarts</strong> to fix this (<a class="reference internal" href="#sgd-warm-restarts"><span class="std std-numref">Fig. 33</span></a>).</p>
+<p><strong>Remark.</strong> For more examples of learning rate decay schedules <a class="reference external" href="https://d2l.ai/chapter_optimization/lr-scheduler.html#schedulers">see here</a>  (e.g. <strong>warmup</strong> which initially gradually increases learning rate
+since SGD at initialization can be unstable with large LR). Also see <a class="reference external" href="https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate">PyTorch docs</a> on LR schedulers implemented in the library. For example, the schedule <strong>reduce LR on plateau</strong> which reduces the learning rate when a metric has stopped improving is implemented in PyTorch as <code class="docutils literal notranslate"><span class="pre">ReduceLROnPlateau</span></code> in the <code class="docutils literal notranslate"><span class="pre">torch.optim.lr_scheduler</span></code> library.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Example: PyTorch code for chaining LR schedulers</span>
+<span class="n">optim</span> <span class="o">=</span> <span class="n">SGD</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">momentum</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+<span class="n">scheduler1</span> <span class="o">=</span> <span class="n">ExponentialLR</span><span class="p">(</span><span class="n">optim</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+<span class="n">scheduler2</span> <span class="o">=</span> <span class="n">MultiStepLR</span><span class="p">(</span><span class="n">optim</span><span class="p">,</span> <span class="n">milestones</span><span class="o">=</span><span class="p">[</span><span class="mi">30</span><span class="p">,</span><span class="mi">80</span><span class="p">],</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">dataset</span><span class="p">:</span>
+        <span class="n">optim</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">loss_fn</span><span class="p">(</span><span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">y</span><span class="p">)</span>
+        <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+        <span class="n">optim</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+    
+    <span class="c1"># LR step called after optimizer update! ⚠⚠⚠</span>
+    <span class="n">scheduler1</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+    <span class="n">scheduler2</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+</pre></div>
+</div>
+<br><figure class="align-default" id="sgd-warm-restarts">
+<a class="reference internal image-reference" href="../../_images/02-sgd-warm-restarts.png"><img alt="../../_images/02-sgd-warm-restarts.png" src="../../_images/02-sgd-warm-restarts.png" style="width: 60%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 33 </span><span class="caption-text">Cosine annealing starts with a large learning rate that is relatively rapidly decreased to a minimum value before being increased rapidly again. This resetting acts like a simulated restart of the model training and the re-use of good weights as the starting point of the restart is referred to as a “warm restart” in contrast to a “cold restart” at initialization. Source: <span id="id18">[<a class="reference internal" href="../../intro.html#id100" title="Ilya Loshchilov and Frank Hutter. SGDR: stochastic gradient descent with restarts. CoRR, 2016. URL: http://arxiv.org/abs/1608.03983, arXiv:1608.03983.">LH16</a>]</span></span><a class="headerlink" href="#sgd-warm-restarts" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="snapshot-ensembles">
+<a class="reference internal image-reference" href="../../_images/02-snapshot-ensembles.png"><img alt="../../_images/02-snapshot-ensembles.png" src="../../_images/02-snapshot-ensembles.png" style="width: 80%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 34 </span><span class="caption-text">Effect of cyclical learning rates. Each model checkpoint for each LR warm restart (which often correspond to a minimum) can be used to create an ensemble model. Source: <span id="id19">[<a class="reference internal" href="../../intro.html#id98" title="Gao Huang, Yixuan Li, Geoff Pleiss, Zhuang Liu, John E. Hopcroft, and Kilian Q. Weinberger. Snapshot ensembles: train 1, get M for free. CoRR, 2017. URL: http://arxiv.org/abs/1704.00109, arXiv:1704.00109.">HLP+17</a>]</span></span><a class="headerlink" href="#snapshot-ensembles" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="id20">
+<h3>Momentum<a class="headerlink" href="#id20" title="Permalink to this headline">#</a></h3>
+<p>Good starting values for SGD momentum are <span class="math notranslate nohighlight">\(\beta = 0.9\)</span> or <span class="math notranslate nohighlight">\(0.99\)</span>. Adam is easier to use out of the box where we like to keep the default parameters. If we have resources, and we want to push test performance, we can
+tune SGD which is known to generalize better than Adam with more epochs. See <span id="id21">[<a class="reference internal" href="../../intro.html#id92" title="Pan Zhou, Jiashi Feng, Chao Ma, Caiming Xiong, Steven Hoi, and E. Weinan. Towards theoretically understanding why sgd generalizes better than adam in deep learning. In Proceedings of the 34th International Conference on Neural Information Processing Systems, NIPS'20. Red Hook, NY, USA, 2020. Curran Associates Inc.">ZFM+20</a>]</span> where it is shown that Adam is more stable at sharp minima which tend to generalize worse than flat ones (<a class="reference internal" href="#sharp-optim"><span class="std std-numref">Fig. 35</span></a>).</p>
+<figure class="align-default" id="sharp-optim">
+<a class="reference internal image-reference" href="../../_images/02-sharp-optim.png"><img alt="../../_images/02-sharp-optim.png" src="../../_images/02-sharp-optim.png" style="width: 80%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 35 </span><span class="caption-text">A conceptual sketch of flat and sharp minima. The Y-axis indicates value of the loss
+function and the X-axis the variables. Source: <span id="id22">[<a class="reference internal" href="../../intro.html#id93" title="Nitish Shirish Keskar, Dheevatsa Mudigere, Jorge Nocedal, Mikhail Smelyanskiy, and Ping Tak Peter Tang. On large-batch training for deep learning: generalization gap and sharp minima. CoRR, 2016. URL: http://arxiv.org/abs/1609.04836, arXiv:1609.04836.">KMN+16b</a>]</span></span><a class="headerlink" href="#sharp-optim" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p><strong>Remark.</strong> In principle, optimization hyperparameters affect training
+and not generalization. But the situation is more complex with SGD, where stochasticity
+contributes to regularization. This was shown above where choice of batch size influences
+the
+generalization gap. Also
+recall that for batch GD (i.e. <span class="math notranslate nohighlight">\(B = N\)</span> in SGD), consecutive gradients approaching a minimum
+roughly have the same direction.
+This should not happen with SGD with <span class="math notranslate nohighlight">\(B \ll N\)</span> in the learning regime as different samples
+will capture different aspects of the loss surface.
+Otherwise, the network is starting to overfit. Hence, optimization hyperparameters
+are tuned on the validation set as well in practice.</p>
+<hr class="docutils" />
+<p>■</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./nb/dl"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="01-intro.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Introduction</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="00-backprop.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Backpropagation</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-descent">Gradient descent</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loss-landscape">Loss landscape</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#local-minima">Local minima</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plateaus">Plateaus</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#saddle-points">Saddle points</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#momentum-methods">Momentum methods</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#momentum">Momentum</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rmsprop">RMSProp</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#adam">Adam</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sgd">SGD</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hyperparameters">Hyperparameters</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#batch-size">Batch size</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-rate">Learning rate</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id20">Momentum</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            <div class="bd-footer-content__inner">
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By 𝗽𝗮𝗿𝘁𝗶𝗰𝗹𝗲𝟭𝟯𝟯𝟭. Powered by <a href="https://jupyterbook.org">Jupyter Book</a>.
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div></div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

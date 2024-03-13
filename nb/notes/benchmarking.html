@@ -1,0 +1,1154 @@
+
+
+<!DOCTYPE html>
+
+
+<html >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Benchmarking and Profiling &#8212; OK Transformer</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'nb/notes/benchmarking';</script>
+    <link rel="shortcut icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="TensorFlow Crash Course" href="tf-course.html" />
+    <link rel="prev" title="Docker Containers" href="containers.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="None"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Language Modeling</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../nn/03-batchnorm.html">Batch Normalization</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Deep Learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../dl/01-intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dl/02-optim.html">Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dl/00-backprop.html">Backpropagation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dl/03-cnn.html">Convolutional Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dl/04-lm.html">Language Modeling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dl/05-training.html">Activations and Gradients</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Engineering and Ops</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../mlops/01-intro.html">Preliminaries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mlops/02-package.html">Packaging Modeling Code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mlops/03-mlflow.html">Experiment Tracking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mlops/04-tasks.html">Distributed Task Queues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mlops/04-deployment/notes.html">Model Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mlops/06-best-practices/notes.html">Best Engineering Practices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mle/cicd-pipelines.html">Continuous Integration and Deployment Pipelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mle/model-serving-api.html">Prediction Serving API</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Notes</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="containers.html">Docker Containers</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Benchmarking and Profiling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tf-course.html">TensorFlow Crash Course</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/particle1331/ok-transformer" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/particle1331/ok-transformer/issues/new?title=Issue%20on%20page%20%2Fnb/notes/benchmarking.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Benchmarking and Profiling</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#simulation">Simulation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#testing">Testing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#benchmarking">Benchmarking</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#timing">Timing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#line-profiling">Line profiling</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#perfplot">Perfplot</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#optimizing-our-code">Optimizing our code</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#memory-profiling">Memory profiling</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="benchmarking-and-profiling">
+<h1>Benchmarking and Profiling<a class="headerlink" href="#benchmarking-and-profiling" title="Permalink to this headline">#</a></h1>
+<p><img alt="Status" src="https://img.shields.io/static/v1.svg?label=Status&amp;message=Finished&amp;color=brightgreen" />
+<a class="reference external" href="https://github.com/particle1331/ok-transformer/blob/master/docs/nb/notes/benchmarking.ipynb"><img alt="Source" src="https://img.shields.io/static/v1.svg?label=GitHub&amp;message=Source&amp;color=181717&amp;logo=GitHub" /></a>
+<a class="reference external" href="https://github.com/particle1331/ok-transformer"><img alt="Stars" src="https://img.shields.io/github/stars/particle1331/ok-transformer?style=social" /></a></p>
+<hr class="docutils" />
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">#</a></h2>
+<p>In most cases, code that causes the application to
+slow down is a very small fraction of the program. By identifying these critical sections, we can focus on the parts that need the most improvement without wasting time in micro-optimization.</p>
+<p>In this notebook, we will write a simulator and try to identify slow and inefficient parts of the code. We perform <strong>profiling</strong> and <strong>benchmarking</strong> to check time and memory consumption of our functions. We also write <strong>tests</strong> to ensure that changes when optimizing code preserves its correctness. Our strategy is to start with simple conceptual code that works that would inform how we write tests.</p>
+</section>
+<section id="simulation">
+<h2>Simulation<a class="headerlink" href="#simulation" title="Permalink to this headline">#</a></h2>
+<p>To write simulation code, we divide the code into <strong>objects</strong> and <strong>physics</strong>. The physics of the system determines the update rule for each episode as well as the configuration of the initial episode. Our objects will be particles defined in the <code class="docutils literal notranslate"><span class="pre">Particle</span></code> class. This simply stores three state variables for position and signed angular speed of the particle:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span><span class="p">;</span> <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="s2">&quot;./benchmarking&quot;</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">hp.particles</span> <span class="kn">import</span> <span class="n">Particle</span><span class="p">,</span> <span class="n">ParticleSimulator</span>
+<span class="kn">from</span> <span class="nn">hp.utils</span> <span class="kn">import</span> <span class="n">visualize_simulation</span>
+
+<span class="o">%</span><span class="k">load_ext</span> autoreload
+<span class="o">%</span><span class="k">autoreload</span> 2
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>Particle<span class="o">??</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Red">Init signature:</span> Particle<span class=" -Color -Color-Blue">(</span>x<span class=" -Color -Color-Blue">,</span> y<span class=" -Color -Color-Blue">,</span> angular_vel<span class=" -Color -Color-Blue">)</span>
+<span class=" -Color -Color-Red">Docstring:</span>      &lt;no docstring&gt;
+<span class=" -Color -Color-Red">Source:</span>        
+<span class=" -Color -Color-Green">class</span> Particle<span class=" -Color -Color-Blue">:</span>    
+    <span class=" -Color -Color-Green">def</span> __init__<span class=" -Color -Color-Blue">(</span>self<span class=" -Color -Color-Blue">,</span> x<span class=" -Color -Color-Blue">,</span> y<span class=" -Color -Color-Blue">,</span> angular_vel<span class=" -Color -Color-Blue">):</span>
+        self<span class=" -Color -Color-Blue">.</span>x <span class=" -Color -Color-Blue">=</span> x
+        self<span class=" -Color -Color-Blue">.</span>y <span class=" -Color -Color-Blue">=</span> y
+        self<span class=" -Color -Color-Blue">.</span>ω <span class=" -Color -Color-Blue">=</span> angular_vel
+<span class=" -Color -Color-Red">File:</span>           ~/code/ok-transformer/docs/nb/notes/benchmarking/hp/particles.py
+<span class=" -Color -Color-Red">Type:</span>           type
+<span class=" -Color -Color-Red">Subclasses:</span>     
+</pre></div>
+</div>
+</div>
+</div>
+<p>The physics of the system is encoded in the <code class="docutils literal notranslate"><span class="pre">ParticleSimulator</span></code> and an initialization function for the particles. This takes in a list of particles as well as a constant <code class="docutils literal notranslate"><span class="pre">h</span></code> which is the increment for <a class="reference external" href="https://en.wikipedia.org/wiki/Euler_method">Euler method</a>. This can be interpreted as the quantum of time for the system. The simulator defines a method <code class="docutils literal notranslate"><span class="pre">evolve(t)</span></code> which incrementally updates the position of each particle from <code class="docutils literal notranslate"><span class="pre">t</span> <span class="pre">=</span> <span class="pre">0</span></code> to <code class="docutils literal notranslate"><span class="pre">t</span> <span class="pre">=</span> <span class="pre">s</span></code> where <code class="docutils literal notranslate"><span class="pre">s</span> <span class="pre">=</span> <span class="pre">hn</span></code> for maximal <code class="docutils literal notranslate"><span class="pre">n</span></code> such that <code class="docutils literal notranslate"><span class="pre">s</span> <span class="pre">≤</span> <span class="pre">t</span></code>.</p>
+<p>Note that same update rule is applied to all particles which makes sense by symmetry. Moreover, the rule is static in that it does not change over time. These two assumptions make up the <code class="docutils literal notranslate"><span class="pre">evolve</span></code> method. The exact update rule is defined in the <code class="docutils literal notranslate"><span class="pre">update_particle</span></code> method. For this simulation, we simply rotate all particles around the origin with a fixed radius based on its initial position and with given angular velocity at initialization:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ParticleSimulator<span class="o">??</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Red">Init signature:</span> ParticleSimulator<span class=" -Color -Color-Blue">(</span>particles<span class=" -Color -Color-Blue">:</span> list<span class=" -Color -Color-Blue">[</span>hp<span class=" -Color -Color-Blue">.</span>particles<span class=" -Color -Color-Blue">.</span>Particle<span class=" -Color -Color-Blue">],</span> h<span class=" -Color -Color-Blue">=</span><span class=" -Color -Color-Cyan">1e-05</span><span class=" -Color -Color-Blue">)</span>
+<span class=" -Color -Color-Red">Docstring:</span>      &lt;no docstring&gt;
+<span class=" -Color -Color-Red">Source:</span>        
+<span class=" -Color -Color-Green">class</span> ParticleSimulator<span class=" -Color -Color-Blue">:</span>
+    <span class=" -Color -Color-Green">def</span> __init__<span class=" -Color -Color-Blue">(</span>self<span class=" -Color -Color-Blue">,</span> particles<span class=" -Color -Color-Blue">:</span> list<span class=" -Color -Color-Blue">[</span>Particle<span class=" -Color -Color-Blue">],</span> h<span class=" -Color -Color-Blue">=</span><span class=" -Color -Color-Cyan">1e-5</span><span class=" -Color -Color-Blue">):</span>
+        self<span class=" -Color -Color-Blue">.</span>h <span class=" -Color -Color-Blue">=</span> h  <span class=" -Color -Color-Red"># Euler-method increment </span>
+        self<span class=" -Color -Color-Blue">.</span>particles <span class=" -Color -Color-Blue">=</span> particles
+
+    <span class=" -Color -Color-Green">def</span> evolve<span class=" -Color -Color-Blue">(</span>self<span class=" -Color -Color-Blue">,</span> t<span class=" -Color -Color-Blue">:</span> float<span class=" -Color -Color-Blue">):</span>
+        <span class=" -Color -Color-Blue">&quot;&quot;&quot;Evolve system from t=0 to t=t.&quot;&quot;&quot;</span>
+        
+        n_steps <span class=" -Color -Color-Blue">=</span> int<span class=" -Color -Color-Blue">(</span>t <span class=" -Color -Color-Blue">/</span> self<span class=" -Color -Color-Blue">.</span>h<span class=" -Color -Color-Blue">)</span>
+        <span class=" -Color -Color-Green">for</span> _ <span class=" -Color -Color-Green">in</span> range<span class=" -Color -Color-Blue">(</span>n_steps<span class=" -Color -Color-Blue">):</span>
+            <span class=" -Color -Color-Green">for</span> p <span class=" -Color -Color-Green">in</span> self<span class=" -Color -Color-Blue">.</span>particles<span class=" -Color -Color-Blue">:</span>
+                self<span class=" -Color -Color-Blue">.</span>update_particle<span class=" -Color -Color-Blue">(</span>p<span class=" -Color -Color-Blue">)</span>
+
+    <span class=" -Color -Color-Green">def</span> update_particle<span class=" -Color -Color-Blue">(</span>self<span class=" -Color -Color-Blue">,</span> p<span class=" -Color -Color-Blue">:</span> Particle<span class=" -Color -Color-Blue">):</span>
+        <span class=" -Color -Color-Blue">&quot;&quot;&quot;Evolve particle with Δt = h.&quot;&quot;&quot;</span>
+
+        vx <span class=" -Color -Color-Blue">=</span> <span class=" -Color -Color-Blue">-</span>p<span class=" -Color -Color-Blue">.</span>y <span class=" -Color -Color-Blue">*</span> p<span class=" -Color -Color-Blue">.</span>ω
+        vy <span class=" -Color -Color-Blue">=</span>  p<span class=" -Color -Color-Blue">.</span>x <span class=" -Color -Color-Blue">*</span> p<span class=" -Color -Color-Blue">.</span>ω
+        dx <span class=" -Color -Color-Blue">=</span> vx <span class=" -Color -Color-Blue">*</span> self<span class=" -Color -Color-Blue">.</span>h
+        dy <span class=" -Color -Color-Blue">=</span> vy <span class=" -Color -Color-Blue">*</span> self<span class=" -Color -Color-Blue">.</span>h
+        p<span class=" -Color -Color-Blue">.</span>x <span class=" -Color -Color-Blue">+=</span> dx
+        p<span class=" -Color -Color-Blue">.</span>y <span class=" -Color -Color-Blue">+=</span> dy
+<span class=" -Color -Color-Red">File:</span>           ~/code/ok-transformer/docs/nb/notes/benchmarking/hp/particles.py
+<span class=" -Color -Color-Red">Type:</span>           type
+<span class=" -Color -Color-Red">Subclasses:</span>     
+</pre></div>
+</div>
+</div>
+</div>
+<br><p><strong>Example.</strong> The following shows the time evolution of the system of three particles with the same angular speed, incremented by 1 time units for each frame.</p>
+<div class="cell tag_remove-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">math</span>
+
+<span class="n">particles</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">Particle</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.10</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">),</span>
+    <span class="n">Particle</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.10</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">),</span>
+    <span class="n">Particle</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.10</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
+<span class="p">]</span>
+
+<span class="n">simulator</span> <span class="o">=</span> <span class="n">ParticleSimulator</span><span class="p">(</span><span class="n">particles</span><span class="p">)</span>
+<span class="n">visualize_simulation</span><span class="p">(</span><span class="n">simulator</span><span class="p">,</span> <span class="n">timesteps</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">fps</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span> <span class="c1"># fps = no. time steps per second =&gt; 4 second GIF</span>
+</pre></div>
+</div>
+</div>
+</div>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../../_images/particles.gif"><img alt="../../_images/particles.gif" src="../../_images/particles.gif" style="width: 550px;" /></a>
+</figure>
+</section>
+<section id="testing">
+<h2>Testing<a class="headerlink" href="#testing" title="Permalink to this headline">#</a></h2>
+<p>Tests ensure things still work when we refactor and optimize our code. In particular, we will write <strong>unit tests</strong> designed to verify the intended logic of the program regardless of the implementation details, which may change during optimization. We test the <code class="docutils literal notranslate"><span class="pre">evolve</span></code> function of the simulator on three simple cases which are easily mathematically tractable. An error tolerance of <code class="docutils literal notranslate"><span class="pre">1e-6</span></code> for a time evolution of <code class="docutils literal notranslate"><span class="pre">0.1</span></code> is used. For our tests, we consider the following three simple scenarios:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">hp.tests.test_particles</span> <span class="kn">import</span> <span class="n">test_evolve</span>
+test_evolve<span class="o">??</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Red">Signature:</span> test_evolve<span class=" -Color -Color-Blue">()</span>
+<span class=" -Color -Color-Red">Docstring:</span> &lt;no docstring&gt;
+<span class=" -Color -Color-Red">Source:</span>   
+<span class=" -Color -Color-Green">def</span> test_evolve<span class=" -Color -Color-Blue">():</span>
+    particles <span class=" -Color -Color-Blue">=</span> <span class=" -Color -Color-Blue">[</span>
+        Particle<span class=" -Color -Color-Blue">(</span> <span class=" -Color -Color-Cyan">0.000</span><span class=" -Color -Color-Blue">,</span>  <span class=" -Color -Color-Cyan">0.000</span><span class=" -Color -Color-Blue">,</span> <span class=" -Color -Color-Blue">+</span><span class=" -Color -Color-Cyan">1.0</span><span class=" -Color -Color-Blue">),</span>
+        Particle<span class=" -Color -Color-Blue">(+</span><span class=" -Color -Color-Cyan">0.110</span><span class=" -Color -Color-Blue">,</span> <span class=" -Color -Color-Blue">+</span><span class=" -Color -Color-Cyan">0.205</span><span class=" -Color -Color-Blue">,</span> <span class=" -Color -Color-Blue">+</span><span class=" -Color -Color-Cyan">0.3</span><span class=" -Color -Color-Blue">),</span>
+        Particle<span class=" -Color -Color-Blue">(+</span><span class=" -Color -Color-Cyan">0.230</span><span class=" -Color -Color-Blue">,</span> <span class=" -Color -Color-Blue">-</span><span class=" -Color -Color-Cyan">0.405</span><span class=" -Color -Color-Blue">,</span>  <span class=" -Color -Color-Cyan">0.0</span><span class=" -Color -Color-Blue">),</span>
+        Particle<span class=" -Color -Color-Blue">(+</span><span class=" -Color -Color-Cyan">0.617</span><span class=" -Color -Color-Blue">,</span> <span class=" -Color -Color-Blue">+</span><span class=" -Color -Color-Cyan">0.330</span><span class=" -Color -Color-Blue">,</span> <span class=" -Color -Color-Blue">-</span><span class=" -Color -Color-Cyan">0.1</span><span class=" -Color -Color-Blue">),</span>
+    <span class=" -Color -Color-Blue">]</span>
+
+    <span class=" -Color -Color-Red"># Evolve system</span>
+    t <span class=" -Color -Color-Blue">=</span> <span class=" -Color -Color-Cyan">0.1</span>
+    simulator <span class=" -Color -Color-Blue">=</span> ParticleSimulator<span class=" -Color -Color-Blue">(</span>particles<span class=" -Color -Color-Blue">)</span>
+    simulator<span class=" -Color -Color-Blue">.</span>evolve<span class=" -Color -Color-Blue">(</span>t<span class=" -Color -Color-Blue">)</span>
+
+    <span class=" -Color -Color-Red"># Check expected positions</span>
+    <span class=" -Color -Color-Green">def</span> fequal<span class=" -Color -Color-Blue">(</span>a<span class=" -Color -Color-Blue">,</span> b<span class=" -Color -Color-Blue">,</span> eps<span class=" -Color -Color-Blue">=</span><span class=" -Color -Color-Cyan">1e-6</span><span class=" -Color -Color-Blue">):</span>
+        <span class=" -Color -Color-Green">return</span> abs<span class=" -Color -Color-Blue">(</span>a <span class=" -Color -Color-Blue">-</span> b<span class=" -Color -Color-Blue">)</span> <span class=" -Color -Color-Blue">&lt;</span> eps
+
+    p0<span class=" -Color -Color-Blue">,</span> p1<span class=" -Color -Color-Blue">,</span> p2<span class=" -Color -Color-Blue">,</span> p3 <span class=" -Color -Color-Blue">=</span> particles
+    r1 <span class=" -Color -Color-Blue">=</span> <span class=" -Color -Color-Blue">(</span><span class=" -Color -Color-Cyan">0.110</span> <span class=" -Color -Color-Blue">**</span> <span class=" -Color -Color-Cyan">2</span> <span class=" -Color -Color-Blue">+</span> <span class=" -Color -Color-Cyan">0.205</span> <span class=" -Color -Color-Blue">**</span> <span class=" -Color -Color-Cyan">2</span><span class=" -Color -Color-Blue">)</span> <span class=" -Color -Color-Blue">**</span> <span class=" -Color -Color-Cyan">0.5</span>
+    r3 <span class=" -Color -Color-Blue">=</span> <span class=" -Color -Color-Blue">(</span><span class=" -Color -Color-Cyan">0.617</span> <span class=" -Color -Color-Blue">**</span> <span class=" -Color -Color-Cyan">2</span> <span class=" -Color -Color-Blue">+</span> <span class=" -Color -Color-Cyan">0.330</span> <span class=" -Color -Color-Blue">**</span> <span class=" -Color -Color-Cyan">2</span><span class=" -Color -Color-Blue">)</span> <span class=" -Color -Color-Blue">**</span> <span class=" -Color -Color-Cyan">0.5</span>
+    θ1 <span class=" -Color -Color-Blue">=</span> math<span class=" -Color -Color-Blue">.</span>atan<span class=" -Color -Color-Blue">(</span><span class=" -Color -Color-Cyan">0.205</span> <span class=" -Color -Color-Blue">/</span> <span class=" -Color -Color-Cyan">0.110</span><span class=" -Color -Color-Blue">)</span>
+    θ3 <span class=" -Color -Color-Blue">=</span> math<span class=" -Color -Color-Blue">.</span>atan<span class=" -Color -Color-Blue">(</span><span class=" -Color -Color-Cyan">0.330</span> <span class=" -Color -Color-Blue">/</span> <span class=" -Color -Color-Cyan">0.617</span><span class=" -Color -Color-Blue">)</span>
+    
+    <span class=" -Color -Color-Green">assert</span> fequal<span class=" -Color -Color-Blue">(</span>p0<span class=" -Color -Color-Blue">.</span>x<span class=" -Color -Color-Blue">,</span>  <span class=" -Color -Color-Cyan">0.000</span><span class=" -Color -Color-Blue">)</span>
+    <span class=" -Color -Color-Green">assert</span> fequal<span class=" -Color -Color-Blue">(</span>p0<span class=" -Color -Color-Blue">.</span>y<span class=" -Color -Color-Blue">,</span>  <span class=" -Color -Color-Cyan">0.000</span><span class=" -Color -Color-Blue">)</span>
+    <span class=" -Color -Color-Green">assert</span> fequal<span class=" -Color -Color-Blue">(</span>p1<span class=" -Color -Color-Blue">.</span>x<span class=" -Color -Color-Blue">,</span> r1 <span class=" -Color -Color-Blue">*</span> math<span class=" -Color -Color-Blue">.</span>cos<span class=" -Color -Color-Blue">(</span>θ1 <span class=" -Color -Color-Blue">+</span> <span class=" -Color -Color-Cyan">0.3</span> <span class=" -Color -Color-Blue">*</span> t<span class=" -Color -Color-Blue">))</span>
+    <span class=" -Color -Color-Green">assert</span> fequal<span class=" -Color -Color-Blue">(</span>p1<span class=" -Color -Color-Blue">.</span>y<span class=" -Color -Color-Blue">,</span> r1 <span class=" -Color -Color-Blue">*</span> math<span class=" -Color -Color-Blue">.</span>sin<span class=" -Color -Color-Blue">(</span>θ1 <span class=" -Color -Color-Blue">+</span> <span class=" -Color -Color-Cyan">0.3</span> <span class=" -Color -Color-Blue">*</span> t<span class=" -Color -Color-Blue">))</span>
+    <span class=" -Color -Color-Green">assert</span> fequal<span class=" -Color -Color-Blue">(</span>p2<span class=" -Color -Color-Blue">.</span>x<span class=" -Color -Color-Blue">,</span>  <span class=" -Color -Color-Cyan">0.230</span><span class=" -Color -Color-Blue">)</span>
+    <span class=" -Color -Color-Green">assert</span> fequal<span class=" -Color -Color-Blue">(</span>p2<span class=" -Color -Color-Blue">.</span>y<span class=" -Color -Color-Blue">,</span> <span class=" -Color -Color-Blue">-</span><span class=" -Color -Color-Cyan">0.405</span><span class=" -Color -Color-Blue">)</span>
+    <span class=" -Color -Color-Green">assert</span> fequal<span class=" -Color -Color-Blue">(</span>p3<span class=" -Color -Color-Blue">.</span>x<span class=" -Color -Color-Blue">,</span> r3 <span class=" -Color -Color-Blue">*</span> math<span class=" -Color -Color-Blue">.</span>cos<span class=" -Color -Color-Blue">(</span>θ3 <span class=" -Color -Color-Blue">-</span> <span class=" -Color -Color-Cyan">0.1</span> <span class=" -Color -Color-Blue">*</span> t<span class=" -Color -Color-Blue">))</span>
+    <span class=" -Color -Color-Green">assert</span> fequal<span class=" -Color -Color-Blue">(</span>p3<span class=" -Color -Color-Blue">.</span>y<span class=" -Color -Color-Blue">,</span> r3 <span class=" -Color -Color-Blue">*</span> math<span class=" -Color -Color-Blue">.</span>sin<span class=" -Color -Color-Blue">(</span>θ3 <span class=" -Color -Color-Blue">-</span> <span class=" -Color -Color-Cyan">0.1</span> <span class=" -Color -Color-Blue">*</span> t<span class=" -Color -Color-Blue">))</span>
+<span class=" -Color -Color-Red">File:</span>      ~/code/ok-transformer/docs/nb/notes/benchmarking/hp/tests/test_particles.py
+<span class=" -Color -Color-Red">Type:</span>      function
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_remove-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">particles</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">Particle</span><span class="p">(</span> <span class="mf">0.000</span><span class="p">,</span>  <span class="mf">0.000</span><span class="p">,</span> <span class="o">+</span><span class="mf">1.0</span><span class="p">),</span>
+    <span class="n">Particle</span><span class="p">(</span><span class="o">+</span><span class="mf">0.110</span><span class="p">,</span> <span class="o">+</span><span class="mf">0.205</span><span class="p">,</span> <span class="o">+</span><span class="mf">0.3</span><span class="p">),</span>
+    <span class="n">Particle</span><span class="p">(</span><span class="o">+</span><span class="mf">0.230</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.405</span><span class="p">,</span>  <span class="mf">0.0</span><span class="p">),</span>
+    <span class="n">Particle</span><span class="p">(</span><span class="o">+</span><span class="mf">0.617</span><span class="p">,</span> <span class="o">+</span><span class="mf">0.330</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.1</span><span class="p">),</span>
+<span class="p">]</span>
+
+<span class="n">simulator</span> <span class="o">=</span> <span class="n">ParticleSimulator</span><span class="p">(</span><span class="n">particles</span><span class="p">)</span>
+<span class="n">visualize_simulation</span><span class="p">(</span><span class="n">simulator</span><span class="p">,</span> <span class="n">timesteps</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">fps</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">savename</span><span class="o">=</span><span class="s1">&#39;particles-test.gif&#39;</span><span class="p">)</span> <span class="c1"># fps = no. time steps per second =&gt; 4 second GIF</span>
+</pre></div>
+</div>
+</div>
+</div>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../../_images/particles-test.gif"><img alt="../../_images/particles-test.gif" src="../../_images/particles-test.gif" style="width: 550px;" /></a>
+</figure>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pytest<span class="w"> </span>hp/tests<span class="w"> </span>-vv
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">============================= test session starts ==============================</span>
+platform darwin -- Python 3.9.15, pytest-7.2.0, pluggy-1.0.0 -- /Users/particle1331/opt/miniconda3/envs/ai/bin/python3.9
+cachedir: .pytest_cache
+benchmark: 4.0.0 (defaults: timer=time.perf_counter disable_gc=False min_rounds=5 min_time=0.000005 max_time=1.0 calibration_precision=10 warmup=False warmup_iterations=100000)
+rootdir: /Users/particle1331/code/ok-transformer/docs/nb/notes/benchmarking
+plugins: anyio-3.6.2, benchmark-4.0.0
+collected 1 item                                                               
+
+hp/tests/test_particles.py::test_evolve <span class=" -Color -Color-Green">PASSED                           [100%]</span>
+
+<span class=" -Color -Color-Green">============================== </span><span class=" -Color -Color-Bold -Color-Bold-Green">1 passed</span><span class=" -Color -Color-Green"> in 0.19s ===============================</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="benchmarking">
+<h2>Benchmarking<a class="headerlink" href="#benchmarking" title="Permalink to this headline">#</a></h2>
+<p>Tests ensure the correctness of our functionality but gives little information about its
+running time. A <strong>benchmark</strong> is a simple and representative use case that can be run to
+assess the running time of an application. Benchmarks are very useful to keep track of
+increase or decrease in execution time with each new iteration during development.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">hp.benchmarks</span> <span class="kn">import</span> <span class="n">benchmark</span><span class="p">,</span> <span class="n">random_particles</span>
+
+random_particles<span class="o">??</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Red">Signature:</span> random_particles<span class=" -Color -Color-Blue">(</span>n<span class=" -Color -Color-Blue">:</span> int<span class=" -Color -Color-Blue">)</span> <span class=" -Color -Color-Blue">-&gt;</span> list<span class=" -Color -Color-Blue">[</span>hp<span class=" -Color -Color-Blue">.</span>particles<span class=" -Color -Color-Blue">.</span>Particle<span class=" -Color -Color-Blue">]</span>
+<span class=" -Color -Color-Red">Docstring:</span> &lt;no docstring&gt;
+<span class=" -Color -Color-Red">Source:</span>   
+<span class=" -Color -Color-Green">def</span> random_particles<span class=" -Color -Color-Blue">(</span>n<span class=" -Color -Color-Blue">:</span> int<span class=" -Color -Color-Blue">)</span> <span class=" -Color -Color-Blue">-&gt;</span> list<span class=" -Color -Color-Blue">[</span>Particle<span class=" -Color -Color-Blue">]:</span>
+    particles <span class=" -Color -Color-Blue">=</span> <span class=" -Color -Color-Blue">[]</span>
+    <span class=" -Color -Color-Green">for</span> _ <span class=" -Color -Color-Green">in</span> range<span class=" -Color -Color-Blue">(</span>n<span class=" -Color -Color-Blue">):</span>
+        x<span class=" -Color -Color-Blue">,</span> y<span class=" -Color -Color-Blue">,</span> ω <span class=" -Color -Color-Blue">=</span> np<span class=" -Color -Color-Blue">.</span>random<span class=" -Color -Color-Blue">.</span>random<span class=" -Color -Color-Blue">(</span><span class=" -Color -Color-Cyan">3</span><span class=" -Color -Color-Blue">)</span>
+        particles<span class=" -Color -Color-Blue">.</span>append<span class=" -Color -Color-Blue">(</span>Particle<span class=" -Color -Color-Blue">(</span>x<span class=" -Color -Color-Blue">,</span> y<span class=" -Color -Color-Blue">,</span> ω<span class=" -Color -Color-Blue">))</span>
+    <span class=" -Color -Color-Green">return</span> particles
+<span class=" -Color -Color-Red">File:</span>      ~/code/ok-transformer/docs/nb/notes/benchmarking/hp/benchmarks.py
+<span class=" -Color -Color-Red">Type:</span>      function
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>benchmark<span class="o">??</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Red">Signature:</span> benchmark<span class=" -Color -Color-Blue">()</span>
+<span class=" -Color -Color-Red">Docstring:</span> &lt;no docstring&gt;
+<span class=" -Color -Color-Red">Source:</span>   
+<span class=" -Color -Color-Green">def</span> benchmark<span class=" -Color -Color-Blue">():</span>
+    particles <span class=" -Color -Color-Blue">=</span> random_particles<span class=" -Color -Color-Blue">(</span><span class=" -Color -Color-Cyan">100</span><span class=" -Color -Color-Blue">)</span>
+    simulator <span class=" -Color -Color-Blue">=</span> ParticleSimulator<span class=" -Color -Color-Blue">(</span>particles<span class=" -Color -Color-Blue">)</span>
+    simulator<span class=" -Color -Color-Blue">.</span>evolve<span class=" -Color -Color-Blue">(</span><span class=" -Color -Color-Cyan">1.0</span><span class=" -Color -Color-Blue">)</span>
+<span class=" -Color -Color-Red">File:</span>      ~/code/ok-transformer/docs/nb/notes/benchmarking/hp/benchmarks.py
+<span class=" -Color -Color-Red">Type:</span>      function
+</pre></div>
+</div>
+</div>
+</div>
+<section id="timing">
+<h3>Timing<a class="headerlink" href="#timing" title="Permalink to this headline">#</a></h3>
+<p>For an accurate measurement, the benchmark should have a long
+enough execution time (in the order of seconds) so that setup and teardown
+is small compared to the main function.
+Running the benchmark using <a class="reference external" href="https://docs.python.org/3/library/timeit.html"><code class="docutils literal notranslate"><span class="pre">timeit</span></code></a>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">timeit</span> benchmark()
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3.77 s ± 36 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can also simply time using the <code class="docutils literal notranslate"><span class="pre">time</span></code> module. Here using a context makes the code cleaner. This also helps with nested contexts.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">time</span>
+
+<span class="k">class</span> <span class="nc">Timer</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span>
+    
+    <span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_value</span><span class="p">,</span> <span class="n">exc_traceback</span><span class="p">):</span>
+        <span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">elapsed</span> <span class="o">=</span> <span class="n">end</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span>
+
+
+<span class="k">with</span> <span class="n">Timer</span><span class="p">()</span> <span class="k">as</span> <span class="n">t</span><span class="p">:</span>
+    <span class="n">benchmark</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Time elapsed: </span><span class="si">{</span><span class="n">t</span><span class="o">.</span><span class="n">elapsed</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> s&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Time elapsed: 3.85 s
+</pre></div>
+</div>
+</div>
+</div>
+<p>Nested contexts:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">Timer</span><span class="p">()</span> <span class="k">as</span> <span class="n">t1</span><span class="p">:</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">Timer</span><span class="p">()</span> <span class="k">as</span> <span class="n">t2</span><span class="p">:</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">t2</span><span class="o">.</span><span class="n">elapsed</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> s&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">t1</span><span class="o">.</span><span class="n">elapsed</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> s&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2.00 s
+3.01 s
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="line-profiling">
+<h3>Line profiling<a class="headerlink" href="#line-profiling" title="Permalink to this headline">#</a></h3>
+<p>Profiling functions line-by-line can be useful for precisely determining bottlenecks. Note that the <code class="docutils literal notranslate"><span class="pre">Time</span></code> column is based on the <code class="docutils literal notranslate"><span class="pre">Timer</span> <span class="pre">unit</span></code> set to <code class="docutils literal notranslate"><span class="pre">1e-06</span></code>. For example, the line that performs random sampling uses the largest chunk of the total execution time shown.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> line_profiler
+<span class="o">%</span><span class="k">lprun</span> -f random_particles random_particles(100)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Timer unit: 1e-06 s
+
+Total time: 0.000271 s
+File: /Users/particle1331/code/ok-transformer/docs/nb/notes/benchmarking/hp/benchmarks.py
+Function: random_particles at line 5
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+     5                                           def random_particles(n: int) -&gt; list[Particle]:
+     6         1          0.0      0.0      0.0      particles = []
+     7       101         15.0      0.1      5.5      for _ in range(n):
+     8       100        181.0      1.8     66.8          x, y, ω = np.random.random(3)
+     9       100         74.0      0.7     27.3          particles.append(Particle(x, y, ω))
+    10         1          1.0      1.0      0.4      return particles
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">lprun</span> -f benchmark benchmark()
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Timer unit: 1e-06 s
+
+Total time: 10.2306 s
+File: /Users/particle1331/code/ok-transformer/docs/nb/notes/benchmarking/hp/benchmarks.py
+Function: benchmark at line 12
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    12                                           def benchmark():
+    13         1        251.0    251.0      0.0      particles = random_particles(100)
+    14         1         11.0     11.0      0.0      simulator = ParticleSimulator(particles)
+    15         1   10230350.0 10230350.0    100.0      simulator.evolve(1.0)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Notice that most compute occurs in evolving the system. This makes sense. We will proceed to optimize this part of the code in the next section. Note that <a class="reference external" href="https://github.com/pyutils/line_profiler"><code class="docutils literal notranslate"><span class="pre">line_profiler</span></code></a> can be used in the command line using:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kernprof<span class="w"> </span>-l<span class="w"> </span>-v<span class="w"> </span>script.py
+</pre></div>
+</div>
+<p>where the function to profile is decorated with <code class="docutils literal notranslate"><span class="pre">&#64;profile</span></code>.</p>
+</section>
+<section id="perfplot">
+<h3>Perfplot<a class="headerlink" href="#perfplot" title="Permalink to this headline">#</a></h3>
+<p>There is also <a class="reference external" href="https://github.com/nschloe/perfplot">perfplot</a> for quickly benchmarking different implementations of the same function. This extends <a class="reference external" href="https://docs.python.org/3/library/timeit.html">timeit</a> by testing snippets with input parameters and results plotting. Below we compare times of summing a list of integers:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">perfplot</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">listcomp</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="nb">sum</span><span class="p">([</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)])</span>
+<span class="n">numpee</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">forloop</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="n">i</span>
+    <span class="k">return</span> <span class="n">s</span>
+
+
+<span class="n">perfplot</span><span class="o">.</span><span class="n">show</span><span class="p">(</span>
+    <span class="n">setup</span><span class="o">=</span><span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="n">n</span><span class="p">,</span>  <span class="c1"># =: n (kernels input)</span>
+    <span class="n">kernels</span><span class="o">=</span><span class="p">[</span><span class="n">listcomp</span><span class="p">,</span> <span class="n">forloop</span><span class="p">,</span> <span class="n">numpee</span><span class="p">],</span>
+    <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;listcomp&quot;</span><span class="p">,</span> <span class="s2">&quot;forloop&quot;</span><span class="p">,</span> <span class="s2">&quot;numpee&quot;</span><span class="p">],</span>
+    <span class="n">n_range</span><span class="o">=</span><span class="p">[</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">100_000</span><span class="p">,</span> <span class="mi">10_000_000</span><span class="p">],</span>
+    <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;n&quot;</span><span class="p">,</span>
+    <span class="n">equality_check</span><span class="o">=</span><span class="kc">None</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div><script type="application/vnd.jupyter.widget-view+json">{"model_id": "b6e4f58a3e3e4297ac393f7d50e25c34", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+</pre>
+</div><img alt="../../_images/9caef9064eb164031c5a89e73d303d15555a4d6f5f861646cbf12250a61b84f2.png" src="../../_images/9caef9064eb164031c5a89e73d303d15555a4d6f5f861646cbf12250a61b84f2.png" />
+</div>
+</div>
+<p>More optional arguments with their default values:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">perfplot</span><span class="o">.</span><span class="n">show</span><span class="p">(</span>
+    <span class="o">...</span>
+    
+    <span class="n">logx</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span>                        <span class="c1"># Set to True or False to force scaling</span>
+    <span class="n">logy</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span>
+    <span class="n">equality_check</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">,</span>         <span class="c1"># Set to None to disable &quot;correctness&quot; assertion</span>
+    <span class="n">show_progress</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">target_time_per_measurement</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">max_time</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>                      <span class="c1"># Maximum time per measurement</span>
+    <span class="n">time_unit</span><span class="o">=</span><span class="s2">&quot;s&quot;</span><span class="p">,</span>                      <span class="c1"># Set to one of (&quot;auto&quot;, &quot;s&quot;, &quot;ms&quot;, &quot;us&quot;, or &quot;ns&quot;)</span>
+    <span class="n">relative_to</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>                      <span class="c1"># Plot the timings relative to one of the measurements</span>
+    <span class="n">flops</span><span class="o">=</span><span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="mi">3</span><span class="o">*</span><span class="n">n</span>                 <span class="c1"># FLOPS plots</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="optimizing-our-code">
+<h2>Optimizing our code<a class="headerlink" href="#optimizing-our-code" title="Permalink to this headline">#</a></h2>
+<p>Now that we know where the bottleneck to our code is, we can start optimizing this part of the code. To make our code faster, we use <strong>vectorization</strong> using the <code class="docutils literal notranslate"><span class="pre">numpy</span></code> library. This allows us to update the particles in parallel. Note that in the <code class="docutils literal notranslate"><span class="pre">evolve</span></code> method we replace looping on the particles with array operations on the data matrix which stores the data of all particles in the system. Using <code class="docutils literal notranslate"><span class="pre">np.float64</span></code> is important to get precise enough for the tests.</p>
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%writefile</span> ./hp/particles.py
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+
+<span class="k">class</span> <span class="nc">Particle</span><span class="p">:</span>    
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">angular_vel</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ω</span> <span class="o">=</span> <span class="n">angular_vel</span>
+
+
+<span class="k">class</span> <span class="nc">ParticleSimulator</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">particles</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Particle</span><span class="p">],</span> <span class="n">h</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">h</span> <span class="o">=</span> <span class="n">h</span>  <span class="c1"># Euler-method increment </span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">particles</span> <span class="o">=</span> <span class="n">particles</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+            <span class="p">[[</span><span class="n">p</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">ω</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">particles</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">evolve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Evolve system from t=0 to t=t.&quot;&quot;&quot;</span>
+        <span class="n">n_steps</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">t</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">h</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_steps</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">update_data</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">particles</span><span class="p">):</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>
+
+    <span class="k">def</span> <span class="nf">update_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Evolve particle with Δt = h.&quot;&quot;&quot;</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span> <span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span> <span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+        <span class="n">ω</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span> <span class="p">[</span><span class="mi">2</span><span class="p">]]</span>
+        <span class="n">vx</span> <span class="o">=</span> <span class="o">-</span><span class="n">y</span> <span class="o">*</span> <span class="n">ω</span>
+        <span class="n">vy</span> <span class="o">=</span>  <span class="n">x</span> <span class="o">*</span> <span class="n">ω</span>
+        <span class="n">dx</span> <span class="o">=</span> <span class="n">vx</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">h</span>
+        <span class="n">dy</span> <span class="o">=</span> <span class="n">vy</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">h</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span> <span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">+=</span> <span class="n">dx</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span> <span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">+=</span> <span class="n">dy</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Overwriting ./hp/particles.py
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<p>Checking the changes:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>git<span class="w"> </span>diff<span class="w"> </span>hp
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">diff --git a/docs/nb/notes/benchmarking/hp/particles.py b/docs/nb/notes/benchmarking/hp/particles.py</span>
+<span class=" -Color -Color-Bold">index 4d827526..2e8dfb3b 100644</span>
+<span class=" -Color -Color-Bold">--- a/docs/nb/notes/benchmarking/hp/particles.py</span>
+<span class=" -Color -Color-Bold">+++ b/docs/nb/notes/benchmarking/hp/particles.py</span>
+<span class=" -Color -Color-Cyan">@@ -12,21 +12,26 @@</span> class ParticleSimulator:
+     def __init__(self, particles: list[Particle], h=1e-5):
+         self.h = h  # Euler-method increment 
+         self.particles = particles
+<span class=" -Color -Color-Green">+        self.data = np.array(</span>
+<span class=" -Color -Color-Green">+            [[p.x, p.y, p.ω] for p in particles], dtype=np.float64)</span>
+ 
+     def evolve(self, t: float):
+         &quot;&quot;&quot;Evolve system from t=0 to t=t.&quot;&quot;&quot;
+<span class=" -Color -Color-Red">-        </span>
+         n_steps = int(t / self.h)
+         for _ in range(n_steps):
+<span class=" -Color -Color-Red">-            for p in self.particles:</span>
+<span class=" -Color -Color-Red">-                self.update_particle(p)</span>
+<span class=" -Color -Color-Green">+            self.update_data()</span>
+ 
+<span class=" -Color -Color-Red">-    def update_particle(self, p: Particle):</span>
+<span class=" -Color -Color-Red">-        &quot;&quot;&quot;Evolve particle with Δt = h.&quot;&quot;&quot;</span>
+<span class=" -Color -Color-Green">+        for i, p in enumerate(self.particles):</span>
+<span class=" -Color -Color-Green">+            p.x, p.y = self.data[i, [0, 1]]</span>
+ 
+<span class=" -Color -Color-Red">-        vx = -p.y * p.ω</span>
+<span class=" -Color -Color-Red">-        vy =  p.x * p.ω</span>
+<span class=" -Color -Color-Green">+    def update_data(self):</span>
+<span class=" -Color -Color-Green">+        &quot;&quot;&quot;Evolve particle with Δt = h.&quot;&quot;&quot;</span>
+<span class=" -Color -Color-Green">+        x = self.data[:, [0]]</span>
+<span class=" -Color -Color-Green">+        y = self.data[:, [1]]</span>
+<span class=" -Color -Color-Green">+        ω = self.data[:, [2]]</span>
+<span class=" -Color -Color-Green">+        vx = -y * ω</span>
+<span class=" -Color -Color-Green">+        vy =  x * ω</span>
+         dx = vx * self.h
+         dy = vy * self.h
+<span class=" -Color -Color-Red">-        p.x += dx</span>
+<span class=" -Color -Color-Red">-        p.y += dy</span>
+<span class=" -Color -Color-Green">+        self.data[:, [0]] += dx</span>
+<span class=" -Color -Color-Green">+        self.data[:, [1]] += dy</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Running the test and benchmarks on the optimized code:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pytest<span class="w"> </span>hp
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">============================= test session starts ==============================</span>
+platform darwin -- Python 3.9.15, pytest-7.2.0, pluggy-1.0.0
+benchmark: 4.0.0 (defaults: timer=time.perf_counter disable_gc=False min_rounds=5 min_time=0.000005 max_time=1.0 calibration_precision=10 warmup=False warmup_iterations=100000)
+rootdir: /Users/particle1331/code/ok-transformer/docs/nb/notes/benchmarking
+plugins: anyio-3.6.2, benchmark-4.0.0
+collected 1 item                                                               
+
+hp/tests/test_particles.py <span class=" -Color -Color-Green">.                                             [100%]</span>
+
+<span class=" -Color -Color-Green">============================== </span><span class=" -Color -Color-Bold -Color-Bold-Green">1 passed</span><span class=" -Color -Color-Green"> in 0.22s ===============================</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Note that the execution time has been reduced by one order of magnitude:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">timeit</span> benchmark()
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.04 s ± 15.3 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">lprun</span> -f benchmark benchmark()
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Timer unit: 1e-06 s
+
+Total time: 1.16274 s
+File: /Users/particle1331/code/ok-transformer/docs/nb/notes/benchmarking/hp/benchmarks.py
+Function: benchmark at line 12
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    12                                           def benchmark():
+    13         1        745.0    745.0      0.1      particles = random_particles(100)
+    14         1         63.0     63.0      0.0      simulator = ParticleSimulator(particles)
+    15         1    1161936.0 1161936.0     99.9      simulator.evolve(1.0)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="memory-profiling">
+<h2>Memory profiling<a class="headerlink" href="#memory-profiling" title="Permalink to this headline">#</a></h2>
+<p>Memory profiling can be useful for data intensive tasks. This can determine inefficiencies with data structures used as well as algorithms used for processing data. As benchmark, we simply increase the number of particles in the simulation:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">hp.benchmarks</span> <span class="kn">import</span> <span class="n">benchmark_memory</span>
+
+benchmark_memory<span class="o">??</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Red">Signature:</span> benchmark_memory<span class=" -Color -Color-Blue">()</span>
+<span class=" -Color -Color-Red">Docstring:</span> &lt;no docstring&gt;
+<span class=" -Color -Color-Red">Source:</span>   
+<span class=" -Color -Color-Green">def</span> benchmark_memory<span class=" -Color -Color-Blue">():</span>
+    particles <span class=" -Color -Color-Blue">=</span> random_particles<span class=" -Color -Color-Blue">(</span><span class=" -Color -Color-Cyan">1000000</span><span class=" -Color -Color-Blue">)</span>
+    simulator <span class=" -Color -Color-Blue">=</span> ParticleSimulator<span class=" -Color -Color-Blue">(</span>particles<span class=" -Color -Color-Blue">)</span>
+    simulator<span class=" -Color -Color-Blue">.</span>evolve<span class=" -Color -Color-Blue">(</span><span class=" -Color -Color-Cyan">0.001</span><span class=" -Color -Color-Blue">)</span>
+<span class=" -Color -Color-Red">File:</span>      ~/code/ok-transformer/docs/nb/notes/benchmarking/hp/benchmarks.py
+<span class=" -Color -Color-Red">Type:</span>      function
+</pre></div>
+</div>
+</div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">Increment</span></code> column shows how much each line affects the total memory consumption while <code class="docutils literal notranslate"><span class="pre">Mem</span> <span class="pre">usage</span></code> is the cumulative memory use of the function. Note that the function starts out with some background memory consumption from the interpreter and the profiler itself.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> memory_profiler
+<span class="o">%</span><span class="k">mprun</span> -f benchmark_memory benchmark_memory()
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Filename: /Users/particle1331/code/ok-transformer/docs/nb/notes/benchmarking/hp/benchmarks.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+    17     85.0 MiB     85.0 MiB           1   def benchmark_memory():
+    18    287.2 MiB    202.2 MiB           1       particles = random_particles(1000000)
+    19    391.6 MiB    104.4 MiB           1       simulator = ParticleSimulator(particles)
+    20    450.4 MiB     58.8 MiB           1       simulator.evolve(0.001)
+</pre></div>
+</div>
+</div>
+</div>
+<aside class="margin sidebar">
+<p class="sidebar-title"></p>
+<p><strong>1 MiB</strong> = 1,048,576 bytes</p>
+</aside>
+<p>This shows 10⁶ <code class="docutils literal notranslate"><span class="pre">Particle</span></code> objects take ~260 MiB of memory.</p>
+<p>Note <a class="reference external" href="https://github.com/pythonprofilers/memory_profiler"><code class="docutils literal notranslate"><span class="pre">memory_profiler</span></code></a> has a command-line interface:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mprof</span> <span class="n">run</span> <span class="o">&lt;</span><span class="n">script</span><span class="o">.</span><span class="n">py</span><span class="o">&gt;</span>
+<span class="n">mprof</span> <span class="n">plot</span>
+</pre></div>
+</div>
+<p>This expects a Python script that defines a function of interest decorated with <code class="docutils literal notranslate"><span class="pre">&#64;profile</span></code> imported from the <code class="docutils literal notranslate"><span class="pre">memory_profiler</span></code> module. It should also execute the function, so that the memory profiler tracks something.</p>
+<p><strong>Remark.</strong> To reduce each particle’s memory footprint, we can
+use <code class="docutils literal notranslate"><span class="pre">__slots__</span></code> on the <code class="docutils literal notranslate"><span class="pre">Particle</span></code> class.
+This saves some memory by avoiding storing the variables of the instance in an internal
+dictionary with the small limitation that addition of
+attributes other than the ones specified is not allowed. In our example, this saves ~100 MiB.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Particle</span><span class="p">:</span>    
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;ω&quot;</span><span class="p">]</span>     <span class="c1"># &lt;- (!)</span>
+    
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">angular_vel</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ω</span> <span class="o">=</span> <span class="n">angular_vel</span>
+</pre></div>
+</div>
+<hr class="docutils" />
+<p>■</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./nb/notes"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="containers.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Docker Containers</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="tf-course.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">TensorFlow Crash Course</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#simulation">Simulation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#testing">Testing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#benchmarking">Benchmarking</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#timing">Timing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#line-profiling">Line profiling</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#perfplot">Perfplot</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#optimizing-our-code">Optimizing our code</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#memory-profiling">Memory profiling</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            <div class="bd-footer-content__inner">
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By 𝗽𝗮𝗿𝘁𝗶𝗰𝗹𝗲𝟭𝟯𝟯𝟭. Powered by <a href="https://jupyterbook.org">Jupyter Book</a>.
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div></div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

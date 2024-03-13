@@ -1,0 +1,1656 @@
+
+
+<!DOCTYPE html>
+
+
+<html >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Preliminaries &#8212; OK Transformer</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'nb/mlops/01-intro';</script>
+    <link rel="shortcut icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Packaging Modeling Code" href="02-package.html" />
+    <link rel="prev" title="Activations and Gradients" href="../dl/05-training.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="None"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Language Modeling</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../nn/03-batchnorm.html">Batch Normalization</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Deep Learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../dl/01-intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dl/02-optim.html">Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dl/00-backprop.html">Backpropagation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dl/03-cnn.html">Convolutional Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dl/04-lm.html">Language Modeling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dl/05-training.html">Activations and Gradients</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Engineering and Ops</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Preliminaries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02-package.html">Packaging Modeling Code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-mlflow.html">Experiment Tracking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04-tasks.html">Distributed Task Queues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04-deployment/notes.html">Model Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06-best-practices/notes.html">Best Engineering Practices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mle/cicd-pipelines.html">Continuous Integration and Deployment Pipelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mle/model-serving-api.html">Prediction Serving API</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Notes</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../notes/containers.html">Docker Containers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notes/benchmarking.html">Benchmarking and Profiling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notes/tf-course.html">TensorFlow Crash Course</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/particle1331/ok-transformer" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/particle1331/ok-transformer/issues/new?title=Issue%20on%20page%20%2Fnb/mlops/01-intro.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Preliminaries</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#environment-preparation">Environment preparation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ssh-to-the-ec2-instance">SSH to the EC2 instance</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-anaconda">Installing Anaconda</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-docker-and-docker-compose">Installing Docker and Docker Compose</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#remote-ssh-with-vs-code">Remote SSH with VS Code</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modeling-ride-duration">Modeling ride duration</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#computing-ride-duration">Computing ride duration</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-encoding">Feature encoding</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#baseline-model">Baseline model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-interaction-features">Using interaction features</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#persisting-the-model">Persisting the model</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pipenv-virtual-environments">Pipenv virtual environments</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-dependencies">Installing dependencies</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pipenv-with-docker">Pipenv with Docker</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mlops-maturity-model">MLOps maturity model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#appendix-aws-cli-boto3">Appendix: AWS CLI &amp; Boto3</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#s3">S3</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#json-processing">JSON processing</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="preliminaries">
+<span id="intro"></span><h1>Preliminaries<a class="headerlink" href="#preliminaries" title="Permalink to this headline">#</a></h1>
+<p><img alt="Status" src="https://img.shields.io/static/v1.svg?label=Status&amp;message=Finished&amp;color=brightgreen" />
+<a class="reference external" href="https://github.com/particle1331/ok-transformer/blob/master/docs/nb/mlops/01-intro.ipynb"><img alt="Source" src="https://img.shields.io/static/v1.svg?label=GitHub&amp;message=Source&amp;color=181717&amp;logo=GitHub" /></a>
+<a class="reference external" href="https://github.com/particle1331/ok-transformer"><img alt="Stars" src="https://img.shields.io/github/stars/particle1331/ok-transformer?style=social" /></a></p>
+<hr class="docutils" />
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">#</a></h2>
+<p>MLOps involves using a set of tools and best practices to deploy machine learning models into production environments, with a focus on maintaining their performance within specified service levels. Key considerations include maintainability, observability, monitoring, testing, reproducibility, and <a class="reference external" href="https://about.gitlab.com/topics/ci-cd/#ci-cd-fundamentals">CI/CD</a> pipelines. Automated infrastructure provisioning is also crucial for scaling compute and memory requirements. To manage multiple iterations of our models, we need a framework for experiment tracking and model management. This provides a structured way of moving models in and out of production.</p>
+</section>
+<section id="environment-preparation">
+<h2>Environment preparation<a class="headerlink" href="#environment-preparation" title="Permalink to this headline">#</a></h2>
+<p>Rent a <a class="reference external" href="https://instances.vantage.sh/aws/ec2/t2.xlarge">t2.xlarge</a> Ubuntu <a class="reference external" href="https://mlbookcamp.com/article/aws-ec2">EC2 instance</a> with 30 GB storage in AWS on an IAM user. Refer to <a class="reference external" href="https://mlbookcamp.com/article/aws">this article</a> on how to create an EC2 instance. We will connect to this instance via SSH and initiate a remote connection using VS Code. This gives us an IDE for development. It also provides a convenient way to transfer files from our local computer to the remote instance (i.e. drop local files to the file explorer of the remote instance) without having to use <code class="docutils literal notranslate"><span class="pre">scp</span></code> on the terminal. VS Code also supports <strong>port forwarding</strong> which allows us to easily access remote web interfaces using our local browser.</p>
+<section id="ssh-to-the-ec2-instance">
+<h3>SSH to the EC2 instance<a class="headerlink" href="#ssh-to-the-ec2-instance" title="Permalink to this headline">#</a></h3>
+<p>Execute the following two lines in your local terminal. The first line <a class="reference external" href="https://chmodcommand.com/chmod-400/"><code class="docutils literal notranslate"><span class="pre">chmod</span> <span class="pre">400</span></code></a> sets permission to <strong>read-only</strong> on the key pair file. The next line initiates the connection to the EC2 instance:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>local:~$<span class="w"> </span>chmod<span class="w"> </span><span class="m">400</span><span class="w"> </span>t2xlarge.pem
+local:~$<span class="w"> </span>ssh<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;~/.ssh/t2xlarge.pem&quot;</span><span class="w"> </span>ubuntu@&lt;public-ip&gt;
+ubuntu@ip-&lt;private-ip&gt;:~$
+</pre></div>
+</div>
+<p><strong>Remark.</strong> Note that the public IPv4 address changes each time the instance is rebooted. See <a class="reference external" href="https://www.youtube.com/watch?v=4T6fk6UtpsE">this video</a> on how to get static IP addresses. This is essential for long term instances. The SSH config for the instance can be configured accordingly after getting the Elastic IP:</p>
+<aside class="margin sidebar">
+<p class="sidebar-title"></p>
+<p><code class="docutils literal notranslate"><span class="pre">~/.ssh/config</span></code></p>
+</aside>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Host t2xlarge
+    HostName &lt;public-ip&gt;
+    User ubuntu
+    IdentityFile ~/.ssh/t2xlarge.pem
+    StrictHostKeyChecking no
+</pre></div>
+</div>
+<p>This allows easy connection with tab completion either:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ ssh &lt;public-ip&gt;
+</pre></div>
+</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ ssh t2xlarge
+</pre></div>
+</div>
+<p><strong>Remark.</strong> You may need to <a class="reference external" href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/authorizing-access-to-an-instance.html">edit inbound traffic rules</a> if the instance will not connect.</p>
+</section>
+<section id="installing-anaconda">
+<h3>Installing Anaconda<a class="headerlink" href="#installing-anaconda" title="Permalink to this headline">#</a></h3>
+<p>Note that we cannot run code yet as there is nothing installed in this machine. We start by installing <code class="docutils literal notranslate"><span class="pre">conda</span></code> which comes with Python. Go to the Anaconda <a class="reference external" href="https://www.anaconda.com/products/distribution#Downloads">downloads page</a> and copy the link for the Linux 64-bit x86 installer. The outputs are skipped for the sake of clarity:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>~$<span class="w"> </span>wget<span class="w"> </span>https://repo.anaconda.com/archive/Anaconda3-2022.10-Linux-x86_64.sh
+~$<span class="w"> </span>bash<span class="w"> </span>Anaconda3-2022.10-Linux-x86_64.sh<span class="w">  </span><span class="c1"># Q &gt; &#39;yes&#39; &gt; Enter</span>
+~$<span class="w"> </span><span class="nb">source</span><span class="w"> </span>~/.bashrc
+<span class="o">(</span>base<span class="o">)</span><span class="w"> </span>~$
+</pre></div>
+</div>
+<p>The first command will save a bash script which is executed in the next command. This installs Anaconda after agreeing to the terms of use and confirming the install location. Here <code class="docutils literal notranslate"><span class="pre">(base)</span></code> indicates that we are in the base <code class="docutils literal notranslate"><span class="pre">conda</span></code> environment:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">(</span>base<span class="o">)</span><span class="w"> </span>~$<span class="w"> </span>which<span class="w"> </span>python
+/home/ubuntu/anaconda3/bin/python
+</pre></div>
+</div>
+</section>
+<section id="installing-docker-and-docker-compose">
+<h3>Installing Docker and Docker Compose<a class="headerlink" href="#installing-docker-and-docker-compose" title="Permalink to this headline">#</a></h3>
+<p>The last two commands allow us to run <code class="docutils literal notranslate"><span class="pre">docker</span></code> without <code class="docutils literal notranslate"><span class="pre">sudo</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">(</span>base<span class="o">)</span><span class="w"> </span>~$<span class="w"> </span>sudo<span class="w"> </span>apt<span class="w"> </span>update
+<span class="o">(</span>base<span class="o">)</span><span class="w"> </span>~$<span class="w"> </span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>docker.io
+<span class="o">(</span>base<span class="o">)</span><span class="w"> </span>~$<span class="w"> </span>sudo<span class="w"> </span>groupadd<span class="w"> </span>docker
+<span class="o">(</span>base<span class="o">)</span><span class="w"> </span>~$<span class="w"> </span>sudo<span class="w"> </span>usermod<span class="w"> </span>-aG<span class="w"> </span>docker<span class="w"> </span><span class="nv">$USER</span>
+</pre></div>
+</div>
+<p>Create a <code class="docutils literal notranslate"><span class="pre">soft</span></code> directory where we will install Docker Compose. To get the download link for this, we go to the <a class="reference external" href="https://github.com/docker/compose/releases">releases page</a> of Docker Compose in GitHub. There we will find the release for Linux x86 in the Assets section. Copy the link and perform the following install:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">(</span>base<span class="o">)</span><span class="w"> </span>~$<span class="w"> </span>mkdir<span class="w"> </span>soft
+<span class="o">(</span>base<span class="o">)</span><span class="w"> </span>~$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>soft
+<span class="o">(</span>base<span class="o">)</span><span class="w"> </span>~/soft$<span class="w"> </span>wget<span class="w"> </span>https://github.com/docker/compose/releases/download/v2.15.0/docker-compose-linux-x86_64<span class="w"> </span>-O<span class="w"> </span>docker-compose
+<span class="o">(</span>base<span class="o">)</span><span class="w"> </span>~/soft$<span class="w"> </span>chmod<span class="w"> </span>+x<span class="w"> </span>docker-compose
+</pre></div>
+</div>
+<p>Note that <code class="docutils literal notranslate"><span class="pre">docker-compose</span></code> should be highlighted indicating that it is executable after <a class="reference external" href="https://linuxtect.com/what-is-chmod-x-command-in-linux/"><code class="docutils literal notranslate"><span class="pre">chmod</span> <span class="pre">+x</span></code></a>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">(</span>base<span class="o">)</span><span class="w"> </span>~/soft$<span class="w"> </span>ls
+docker-compose
+</pre></div>
+</div>
+<p>Next add the <code class="docutils literal notranslate"><span class="pre">soft</span></code> directory to the <code class="docutils literal notranslate"><span class="pre">PATH</span></code>. We can do this with <code class="docutils literal notranslate"><span class="pre">vim</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>vi<span class="w"> </span>~/.bashrc
+</pre></div>
+</div>
+<p>Then add the line <code class="docutils literal notranslate"><span class="pre">export</span> <span class="pre">PATH=&quot;${HOME}/soft:${PATH}&quot;</span></code> at the end of the file. To apply this change, we run the command below. The last output tells us that <code class="docutils literal notranslate"><span class="pre">soft</span></code> has been added to the path:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">(</span>base<span class="o">)</span><span class="w"> </span>~/soft$<span class="w"> </span><span class="nb">source</span><span class="w"> </span>~/.bashrc
+<span class="o">(</span>base<span class="o">)</span><span class="w"> </span>~/soft$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>..
+<span class="o">(</span>base<span class="o">)</span><span class="w"> </span>~$<span class="w"> </span>which<span class="w"> </span>docker-compose
+/home/ubuntu/soft/docker-compose
+</pre></div>
+</div>
+<p>Now test if <code class="docutils literal notranslate"><span class="pre">docker</span></code> has been properly installed:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">(</span>base<span class="o">)</span><span class="w"> </span>~$<span class="w"> </span>docker<span class="w"> </span>run<span class="w"> </span>hello-world
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Unable to find image &#39;hello-world:latest&#39; locally
+latest: Pulling from library/hello-world
+[...]
+
+Hello from Docker!
+This message shows that your installation appears to be working correctly.
+[...]
+</pre></div>
+</div>
+<p><strong>Note:</strong> If you get permission denied, you may have to exit and reconnect.</p>
+</section>
+<section id="remote-ssh-with-vs-code">
+<h3>Remote SSH with VS Code<a class="headerlink" href="#remote-ssh-with-vs-code" title="Permalink to this headline">#</a></h3>
+<p>Creating a directory for our code:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">(</span>base<span class="o">)</span><span class="w"> </span>~$<span class="w"> </span>mkdir<span class="w"> </span>code
+<span class="o">(</span>base<span class="o">)</span><span class="w"> </span>~$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>code
+<span class="o">(</span>base<span class="o">)</span><span class="w"> </span>~/code$<span class="w"> </span>touch<span class="w"> </span>hello.py
+</pre></div>
+</div>
+<p>We want to get access to the instance with VS Code, so we have an IDE to work with. Open a remote window by clicking the icon on lower left of the VS Code window. Click “Connect to Host” and select the instance name. Note that this requires the <a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=ms-VSCode-remote.remote-ssh">Remote-SSH</a> extension installed and editing the SSH config file located in <code class="docutils literal notranslate"><span class="pre">~/.ssh/config</span></code>. Opening the <code class="docutils literal notranslate"><span class="pre">code</span></code> folder:</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../../_images/ec2-vs-connected.png"><img alt="../../_images/ec2-vs-connected.png" src="../../_images/ec2-vs-connected.png" style="width: 45em;" /></a>
+</figure>
+<p>Spinning up a Jupyter server:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">(</span>base<span class="o">)</span><span class="w"> </span>~/code$<span class="w"> </span>jupyter<span class="w"> </span>notebook
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[...]
+    To access the notebook, open this file in a browser:
+        file:///home/ubuntu/.local/share/jupyter/runtime/nbserver-1713-open.html
+    Or copy and paste one of these URLs:
+        http://localhost:8888/?token=&lt;jupytertoken&gt;
+     or http://127.0.0.1:8888/?token=&lt;jupytertoken&gt;
+</pre></div>
+</div>
+<p>These URLs are not exposed to our local machine. To access these, we need to do <strong>port forwarding</strong>. We will use VS Code which makes this task trivial. Simply open the terminal in VS Code and click the PORTS tab. Here you will see the remote port and its corresponding local address.</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../../_images/ec2-vs-ports.png"><img alt="../../_images/ec2-vs-ports.png" src="../../_images/ec2-vs-ports.png" style="width: 45em;" /></a>
+</figure>
+<p>The port on our local machine is <code class="docutils literal notranslate"><span class="pre">8889</span></code>, so we put the following URL in our browser:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>http://localhost:8889/?token=&lt;jupytertoken&gt;
+</pre></div>
+</div>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../../_images/ec2-jupyter.png"><img alt="../../_images/ec2-jupyter.png" src="../../_images/ec2-jupyter.png" style="width: 45em;" /></a>
+</figure>
+<p><strong>Remark.</strong> You can work with Jupyter notebooks inside the remote VS Code assuming you have a powerful enough instance (e.g. <code class="docutils literal notranslate"><span class="pre">t2.xlarge</span></code>). Make sure to install the Python extensions in SSH not just locally. Kernels can be added from your conda envs following <a class="reference external" href="https://medium.com/&#64;nrk25693/how-to-add-your-conda-environment-to-your-jupyter-notebook-in-just-4-steps-abeab8b8d084">this article</a>.</p>
+</section>
+</section>
+<section id="modeling-ride-duration">
+<span id="intro-modeling-ride-duration"></span><h2>Modeling ride duration<a class="headerlink" href="#modeling-ride-duration" title="Permalink to this headline">#</a></h2>
+<p>In this section, we train a simple model for predicting ride duration from trip data. The <a class="reference external" href="https://www1.nyc.gov/site/tlc/about/tlc-trip-record-data.page">dataset</a> that will be used consist of data obtained from street hail and dispatch taxi trips in New York City.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_squared_error</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+<span class="kn">from</span> <span class="nn">sklearn.feature_extraction</span> <span class="kn">import</span> <span class="n">DictVectorizer</span>
+
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">matplotlib_inline</span> <span class="kn">import</span> <span class="n">backend_inline</span>
+<span class="kn">from</span> <span class="nn">pandas.errors</span> <span class="kn">import</span> <span class="n">SettingWithCopyWarning</span>
+
+<span class="n">backend_inline</span><span class="o">.</span><span class="n">set_matplotlib_formats</span><span class="p">(</span><span class="s1">&#39;svg&#39;</span><span class="p">)</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="n">SettingWithCopyWarning</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>For precise definitions of these columns, we can check the <a class="reference external" href="https://www1.nyc.gov/assets/tlc/downloads/pdf/data_dictionary_trip_records_green.pdf">data dictionary</a>. We will only use three features to model ride duration: <code class="docutils literal notranslate"><span class="pre">PULocationID</span></code>, <code class="docutils literal notranslate"><span class="pre">DOLocationID</span></code>, and <code class="docutils literal notranslate"><span class="pre">trip_distance</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># !mkdir data</span>
+<span class="c1"># !wget https://d37ci6vzurychx.cloudfront.net/trip-data/green_tripdata_2021-01.parquet -O data/green_tripdata_2021-01.parquet</span>
+<span class="c1"># !wget https://d37ci6vzurychx.cloudfront.net/trip-data/green_tripdata_2021-02.parquet -O data/green_tripdata_2021-02.parquet</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="s1">&#39;./data/green_tripdata_2021-01.parquet&#39;</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s1">&#39;fastparquet&#39;</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>VendorID</th>
+      <th>lpep_pickup_datetime</th>
+      <th>lpep_dropoff_datetime</th>
+      <th>store_and_fwd_flag</th>
+      <th>RatecodeID</th>
+      <th>PULocationID</th>
+      <th>DOLocationID</th>
+      <th>passenger_count</th>
+      <th>trip_distance</th>
+      <th>fare_amount</th>
+      <th>extra</th>
+      <th>mta_tax</th>
+      <th>tip_amount</th>
+      <th>tolls_amount</th>
+      <th>ehail_fee</th>
+      <th>improvement_surcharge</th>
+      <th>total_amount</th>
+      <th>payment_type</th>
+      <th>trip_type</th>
+      <th>congestion_surcharge</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2</td>
+      <td>2021-01-01 00:15:56</td>
+      <td>2021-01-01 00:19:52</td>
+      <td>N</td>
+      <td>1.0</td>
+      <td>43</td>
+      <td>151</td>
+      <td>1.0</td>
+      <td>1.01</td>
+      <td>5.5</td>
+      <td>0.5</td>
+      <td>0.5</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>NaN</td>
+      <td>0.3</td>
+      <td>6.80</td>
+      <td>2.0</td>
+      <td>1.0</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>2021-01-01 00:25:59</td>
+      <td>2021-01-01 00:34:44</td>
+      <td>N</td>
+      <td>1.0</td>
+      <td>166</td>
+      <td>239</td>
+      <td>1.0</td>
+      <td>2.53</td>
+      <td>10.0</td>
+      <td>0.5</td>
+      <td>0.5</td>
+      <td>2.81</td>
+      <td>0.0</td>
+      <td>NaN</td>
+      <td>0.3</td>
+      <td>16.86</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>2.75</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>2021-01-01 00:45:57</td>
+      <td>2021-01-01 00:51:55</td>
+      <td>N</td>
+      <td>1.0</td>
+      <td>41</td>
+      <td>42</td>
+      <td>1.0</td>
+      <td>1.12</td>
+      <td>6.0</td>
+      <td>0.5</td>
+      <td>0.5</td>
+      <td>1.00</td>
+      <td>0.0</td>
+      <td>NaN</td>
+      <td>0.3</td>
+      <td>8.30</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2</td>
+      <td>2020-12-31 23:57:51</td>
+      <td>2021-01-01 00:04:56</td>
+      <td>N</td>
+      <td>1.0</td>
+      <td>168</td>
+      <td>75</td>
+      <td>1.0</td>
+      <td>1.99</td>
+      <td>8.0</td>
+      <td>0.5</td>
+      <td>0.5</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>NaN</td>
+      <td>0.3</td>
+      <td>9.30</td>
+      <td>2.0</td>
+      <td>1.0</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2</td>
+      <td>2021-01-01 00:16:36</td>
+      <td>2021-01-01 00:16:40</td>
+      <td>N</td>
+      <td>2.0</td>
+      <td>265</td>
+      <td>265</td>
+      <td>3.0</td>
+      <td>0.00</td>
+      <td>-52.0</td>
+      <td>0.0</td>
+      <td>-0.5</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>NaN</td>
+      <td>-0.3</td>
+      <td>-52.80</td>
+      <td>3.0</td>
+      <td>1.0</td>
+      <td>0.00</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">dtypes</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>VendorID                          int64
+lpep_pickup_datetime     datetime64[ns]
+lpep_dropoff_datetime    datetime64[ns]
+store_and_fwd_flag               object
+RatecodeID                      float64
+PULocationID                      int64
+DOLocationID                      int64
+passenger_count                 float64
+trip_distance                   float64
+fare_amount                     float64
+extra                           float64
+mta_tax                         float64
+tip_amount                      float64
+tolls_amount                    float64
+ehail_fee                       float64
+improvement_surcharge           float64
+total_amount                    float64
+payment_type                    float64
+trip_type                       float64
+congestion_surcharge            float64
+dtype: object
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(76518, 20)
+</pre></div>
+</div>
+</div>
+</div>
+<section id="computing-ride-duration">
+<h3>Computing ride duration<a class="headerlink" href="#computing-ride-duration" title="Permalink to this headline">#</a></h3>
+<p>Since we are interested in duration, we have to subtract drop off datetime with pickup datetime. Duration by the second may be too granular, so we measure ride duration in minutes. Note that pick-up and drop-off datetimes are already of type <code class="docutils literal notranslate"><span class="pre">datetime64[ns]</span></code> so we can do the following operation:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;duration (min)&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">lpep_dropoff_datetime</span> <span class="o">-</span> <span class="n">df</span><span class="o">.</span><span class="n">lpep_pickup_datetime</span><span class="p">)</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span> <span class="o">/</span> <span class="mi">60</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;duration (min)&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/f5aae29d4ebe594663ba97c65967af566b6149feb00d14969eeaaa2169766d82.svg" src="../../_images/f5aae29d4ebe594663ba97c65967af566b6149feb00d14969eeaaa2169766d82.svg" /></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;duration (min)&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">describe</span><span class="p">(</span><span class="n">percentiles</span><span class="o">=</span><span class="p">[</span><span class="mf">0.95</span><span class="p">,</span> <span class="mf">0.98</span><span class="p">,</span> <span class="mf">0.99</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>count    76518.000000
+mean        19.927896
+std         59.338594
+min          0.000000
+50%         13.883333
+95%         44.000000
+98%         56.000000
+99%         67.158167
+max       1439.600000
+Name: duration (min), dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<p>Notice the longest trip took ~1400 minutes and there are trips which took &lt;1 minute. We also see that 98% of all rides are within 1 hour. From a business perspective, it makes sense to predict durations that are at least one minute, and at most an hour. Checking the fraction of the dataset with duration that fall in this range:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">((</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;duration (min)&#39;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;duration (min)&#39;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">60</span><span class="p">))</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.9658903787344154
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;duration (min)&#39;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;duration (min)&#39;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">60</span><span class="p">)]</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>VendorID</th>
+      <th>lpep_pickup_datetime</th>
+      <th>lpep_dropoff_datetime</th>
+      <th>store_and_fwd_flag</th>
+      <th>RatecodeID</th>
+      <th>PULocationID</th>
+      <th>DOLocationID</th>
+      <th>passenger_count</th>
+      <th>trip_distance</th>
+      <th>fare_amount</th>
+      <th>...</th>
+      <th>mta_tax</th>
+      <th>tip_amount</th>
+      <th>tolls_amount</th>
+      <th>ehail_fee</th>
+      <th>improvement_surcharge</th>
+      <th>total_amount</th>
+      <th>payment_type</th>
+      <th>trip_type</th>
+      <th>congestion_surcharge</th>
+      <th>duration (min)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2</td>
+      <td>2021-01-01 00:15:56</td>
+      <td>2021-01-01 00:19:52</td>
+      <td>N</td>
+      <td>1.0</td>
+      <td>43</td>
+      <td>151</td>
+      <td>1.0</td>
+      <td>1.01</td>
+      <td>5.5</td>
+      <td>...</td>
+      <td>0.5</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>NaN</td>
+      <td>0.3</td>
+      <td>6.80</td>
+      <td>2.0</td>
+      <td>1.0</td>
+      <td>0.00</td>
+      <td>3.933333</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>2021-01-01 00:25:59</td>
+      <td>2021-01-01 00:34:44</td>
+      <td>N</td>
+      <td>1.0</td>
+      <td>166</td>
+      <td>239</td>
+      <td>1.0</td>
+      <td>2.53</td>
+      <td>10.0</td>
+      <td>...</td>
+      <td>0.5</td>
+      <td>2.81</td>
+      <td>0.0</td>
+      <td>NaN</td>
+      <td>0.3</td>
+      <td>16.86</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>2.75</td>
+      <td>8.750000</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>2021-01-01 00:45:57</td>
+      <td>2021-01-01 00:51:55</td>
+      <td>N</td>
+      <td>1.0</td>
+      <td>41</td>
+      <td>42</td>
+      <td>1.0</td>
+      <td>1.12</td>
+      <td>6.0</td>
+      <td>...</td>
+      <td>0.5</td>
+      <td>1.00</td>
+      <td>0.0</td>
+      <td>NaN</td>
+      <td>0.3</td>
+      <td>8.30</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.00</td>
+      <td>5.966667</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2</td>
+      <td>2020-12-31 23:57:51</td>
+      <td>2021-01-01 00:04:56</td>
+      <td>N</td>
+      <td>1.0</td>
+      <td>168</td>
+      <td>75</td>
+      <td>1.0</td>
+      <td>1.99</td>
+      <td>8.0</td>
+      <td>...</td>
+      <td>0.5</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>NaN</td>
+      <td>0.3</td>
+      <td>9.30</td>
+      <td>2.0</td>
+      <td>1.0</td>
+      <td>0.00</td>
+      <td>7.083333</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>2</td>
+      <td>2021-01-01 00:26:31</td>
+      <td>2021-01-01 00:28:50</td>
+      <td>N</td>
+      <td>1.0</td>
+      <td>75</td>
+      <td>75</td>
+      <td>6.0</td>
+      <td>0.45</td>
+      <td>3.5</td>
+      <td>...</td>
+      <td>0.5</td>
+      <td>0.96</td>
+      <td>0.0</td>
+      <td>NaN</td>
+      <td>0.3</td>
+      <td>5.76</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.00</td>
+      <td>2.316667</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 21 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;duration (min)&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;duration (min)&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/5db4ccd9c6f47d3cdf6fa8fa0c858aa4d64058659fdddccd594ab0965c01200f.svg" src="../../_images/5db4ccd9c6f47d3cdf6fa8fa0c858aa4d64058659fdddccd594ab0965c01200f.svg" /></div>
+</div>
+</section>
+<section id="feature-encoding">
+<h3>Feature encoding<a class="headerlink" href="#feature-encoding" title="Permalink to this headline">#</a></h3>
+<p>For the first iteration of the model, we choose only a few variables. In particular, we exclude datetime features which can be relevant. Is it a weekend, or a holiday? From experience, we know that these factors can have a large effect on ride duration. But for a first iteration, we only choose the following three features:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">categorical</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;PULocationID&#39;</span><span class="p">,</span> <span class="s1">&#39;DOLocationID&#39;</span><span class="p">]</span>
+<span class="n">numerical</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;trip_distance&#39;</span><span class="p">]</span>
+
+<span class="c1"># Convert to string, sklearn requirement</span>
+<span class="n">df</span><span class="p">[</span><span class="n">categorical</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">categorical</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>To encode categorical features, we use <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.DictVectorizer.html"><code class="docutils literal notranslate"><span class="pre">DictVectorizer</span></code></a>. This performs one-hot encoding of categorical features while the numerical features are simply passed. Consider a dataset with categorical features <code class="docutils literal notranslate"><span class="pre">f1</span></code> with unique values <code class="docutils literal notranslate"><span class="pre">[a,</span> <span class="pre">b,</span> <span class="pre">c]</span></code> and <code class="docutils literal notranslate"><span class="pre">f2</span></code> with unique values <code class="docutils literal notranslate"><span class="pre">[d,</span> <span class="pre">e]</span></code>, and a numerical feature <code class="docutils literal notranslate"><span class="pre">t</span></code>. The transformed dataset gets features <code class="docutils literal notranslate"><span class="pre">[f1=a,</span> <span class="pre">f1=b,</span> <span class="pre">f1=c,</span> <span class="pre">f2=d,</span> <span class="pre">f2=e,</span> <span class="pre">t]</span></code>. For example, <code class="docutils literal notranslate"><span class="pre">{f1:</span> <span class="pre">a,</span> <span class="pre">f2:</span> <span class="pre">e,</span> <span class="pre">t:</span> <span class="pre">1.3}</span></code> is transformed to <code class="docutils literal notranslate"><span class="pre">[1,</span> <span class="pre">0,</span> <span class="pre">0,</span> <span class="pre">0,</span> <span class="pre">1,</span> <span class="pre">1.3]</span></code>. One nice thing about this is that this will not fail with new categories (i.e. these are simply mapped to all zeros).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_dicts</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">categorical</span> <span class="o">+</span> <span class="n">numerical</span><span class="p">]</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(</span><span class="n">orient</span><span class="o">=</span><span class="s1">&#39;records&#39;</span><span class="p">)</span>
+
+<span class="n">dv</span> <span class="o">=</span> <span class="n">DictVectorizer</span><span class="p">()</span>
+<span class="n">dv</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">train_dicts</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;73908x507 sparse matrix of type &#39;&lt;class &#39;numpy.float64&#39;&gt;&#39;
+	with 221724 stored elements in Compressed Sparse Row format&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dv</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">train_dicts</span><span class="p">)</span><span class="o">.</span><span class="n">todense</span><span class="p">()</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">df</span><span class="o">.</span><span class="n">PULocationID</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span> <span class="o">+</span> <span class="n">df</span><span class="o">.</span><span class="n">DOLocationID</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<p>Each trip is represented by a dictionary containing three features:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_dicts</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[{&#39;PULocationID&#39;: &#39;43&#39;, &#39;DOLocationID&#39;: &#39;151&#39;, &#39;trip_distance&#39;: 1.01},
+ {&#39;PULocationID&#39;: &#39;166&#39;, &#39;DOLocationID&#39;: &#39;239&#39;, &#39;trip_distance&#39;: 2.53},
+ {&#39;PULocationID&#39;: &#39;41&#39;, &#39;DOLocationID&#39;: &#39;42&#39;, &#39;trip_distance&#39;: 1.12}]
+</pre></div>
+</div>
+</div>
+</div>
+<p>The location IDs are one-hot encoded and the dataset is converted to a sparse matrix:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dv</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">train_dicts</span><span class="p">[:</span><span class="mi">3</span><span class="p">])</span><span class="o">.</span><span class="n">todense</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>matrix([[0.  , 0.  , 0.  , ..., 0.  , 0.  , 1.01],
+        [0.  , 0.  , 0.  , ..., 0.  , 0.  , 2.53],
+        [0.  , 0.  , 0.  , ..., 0.  , 0.  , 1.12]])
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="baseline-model">
+<h3>Baseline model<a class="headerlink" href="#baseline-model" title="Permalink to this headline">#</a></h3>
+<p>In this section, we will train a linear regression model. Note that the validation set consists of data one month after the training set. We will define a sequence of transformations that will be applied to the dataset to get the model features. Note that the model is trained and evaluated only on rides that fall between 1 to 60 minutes.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">filter_ride_duration</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+    <span class="c1"># Create target column and filter outliers</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;duration (min)&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">lpep_dropoff_datetime</span> <span class="o">-</span> <span class="n">df</span><span class="o">.</span><span class="n">lpep_pickup_datetime</span>   <span class="c1"># seconds</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;duration (min)&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;duration (min)&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span> <span class="o">/</span> <span class="mi">60</span>
+    <span class="k">return</span> <span class="n">df</span><span class="p">[(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;duration (min)&#39;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;duration (min)&#39;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">60</span><span class="p">)]</span>
+
+<span class="k">def</span> <span class="nf">convert_to_dict</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">features</span><span class="p">):</span>
+    <span class="c1"># Convert dataframe to feature dicts</span>
+    <span class="k">return</span> <span class="n">df</span><span class="p">[</span><span class="n">features</span><span class="p">]</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(</span><span class="n">orient</span><span class="o">=</span><span class="s1">&#39;records&#39;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">preprocess</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">cat</span><span class="p">,</span> <span class="n">num</span><span class="p">):</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">filter_ride_duration</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">cat</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">cat</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">num</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">num</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">df</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Note that the above preprocessing steps apply to all datasets (i.e. no concern of data leak). In the following, observe that the vectorizer only sees the training data:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load data</span>
+<span class="n">df_train</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="s1">&#39;./data/green_tripdata_2021-01.parquet&#39;</span><span class="p">)</span>
+<span class="n">df_valid</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="s1">&#39;./data/green_tripdata_2021-02.parquet&#39;</span><span class="p">)</span>
+
+<span class="c1"># Preprocessing</span>
+<span class="n">cat</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;PULocationID&#39;</span><span class="p">,</span> <span class="s1">&#39;DOLocationID&#39;</span><span class="p">]</span>
+<span class="n">num</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;trip_distance&#39;</span><span class="p">]</span>
+
+<span class="n">df_train</span> <span class="o">=</span> <span class="n">preprocess</span><span class="p">(</span><span class="n">df_train</span><span class="p">,</span> <span class="n">cat</span><span class="o">=</span><span class="n">cat</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="n">num</span><span class="p">)</span>
+<span class="n">df_valid</span> <span class="o">=</span> <span class="n">preprocess</span><span class="p">(</span><span class="n">df_valid</span><span class="p">,</span> <span class="n">cat</span><span class="o">=</span><span class="n">cat</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="n">num</span><span class="p">)</span>
+
+<span class="c1"># Preparing features</span>
+<span class="n">features</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;PULocationID&#39;</span><span class="p">,</span> <span class="s1">&#39;DOLocationID&#39;</span><span class="p">,</span> <span class="s1">&#39;trip_distance&#39;</span><span class="p">]</span>
+<span class="n">D_train</span> <span class="o">=</span> <span class="n">convert_to_dict</span><span class="p">(</span><span class="n">df_train</span><span class="p">,</span> <span class="n">features</span><span class="o">=</span><span class="n">features</span><span class="p">)</span>
+<span class="n">D_valid</span> <span class="o">=</span> <span class="n">convert_to_dict</span><span class="p">(</span><span class="n">df_valid</span><span class="p">,</span> <span class="n">features</span><span class="o">=</span><span class="n">features</span><span class="p">)</span>
+<span class="n">y_train</span> <span class="o">=</span> <span class="n">df_train</span><span class="p">[</span><span class="s1">&#39;duration (min)&#39;</span><span class="p">]</span>
+<span class="n">y_valid</span> <span class="o">=</span> <span class="n">df_valid</span><span class="p">[</span><span class="s1">&#39;duration (min)&#39;</span><span class="p">]</span>
+
+<span class="c1"># Fit all known categories</span>
+<span class="n">dv</span> <span class="o">=</span> <span class="n">DictVectorizer</span><span class="p">()</span>
+<span class="n">dv</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">D_train</span><span class="p">)</span>
+<span class="n">X_train</span> <span class="o">=</span> <span class="n">dv</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">D_train</span><span class="p">)</span>
+<span class="n">X_valid</span> <span class="o">=</span> <span class="n">dv</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">D_valid</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Training a linear model:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plot_duration_histograms</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">p_train</span><span class="p">,</span> <span class="n">y_valid</span><span class="p">,</span> <span class="n">p_valid</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot true and prediction distributions of ride duration.&quot;&quot;&quot;</span>
+    
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+
+    <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">p_train</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;pred&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C0&#39;</span><span class="p">,</span> <span class="n">stat</span><span class="o">=</span><span class="s1">&#39;density&#39;</span><span class="p">,</span> <span class="n">kde</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;true&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C1&#39;</span><span class="p">,</span> <span class="n">stat</span><span class="o">=</span><span class="s1">&#39;density&#39;</span><span class="p">,</span> <span class="n">kde</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Train&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+    <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">p_valid</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;pred&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C0&#39;</span><span class="p">,</span> <span class="n">stat</span><span class="o">=</span><span class="s1">&#39;density&#39;</span><span class="p">,</span> <span class="n">kde</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">y_valid</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;true&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C1&#39;</span><span class="p">,</span> <span class="n">stat</span><span class="o">=</span><span class="s1">&#39;density&#39;</span><span class="p">,</span> <span class="n">kde</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Valid&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+    <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">();</span>
+
+
+<span class="n">lr</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
+<span class="n">lr</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="n">p_train</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">p_valid</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_valid</span><span class="p">)</span>
+<span class="n">plot_duration_histograms</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">p_train</span><span class="p">,</span> <span class="n">y_valid</span><span class="p">,</span> <span class="n">p_valid</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/2d19ec438851f7e327d30d96abb1fb69b014b648d8de9ea1b7a1f6b9f5a80ff6.svg" src="../../_images/2d19ec438851f7e327d30d96abb1fb69b014b648d8de9ea1b7a1f6b9f5a80ff6.svg" /></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;RMSE (train):&quot;</span><span class="p">,</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">lr</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train</span><span class="p">),</span> <span class="n">squared</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;RMSE (valid):&quot;</span><span class="p">,</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_valid</span><span class="p">,</span> <span class="n">lr</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_valid</span><span class="p">),</span> <span class="n">squared</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>RMSE (train): 9.838799799829626
+RMSE (valid): 10.499110710362512
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="using-interaction-features">
+<span id="id1"></span><h3>Using interaction features<a class="headerlink" href="#using-interaction-features" title="Permalink to this headline">#</a></h3>
+<p>Instead of learning separate weights for the pickup and drop off locations, we consider learning weights for combinations of pickup and drop off locations. Note we can also add pick up point as additional feature since we know from experience that directionality can be important.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">add_location_interaction</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;PU_DO&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;PULocationID&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;DOLocationID&#39;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">df</span>
+
+<span class="c1"># Load data</span>
+<span class="n">df_train</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="s1">&#39;./data/green_tripdata_2021-01.parquet&#39;</span><span class="p">)</span>
+<span class="n">df_valid</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="s1">&#39;./data/green_tripdata_2021-02.parquet&#39;</span><span class="p">)</span>
+
+<span class="c1"># Preprocessing</span>
+<span class="n">cat</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;PULocationID&#39;</span><span class="p">,</span> <span class="s1">&#39;DOLocationID&#39;</span><span class="p">]</span>
+<span class="n">num</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;trip_distance&#39;</span><span class="p">]</span>
+<span class="n">df_train</span> <span class="o">=</span> <span class="n">preprocess</span><span class="p">(</span><span class="n">df_train</span><span class="p">,</span> <span class="n">cat</span><span class="o">=</span><span class="n">cat</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="n">num</span><span class="p">)</span>
+<span class="n">df_valid</span> <span class="o">=</span> <span class="n">preprocess</span><span class="p">(</span><span class="n">df_valid</span><span class="p">,</span> <span class="n">cat</span><span class="o">=</span><span class="n">cat</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="n">num</span><span class="p">)</span>
+
+<span class="c1"># Preparing features</span>
+<span class="n">df_train</span> <span class="o">=</span> <span class="n">add_location_interaction</span><span class="p">(</span><span class="n">df_train</span><span class="p">)</span>
+<span class="n">df_valid</span> <span class="o">=</span> <span class="n">add_location_interaction</span><span class="p">(</span><span class="n">df_valid</span><span class="p">)</span>
+
+<span class="n">features</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;PU_DO&#39;</span><span class="p">,</span> <span class="s1">&#39;trip_distance&#39;</span><span class="p">]</span>
+<span class="n">D_train</span> <span class="o">=</span> <span class="n">convert_to_dict</span><span class="p">(</span><span class="n">df_train</span><span class="p">,</span> <span class="n">features</span><span class="o">=</span><span class="n">features</span><span class="p">)</span>
+<span class="n">D_valid</span> <span class="o">=</span> <span class="n">convert_to_dict</span><span class="p">(</span><span class="n">df_valid</span><span class="p">,</span> <span class="n">features</span><span class="o">=</span><span class="n">features</span><span class="p">)</span>
+<span class="n">y_train</span> <span class="o">=</span> <span class="n">df_train</span><span class="p">[</span><span class="s1">&#39;duration (min)&#39;</span><span class="p">]</span>
+<span class="n">y_valid</span> <span class="o">=</span> <span class="n">df_valid</span><span class="p">[</span><span class="s1">&#39;duration (min)&#39;</span><span class="p">]</span>
+
+<span class="c1"># Fit all known categories</span>
+<span class="n">dv</span> <span class="o">=</span> <span class="n">DictVectorizer</span><span class="p">()</span>
+<span class="n">dv</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">D_train</span><span class="p">)</span>
+<span class="n">X_train</span> <span class="o">=</span> <span class="n">dv</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">D_train</span><span class="p">)</span>
+<span class="n">X_valid</span> <span class="o">=</span> <span class="n">dv</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">D_valid</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Using the same model:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lr</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
+<span class="n">lr</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="n">p_train</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">p_valid</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_valid</span><span class="p">)</span>
+<span class="n">plot_duration_histograms</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">p_train</span><span class="p">,</span> <span class="n">y_valid</span><span class="p">,</span> <span class="n">p_valid</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/125fa11ad30b849d3f3f45c6d48cb4c198aa36e49121a4d8fa480650f4f94918.svg" src="../../_images/125fa11ad30b849d3f3f45c6d48cb4c198aa36e49121a4d8fa480650f4f94918.svg" /></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;RMSE (train):&quot;</span><span class="p">,</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">lr</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train</span><span class="p">),</span> <span class="n">squared</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;RMSE (valid):&quot;</span><span class="p">,</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_valid</span><span class="p">,</span> <span class="n">lr</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_valid</span><span class="p">),</span> <span class="n">squared</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>RMSE (train): 5.699564118198945
+RMSE (valid): 7.758715206931833
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="persisting-the-model">
+<h3>Persisting the model<a class="headerlink" href="#persisting-the-model" title="Permalink to this headline">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;models/lin_reg.bin&#39;</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fout</span><span class="p">:</span>
+    <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">((</span><span class="n">dv</span><span class="p">,</span> <span class="n">lr</span><span class="p">),</span> <span class="n">fout</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="pipenv-virtual-environments">
+<span id="pipenv-virtual-env"></span><h2>Pipenv virtual environments<a class="headerlink" href="#pipenv-virtual-environments" title="Permalink to this headline">#</a></h2>
+<p>Pipenv is a production grade virtual environment and dependency manager for getting deterministic builds. The following creates a <a class="reference external" href="https://pipenv.pypa.io/en/latest/">Pipenv</a> virtual environment mapped to the current directory that uses Python 3.9:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ cd project/root/dir
+$ pipenv --python 3.9
+</pre></div>
+</div>
+<p>This should generate a <code class="docutils literal notranslate"><span class="pre">Pipfile</span></code> which supersedes the usual requirements file and also a <code class="docutils literal notranslate"><span class="pre">Pipfile.lock</span></code> containing hashes of installed packages ensuring deterministic builds. Generally, we keep these two files under version control.</p>
+<p>Commands can then be run after activating the shell with <code class="docutils literal notranslate"><span class="pre">pipenv</span> <span class="pre">shell</span></code>. Or by using <code class="docutils literal notranslate"><span class="pre">pipenv</span> <span class="pre">run</span> <span class="pre">&lt;command&gt;</span></code>. Other options can be viewed using <code class="docutils literal notranslate"><span class="pre">-h</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pipenv<span class="w"> </span>--help
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Usage: <span class=" -Color -Color-Bold">pipenv</span> [OPTIONS] COMMAND [ARGS]...
+
+<span class=" -Color -Color-Bold">Options:</span>
+  --where                         Output project home information.
+  --venv                          Output virtualenv information.
+  --py                            Output Python interpreter information.
+  --envs                          Output Environment Variable options.
+  --rm                            Remove the virtualenv.
+  --bare                          Minimal output.
+  --man                           Display manpage.
+  --support                       Output diagnostic information for use in
+                                  GitHub issues.
+  --site-packages / --no-site-packages
+                                  Enable site-packages for the virtualenv.
+                                  [env var: PIPENV_SITE_PACKAGES]
+  --python TEXT                   Specify which version of Python virtualenv
+                                  should use.
+  --clear                         Clears caches (pipenv, pip).  [env var:
+                                  PIPENV_CLEAR]
+  -q, --quiet                     Quiet mode.
+  -v, --verbose                   Verbose mode.
+  --pypi-mirror TEXT              Specify a PyPI mirror.
+  --version                       Show the version and exit.
+  -h, --help                      Show this message and exit.
+
+
+Usage Examples:
+   Create a new project using Python 3.7, specifically:
+   $ <span class=" -Color -Color-Yellow">pipenv --python 3.7</span>
+
+   Remove project virtualenv (inferred from current directory):
+   $ <span class=" -Color -Color-Yellow">pipenv --rm</span>
+
+   Install all dependencies for a project (including dev):
+   $ <span class=" -Color -Color-Yellow">pipenv install --dev</span>
+
+   Create a lockfile containing pre-releases:
+   $ <span class=" -Color -Color-Yellow">pipenv lock --pre</span>
+
+   Show a graph of your installed dependencies:
+   $ <span class=" -Color -Color-Yellow">pipenv graph</span>
+
+   Check your installed dependencies for security vulnerabilities:
+   $ <span class=" -Color -Color-Yellow">pipenv check</span>
+
+   Install a local setup.py into your virtual environment/Pipfile:
+   $ <span class=" -Color -Color-Yellow">pipenv install -e .</span>
+
+   Use a lower-level pip command:
+   $ <span class=" -Color -Color-Yellow">pipenv run pip freeze</span>
+
+Commands:
+<span class=" -Color -Color-Bold -Color-Bold-Red">  check</span>         Checks for PyUp Safety security vulnerabilities and against
+                PEP 508 markers provided in Pipfile.
+<span class=" -Color -Color-Bold -Color-Bold-Red">  clean</span>         Uninstalls all packages not specified in Pipfile.lock.
+<span class=" -Color -Color-Bold -Color-Bold-Red">  graph</span>         Displays currently-installed dependency graph information.
+<span class=" -Color -Color-Bold -Color-Bold-Magenta">  install</span>       Installs provided packages and adds them to Pipfile, or (if no
+                packages are given), installs all packages from Pipfile.
+<span class=" -Color -Color-Bold -Color-Bold-Green">  lock</span>          Generates Pipfile.lock.
+<span class=" -Color -Color-Bold -Color-Bold-Red">  open</span>          View a given module in your editor.
+  requirements  Generate a requirements.txt from Pipfile.lock.
+<span class=" -Color -Color-Bold -Color-Bold-Yellow">  run</span>           Spawns a command installed into the virtualenv.
+<span class=" -Color -Color-Bold -Color-Bold-Yellow">  scripts</span>       Lists scripts in current environment config.
+<span class=" -Color -Color-Bold -Color-Bold-Yellow">  shell</span>         Spawns a shell within the virtualenv.
+<span class=" -Color -Color-Bold -Color-Bold-Green">  sync</span>          Installs all packages specified in Pipfile.lock.
+<span class=" -Color -Color-Bold -Color-Bold-Magenta">  uninstall</span>     Uninstalls a provided package and removes it from Pipfile.
+<span class=" -Color -Color-Bold -Color-Bold-Green">  update</span>        Runs lock, then sync.
+  verify        Verify the hash in Pipfile.lock is up-to-date.
+</pre></div>
+</div>
+</div>
+</div>
+<section id="installing-dependencies">
+<h3>Installing dependencies<a class="headerlink" href="#installing-dependencies" title="Permalink to this headline">#</a></h3>
+<p>Every install automatically updates the <code class="docutils literal notranslate"><span class="pre">Pipfile</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pipenv<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;scikit-learn&gt;=1.0.0&quot;</span>
+</pre></div>
+</div>
+<p>Development dependencies can be installed using:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pipenv<span class="w"> </span>install<span class="w"> </span>--dev<span class="w"> </span>requests
+</pre></div>
+</div>
+<p>Our <code class="docutils literal notranslate"><span class="pre">Pipfile</span></code> should now look as follows:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[[source]]</span>
+<span class="na">url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;https://pypi.org/simple&quot;</span>
+<span class="na">verify_ssl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">true</span>
+<span class="na">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;pypi&quot;</span>
+
+<span class="k">[packages]</span>
+<span class="na">scikit-learn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&gt;=1.0.0&quot;</span>
+
+<span class="k">[dev-packages]</span>
+<span class="na">requests</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;*&quot;</span>
+
+<span class="k">[requires]</span>
+<span class="na">python_version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;3.9&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="pipenv-with-docker">
+<h3>Pipenv with Docker<a class="headerlink" href="#pipenv-with-docker" title="Permalink to this headline">#</a></h3>
+<p>The following Dockerfile shows how to use pipenv to manage dependencies in a Python container. This first install pipenv in the system environment, and then install all contents of the Pipfile on the system environment. Finally, the main program is run:</p>
+<div class="highlight-Dockerfile notranslate"><div class="highlight"><pre><span></span><span class="k">FROM</span><span class="w"> </span><span class="s">python:3.9.15-slim</span>
+
+<span class="k">RUN</span><span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-U<span class="w"> </span>pip
+<span class="k">RUN</span><span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>pipenv
+
+<span class="k">COPY</span><span class="w"> </span><span class="o">[</span><span class="s2">&quot;Pipfile&quot;</span>,<span class="w"> </span><span class="s2">&quot;Pipfile.lock&quot;</span>,<span class="w"> </span><span class="s2">&quot;main.py&quot;</span>,<span class="w"> </span><span class="s2">&quot;./&quot;</span><span class="o">]</span>
+<span class="k">RUN</span><span class="w"> </span>pipenv<span class="w"> </span>install<span class="w"> </span>--system<span class="w"> </span>--deploy
+
+<span class="k">CMD</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;python&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;main.py&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p><strong>Remark.</strong> System installs are generally avoided. But okay within (isolated) containers. Here <code class="docutils literal notranslate"><span class="pre">--deploy</span></code> means that the build will fail if the lock file is out-of-date. This is a nice feature for a production application.</p>
+</section>
+</section>
+<section id="mlops-maturity-model">
+<h2>MLOps maturity model<a class="headerlink" href="#mlops-maturity-model" title="Permalink to this headline">#</a></h2>
+<p>The following provides a way of measuring the maturity of machine learning production environments as well as provide a guideline for continuous improvement of production systems and workflows.</p>
+<aside class="margin sidebar">
+<p class="sidebar-title"></p>
+<p><a class="reference external" href="https://docs.microsoft.com/en-us/azure/architecture/example-scenario/mlops/mlops-maturity-model">MLOps maturity model</a></p>
+</aside>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../../_images/mlops-maturity.png"><img alt="../../_images/mlops-maturity.png" src="../../_images/mlops-maturity.png" style="width: 45.4em;" /></a>
+</figure>
+</section>
+<section id="appendix-aws-cli-boto3">
+<h2>Appendix: AWS CLI &amp; Boto3<a class="headerlink" href="#appendix-aws-cli-boto3" title="Permalink to this headline">#</a></h2>
+<p>AWS offers a CLI which allows working with their services through a terminal. The following assumes that the CLI has been configured with your AWS access key ID and secret access key. This can be done by running <code class="docutils literal notranslate"><span class="pre">aws</span> <span class="pre">configure</span></code> in the terminal. Checking the version:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>aws<span class="w"> </span>--version
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>aws-cli/2.7.5 Python/3.9.11 Darwin/21.6.0 exe/x86_64 prompt/off
+</pre></div>
+</div>
+</div>
+</div>
+<section id="s3">
+<h3>S3<a class="headerlink" href="#s3" title="Permalink to this headline">#</a></h3>
+<p>Creating an S3 bucket:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>aws<span class="w"> </span>s3api<span class="w"> </span>create-bucket<span class="w"> </span>--bucket<span class="w"> </span>test-bucket-3003<span class="w"> </span>--region<span class="w"> </span>us-east-1
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{
+    &quot;Location&quot;: &quot;/test-bucket-3003&quot;
+}
+</pre></div>
+</div>
+</div>
+</div>
+<p>Listing all S3 buckets:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>aws<span class="w"> </span>s3<span class="w"> </span>ls
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-05-18 01:41:14 test-bucket-3003
+</pre></div>
+</div>
+</div>
+</div>
+<p>Same command with the Python SDK <a class="github reference external" href="https://github.com/boto/boto3:">boto/boto3:</a></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">boto3</span>
+
+<span class="n">s3</span> <span class="o">=</span> <span class="n">boto3</span><span class="o">.</span><span class="n">client</span><span class="p">(</span><span class="s1">&#39;s3&#39;</span><span class="p">)</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">s3</span><span class="o">.</span><span class="n">list_buckets</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">bucket</span> <span class="ow">in</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;Buckets&#39;</span><span class="p">]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">bucket</span><span class="p">[</span><span class="s1">&#39;Name&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>test-bucket-3003
+</pre></div>
+</div>
+</div>
+</div>
+<p>Deleting the test S3 bucket:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">response</span> <span class="o">=</span> <span class="n">s3</span><span class="o">.</span><span class="n">delete_bucket</span><span class="p">(</span><span class="n">Bucket</span><span class="o">=</span><span class="s1">&#39;test-bucket-3003&#39;</span><span class="p">)</span>
+<span class="n">response</span><span class="p">[</span><span class="s1">&#39;ResponseMetadata&#39;</span><span class="p">][</span><span class="s1">&#39;HTTPStatusCode&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>204
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">s3</span><span class="o">.</span><span class="n">list_buckets</span><span class="p">()[</span><span class="s1">&#39;Buckets&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="p">[]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Remark.</strong> Both the <code class="docutils literal notranslate"><span class="pre">aws-cli</span></code> and <code class="docutils literal notranslate"><span class="pre">boto3</span></code> have extensive documentation for all AWS services.</p>
+</section>
+<section id="json-processing">
+<h3>JSON processing<a class="headerlink" href="#json-processing" title="Permalink to this headline">#</a></h3>
+<p>Responses of AWS CLI are typically deeply nested JSON. See <a class="reference external" href="https://www.baeldung.com/linux/jq-command-json">this reference</a> on the basics of <a class="reference external" href="https://stedolan.github.io/jq/"><code class="docutils literal notranslate"><span class="pre">jq</span></code></a>. The following example processes an event in a <a class="reference external" href="https://aws.amazon.com/kinesis/">Kinesis stream</a> to obtain and decode the data:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">    &quot;Records&quot;: [</span>
+<span class="s1">        {</span>
+<span class="s1">            &quot;kinesis&quot;: {</span>
+<span class="s1">                &quot;kinesisSchemaVersion&quot;: &quot;1.0&quot;,</span>
+<span class="s1">                &quot;partitionKey&quot;: &quot;1&quot;,</span>
+<span class="s1">                &quot;sequenceNumber&quot;: &quot;49630706038424016596026506533782471779140474214180454402&quot;,</span>
+<span class="s1">                &quot;data&quot;: &quot;eyAgICAgICAgICAicmlkZSI6IHsgICAgICAgICAgICAgICJQVUxvY2F0aW9uSUQiOiAxMzAsICAgICAgICAgICAgICAiRE9Mb2NhdGlvbklEIjogMjA1LCAgICAgICAgICAgICAgInRyaXBfZGlzdGFuY2UiOiAzLjY2ICAgICAgICAgIH0sICAgICAgICAgICJyaWRlX2lkIjogMTIzICAgICAgfQ==&quot;,</span>
+<span class="s1">                &quot;approximateArrivalTimestamp&quot;: 1655944485.718</span>
+<span class="s1">            },</span>
+<span class="s1">            &quot;eventSource&quot;: &quot;aws:kinesis&quot;,</span>
+<span class="s1">            &quot;eventVersion&quot;: &quot;1.0&quot;,</span>
+<span class="s1">            &quot;eventID&quot;: &quot;shardId-000000000000:49630706038424016596026506533782471779140474214180454402&quot;,</span>
+<span class="s1">            &quot;eventName&quot;: &quot;aws:kinesis:record&quot;,</span>
+<span class="s1">            &quot;invokeIdentityArn&quot;: &quot;arn:aws:iam::241297376613:role/lambda-kinesis-role&quot;,</span>
+<span class="s1">            &quot;awsRegion&quot;: &quot;us-east-1&quot;,</span>
+<span class="s1">            &quot;eventSourceARN&quot;: &quot;arn:aws:kinesis:us-east-1:241297376613:stream/ride_events&quot;</span>
+<span class="s1">        }</span>
+<span class="s1">    ]</span>
+<span class="s1">}&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">&#39;.Records[].kinesis.data&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>--decode<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq
+</pre></div>
+</div>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">{</span>
+<span class=" -Color -Color-Bold">  </span><span class=" -Color -Color-Bold -Color-Bold-Blue">&quot;ride&quot;</span><span class=" -Color -Color-Bold">: {</span>
+<span class=" -Color -Color-Bold">    </span><span class=" -Color -Color-Bold -Color-Bold-Blue">&quot;PULocationID&quot;</span><span class=" -Color -Color-Bold">: </span>130<span class=" -Color -Color-Bold">,</span>
+<span class=" -Color -Color-Bold">    </span><span class=" -Color -Color-Bold -Color-Bold-Blue">&quot;DOLocationID&quot;</span><span class=" -Color -Color-Bold">: </span>205<span class=" -Color -Color-Bold">,</span>
+<span class=" -Color -Color-Bold">    </span><span class=" -Color -Color-Bold -Color-Bold-Blue">&quot;trip_distance&quot;</span><span class=" -Color -Color-Bold">: </span>3.66
+<span class=" -Color -Color-Bold">  },</span>
+<span class=" -Color -Color-Bold">  </span><span class=" -Color -Color-Bold -Color-Bold-Blue">&quot;ride_id&quot;</span><span class=" -Color -Color-Bold">: </span>123
+<span class=" -Color -Color-Bold">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./nb/mlops"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../dl/05-training.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Activations and Gradients</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="02-package.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Packaging Modeling Code</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#environment-preparation">Environment preparation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ssh-to-the-ec2-instance">SSH to the EC2 instance</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-anaconda">Installing Anaconda</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-docker-and-docker-compose">Installing Docker and Docker Compose</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#remote-ssh-with-vs-code">Remote SSH with VS Code</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modeling-ride-duration">Modeling ride duration</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#computing-ride-duration">Computing ride duration</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-encoding">Feature encoding</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#baseline-model">Baseline model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-interaction-features">Using interaction features</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#persisting-the-model">Persisting the model</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pipenv-virtual-environments">Pipenv virtual environments</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-dependencies">Installing dependencies</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pipenv-with-docker">Pipenv with Docker</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mlops-maturity-model">MLOps maturity model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#appendix-aws-cli-boto3">Appendix: AWS CLI &amp; Boto3</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#s3">S3</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#json-processing">JSON processing</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            <div class="bd-footer-content__inner">
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By 𝗽𝗮𝗿𝘁𝗶𝗰𝗹𝗲𝟭𝟯𝟯𝟭. Powered by <a href="https://jupyterbook.org">Jupyter Book</a>.
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div></div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

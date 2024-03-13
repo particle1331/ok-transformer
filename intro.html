@@ -1,0 +1,688 @@
+
+
+<!DOCTYPE html>
+
+
+<html >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title> &#8212; OK Transformer</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d" />
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'intro';</script>
+    <link rel="shortcut icon" href="_static/favicon.png"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Batch Normalization" href="nb/nn/03-batchnorm.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="None"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="#">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Language Modeling</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="nb/nn/03-batchnorm.html">Batch Normalization</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Deep Learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="nb/dl/01-intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nb/dl/02-optim.html">Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nb/dl/00-backprop.html">Backpropagation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nb/dl/03-cnn.html">Convolutional Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nb/dl/04-lm.html">Language Modeling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nb/dl/05-training.html">Activations and Gradients</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Engineering and Ops</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="nb/mlops/01-intro.html">Preliminaries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nb/mlops/02-package.html">Packaging Modeling Code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nb/mlops/03-mlflow.html">Experiment Tracking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nb/mlops/04-tasks.html">Distributed Task Queues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nb/mlops/04-deployment/notes.html">Model Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nb/mlops/06-best-practices/notes.html">Best Engineering Practices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nb/mle/cicd-pipelines.html">Continuous Integration and Deployment Pipelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nb/mle/model-serving-api.html">Prediction Serving API</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Notes</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="nb/notes/containers.html">Docker Containers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nb/notes/benchmarking.html">Benchmarking and Profiling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nb/notes/tf-course.html">TensorFlow Crash Course</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/particle1331/ok-transformer" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/particle1331/ok-transformer/issues/new?title=Issue%20on%20page%20%2Fintro.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dependencies">Dependencies</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hardware">Hardware</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <figure class="align-default" id="okt">
+<img alt="_images/okt.png" src="_images/okt.png" />
+</figure>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ok-transformer --help
+Exploring machine learning engineering and operations. ❚
+</pre></div>
+</div>
+<p><a class="reference external" href="https://actions-badge.atrox.dev/particle1331/ok-transformer/goto?ref=master"><img alt="Build Status" src="https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fparticle1331%2Fok-transformer%2Fbadge%3Fref%3Dmaster&amp;label=build&amp;logo=none" /></a>
+<img alt="Last Commit" src="https://img.shields.io/github/last-commit/particle1331/ok-transformer/master" />
+<img alt="python" src="https://img.shields.io/github/pipenv/locked/python-version/particle1331/ok-transformer" />
+<img alt="jupyter-book" src="https://github.com/executablebooks/jupyter-book/raw/master/docs/images/badge.svg" />
+<a class="reference external" href="https://github.com/particle1331/ok-transformer"><img alt="Stars" src="https://img.shields.io/github/stars/particle1331/ok-transformer?style=social" /></a></p>
+<br>
+<figure class="align-default" id="banner">
+<img alt="_images/banner.png" src="_images/banner.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 1 </span><span class="caption-text"><a class="reference internal" href="nb/nn/03-batchnorm.html#batchnorm-theory"><span class="std std-ref">Effect of batch normalization</span></a> on the magnitude of preactivation gradients.</span><a class="headerlink" href="#banner" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1><a class="headerlink" href="#id1" title="Permalink to this headline">#</a></h1>
+<section id="dependencies">
+<h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">#</a></h2>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>docker                        5.0.3
+docker-compose                1.25.5
+fastapi                       0.75.2
+keras                         2.8.0
+matplotlib                    3.5.1
+mlflow                        1.26.1
+numpy                         1.22.4
+optuna                        2.10.0
+pandas                        1.4.2
+pipenv                        2022.6.7
+prefect                       2.0b5
+scikit-learn                  1.0.2
+seaborn                       0.11.2
+tensorflow-datasets           4.5.2
+tensorflow-macos              2.8.0
+tensorflow-metal              0.4.0
+torch                         2.0.0
+torchaudio                    2.0.1
+torchmetrics                  0.11.4
+torchvision                   0.15.1
+uvicorn                       0.17.6
+xgboost                       1.6.0.dev0
+</pre></div>
+</div>
+</section>
+<section id="hardware">
+<h2>Hardware<a class="headerlink" href="#hardware" title="Permalink to this headline">#</a></h2>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>GPU 0:                           Tesla P100-PCIE-16GB
+CPU:                             Intel(R) Xeon(R) CPU @ 2.00GHz
+Core:                            1
+Threads per core:                2
+L3 cache:                        38.5 MiB
+Memory:                          15 Gb
+</pre></div>
+</div>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">#</a></h2>
+<div class="toggle docutils container">
+<div class="docutils container" id="id2">
+<dl class="citation">
+<dt class="label" id="id44"><span class="brackets">ALL18</span></dt>
+<dd><p>Sanjeev Arora, Zhiyuan Li, and Kaifeng Lyu. Theoretical analysis of auto rate-tuning by batch normalization. <em>CoRR</em>, 2018. URL: <a class="reference external" href="http://arxiv.org/abs/1812.03981">http://arxiv.org/abs/1812.03981</a>, <a class="reference external" href="https://arxiv.org/abs/1812.03981">arXiv:1812.03981</a>.</p>
+</dd>
+<dt class="label" id="id49"><span class="brackets">AM16</span></dt>
+<dd><p>Sanjeev Arora and Tengyu Ma. Back-propagation, an introduction. 12 2016. URL: <a class="reference external" href="http://www.offconvex.org/2016/12/20/backprop/">http://www.offconvex.org/2016/12/20/backprop/</a>.</p>
+</dd>
+<dt class="label" id="id87"><span class="brackets">Bar91</span></dt>
+<dd><p>A. R. Barron. Approximation and estimation bounds for artificial neural networks. In <em>Proceedings of the Fourth Annual Workshop on Computational Learning Theory</em>, COLT '91, 243–249. San Francisco, CA, USA, 1991. Morgan Kaufmann Publishers Inc.</p>
+</dd>
+<dt class="label" id="id63"><span class="brackets">BDVJ03</span></dt>
+<dd><p>Yoshua Bengio, Réjean Ducharme, Pascal Vincent, and Christian Janvin. A neural probabilistic language model. <em>J. Mach. Learn. Res.</em>, 3:1137–1155, March 2003. URL: <a class="reference external" href="http://dl.acm.org/citation.cfm?id=944919.944966">http://dl.acm.org/citation.cfm?id=944919.944966</a>.</p>
+</dd>
+<dt class="label" id="id13"><span class="brackets">BBBK11</span></dt>
+<dd><p>J. S. Bergstra, R. Bardenet, Y. Bengio, and B. Kégl. <em>Algorithms for Hyper-Parameter Optimization</em>. Advances in Neural Information Processing Systems 24, 2011.</p>
+</dd>
+<dt class="label" id="id30"><span class="brackets">Cho21</span></dt>
+<dd><p>François Chollet. <em>Deep Learning with Python, Second Edition</em>. Manning, 2021. ISBN 9781617296864.</p>
+</dd>
+<dt class="label" id="id89"><span class="brackets">CHM+15</span></dt>
+<dd><p>Anna Choromanska, MIkael Henaff, Michael Mathieu, Gerard Ben Arous, and Yann LeCun. The Loss Surfaces of Multilayer Networks. In Guy Lebanon and S. V. N. Vishwanathan, editors, <em>Proceedings of the Eighteenth International Conference on Artificial Intelligence and Statistics</em>, volume 38 of Proceedings of Machine Learning Research, 192–204. San Diego, California, USA, 09–12 May 2015. PMLR. URL: <a class="reference external" href="https://proceedings.mlr.press/v38/choromanska15.html">https://proceedings.mlr.press/v38/choromanska15.html</a>.</p>
+</dd>
+<dt class="label" id="id58"><span class="brackets">CUH16</span></dt>
+<dd><p>Djork-Arné Clevert, Thomas Unterthiner, and Sepp Hochreiter. Fast and accurate deep network learning by exponential linear units (elus). In Yoshua Bengio and Yann LeCun, editors, <em>ICLR (Poster)</em>. 2016. URL: <a class="reference external" href="http://dblp.uni-trier.de/db/conf/iclr/iclr2016.html#ClevertUH15">http://dblp.uni-trier.de/db/conf/iclr/iclr2016.html#ClevertUH15</a>.</p>
+</dd>
+<dt class="label" id="id43"><span class="brackets">DKB+20</span></dt>
+<dd><p>Hadi Daneshmand, Jonas Kohler, Francis Bach, Thomas Hofmann, and Aurelien Lucchi. Batch normalization provably avoids rank collapse for randomly initialised deep networks. 2020. <a class="reference external" href="https://arxiv.org/abs/2003.01652">arXiv:2003.01652</a>.</p>
+</dd>
+<dt class="label" id="id90"><span class="brackets">DPG+14</span></dt>
+<dd><p>Yann N. Dauphin, Razvan Pascanu, Caglar Gulcehre, Kyunghyun Cho, Surya Ganguli, and Yoshua Bengio. Identifying and attacking the saddle point problem in high-dimensional non-convex optimization. In <em>Proceedings of the 27th International Conference on Neural Information Processing Systems - Volume 2</em>, NIPS'14, 2933–2941. Cambridge, MA, USA, 2014. MIT Press.</p>
+</dd>
+<dt class="label" id="id82"><span class="brackets">DCLT19</span></dt>
+<dd><p>Jacob Devlin, Ming-Wei Chang, Kenton Lee, and Kristina Toutanova. Bert: pre-training of deep bidirectional transformers for language understanding. In <em>Proceedings of the 2019 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies, Volume 1 (Long and Short Papers)</em>, 4171–4186. 2019.</p>
+</dd>
+<dt class="label" id="id60"><span class="brackets">Gan22</span></dt>
+<dd><p>T. Ganegedara. <em>TensorFlow in Action</em>. Manning, 2022. ISBN 9781617298349. URL: <a class="reference external" href="https://books.google.com.ph/books?id=Hgh0zgEACAAJ">https://books.google.com.ph/books?id=Hgh0zgEACAAJ</a>.</p>
+</dd>
+<dt class="label" id="id7"><span class="brackets">Geron19</span></dt>
+<dd><p>Aurélien Géron. <em>Hands-on machine learning with Scikit-Learn and TensorFlow : concepts, tools, and techniques to build intelligent systems, Second Edition</em>. O'Reilly Media, Sebastopol, CA, 2019. ISBN 978-1491962299.</p>
+</dd>
+<dt class="label" id="id40"><span class="brackets">GB10</span></dt>
+<dd><p>Xavier Glorot and Yoshua Bengio. Understanding the difficulty of training deep feedforward neural networks. In Yee Whye Teh and Mike Titterington, editors, <em>Proceedings of the Thirteenth International Conference on Artificial Intelligence and Statistics</em>, volume 9 of Proceedings of Machine Learning Research, 249–256. Chia Laguna Resort, Sardinia, Italy, 13–15 May 2010. PMLR. URL: <a class="reference external" href="https://proceedings.mlr.press/v9/glorot10a.html">https://proceedings.mlr.press/v9/glorot10a.html</a>.</p>
+</dd>
+<dt class="label" id="id68"><span class="brackets">GDG+17</span></dt>
+<dd><p>Priya Goyal, Piotr Dollár, Ross Girshick, Pieter Noordhuis, Lukasz Wesolowski, Aapo Kyrola, Andrew Tulloch, Yangqing Jia, and Kaiming He. Accurate, large minibatch sgd: training imagenet in 1 hour. 2017. URL: <a class="reference external" href="https://arxiv.org/abs/1706.02677">https://arxiv.org/abs/1706.02677</a>, <a class="reference external" href="https://doi.org/10.48550/ARXIV.1706.02677">doi:10.48550/ARXIV.1706.02677</a>.</p>
+</dd>
+<dt class="label" id="id96"><span class="brackets">GZR21</span></dt>
+<dd><p>Diego Granziol, Stefan Zohren, and Stephen Roberts. Learning rates as a function of batch size: a random matrix theory approach to neural network training. 2021. <a class="reference external" href="https://arxiv.org/abs/2006.09092">arXiv:2006.09092</a>.</p>
+</dd>
+<dt class="label" id="id29"><span class="brackets">HZRS15a</span></dt>
+<dd><p>Kaiming He, Xiangyu Zhang, Shaoqing Ren, and Jian Sun. Deep residual learning for image recognition. <em>CoRR</em>, 2015. URL: <a class="reference external" href="http://arxiv.org/abs/1512.03385">http://arxiv.org/abs/1512.03385</a>, <a class="reference external" href="https://arxiv.org/abs/1512.03385">arXiv:1512.03385</a>.</p>
+</dd>
+<dt class="label" id="id46"><span class="brackets">HZRS15b</span></dt>
+<dd><p>Kaiming He, Xiangyu Zhang, Shaoqing Ren, and Jian Sun. Delving deep into rectifiers: surpassing human-level performance on imagenet classification. <em>CoRR</em>, 2015. URL: <a class="reference external" href="http://arxiv.org/abs/1502.01852">http://arxiv.org/abs/1502.01852</a>, <a class="reference external" href="https://arxiv.org/abs/1502.01852">arXiv:1502.01852</a>.</p>
+</dd>
+<dt class="label" id="id69"><span class="brackets">HG16</span></dt>
+<dd><p>Dan Hendrycks and Kevin Gimpel. Gaussian error linear units (gelus). <em>arxiv</em>, 2016. URL: <a class="reference external" href="http://arxiv.org/abs/1606.08415v3">http://arxiv.org/abs/1606.08415v3</a>.</p>
+</dd>
+<dt class="label" id="id86"><span class="brackets">HS97</span></dt>
+<dd><p>Sepp Hochreiter and Jürgen Schmidhuber. Flat minima. <em>Neural Computation</em>, 9(1):1–42, 1997. <a class="reference external" href="https://doi.org/10.1162/neco.1997.9.1.1">doi:10.1162/neco.1997.9.1.1</a>.</p>
+</dd>
+<dt class="label" id="id98"><span class="brackets">HLP+17</span></dt>
+<dd><p>Gao Huang, Yixuan Li, Geoff Pleiss, Zhuang Liu, John E. Hopcroft, and Kilian Q. Weinberger. Snapshot ensembles: train 1, get M for free. <em>CoRR</em>, 2017. URL: <a class="reference external" href="http://arxiv.org/abs/1704.00109">http://arxiv.org/abs/1704.00109</a>, <a class="reference external" href="https://arxiv.org/abs/1704.00109">arXiv:1704.00109</a>.</p>
+</dd>
+<dt class="label" id="id47"><span class="brackets">HLW16</span></dt>
+<dd><p>Gao Huang, Zhuang Liu, and Kilian Q. Weinberger. Densely connected convolutional networks. <em>CoRR</em>, 2016. URL: <a class="reference external" href="http://arxiv.org/abs/1608.06993">http://arxiv.org/abs/1608.06993</a>, <a class="reference external" href="https://arxiv.org/abs/1608.06993">arXiv:1608.06993</a>.</p>
+</dd>
+<dt class="label" id="id27"><span class="brackets">IS15</span></dt>
+<dd><p>Sergey Ioffe and Christian Szegedy. Batch normalization: accelerating deep network training by reducing internal covariate shift. <em>CoRR</em>, 2015. URL: <a class="reference external" href="http://arxiv.org/abs/1502.03167">http://arxiv.org/abs/1502.03167</a>, <a class="reference external" href="https://arxiv.org/abs/1502.03167">arXiv:1502.03167</a>.</p>
+</dd>
+<dt class="label" id="id51"><span class="brackets">Kar22</span></dt>
+<dd><p>Andrej Karpathy. The spelled-out intro to neural networks and backpropagation: building micrograd. 8 2022. URL: <a class="reference external" href="https://www.youtube.com/watch?v=VMj-3S1tku0">https://www.youtube.com/watch?v=VMj-3S1tku0</a>.</p>
+</dd>
+<dt class="label" id="id84"><span class="brackets">KMN+16a</span></dt>
+<dd><p>Nitish Shirish Keskar, Dheevatsa Mudigere, Jorge Nocedal, Mikhail Smelyanskiy, and Ping Tak Peter Tang. On large-batch training for deep learning: generalization gap and sharp minima. <em>CoRR</em>, 2016. URL: <a class="reference external" href="http://arxiv.org/abs/1609.04836">http://arxiv.org/abs/1609.04836</a>, <a class="reference external" href="https://arxiv.org/abs/1609.04836">arXiv:1609.04836</a>.</p>
+</dd>
+<dt class="label" id="id93"><span class="brackets">KMN+16b</span></dt>
+<dd><p>Nitish Shirish Keskar, Dheevatsa Mudigere, Jorge Nocedal, Mikhail Smelyanskiy, and Ping Tak Peter Tang. On large-batch training for deep learning: generalization gap and sharp minima. <em>CoRR</em>, 2016. URL: <a class="reference external" href="http://arxiv.org/abs/1609.04836">http://arxiv.org/abs/1609.04836</a>, <a class="reference external" href="https://arxiv.org/abs/1609.04836">arXiv:1609.04836</a>.</p>
+</dd>
+<dt class="label" id="id45"><span class="brackets">KB15</span></dt>
+<dd><p>Diederik P. Kingma and Jimmy Ba. Adam: A method for stochastic optimization. In Yoshua Bengio and Yann LeCun, editors, <em>3rd International Conference on Learning Representations, ICLR 2015, San Diego, CA, USA, May 7-9, 2015, Conference Track Proceedings</em>. 2015. URL: <a class="reference external" href="http://arxiv.org/abs/1412.6980">http://arxiv.org/abs/1412.6980</a>.</p>
+</dd>
+<dt class="label" id="id94"><span class="brackets">KUMH17</span></dt>
+<dd><p>Günter Klambauer, Thomas Unterthiner, Andreas Mayr, and Sepp Hochreiter. Self-normalizing neural networks. <em>CoRR</em>, 2017. URL: <a class="reference external" href="http://arxiv.org/abs/1706.02515">http://arxiv.org/abs/1706.02515</a>, <a class="reference external" href="https://arxiv.org/abs/1706.02515">arXiv:1706.02515</a>.</p>
+</dd>
+<dt class="label" id="id78"><span class="brackets">KSH12</span></dt>
+<dd><p>Alex Krizhevsky, Ilya Sutskever, and Geoffrey E. Hinton. Imagenet classification with deep convolutional neural networks. In F. Pereira, C. J. C. Burges, L. Bottou, and K. Q. Weinberger, editors, <em>Advances in Neural Information Processing Systems 25</em>, pages 1097–1105. Curran Associates, Inc., 2012. URL: <a class="reference external" href="http://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf">http://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf</a>.</p>
+</dd>
+<dt class="label" id="id77"><span class="brackets">LBBH98</span></dt>
+<dd><p>Yann LeCun, Léon Bottou, Yoshua Bengio, and Patrick Haffner. Gradient-based learning applied to document recognition. In <em>Proceedings of the IEEE</em>, volume 86, 2278–2324. 1998. URL: <a class="reference external" href="http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.42.7665">http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.42.7665</a>.</p>
+</dd>
+<dt class="label" id="id88"><span class="brackets">LXTG17</span></dt>
+<dd><p>Hao Li, Zheng Xu, Gavin Taylor, and Tom Goldstein. Visualizing the loss landscape of neural nets. <em>CoRR</em>, 2017. URL: <a class="reference external" href="http://arxiv.org/abs/1712.09913">http://arxiv.org/abs/1712.09913</a>, <a class="reference external" href="https://arxiv.org/abs/1712.09913">arXiv:1712.09913</a>.</p>
+</dd>
+<dt class="label" id="id100"><span class="brackets">LH16</span></dt>
+<dd><p>Ilya Loshchilov and Frank Hutter. SGDR: stochastic gradient descent with restarts. <em>CoRR</em>, 2016. URL: <a class="reference external" href="http://arxiv.org/abs/1608.03983">http://arxiv.org/abs/1608.03983</a>, <a class="reference external" href="https://arxiv.org/abs/1608.03983">arXiv:1608.03983</a>.</p>
+</dd>
+<dt class="label" id="id99"><span class="brackets">LH17</span></dt>
+<dd><p>Ilya Loshchilov and Frank Hutter. Fixing weight decay regularization in adam. <em>CoRR</em>, 2017. URL: <a class="reference external" href="http://arxiv.org/abs/1711.05101">http://arxiv.org/abs/1711.05101</a>, <a class="reference external" href="https://arxiv.org/abs/1711.05101">arXiv:1711.05101</a>.</p>
+</dd>
+<dt class="label" id="id57"><span class="brackets">Maa13</span></dt>
+<dd><p>Andrew L. Maas. Rectifier nonlinearities improve neural network acoustic models. In <em>Proceedings of the 30th International Conference on Machine Learning</em>, volume 28. 2013.</p>
+</dd>
+<dt class="label" id="id97"><span class="brackets">ML18</span></dt>
+<dd><p>Dominic Masters and Carlo Luschi. Revisiting small batch training for deep neural networks. <em>CoRR</em>, 2018. URL: <a class="reference external" href="http://arxiv.org/abs/1804.07612">http://arxiv.org/abs/1804.07612</a>, <a class="reference external" href="https://arxiv.org/abs/1804.07612">arXiv:1804.07612</a>.</p>
+</dd>
+<dt class="label" id="id5"><span class="brackets">Min69</span></dt>
+<dd><p>S. Minsky, M. Papert. <em>Perceptron: an introduction to computational geometry</em>. The MIT Press, 1969.</p>
+</dd>
+<dt class="label" id="id70"><span class="brackets">Mis19</span></dt>
+<dd><p>Diganta Misra. Mish: A self regularized non-monotonic neural activation function. <em>CoRR</em>, 2019. URL: <a class="reference external" href="http://arxiv.org/abs/1908.08681">http://arxiv.org/abs/1908.08681</a>, <a class="reference external" href="https://arxiv.org/abs/1908.08681">arXiv:1908.08681</a>.</p>
+</dd>
+<dt class="label" id="id81"><span class="brackets">MKS+15</span></dt>
+<dd><p>Volodymyr Mnih, Koray Kavukcuoglu, David Silver, Andrei A. Rusu, Joel Veness, Marc G. Bellemare, Alex Graves, Martin Riedmiller, Andreas K. Fidjeland, Georg Ostrovski, and others. Human-level control through deep reinforcement learning. <em>Nature</em>, 518(7540):529–533, 2015.</p>
+</dd>
+<dt class="label" id="id83"><span class="brackets">NKB+19</span></dt>
+<dd><p>Preetum Nakkiran, Gal Kaplun, Yamini Bansal, Tristan Yang, Boaz Barak, and Ilya Sutskever. Deep double descent: where bigger models and more data hurt. <em>CoRR</em>, 2019. URL: <a class="reference external" href="http://arxiv.org/abs/1912.02292">http://arxiv.org/abs/1912.02292</a>, <a class="reference external" href="https://arxiv.org/abs/1912.02292">arXiv:1912.02292</a>.</p>
+</dd>
+<dt class="label" id="id9"><span class="brackets">RLMD22</span></dt>
+<dd><p>S. Raschka, Y. Liu, V. Mirjalili, and D. Dzhulgakov. <em>Machine Learning with PyTorch and Scikit-Learn: Develop Machine Learning and Deep Learning Models with Python</em>. Expert insight. Packt Publishing, 2022. ISBN 9781801819312. URL: <a class="reference external" href="https://books.google.com.ph/books?id=UHbNzgEACAAJ">https://books.google.com.ph/books?id=UHbNzgEACAAJ</a>.</p>
+</dd>
+<dt class="label" id="id8"><span class="brackets">RM19</span></dt>
+<dd><p>Sebastian Raschka and Vahid Mirjalili. <em>Python Machine Learning, 3rd Ed.</em> Packt Publishing, Birmingham, UK, 3rd edition, 2019. ISBN 978-1789955750.</p>
+</dd>
+<dt class="label" id="id103"><span class="brackets">RSW+17</span></dt>
+<dd><p>Alexander Ratner, Christopher De Sa, Sen Wu, Daniel Selsam, and Christopher Ré. Data programming: creating large training sets, quickly. 2017. <a class="reference external" href="https://arxiv.org/abs/1605.07723">arXiv:1605.07723</a>.</p>
+</dd>
+<dt class="label" id="id42"><span class="brackets">STIM19</span></dt>
+<dd><p>Shibani Santurkar, Dimitris Tsipras, Andrew Ilyas, and Aleksander Madry. How does batch normalization help optimization? 2019. <a class="reference external" href="https://arxiv.org/abs/1805.11604">arXiv:1805.11604</a>.</p>
+</dd>
+<dt class="label" id="id76"><span class="brackets">SZ14</span></dt>
+<dd><p>Karen Simonyan and Andrew Zisserman. Very deep convolutional networks for large-scale image recognition. <em>CoRR</em>, 2014. URL: <a class="reference external" href="http://arxiv.org/abs/1409.1556">http://arxiv.org/abs/1409.1556</a>.</p>
+</dd>
+<dt class="label" id="id101"><span class="brackets">ST17</span></dt>
+<dd><p>Leslie N. Smith and Nicholay Topin. Super-convergence: very fast training of residual networks using large learning rates. <em>CoRR</em>, 2017. URL: <a class="reference external" href="http://arxiv.org/abs/1708.07120">http://arxiv.org/abs/1708.07120</a>, <a class="reference external" href="https://arxiv.org/abs/1708.07120">arXiv:1708.07120</a>.</p>
+</dd>
+<dt class="label" id="id66"><span class="brackets">SDBR14</span></dt>
+<dd><p>Jost Tobias Springenberg, Alexey Dosovitskiy, Thomas Brox, and Martin Riedmiller. Striving for simplicity: the all convolutional net. 2014. URL: <a class="reference external" href="https://arxiv.org/abs/1412.6806">https://arxiv.org/abs/1412.6806</a>, <a class="reference external" href="https://doi.org/10.48550/ARXIV.1412.6806">doi:10.48550/ARXIV.1412.6806</a>.</p>
+</dd>
+<dt class="label" id="id64"><span class="brackets">SHK+14</span></dt>
+<dd><p>Nitish Srivastava, Geoffrey E. Hinton, Alex Krizhevsky, Ilya Sutskever, and Ruslan Salakhutdinov. Dropout: a simple way to prevent neural networks from overfitting. <em>Journal of Machine Learning Research</em>, 15(1):1929–1958, 2014. URL: <a class="reference external" href="http://www.cs.toronto.edu/~rsalakhu/papers/srivastava14a.pdf">http://www.cs.toronto.edu/~rsalakhu/papers/srivastava14a.pdf</a>.</p>
+</dd>
+<dt class="label" id="id104"><span class="brackets">vdODZ+16</span></dt>
+<dd><p>Aäron van den Oord, Sander Dieleman, Heiga Zen, Karen Simonyan, Oriol Vinyals, Alex Graves, Nal Kalchbrenner, Andrew W. Senior, and Koray Kavukcuoglu. Wavenet: A generative model for raw audio. <em>CoRR</em>, 2016. URL: <a class="reference external" href="http://arxiv.org/abs/1609.03499">http://arxiv.org/abs/1609.03499</a>, <a class="reference external" href="https://arxiv.org/abs/1609.03499">arXiv:1609.03499</a>.</p>
+</dd>
+<dt class="label" id="id48"><span class="brackets">Vie16</span></dt>
+<dd><p>Tim Vieira. Evaluating ∇f(x) is as fast as f(x). 9 2016. URL: <a class="reference external" href="https://timvieira.github.io/blog/post/2016/09/25/evaluating-fx-is-as-fast-as-fx/">https://timvieira.github.io/blog/post/2016/09/25/evaluating-fx-is-as-fast-as-fx/</a>.</p>
+</dd>
+<dt class="label" id="id50"><span class="brackets">Wai18</span></dt>
+<dd><p>Elliot Waite. Pytorch autograd explained - in-depth tutorial. 11 2018. URL: <a class="reference external" href="https://www.youtube.com/watch?v=MswxJw-8PvE">https://www.youtube.com/watch?v=MswxJw-8PvE</a>.</p>
+</dd>
+<dt class="label" id="id36"><span class="brackets">WH18</span></dt>
+<dd><p>Yuxin Wu and Kaiming He. Group normalization. 2018. URL: <a class="reference external" href="https://arxiv.org/abs/1803.08494">https://arxiv.org/abs/1803.08494</a>, <a class="reference external" href="https://doi.org/10.48550/ARXIV.1803.08494">doi:10.48550/ARXIV.1803.08494</a>.</p>
+</dd>
+<dt class="label" id="id67"><span class="brackets">WJ21</span></dt>
+<dd><p>Yuxin Wu and Justin Johnson. Rethinking &quot;batch&quot; in batchnorm. <em>CoRR</em>, 2021. URL: <a class="reference external" href="https://arxiv.org/abs/2105.07576">https://arxiv.org/abs/2105.07576</a>, <a class="reference external" href="https://arxiv.org/abs/2105.07576">arXiv:2105.07576</a>.</p>
+</dd>
+<dt class="label" id="id62"><span class="brackets">ZLLS21</span></dt>
+<dd><p>Aston Zhang, Zachary C. Lipton, Mu Li, and Alexander J. Smola. Dive into deep learning. <em>arXiv preprint arXiv:2106.11342</em>, 2021.</p>
+</dd>
+<dt class="label" id="id92"><span class="brackets">ZFM+20</span></dt>
+<dd><p>Pan Zhou, Jiashi Feng, Chao Ma, Caiming Xiong, Steven Hoi, and E. Weinan. Towards theoretically understanding why sgd generalizes better than adam in deep learning. In <em>Proceedings of the 34th International Conference on Neural Information Processing Systems</em>, NIPS'20. Red Hook, NY, USA, 2020. Curran Associates Inc.</p>
+</dd>
+</dl>
+</div>
+</div>
+</section>
+<div class="toctree-wrapper compound">
+</div>
+<div class="toctree-wrapper compound">
+</div>
+<div class="toctree-wrapper compound">
+</div>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="right-next"
+       href="nb/nn/03-batchnorm.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Batch Normalization</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dependencies">Dependencies</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hardware">Hardware</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            <div class="bd-footer-content__inner">
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By 𝗽𝗮𝗿𝘁𝗶𝗰𝗹𝗲𝟭𝟯𝟯𝟭. Powered by <a href="https://jupyterbook.org">Jupyter Book</a>.
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div></div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

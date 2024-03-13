@@ -1,0 +1,954 @@
+
+
+<!DOCTYPE html>
+
+
+<html >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Continuous Integration and Deployment Pipelines &#8212; OK Transformer</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'nb/mle/cicd-pipelines';</script>
+    <link rel="shortcut icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Prediction Serving API" href="model-serving-api.html" />
+    <link rel="prev" title="Best Engineering Practices" href="../mlops/06-best-practices/notes.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="None"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Language Modeling</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../nn/03-batchnorm.html">Batch Normalization</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Deep Learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../dl/01-intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dl/02-optim.html">Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dl/00-backprop.html">Backpropagation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dl/03-cnn.html">Convolutional Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dl/04-lm.html">Language Modeling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dl/05-training.html">Activations and Gradients</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Engineering and Ops</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../mlops/01-intro.html">Preliminaries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mlops/02-package.html">Packaging Modeling Code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mlops/03-mlflow.html">Experiment Tracking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mlops/04-tasks.html">Distributed Task Queues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mlops/04-deployment/notes.html">Model Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mlops/06-best-practices/notes.html">Best Engineering Practices</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Continuous Integration and Deployment Pipelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model-serving-api.html">Prediction Serving API</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Notes</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../notes/containers.html">Docker Containers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notes/benchmarking.html">Benchmarking and Profiling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notes/tf-course.html">TensorFlow Crash Course</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/particle1331/ok-transformer" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/particle1331/ok-transformer/issues/new?title=Issue%20on%20page%20%2Fnb/mle/cicd-pipelines.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Continuous Integration and Deployment Pipelines</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#circleci-config">CircleCI config</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#jobs">Jobs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#secrets">Secrets</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#build-and-upload-package">Build and upload package</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#workflows">Workflows</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#triggering-the-workflows">Triggering the workflows</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#updating-model-version">Updating model version</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-release-tags">Creating release tags</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#updating-api-requirements">Updating API requirements</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dynamic-workflows">Dynamic workflows</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#project-settings">Project settings</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#path-specific-triggers">Path specific triggers</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#force-heroku-rebuild">Force Heroku rebuild</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#conditional-workflows">Conditional workflows</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#releasing-a-new-model">Releasing a new model</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion">Conclusion</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="continuous-integration-and-deployment-pipelines">
+<h1>Continuous Integration and Deployment Pipelines<a class="headerlink" href="#continuous-integration-and-deployment-pipelines" title="Permalink to this headline">#</a></h1>
+<p><img alt="Status" src="https://img.shields.io/static/v1.svg?label=Status&amp;message=Finished&amp;color=brightgreen" />
+<a class="reference external" href="https://github.com/particle1331/ok-transformer/blob/master/docs/nb/deployment/cicd-pipelines.ipynb"><img alt="Source" src="https://img.shields.io/static/v1.svg?label=GitHub&amp;message=Source&amp;color=181717&amp;logo=GitHub" /></a>
+<a class="reference external" href="https://github.com/particle1331/ok-transformer"><img alt="Stars" src="https://img.shields.io/github/stars/particle1331/ok-transformer?style=social" /></a></p>
+<hr class="docutils" />
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">#</a></h2>
+<p>In this section, we will develop a CI/CD pipeline for our model package and prediction serving API. CI/CD stands for <strong>continuous integration</strong> and <strong>continuous deployment</strong>. This involves automatic testing for changes that are being merged to the main or master branch of the code repository, as well as automatically building and deploying the model package and the associated API.</p>
+<p>Automation means that no person needs to run a script or SSH into a machine every time a change is made to the code base, which can be time consuming and error prone. Moreover, having a CI/CD pipeline means that the system is always in a releasable state so that development teams can quickly react to issues in production.
+Hence, a project that has a CI/CD pipeline can have faster release cycles with changes to the code deployed on a regular basis, e.g. days instead of months. This reduces the chance of breaking things and makes it easier to integrate our piece of software to the system as changes around the model are also small.</p>
+<p>Finally, CI/CD platforms can add visibility to the release cycles which can be important when performing audits. For our project, we will be using the <a class="reference external" href="https://circleci.com/">CircleCI</a> platform which has a free tier. And we will upload our model package to <a class="reference external" href="https://gemfury.com/">Gemfury</a> which is a private package index.</p>
+</section>
+<section id="circleci-config">
+<h2>CircleCI config<a class="headerlink" href="#circleci-config" title="Permalink to this headline">#</a></h2>
+<p>CircleCI is a third party platform for managing CI/CD pipelines. This is a good all around tool with a free tier. We log in using our GitHub account. To setup CircleCI workflows, we only need to create a <code class="docutils literal notranslate"><span class="pre">.circleci</span></code> directory in the root of our repository which should contain a <code class="docutils literal notranslate"><span class="pre">config.yml</span></code> file. This allows us to setup the project in CircleCI after logging in with our GitHub account.</p>
+<p>Recall that previously, we used <code class="docutils literal notranslate"><span class="pre">tox</span></code> as our main tool to train and test our model. Then, we built the model package and uploaded it to PyPI. A similar process was done for our API which was deployed to Heroku. We will continue to use <code class="docutils literal notranslate"><span class="pre">tox</span></code> for setting up the test environments in our CI workflows, e.g. for passing environmental variables.</p>
+<aside class="margin sidebar">
+<p class="sidebar-title"></p>
+<p><a class="reference external" href="https://github.com/particle1331/model-deployment/blob/cicd/.circleci/config.yml#L1-L14"><code class="docutils literal notranslate"><span class="pre">.circleci/config.yml</span></code></a></p>
+</aside>
+<div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+
+
+<span class="nt">defaults</span><span class="p">:</span><span class="w"> </span><span class="nl">&amp;defaults</span>
+<span class="w">  </span><span class="nt">docker</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">circleci/python:3.9.5</span>
+<span class="w">  </span><span class="nt">working_directory</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">~/project</span>
+
+<span class="nt">prepare_tox</span><span class="p">:</span><span class="w"> </span><span class="nl">&amp;prepare_tox</span>
+<span class="w">  </span><span class="nt">run</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Install tox</span>
+<span class="w">    </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">      </span><span class="no">sudo pip install --upgrade pip</span>
+<span class="w">      </span><span class="no">pip install --user tox</span>
+</pre></div>
+</div>
+<p>Here <code class="docutils literal notranslate"><span class="pre">&amp;</span></code> notation is YAML specific which just means we can use these variables later using <code class="docutils literal notranslate"><span class="pre">*</span></code>, and <code class="docutils literal notranslate"><span class="pre">version</span></code> specifies the version of CircleCI used. First, we define <code class="docutils literal notranslate"><span class="pre">defaults</span></code> which specifies the default environment settings. The other one is <code class="docutils literal notranslate"><span class="pre">prepare_tox</span></code> which installs and upgrades <code class="docutils literal notranslate"><span class="pre">pip</span></code> and installs <code class="docutils literal notranslate"><span class="pre">tox</span></code>. These two will be used by jobs which we define below.</p>
+<section id="jobs">
+<h3>Jobs<a class="headerlink" href="#jobs" title="Permalink to this headline">#</a></h3>
+<aside class="margin sidebar">
+<p class="sidebar-title"></p>
+<p><a class="reference external" href="https://github.com/particle1331/model-deployment/blob/cicd/.circleci/config.yml#L17-L62"><code class="docutils literal notranslate"><span class="pre">.circleci/config.yml</span></code></a></p>
+</aside>
+<div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span><span class="nt">jobs</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">test_app</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">&lt;&lt;</span><span class="p">:</span><span class="w"> </span><span class="nv">*defaults</span>
+<span class="w">    </span><span class="nt">working_directory</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">~/project/api</span>
+<span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">checkout</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">~/project</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nv">*prepare_tox</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">run</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Runnning app tests</span>
+<span class="w">          </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">            </span><span class="no">tox</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="nt">deploy_app_to_heroku</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">&lt;&lt;</span><span class="p">:</span><span class="w"> </span><span class="nv">*defaults</span>
+<span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">checkout</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">~/project</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">run</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deploy to Heroku</span>
+<span class="w">          </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">            </span><span class="no">git subtree push --prefix api https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git main</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="nt">train_and_upload_regression_model</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">&lt;&lt;</span><span class="p">:</span><span class="w"> </span><span class="nv">*defaults</span>
+<span class="w">    </span><span class="nt">working_directory</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">~/project/packages/regression_model</span>
+<span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">checkout</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">~/project</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nv">*prepare_tox</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">run</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Fetch the data</span>
+<span class="w">          </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">            </span><span class="no">tox -e fetch_data</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">run</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Train the model</span>
+<span class="w">          </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">            </span><span class="no">tox -e train</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">run</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Test the model</span>
+<span class="w">          </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">            </span><span class="no">tox</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">run</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Publish model to Gemfury</span>
+<span class="w">          </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">            </span><span class="no">tox -e publish_model</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span></code> notation just inherits all contents of the variables on the same level. The <code class="docutils literal notranslate"><span class="pre">checkout</span></code> will checkout the source code into the job’s <code class="docutils literal notranslate"><span class="pre">working_directory</span></code>. First, we have <code class="docutils literal notranslate"><span class="pre">test_app</span></code> which runs the tests on the <code class="docutils literal notranslate"><span class="pre">api</span></code> directory, i.e. for the model serving API. Next, we have <code class="docutils literal notranslate"><span class="pre">deploy_app_to_heroku</span></code> which does not run any test, it just pushes the code to Heroku. Let us look at the <code class="docutils literal notranslate"><span class="pre">tox</span></code> files for the first step:</p>
+<aside class="margin sidebar">
+<p class="sidebar-title"></p>
+<p><a class="reference external" href="https://github.com/particle1331/model-deployment/blob/cicd/api/tox.ini#L18-L23"><code class="docutils literal notranslate"><span class="pre">api/tox.ini</span></code></a></p>
+</aside>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[testenv]</span>
+<span class="na">install_command</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">pip install {opts} {packages}</span>
+
+<span class="na">passenv</span><span class="w"> </span><span class="o">=</span>
+<span class="w">	</span><span class="na">PIP_EXTRA_INDEX_URL</span>
+
+<span class="na">...</span>
+</pre></div>
+</div>
+</section>
+<section id="secrets">
+<h3>Secrets<a class="headerlink" href="#secrets" title="Permalink to this headline">#</a></h3>
+<p>The only modification to the <code class="docutils literal notranslate"><span class="pre">tox</span></code> file above is <code class="docutils literal notranslate"><span class="pre">passenv</span></code> where we specify the extra index where <code class="docutils literal notranslate"><span class="pre">pip</span></code> will look for packages if not found in PyPI. This uses the environmental variable <code class="docutils literal notranslate"><span class="pre">PIP_EXTRA_INDEX_URL</span></code>. This is used in Heroku when building the prediction service with the model package as a dependency:</p>
+<aside class="margin sidebar">
+<p class="sidebar-title"></p>
+<p><a class="reference external" href="https://github.com/particle1331/model-deployment/blob/cicd/api/requirements.txt"><code class="docutils literal notranslate"><span class="pre">api/requirements.txt</span></code></a></p>
+</aside>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>--extra-index-url=${PIP_EXTRA_INDEX_URL} 
+
+uvicorn[standard]
+fastapi&gt;=0.75.1,&lt;1.0.0
+python-multipart&gt;=0.0.5,&lt;0.1.0
+pydantic&gt;=1.8.1,&lt;1.9.0
+typing_extensions&gt;=4.1.1&lt;4.2
+loguru&gt;=0.5.3,&lt;0.6.0
+
+# Our custom package published on a private index server
+regression-model==0.2.0
+</pre></div>
+</div>
+<p>The <a class="reference external" href="https://gemfury.com/help/pypi-server/#repo-url">private index URL</a> follows the format <code class="docutils literal notranslate"><span class="pre">https://TOKEN:&#64;pypi.fury.io/USERNAME/</span></code> where <code class="docutils literal notranslate"><span class="pre">TOKEN</span></code> is an access token in Gemfury. In our case, we generate a full access token. This also serves as our push URL saved as the environmental variable <code class="docutils literal notranslate"><span class="pre">GEMFURY_PUSH_URL</span></code> for uploading packages to the index. Finally, <code class="docutils literal notranslate"><span class="pre">HEROKU_API_KEY</span></code> and <code class="docutils literal notranslate"><span class="pre">HEROKU_APP_NAME</span></code> are also environmental variables that we set in the project settings of CircleCI so we can deploy changes to the prediction service code to Heroku.</p>
+<p><strong>Remark.</strong> The extra index in the requirements file means that a package is installed from this extra index server if it cannot find it from PyPI. This is pretty bad, though it is unlikely that the tests will pass if the wrong package has been downloaded (i.e. a package with the same name and version from PyPI). To solve this, advanced package managers such as <a class="reference external" href="https://pipenv-fork.readthedocs.io/en/latest/index.html">Pipenv</a> allows <a class="reference external" href="https://pipenv.pypa.io/en/latest/advanced/#specifying-package-indexes">specifying package indices</a>.</p>
+<br>
+<figure class="align-default" id="id1">
+<a class="reference internal image-reference" href="../../_images/heroku-config.png"><img alt="../../_images/heroku-config.png" src="../../_images/heroku-config.png" style="width: 42em;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 120 </span><span class="caption-text">Setting <code class="docutils literal notranslate"><span class="pre">PIP_EXTRA_INDEX</span></code> as config variable in Heroku.</span><a class="headerlink" href="#id1" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<br><figure class="align-default" id="id2">
+<img alt="../../_images/secrets.png" src="../../_images/secrets.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 121 </span><span class="caption-text">Environment variables in CircleCI project settings.</span><a class="headerlink" href="#id2" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="build-and-upload-package">
+<h3>Build and upload package<a class="headerlink" href="#build-and-upload-package" title="Permalink to this headline">#</a></h3>
+<p>Next, we have the automatic build and upload step which fetches the data from Kaggle, trains the model, and uploads the model package to Gemfury. For other projects, the fetch part can be replaced by AWS CLI from S3 bucket or making a database call. These steps depend on the <code class="docutils literal notranslate"><span class="pre">tox</span></code> file in the model package:</p>
+<aside class="margin sidebar">
+<p class="sidebar-title"></p>
+<p><a class="reference external" href="https://github.com/particle1331/model-deployment/blob/cicd/packages/regression_model/tox.ini#L15-L61"><code class="docutils literal notranslate"><span class="pre">packages/regression_model/tox.ini</span></code></a></p>
+</aside>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">...</span>
+<span class="k">[testenv]</span>
+<span class="na">install_command</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">pip install {opts} {packages}</span>
+
+<span class="na">passenv</span><span class="w"> </span><span class="o">=</span>
+<span class="w">	</span><span class="na">KAGGLE_USERNAME</span>
+<span class="w">	</span><span class="na">KAGGLE_KEY</span>
+<span class="w">	</span><span class="na">GEMFURY_PUSH_URL</span>
+<span class="na">...</span>
+
+<span class="k">[testenv:fetch_data]</span>
+<span class="na">envdir</span><span class="w"> 	 </span><span class="o">=</span><span class="w"> </span><span class="s">{toxworkdir}/test_package</span>
+<span class="na">deps</span><span class="w"> 	 </span><span class="o">=</span><span class="w"> </span><span class="s">{[testenv:test_package]deps}</span>
+<span class="na">setenv</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="s">{[testenv:test_package]setenv}</span>
+<span class="na">commands</span><span class="w"> </span><span class="o">=</span>
+<span class="w">	</span><span class="na">kaggle competitions download -c house-prices-advanced-regression-techniques -p ./regression_model/datasets</span>
+<span class="w">	</span><span class="na">unzip ./regression_model/datasets/house-prices-advanced-regression-techniques.zip -d ./regression_model/datasets</span>
+
+
+<span class="k">[testenv:publish_model]</span>
+<span class="na">envdir</span><span class="w"> 	 </span><span class="o">=</span><span class="w"> </span><span class="s">{toxworkdir}/test_package</span>
+<span class="na">deps</span><span class="w"> 	 </span><span class="o">=</span><span class="w"> </span><span class="s">{[testenv:test_package]deps}</span>
+<span class="na">setenv</span><span class="w"> 	 </span><span class="o">=</span><span class="w"> </span><span class="s">{[testenv:test_package]setenv}</span>
+<span class="na">commands</span><span class="w"> </span><span class="o">=</span>
+<span class="w">	</span><span class="na">pip install --upgrade build</span>
+<span class="w">	</span><span class="na">python -m build</span>
+<span class="w">	</span><span class="na">python publish_model.py</span>
+
+<span class="na">...</span>
+</pre></div>
+</div>
+<p>Here we focus on two environments. First, the  the <code class="docutils literal notranslate"><span class="pre">fetch_data</span></code> uses the Kaggle CLI to download the data, hence the <code class="docutils literal notranslate"><span class="pre">KAGGLE_USERNAME</span></code> and <code class="docutils literal notranslate"><span class="pre">KAGGLE_KEY</span></code> secrets are required. This can be obtained from the <code class="docutils literal notranslate"><span class="pre">~/kaggle.json</span></code> file from your Kaggle account.</p>
+<p>Next, we have <code class="docutils literal notranslate"><span class="pre">publish_model</span></code> which first builds the regression model package using the Python <code class="docutils literal notranslate"><span class="pre">build</span></code> module. This results in a <code class="docutils literal notranslate"><span class="pre">dist</span></code> directory containing build artifacts which are then pushed to Gemfury using <code class="docutils literal notranslate"><span class="pre">publish_model.py</span></code> script:</p>
+<aside class="margin sidebar">
+<p class="sidebar-title"></p>
+<p><a class="reference external" href="https://github.com/particle1331/model-deployment/blob/cicd/packages/regression_model/publish_model.py"><code class="docutils literal notranslate"><span class="pre">packages/regression_model/publish_model.py</span></code></a></p>
+</aside>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">glob</span>
+
+
+<span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;dist/*.whl&#39;</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;curl -F package=@</span><span class="si">{</span><span class="n">p</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;GEMFURY_PUSH_URL&#39;</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Uploading package failed on file </span><span class="si">{p}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="workflows">
+<h3>Workflows<a class="headerlink" href="#workflows" title="Permalink to this headline">#</a></h3>
+<p>Next, the <code class="docutils literal notranslate"><span class="pre">config.yml</span></code> defines workflows. A workflow determines a sequence of jobs to run given their triggers for each push to the repository. Below we define a single workflow called <code class="docutils literal notranslate"><span class="pre">regression-model</span></code>.</p>
+<aside class="margin sidebar">
+<p class="sidebar-title"></p>
+<p><a class="reference external" href="https://github.com/particle1331/model-deployment/blob/cicd/.circleci/config.yml#L65-L84"><code class="docutils literal notranslate"><span class="pre">.circleci/config.yml</span></code></a></p>
+</aside>
+<div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span><span class="nn">...</span>
+
+<span class="nt">workflows</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+<span class="w">  </span><span class="nt">regression-model</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">jobs</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">test_app</span>
+<span class="w">      </span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">train_and_upload_regression_model</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">filters</span><span class="p">:</span>
+<span class="w">            </span><span class="c1"># Ignore any commit on any branch by default</span>
+<span class="w">            </span><span class="nt">branches</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">ignore</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/.*/</span>
+<span class="w">            </span><span class="c1"># Only act on version tags</span>
+<span class="w">            </span><span class="nt">tags</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">only</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/^.*/</span>
+
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">deploy_app_to_heroku</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">requires</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">test_app</span>
+<span class="w">          </span><span class="nt">filters</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">branches</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">only</span><span class="p">:</span>
+<span class="w">                </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">main</span>
+</pre></div>
+</div>
+<p>First, we have <code class="docutils literal notranslate"><span class="pre">test_app</span></code> running the tests for the API for each commit on each branch. Next, the model package build and upload job <code class="docutils literal notranslate"><span class="pre">train_and_upload_regression_model</span></code> is triggered only when new version tags are created in the git repository. Lastly, <code class="docutils literal notranslate"><span class="pre">deploy_app_to_heroku</span></code> is triggered for each push to main. Note that the app is deployed to Heroku only if the <code class="docutils literal notranslate"><span class="pre">test_app</span></code> job passes. This makes sense since we do not want to deploy an API build that fails its tests. Also note that a push to development branches does not trigger a deploy of the API.</p>
+</section>
+</section>
+<section id="triggering-the-workflows">
+<h2>Triggering the workflows<a class="headerlink" href="#triggering-the-workflows" title="Permalink to this headline">#</a></h2>
+<p>Note that workflows are triggered by commits. To trigger all workflows, we will update the model package.
+Recall model package version in API has to be specified in its requirements file. This makes it transparent. So we need to do the following in sequence:</p>
+<ol class="arabic simple">
+<li><p>Bump model package version.</p></li>
+<li><p>Release tag in the repo.</p></li>
+<li><p>Update API requirements file.</p></li>
+</ol>
+<p>The second step triggers automatically triggers a push to our private index of an updated model package containing a newly trained model. The last step triggers a build of the API with a new regression model version deployed to Heroku.</p>
+<section id="updating-model-version">
+<h3>Updating model version<a class="headerlink" href="#updating-model-version" title="Permalink to this headline">#</a></h3>
+<p>We now proceed to updating the model. Suppose we bump the model version, e.g. if the data has updated. Then, we have to make the new model available in the private index. Once this is available, we can update the model used by the prediction server and deploy it. Here we will bump the model version from <code class="docutils literal notranslate"><span class="pre">0.1.0</span></code> to <code class="docutils literal notranslate"><span class="pre">0.1.1</span></code> by changing the <code class="docutils literal notranslate"><span class="pre">VERSION</span></code> file. We create a new release targeted on the <code class="docutils literal notranslate"><span class="pre">main</span></code> branch that adheres to the model version.</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../../_images/bump-model.png"><img alt="../../_images/bump-model.png" src="../../_images/bump-model.png" style="width: 40em;" /></a>
+</figure>
+</section>
+<section id="creating-release-tags">
+<h3>Creating release tags<a class="headerlink" href="#creating-release-tags" title="Permalink to this headline">#</a></h3>
+<p>To trigger the workflow for uploading the updated package to our private index, we have to create a release tag. Releases is located in the right sidebar of the repository home page in GitHub. Note that a tag release can be applied on a specific branch (not necessarily the <code class="docutils literal notranslate"><span class="pre">main</span></code> branch) at the latest commit:</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../../_images/release-tag.png"><img alt="../../_images/release-tag.png" src="../../_images/release-tag.png" style="width: 40em;" /></a>
+</figure>
+<p>This triggers the train and upload job on the <code class="docutils literal notranslate"><span class="pre">main</span></code> branch at <code class="docutils literal notranslate"> <span class="pre">ebd941e</span></code>:</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../../_images/release-tag-workflow.png"><img alt="../../_images/release-tag-workflow.png" src="../../_images/release-tag-workflow.png" style="width: 45em;" /></a>
+</figure>
+<p>Finally, a new package model uploaded to Gemfury once the workflow completes its run:</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../../_images/gemfury-recent.png"><img alt="../../_images/gemfury-recent.png" src="../../_images/gemfury-recent.png" style="width: 45em;" /></a>
+</figure>
+</section>
+<section id="updating-api-requirements">
+<h3>Updating API requirements<a class="headerlink" href="#updating-api-requirements" title="Permalink to this headline">#</a></h3>
+<p>Once the package finishes uploading, we update the model package of the API in the <code class="docutils literal notranslate"><span class="pre">main</span></code> branch. This triggers a test, build, and deploy job. After the deployment is done, we can look in at the <code class="docutils literal notranslate"><span class="pre">/api/v1/health</span></code> endpoint to see that model version has updated. Note that we had to manually wait for the upload job to complete, otherwise we the package will not be found.</p>
+<figure class="align-default" id="id3">
+<a class="reference internal image-reference" href="../../_images/bump-api.png"><img alt="../../_images/bump-api.png" src="../../_images/bump-api.png" style="width: 45em;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 122 </span><span class="caption-text">Bump model version required by our prediction service.</span><a class="headerlink" href="#id3" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../../_images/api-old.png"><img alt="../../_images/api-old.png" src="../../_images/api-old.png" style="width: 45em;" /></a>
+</figure>
+<figure class="align-default" id="id4">
+<a class="reference internal image-reference" href="../../_images/api-new.png"><img alt="../../_images/api-new.png" src="../../_images/api-new.png" style="width: 47em;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 123 </span><span class="caption-text">Model version has updated from <code class="docutils literal notranslate"><span class="pre">0.1.0</span></code> to <code class="docutils literal notranslate"><span class="pre">0.1.1</span></code>.</span><a class="headerlink" href="#id4" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<br><figure class="align-default" id="id5">
+<a class="reference internal image-reference" href="../../_images/bump-model-workflows.png"><img alt="../../_images/bump-model-workflows.png" src="../../_images/bump-model-workflows.png" style="width: 50em;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 124 </span><span class="caption-text">The completed jobs for retraining the regression model. Having a CI pipeline adds visibility to the deployment history of the service. Note that tests are redundant.</span><a class="headerlink" href="#id5" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+</section>
+<section id="dynamic-workflows">
+<h2>Dynamic workflows<a class="headerlink" href="#dynamic-workflows" title="Permalink to this headline">#</a></h2>
+<p>In this section, we improve upon our CI/CD pipelines by solving some issues. For example, it would be nice if for each model version bump, a build of the prediction service that uses the latest model version is automatically triggered. In the current implementation, we had to wait for the model to finish training and pushing the new package to Gemfury before we can update the prediction service. Otherwise, the update fails since it cannot find the appropriate package.</p>
+<p>Also, there are multiple redundant tests and redundant builds which waste compute resources. We will attempt to fix this using more advanced functionalities offered by CircleCI. Note that the solutions here takes advantage of the monorepo structure of our services.</p>
+<section id="project-settings">
+<h3>Project settings<a class="headerlink" href="#project-settings" title="Permalink to this headline">#</a></h3>
+<p>A simple optimization to the CI pipeline to trigger workflows only for commits on development branches that has a pull request (PR). This can be set in the project settings in CircleCI. This minimizes the number of CI tests but still makes sure that development tests are executed before the changes are merged to the <code class="docutils literal notranslate"><span class="pre">main</span></code> branch.</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../../_images/settings-ci.png"><img alt="../../_images/settings-ci.png" src="../../_images/settings-ci.png" style="width: 40em;" /></a>
+</figure>
+<p>Note that the same tests will run after merging, but now on the <code class="docutils literal notranslate"><span class="pre">main</span></code> branch. This is necessary since there may be changes on <code class="docutils literal notranslate"><span class="pre">main</span></code> that are not in the respective development branch.</p>
+<br><figure class="align-default" id="id6">
+<a class="reference internal image-reference" href="../../_images/bump-model-version-pr.png"><img alt="../../_images/bump-model-version-pr.png" src="../../_images/bump-model-version-pr.png" style="width: 40em;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 125 </span><span class="caption-text">Workflows being run only for commits in a pull request. Best practice is to wait for these tests to pass before approving the merge.</span><a class="headerlink" href="#id6" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="path-specific-triggers">
+<h3>Path specific triggers<a class="headerlink" href="#path-specific-triggers" title="Permalink to this headline">#</a></h3>
+<p>Recall that workflows are triggered by commits. In a monorepo, we have multiple services under the same version control system, but have code that are independent of each other. Hence, change in one service will trigger the test, build, and deployment jobs of all services. This was observed in our above setup. For example, updating the regression model code in the <code class="docutils literal notranslate"><span class="pre">main</span></code> branch triggers a test and deploy of the API. We want workflows that trigger only with commits made on specific folders. To do this we use path filtering:</p>
+<aside class="margin sidebar">
+<p class="sidebar-title"></p>
+<p><a class="reference external" href="https://github.com/particle1331/model-deployment/blob/cicd-2/.circleci/config.yml"><code class="docutils literal notranslate"><span class="pre">.circleci/config.yml</span></code></a></p>
+</aside>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2.1</span>
+
+<span class="nt">setup</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+
+<span class="nt">orbs</span><span class="p">:</span>
+<span class="w">  </span><span class="c1"># https://circleci.com/developer/orbs/orb/circleci/path-filtering</span>
+<span class="w">  </span><span class="nt">path-filtering</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">circleci/path-filtering@0.1.1</span>
+
+<span class="nt">workflows</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">always-run</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">jobs</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">path-filtering/filter</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">check-updated-files</span>
+<span class="w">          </span><span class="nt">mapping</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">            </span><span class="no">api/.* api-updated true</span>
+<span class="w">            </span><span class="no">packages/regression_model/.* regression-model-updated true</span>
+<span class="w">            </span><span class="no">packages/regression_model/regression_model/VERSION regression-model-version-bump true</span>
+<span class="w">          </span><span class="nt">base-revision</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">main</span>
+<span class="w">          </span><span class="nt">config-path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.circleci/continue_config.yml</span>
+</pre></div>
+</div>
+<p>This basically sets parameters to <code class="docutils literal notranslate"><span class="pre">true</span></code> depending on the paths which differs from the same path in <code class="docutils literal notranslate"><span class="pre">main</span></code>. Note that comparison is made with files from the <code class="docutils literal notranslate"><span class="pre">main</span></code> branch not with changes on the same branch. (This integrates well with the setting of only triggering workflows for commits in a PR request.) The conditional workflows are defined in <code class="docutils literal notranslate"><span class="pre">continue_config.yml</span></code>.
+The first part of this config defines the trigger parameters:</p>
+<aside class="margin sidebar">
+<p class="sidebar-title"></p>
+<p><a class="reference external" href="https://github.com/particle1331/model-deployment/blob/cicd-2/.circleci/continue_config.yml#L4-L15"><code class="docutils literal notranslate"><span class="pre">.circleci/continue_config.yml</span></code></a></p>
+</aside>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">parameters</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">api-updated</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">boolean</span>
+<span class="w">    </span><span class="nt">default</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+
+<span class="w">  </span><span class="nt">regression-model-updated</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">boolean</span>
+<span class="w">    </span><span class="nt">default</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+
+<span class="w">  </span><span class="nt">regression-model-version-bump</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">boolean</span>
+<span class="w">    </span><span class="nt">default</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+</pre></div>
+</div>
+</section>
+<section id="force-heroku-rebuild">
+<h3>Force Heroku rebuild<a class="headerlink" href="#force-heroku-rebuild" title="Permalink to this headline">#</a></h3>
+<p>Another automation we want to implement is for the prediction service to install the model package with the latest version without having to manually edit the API requirements file like before. So we <a class="reference external" href="https://github.com/particle1331/model-deployment/blob/cicd-2/api/requirements.txt#L11">update the requirements file</a> to not specify a version of the model package. The problem with this fix is that with no change on the API code, the application will not be rebuilt in Heroku, and hence will not update the model used in production. Resetting the application’s code repository in Heroku fixes this:</p>
+<aside class="margin sidebar">
+<p class="sidebar-title"></p>
+<p><a class="reference external" href="https://github.com/particle1331/model-deployment/blob/cicd-2/.circleci/continue_config.yml#L88-L103"><code class="docutils literal notranslate"><span class="pre">.circleci/continue_config.yml</span></code></a></p>
+</aside>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="nt">deploy_app_to_heroku</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">&lt;&lt;</span><span class="p">:</span><span class="w"> </span><span class="nv">*defaults</span>
+<span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">checkout</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">~/project</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">run</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Setup Heroku CLI</span>
+<span class="w">          </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">            </span><span class="no">curl https://cli-assets.heroku.com/install-ubuntu.sh | sh</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">run</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deploy to Heroku</span>
+<span class="w">          </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">            </span><span class="no">heroku plugins:install https://github.com/heroku/heroku-repo.git</span>
+<span class="w">            </span><span class="no">heroku repo:purge_cache -a $HEROKU_APP_NAME</span>
+<span class="w">            </span><span class="no">heroku repo:reset -a $HEROKU_APP_NAME</span>
+<span class="w">            </span><span class="no">git subtree push --prefix api https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git main</span>
+</pre></div>
+</div>
+</section>
+<section id="conditional-workflows">
+<h3>Conditional workflows<a class="headerlink" href="#conditional-workflows" title="Permalink to this headline">#</a></h3>
+<p>Next, we define conditional workflows. Each of these will trigger depending on which path differs with the corresponding path in the <code class="docutils literal notranslate"><span class="pre">main</span></code> branch. This makes sure that tests are not redundant. For the API, a test is triggered for commits in a development branch that are part of a pull request, and the same tests are triggered in <code class="docutils literal notranslate"><span class="pre">main</span></code> once the changes are merged. The deploy step is “main only”, meaning it is carried out only after the changes are merged into <code class="docutils literal notranslate"><span class="pre">main</span></code> (e.g. not on development branches while the commits are sitting on the PR).</p>
+<p>Similarly, modifications on the model package directory relative to <code class="docutils literal notranslate"><span class="pre">main</span></code> will trigger tests. This includes a train and a test step. Finally, an update of the <code class="docutils literal notranslate"><span class="pre">VERSION</span></code> file for the model package will trigger jobs for uploading a new package to the private package index based on code in the <code class="docutils literal notranslate"><span class="pre">main</span></code> branch. This is followed by a deploy of the API which is ensured to use the latest model.</p>
+<aside class="margin sidebar">
+<p class="sidebar-title"></p>
+<p><a class="reference external" href="https://github.com/particle1331/model-deployment/blob/cicd-2/.circleci/continue_config.yml#L113-L140"><code class="docutils literal notranslate"><span class="pre">.circleci/continue_config.yml</span></code></a></p>
+</aside>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">workflows</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">api-update</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">when</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;&lt; pipeline.parameters.api-updated &gt;&gt;</span>
+<span class="w">    </span><span class="nt">jobs</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">test_app</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">deploy_app_to_heroku</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">&lt;&lt;</span><span class="p">:</span><span class="w"> </span><span class="nv">*main_only</span>
+<span class="w">          </span><span class="nt">requires</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">test_app</span>
+
+<span class="w">  </span><span class="nt">regression-model-update</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">when</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;&lt; pipeline.parameters.regression-model-updated &gt;&gt;</span>
+<span class="w">    </span><span class="nt">jobs</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">test_regression_model</span>
+
+<span class="w">  </span><span class="nt">regression-model-upload</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">when</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;&lt; pipeline.parameters.regression-model-version-bump &gt;&gt;</span>
+<span class="w">    </span><span class="nt">jobs</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">train_and_upload_regression_model</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">&lt;&lt;</span><span class="p">:</span><span class="w"> </span><span class="nv">*main_only</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">test_app</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">&lt;&lt;</span><span class="p">:</span><span class="w"> </span><span class="nv">*main_only</span>
+<span class="w">          </span><span class="nt">requires</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">train_and_upload_regression_model</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">deploy_app_to_heroku</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">&lt;&lt;</span><span class="p">:</span><span class="w"> </span><span class="nv">*main_only</span>
+<span class="w">          </span><span class="nt">requires</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">test_app</span>
+</pre></div>
+</div>
+<p><strong>Remark.</strong> Note that non-conditional workflows can also be defined here, completing all possible workflows, and keeps the primary config file clean.</p>
+<br><figure class="align-default" id="id7">
+<a class="reference internal image-reference" href="../../_images/bump-api-workflows-2.png"><img alt="../../_images/bump-api-workflows-2.png" src="../../_images/bump-api-workflows-2.png" style="width: 50em;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 126 </span><span class="caption-text">API update triggered by a change in the <code class="docutils literal notranslate"><span class="pre">api</span></code> folder. The prediction service is deployed with the latest model package once the tests are passed.</span><a class="headerlink" href="#id7" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="releasing-a-new-model">
+<h3>Releasing a new model<a class="headerlink" href="#releasing-a-new-model" title="Permalink to this headline">#</a></h3>
+<p>Note that instead of three steps, we have now reduced bumping the model version into a <strong>single step</strong> (updating the <code class="docutils literal notranslate"><span class="pre">VERSION</span></code> file). Note that the jobs are triggered sequentially to ensure that the test and deploy steps use the latest model version, so no more manual waiting. Note that we do away with tags to trigger model package upload as this is redundant.</p>
+<figure class="align-default" id="id8">
+<a class="reference internal image-reference" href="../../_images/bump-model-workflows-2.png"><img alt="../../_images/bump-model-workflows-2.png" src="../../_images/bump-model-workflows-2.png" style="width: 50em;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 127 </span><span class="caption-text">Workflows triggered with a model version update. First, a test in the <code class="docutils literal notranslate"><span class="pre">cicd-2</span></code> development branch is triggered. Only the model package is tested. This is followed by a test in the <code class="docutils literal notranslate"><span class="pre">main</span></code> branch after the merge (<code class="docutils literal notranslate"><span class="pre">566</span></code>). There is still some redundancy with the tests, i.e. retesting the <code class="docutils literal notranslate"><span class="pre">main</span></code> branch (<code class="docutils literal notranslate"><span class="pre">567</span></code>) before uploading and deploying the API. But here we can, for example, inject further tests for the model that will be deployed to production.</span><a class="headerlink" href="#id8" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id9">
+<a class="reference internal image-reference" href="../../_images/bump-model-version-3.png"><img alt="../../_images/bump-model-version-3.png" src="../../_images/bump-model-version-3.png" style="width: 50em;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 128 </span><span class="caption-text">Workflow triggered by an update of the <code class="docutils literal notranslate"><span class="pre">VERSION</span></code> file. Note the serial dependency that ensures the API uses the latest model package.</span><a class="headerlink" href="#id9" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+</section>
+<section id="conclusion">
+<h2>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this headline">#</a></h2>
+<p>In this article, we designed a CI pipeline for our regression model package and prediction service monorepo. We were able to optimize the pipeline so that it minimizes the number of tests. Moreover, the pipeline allows us to build new models and deploy a prediction service that uses the updated model by pushing only a <strong>single commit</strong>. At each step, and for PRs to the main branch, tests are run by the pipeline to ensure code correctness. All of these can all be done without any manual waiting (though, it is best practice to wait for the PRs to complete before merging) and remembering of the specific sequence and checklist of steps to follow.</p>
+<p>Next steps would be to include tests in the CI pipeline that monitor changes in model prediction, i.e. comparing new model predictions to old ones when performing model updates. Another improvement would be to build and deploy Docker images instead of packages, and upload these images to some container registry which is then accessed by a consuming application. Note that this is a fairly general procedure that can be adapted to other cloud platforms or service providers such as AWS.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./nb/mle"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../mlops/06-best-practices/notes.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Best Engineering Practices</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="model-serving-api.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Prediction Serving API</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#circleci-config">CircleCI config</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#jobs">Jobs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#secrets">Secrets</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#build-and-upload-package">Build and upload package</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#workflows">Workflows</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#triggering-the-workflows">Triggering the workflows</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#updating-model-version">Updating model version</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-release-tags">Creating release tags</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#updating-api-requirements">Updating API requirements</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dynamic-workflows">Dynamic workflows</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#project-settings">Project settings</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#path-specific-triggers">Path specific triggers</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#force-heroku-rebuild">Force Heroku rebuild</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#conditional-workflows">Conditional workflows</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#releasing-a-new-model">Releasing a new model</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion">Conclusion</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            <div class="bd-footer-content__inner">
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By 𝗽𝗮𝗿𝘁𝗶𝗰𝗹𝗲𝟭𝟯𝟯𝟭. Powered by <a href="https://jupyterbook.org">Jupyter Book</a>.
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div></div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
