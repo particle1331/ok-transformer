@@ -7,8 +7,6 @@ parts:
 
 - caption: Language Modeling
   chapters:
-  - file: nb/nn/01-bigrams
-  - file: nb/nn/02-mlp
   - file: nb/nn/03-batchnorm
 
 - caption: Deep Learning
@@ -17,9 +15,10 @@ parts:
   - file: nb/dl/02-optim
   - file: nb/dl/00-backprop
   - file: nb/dl/03-cnn
-  - file: nb/dl/04-training
+  - file: nb/dl/04-lm
+  - file: nb/dl/05-training
 
-- caption: MLOps
+- caption: Engineering and Ops
   chapters:
   - file: nb/mlops/01-intro
   - file: nb/mlops/02-package
@@ -33,8 +32,6 @@ parts:
 
 - caption: Notes
   chapters:
-  # - file: nb/notes/dk/00-containers
-  # - file: nb/notes/dk/01-compose
   - file: nb/notes/containers
   - file: nb/notes/benchmarking
   - file: nb/notes/tf-course
