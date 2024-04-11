@@ -5,10 +5,6 @@ format: jb-book
 root: intro
 parts:
 
-- caption: Language Modeling
-  chapters:
-  - file: nb/nn/03-batchnorm
-
 - caption: Deep Learning
   chapters:
   - file: nb/dl/01-intro
@@ -17,6 +13,7 @@ parts:
   - file: nb/dl/03-cnn
   - file: nb/dl/04-lm
   - file: nb/dl/05-training
+  # - file: nb/dl/06-residuals
 
 - caption: Engineering and Ops
   chapters:
