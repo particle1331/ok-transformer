@@ -23,7 +23,7 @@ Exploring machine learning engineering and operations. ❚
 ---
 name: banner
 ---
-[Effect of batch normalization](03-batchnorm-theory) on the magnitude of preactivation gradients.
+Effect of batch normalization on the magnitude of preactivation gradients.
 ```
 
 #
