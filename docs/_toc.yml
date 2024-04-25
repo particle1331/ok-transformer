@@ -15,7 +15,7 @@ parts:
   - file: nb/dl/05-training
   # - file: nb/dl/06-residuals
 
-- caption: Engineering and Ops
+- caption: Engineering and MLOps
   chapters:
   - file: nb/mlops/01-intro
   - file: nb/mlops/02-package
