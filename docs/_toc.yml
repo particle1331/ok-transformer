@@ -30,6 +30,5 @@ parts:
 - caption: Notes
   chapters:
   - file: nb/notes/containers
-  - file: nb/notes/benchmarking
   - file: nb/notes/tf-course
-  
+  - file: nb/notes/benchmarking
