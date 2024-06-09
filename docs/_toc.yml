@@ -13,9 +13,14 @@ parts:
   - file: nb/dl/03-cnn
   - file: nb/dl/04-lm
   - file: nb/dl/05-training
-  # - file: nb/dl/06-residuals
+  - file: nb/dl/07-attention
 
-- caption: Engineering and MLOps
+# - caption: NLP / LLMs
+#   chapters:
+#   - file: nb/dl/06-gpt
+#   - file: nb/dl/08-translation
+
+- caption: ML Engineering & MLOps
   chapters:
   - file: nb/mlops/01-intro
   - file: nb/mlops/02-package

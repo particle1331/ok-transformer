@@ -30,7 +30,7 @@ if you find that this is not the case (as I oftentimes do)!
 ```
 git clone git@github.com:particle1331/ok-transformer.git
 cd ok-transformer
-pip install -r build-requirements.txt
+pip install -r requirements-build.txt
 make docs
 ```
 
