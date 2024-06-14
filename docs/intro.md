@@ -8,11 +8,11 @@ $ ok-transformer --help
 Exploring machine learning engineering and operations. ❚
 ```
 
-[![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fparticle1331%2Fok-transformer%2Fbadge%3Fref%3Dmaster&label=build&logo=none)](https://actions-badge.atrox.dev/particle1331/ok-transformer/goto?ref=master)
-![Last Commit](https://img.shields.io/github/last-commit/particle1331/ok-transformer/master)
-![python](https://img.shields.io/github/pipenv/locked/python-version/particle1331/ok-transformer)
+[![build-status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fparticle1331%2Fok-transformer%2Fbadge%3Fref%3Dmaster&label=build&logo=none)](https://actions-badge.atrox.dev/particle1331/ok-transformer/goto?ref=master)
+![last-commit](https://img.shields.io/github/last-commit/particle1331/ok-transformer/master)
+![python](https://shields.io/badge/python-3.10%20-blue)
 ![jupyter-book](https://github.com/executablebooks/jupyter-book/raw/master/docs/images/badge.svg)
-[![Stars](https://img.shields.io/github/stars/particle1331/ok-transformer?style=social)](https://github.com/particle1331/ok-transformer) 
+[![stars](https://img.shields.io/github/stars/particle1331/ok-transformer?style=social)](https://github.com/particle1331/ok-transformer) 
 
 
 
@@ -31,28 +31,29 @@ Effect of batch normalization on the magnitude of preactivation gradients.
 ## Dependencies
 
 ```text
-docker                        5.0.3
-docker-compose                1.25.5
-fastapi                       0.75.2
-keras                         2.8.0
-matplotlib                    3.5.1
-mlflow                        1.26.1
-numpy                         1.22.4
-optuna                        2.10.0
-pandas                        1.4.2
-pipenv                        2022.6.7
-prefect                       2.0b5
-scikit-learn                  1.0.2
-seaborn                       0.11.2
-tensorflow-datasets           4.5.2
-tensorflow-macos              2.8.0
-tensorflow-metal              0.4.0
-torch                         2.0.0
-torchaudio                    2.0.1
-torchmetrics                  0.11.4
-torchvision                   0.15.1
-uvicorn                       0.17.6
-xgboost                       1.6.0.dev0
+╭────────────────────────────────────┬────────────────╮
+│ fastapi                            │ 0.111.0        │
+│ Flask                              │ 3.0.3          │
+│ keras                              │ 2.15.0         │
+│ matplotlib                         │ 3.9.0          │
+│ mlflow                             │ 2.13.2         │
+│ numpy                              │ 1.26.4         │
+│ optuna                             │ 3.6.1          │
+│ pandas                             │ 2.2.2          │
+│ scikit-learn                       │ 1.5.0          │
+│ scipy                              │ 1.13.1         │
+│ seaborn                            │ 0.13.2         │
+│ tensorflow                         │ 2.15.1         │
+│ tensorflow-datasets                │ 4.9.6          │
+│ tensorflow-estimator               │ 2.15.0         │
+│ torch                              │ 2.3.1          │
+│ torchaudio                         │ 2.3.1          │
+│ torchinfo                          │ 1.8.0          │
+│ torchmetrics                       │ 1.4.0.post0    │
+│ torchvision                        │ 0.18.1         │
+│ uvicorn                            │ 0.30.1         │
+│ xgboost                            │ 2.0.3          │
+╰────────────────────────────────────┴────────────────╯
 ```
 
 ## Hardware
