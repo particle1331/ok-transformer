@@ -16,15 +16,17 @@ dependencies = [
     "seaborn>=0.13.2",
     "tensorflow-macos>=2.15.1",
     "tensorflow-metal>=1.1.0",
-    "torch>=2.3.1",
-    "torchaudio>=2.3.1",
+    "torch==2.2.2",
+    "torchaudio==2.2.2",
     "torchmetrics>=1.4.0.post0",
-    "torchvision>=0.18.1",
     "torchinfo>=1.8.0",
     "tqdm>=4.66.4",
     "xgboost>=2.0.3",
     "tensorflow>=2.15.1",
     "tensorflow-datasets>=4.9.6",
+    "graphviz>=0.20.3",
+    "lightning>=2.3.0",
+    "torchvision==0.17.2",
 ]
 requires-python = "==3.10.*"
 readme = "README.md"
