@@ -25,23 +25,22 @@ if you find that this is not the case (as I often do)!
 
 ```
 git clone git@github.com:particle1331/ok-transformer.git && cd ok-transformer
-pip install --user tox
+pip install -U tox
 tox -e build
 ```
 
 ## Running the notebooks
 
-The notebooks can be found in `docs/nb`.
-A virtual environment for running the notebooks can be 
-created using [`pdm`](https://github.com/pdm-project/pdm)
-(use this as jupyter kernel):
+A virtual environment for running the notebooks in `docs/nb` can be 
+created using [`pdm`](https://github.com/pdm-project/pdm):
 
 ```
 pip install -U pdm
 pdm install
 ```
 
-The following libraries (specified in `pdm.lock`) will be installed:
+Use the resulting `.venv` as jupyter kernel. 
+The following libraries will be installed (see `pdm.lock`):
 
 ```text
 ╭────────────────────────────────────┬────────────────╮
