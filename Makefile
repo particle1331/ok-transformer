@@ -18,3 +18,12 @@ clean:
 
 create:
 	python extras/init.py "$(filename)" "$(title)"
+
+ruff-check:
+	- pdm run ruff check $(path)
+	- pdm run ruff check --select I --diff $(path)
+	- pdm run ruff format --diff $(path)
+
+ruff-format:
+	pdm run ruff check --select I --fix $(path)
+	pdm run ruff format $(path)
