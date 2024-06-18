@@ -8,6 +8,7 @@ items = [
     {"id": 2, "name": "Item 2", "description": "Description 2", "price": 20.0},
 ]
 
+
 @app.get("/items")
 def read_items(fields: list[str] = Query(None)):
     if not fields:
