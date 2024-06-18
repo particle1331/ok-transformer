@@ -1,13 +1,22 @@
-from fastapi import FastAPI
-from v1.posts import router as router1
-from v2.posts import router as router2
-
+from fastapi import FastAPI, Query
 
 app = FastAPI()
-app.include_router(router1, prefix="/v1", tags=["/v1/posts"])
-app.include_router(router2, prefix="/v2", tags=["/v2/posts"])
 
+# Sample data
+items = [
+    {"id": 1, "name": "Item 1", "description": "Description 1", "price": 10.0},
+    {"id": 2, "name": "Item 2", "description": "Description 2", "price": 20.0},
+    {"id": 3, "name": "Item 3", "description": "Description 3", "price": 30.0},
+]
 
-@app.get("/")
-def root():
-    return {"message": "Hello, world!"}
+@app.get("/items")
+def read_items(fields: list[str] = Query(None)):
+    if not fields:
+        return items
+    
+    result = []
+    for item in items:
+        filtered_item = {field: item[field] for field in fields if field in item}
+        result.append(filtered_item)
+    
+    return result
