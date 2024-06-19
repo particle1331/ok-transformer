@@ -1,17 +1,11 @@
-import numpy as np
-from PIL import Image
-from fastapi import FastAPI, UploadFile
+from fastapi import FastAPI, Request
 
 app = FastAPI()
 
-@app.post("/files")
-async def upload_files(files: list[UploadFile]):
-    return [
-        {
-            "filename": file.filename,
-            "content_type": file.content_type,
-            "size": file.size,
-            "dims": np.array(Image.open(file.file)).shape, 
-        }
-        for file in files
-    ]
+@app.post("/")
+async def get_request_object(request: Request):
+    return {
+        "path": request.url.path,
+        "hostname": request.base_url.hostname,
+        "port": request.base_url.port,
+    }
