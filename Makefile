@@ -1,9 +1,9 @@
 # See https://madewithml.com/courses/mlops/makefile/
-dev:
+docs:
 	tox -e build
 
 .PHONY: docs
-docs:
+rdocs:
 	rm -rf docs/_build
 	tox -e build
 
