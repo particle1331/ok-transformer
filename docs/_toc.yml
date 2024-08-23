@@ -19,6 +19,13 @@ parts:
       sections:
       - file: nb/dl/01ca-biasvariance
       - file: nb/dl/01cb-regularization
+      - file: nb/dl/01cc-experiments
+      - file: nb/dl/01cd-split
+    - file: nb/dl/01d-appendix-bce
+    - file: nb/dl/01e-appendix-weaksup
+      sections:
+      - file: nb/dl/01ea-theory
+      - file: nb/dl/01eb-experiments
   - file: nb/dl/02-optim
   - file: nb/dl/00-backprop
   - file: nb/dl/03-cnn
