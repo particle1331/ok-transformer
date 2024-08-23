@@ -8,6 +8,17 @@ parts:
 - caption: Deep Learning
   chapters:
   - file: nb/dl/01-intro
+    sections:
+    - file: nb/dl/01a-fcnn
+    - file: nb/dl/01b-linear
+      sections:
+      - file: nb/dl/01ba-nll
+      - file: nb/dl/01bb-gradient
+      - file: nb/dl/01bc-nonlinear
+    - file: nb/dl/01c-lossmin
+      sections:
+      - file: nb/dl/01ca-biasvariance
+      - file: nb/dl/01cb-regularization
   - file: nb/dl/02-optim
   - file: nb/dl/00-backprop
   - file: nb/dl/03-cnn
