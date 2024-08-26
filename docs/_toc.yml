@@ -7,25 +7,25 @@ parts:
 
 - caption: Deep Learning
   chapters:
-  - file: nb/dl/01-intro
+  - file: nb/dl/01-intro/01-intro
     sections:
-    - file: nb/dl/01a-fcnn
-    - file: nb/dl/01b-linear
+    - file: nb/dl/01-intro/01a-fcnn
+    - file: nb/dl/01-intro/01b-linear
       sections:
-      - file: nb/dl/01ba-nll
-      - file: nb/dl/01bb-gradient
-      - file: nb/dl/01bc-nonlinear
-    - file: nb/dl/01c-lossmin
+      - file: nb/dl/01-intro/01ba-nll
+      - file: nb/dl/01-intro/01bb-gradient
+      - file: nb/dl/01-intro/01bc-nonlinear
+    - file: nb/dl/01-intro/01c-lossmin
       sections:
-      - file: nb/dl/01ca-biasvariance
-      - file: nb/dl/01cb-regularization
-      - file: nb/dl/01cc-experiments
-      - file: nb/dl/01cd-split
-    - file: nb/dl/01d-appendix-bce
-    - file: nb/dl/01e-appendix-weaksup
+      - file: nb/dl/01-intro/01ca-biasvariance
+      - file: nb/dl/01-intro/01cb-regularization
+      - file: nb/dl/01-intro/01cc-experiments
+      - file: nb/dl/01-intro/01cd-split
+    - file: nb/dl/01-intro/01d-appendix-bce
+    - file: nb/dl/01-intro/01e-appendix-weaksup
       sections:
-      - file: nb/dl/01ea-theory
-      - file: nb/dl/01eb-experiments
+      - file: nb/dl/01-intro/01ea-theory
+      - file: nb/dl/01-intro/01eb-experiments
   - file: nb/dl/02-optim
   - file: nb/dl/00-backprop
   - file: nb/dl/03-cnn
