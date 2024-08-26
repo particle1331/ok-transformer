@@ -17,7 +17,7 @@ parts:
       - file: nb/dl/01-intro/01bc-nonlinear
     - file: nb/dl/01-intro/01c-lossmin
       sections:
-      - file: nb/dl/01-intro/01ca-biasvariance
+      - file: nb/dl/01-intro/01ca-bias-variance
       - file: nb/dl/01-intro/01cb-regularization
       - file: nb/dl/01-intro/01cc-experiments
       - file: nb/dl/01-intro/01cd-split
@@ -26,7 +26,15 @@ parts:
       sections:
       - file: nb/dl/01-intro/01ea-theory
       - file: nb/dl/01-intro/01eb-experiments
-  - file: nb/dl/02-optim
+  
+  - file: nb/dl/02-optim/02-optim
+    sections:
+    - file: nb/dl/02-optim/02a-loss-landscape
+    - file: nb/dl/02-optim/02b-momentum
+      sections:
+      - file: nb/dl/02-optim/02ba-rmsprop
+      - file: nb/dl/02-optim/02bb-adam
+    
   - file: nb/dl/00-backprop
   - file: nb/dl/03-cnn
   - file: nb/dl/04-lm
