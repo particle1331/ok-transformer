@@ -31,9 +31,8 @@ parts:
     sections:
     - file: nb/dl/02-optim/02a-loss-landscape
     - file: nb/dl/02-optim/02b-momentum
-      sections:
-      - file: nb/dl/02-optim/02ba-rmsprop
-      - file: nb/dl/02-optim/02bb-adam
+    - file: nb/dl/02-optim/02c-sgd
+    - file: nb/dl/02-optim/02d-hyperparameters
     
   - file: nb/dl/00-backprop
   - file: nb/dl/03-cnn

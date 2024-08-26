@@ -28,6 +28,14 @@ class OptimizerBase:
 
     def update_param(self, p):
         raise NotImplementedError
+    
+
+class GD(OptimizerBase):
+    def __init__(self, params, lr):
+        super().__init__(params, lr)
+
+    def update_param(self, p):
+        p += -self.lr * p.grad
 
     
 # https://uvadlc-notebooks.readthedocs.io/en/latest/tutorial_notebooks/tutorial4/Optimization_and_Initialization.html
@@ -113,3 +121,49 @@ def plot_gd_steps(ax, optim, optim_params: dict, label_map={}, w_init=[-2.5, 2.5
 label_map_gdm = {"lr": r"$\eta$", "momentum": r"$\beta$"}
 label_map_rmsprop = {"lr": r"$\eta$", "beta": r"$\beta$"}
 label_map_adam = {"lr": r"$\eta$", "beta1": r"$\beta_1$", "beta2": r"$\beta_2$"}
+
+
+class GDM(OptimizerBase):
+    def __init__(self, params, lr, momentum=0.0):
+        super().__init__(params, lr)
+        self.beta = momentum
+        self.m = {p: torch.zeros_like(p.data) for p in self.params}
+
+    def update_param(self, p):
+        self.m[p] = self.beta * self.m[p] + (1 - self.beta) * p.grad
+        p += -self.lr * self.m[p]
+
+
+class RMSProp(OptimizerBase):
+    def __init__(self, params, lr, beta=0.9):
+        super().__init__(params, lr)
+        self.beta = beta
+        self.v = {p: torch.zeros_like(p.data) for p in self.params}
+
+    def update_param(self, p):
+        self.v[p] = self.beta * self.v[p] + (1 - self.beta) * p.grad ** 2
+        p += -self.lr * p.grad / torch.sqrt(self.v[p])
+
+
+class Adam(OptimizerBase):
+    def __init__(self, params, lr=0.001, beta1=0.9, beta2=0.999, eps=1e-8):
+        super().__init__(params, lr)
+        self.beta1 = beta1
+        self.beta2 = beta2
+        self.t = 0
+        self.m = {p: torch.zeros_like(p.data) for p in self.params}
+        self.v = {p: torch.zeros_like(p.data) for p in self.params}
+        self.eps = eps
+
+    @torch.no_grad()
+    def step(self):
+        """Increment global time for each optimizer step."""
+        self.t += 1
+        OptimizerBase.step(self)
+
+    def update_param(self, p):
+        self.m[p] = self.beta1 * self.m[p] + (1 - self.beta1) * p.grad
+        self.v[p] = self.beta2 * self.v[p] + (1 - self.beta2) * p.grad ** 2
+        m_hat = self.m[p] / (1 - self.beta1 ** self.t)
+        v_hat = self.v[p] / (1 - self.beta2 ** self.t)
+        p += -self.lr * m_hat / (torch.sqrt(v_hat) + self.eps)
