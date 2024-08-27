@@ -228,16 +228,15 @@ class Layer(Module):
 class MLP(Module):
     def __init__(self, n_in, n_outs, activation=None):
         sizes = [n_in] + n_outs
-        self.layers = [
-            Layer(sizes[i], sizes[i + 1], activation if i < len(n_outs) - 1 else None) for i in range(len(n_outs))
-        ]
+        self.layers = []
+        for i in range(len(n_outs)):
+            act = activation if i < len(n_outs) - 1 else None
+            layer = Layer(sizes[i], sizes[i + 1], act)
+            self.layers.append(layer)
+
         self._parameters = [p for layer in self.layers for p in layer.parameters()]
 
     def __call__(self, x):
-        for layer in self.layers:
-            for neuron in layer.neurons:
-                neuron._degree = 0
-
         for layer in self.layers:
             x = layer(x)
         return x
