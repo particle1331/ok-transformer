@@ -34,7 +34,13 @@ parts:
     - file: nb/dl/02-optim/02c-sgd
     - file: nb/dl/02-optim/02d-hyperparameters
     
-  - file: nb/dl/00-backprop
+  - file: nb/dl/00-backprop/00-backprop
+    sections:
+    - file: nb/dl/00-backprop/00a-compute-nodes
+    - file: nb/dl/00-backprop/00b-neural-net-module
+    - file: nb/dl/00-backprop/00c-benchmarking
+    - file: nb/dl/00-backprop/00d-network-training
+
   - file: nb/dl/03-cnn
   - file: nb/dl/04-lm
   - file: nb/dl/05-training
