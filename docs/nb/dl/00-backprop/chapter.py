@@ -14,7 +14,7 @@ class Node:
         self._parents = parents     # parent -> self
 
     @final
-    def comp_graph(self):
+    def sorted_graph(self):
         """Return toposorted comp graph with self as root."""
         topo = []
         visited = set()
@@ -31,7 +31,7 @@ class Node:
     def backward(self):
         """Send global grads backward to parent nodes."""
         self.grad = 1.0
-        for node in self.comp_graph():
+        for node in self.sorted_graph():
             for parent in node._parents:
                 parent.grad += node.grad * node._local_grad(parent)
 
