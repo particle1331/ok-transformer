@@ -1,11 +1,8 @@
 import math
 import random
-
 from abc import ABC, abstractmethod
 from typing import final
-
 from graphviz import Digraph
-
 
 random.seed(42)
 
@@ -13,57 +10,50 @@ random.seed(42)
 class Node:
     def __init__(self, data, parents=()):
         self.data = data
-        self.grad = 0  # ∂loss / ∂self
-        self._children = []  # self -> child
-        self._parents = parents  # parent -> self
-        self._message_count = 0  # count of received grads
+        self.grad = 0               # ∂loss / ∂self
+        self._parents = parents     # parent -> self
+
+    @final
+    def comp_graph(self):
+        """Return toposorted comp graph with self as root."""
+        topo = []
+        visited = set()
+        def dfs(node):
+            if node not in visited:
+                visited.add(node)
+                for parent in node._parents:
+                    dfs(parent)
+                topo.append(node)
+        dfs(self)
+        return reversed(topo)
 
     @final
     def backward(self):
         """Send global grads backward to parent nodes."""
-        for parent in self._parents:
-            parent.grad += self.grad * self._local_grad(parent)
-            parent._message_count += 1
-
-            if parent._message_count == parent.degree:
-                parent._message_count = 0
-                parent.backward()
-
-    @property
-    def degree(self):
-        return len(self._children)
+        self.grad = 1.0
+        for node in self.comp_graph():
+            for parent in node._parents:
+                parent.grad += node.grad * node._local_grad(parent)
 
     def _local_grad(self, parent) -> float:
-        """Compute local grads ∂(self)/∂(parent)."""
+        """Calculate local grads ∂self / ∂parent."""
         raise NotImplementedError("Base node has no parents.")
 
     def __add__(self, node):
-        child = BinaryOpNode(self, node, op="+")
-        self._children.append(child)
-        node._children.append(child)
-        return child
+        return BinaryOpNode(self, node, op="+")
 
     def __mul__(self, node):
-        child = BinaryOpNode(self, node, op="*")
-        self._children.append(child)
-        node._children.append(child)
-        return child
+        return BinaryOpNode(self, node, op="*")
 
     def __pow__(self, n):
         assert isinstance(n, (int, float)) and n != 1
-        child = PowOp(self, n)
-        self._children.append(child)
-        return child
+        return PowOp(self, n)
 
     def relu(self):
-        child = ReLUNode(self)
-        self._children.append(child)
-        return child
+        return ReLUNode(self)
 
     def tanh(self):
-        child = TanhNode(self)
-        self._children.append(child)
-        return child
+        return TanhNode(self)
 
     def __neg__(self):
         return self * Node(-1)
@@ -133,14 +123,15 @@ def trace(root):
     """Builds a set of all nodes and edges in a graph."""
     # https://github.com/karpathy/micrograd/blob/master/trace_graph.ipynb
 
-    nodes, edges = set(), set()
+    nodes = set()
+    edges = set()
 
     def build(v):
         if v not in nodes:
             nodes.add(v)
-            for child in v._parents:
-                edges.add((child, v))
-                build(child)
+            for parent in v._parents:
+                edges.add((parent, v))
+                build(parent)
 
     build(root)
     return nodes, edges
@@ -154,7 +145,7 @@ def draw_graph(root):
     for n in nodes:
         # Add node to graph
         uid = str(id(n))
-        dot.node(name=uid, label=f"data={n.data:.3f} | grad={n.grad:.4f} | deg={n.degree}", shape="record")
+        dot.node(name=uid, label=f"data={n.data:.3f} | grad={n.grad:.4f}", shape="record")
 
         # Connect node to op node if operation
         # e.g. if (5) = (2) + (3), then draw (5) as (+) -> (5).
