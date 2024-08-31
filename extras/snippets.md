@@ -189,3 +189,26 @@ colima stop
 colima -p new-profile start
 colima list
 ```
+
+Custom jupyter extensions (e.g. `%%save`)
+
+```python
+# /Users/particle1331/.ipython/profile_default/startup/my_extension.py
+from IPython.core.magic import register_cell_magic
+
+@register_cell_magic
+def save(line, cell):
+    # Append the cell content to the file
+    with open("chapter.py", 'a') as f:
+        f.write(cell + '\n')
+
+    # Execute the cell content
+    exec(cell, globals())
+```
+
+```python
+# /Users/particle1331/.ipython/profile_default/startup/load_my_extension.py
+from IPython import get_ipython
+
+get_ipython().run_line_magic('load_ext', 'my_extension')
+```

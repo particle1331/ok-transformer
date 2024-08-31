@@ -1,10 +1,8 @@
 import math
 import random
-from abc import ABC, abstractmethod
-from typing import final
-from graphviz import Digraph
-
 random.seed(42)
+
+from typing import final
 
 
 class Node:
@@ -119,6 +117,9 @@ class PowOp(Node):
         return f"** {self.n}"
 
 
+from graphviz import Digraph
+
+
 def trace(root):
     """Builds a set of all nodes and edges in a graph."""
     # https://github.com/karpathy/micrograd/blob/master/trace_graph.ipynb
@@ -159,6 +160,7 @@ def draw_graph(root):
 
     return dot
 
+from abc import ABC, abstractmethod
 
 class Module(ABC):
     def __init__(self):
@@ -234,3 +236,4 @@ class MLP(Module):
 
     def __repr__(self):
         return f"MLP[{', '.join(str(layer) for layer in self.layers)}]"
+

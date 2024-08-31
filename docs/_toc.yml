@@ -43,31 +43,31 @@ parts:
     - file: nb/dl/00-backprop/00e-testing
     - file: nb/dl/00-backprop/00f-bp-equations
 
-  - file: nb/dl/03-cnn
-  - file: nb/dl/04-lm
-  - file: nb/dl/05-training
-  - file: nb/dl/07-attention
+#   - file: nb/dl/03-cnn
+#   - file: nb/dl/04-lm
+#   - file: nb/dl/05-training
+#   - file: nb/dl/07-attention
 
-# - caption: NLP / LLMs
+# # - caption: NLP / LLMs
+# #   chapters:
+# #   - file: nb/dl/06-gpt
+# #   - file: nb/dl/08-translation
+
+# - caption: ML Engineering & MLOps
 #   chapters:
-#   - file: nb/dl/06-gpt
-#   - file: nb/dl/08-translation
+#   - file: nb/mlops/01-intro
+#   - file: nb/mlops/02-package
+#   - file: nb/mlops/03-mlflow
+#   - file: nb/mlops/04-tasks
+#   - file: nb/mlops/04-deployment/notes
+#   # - file: nb/mlops/05-monitoring/notes
+#   - file: nb/mlops/06-best-practices/notes
+#   - file: nb/mle/cicd-pipelines
+#   - file: nb/mle/model-serving-api
 
-- caption: ML Engineering & MLOps
-  chapters:
-  - file: nb/mlops/01-intro
-  - file: nb/mlops/02-package
-  - file: nb/mlops/03-mlflow
-  - file: nb/mlops/04-tasks
-  - file: nb/mlops/04-deployment/notes
-  # - file: nb/mlops/05-monitoring/notes
-  - file: nb/mlops/06-best-practices/notes
-  - file: nb/mle/cicd-pipelines
-  - file: nb/mle/model-serving-api
-
-- caption: Notes
-  chapters:
-  - file: nb/notes/containers
-  - file: nb/notes/tf-course
-  - file: nb/notes/benchmarking
-  - file: nb/apis/01-fastapi
+# - caption: Notes
+#   chapters:
+#   - file: nb/notes/containers
+#   - file: nb/notes/tf-course
+#   - file: nb/notes/benchmarking
+#   - file: nb/apis/01-fastapi
