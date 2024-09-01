@@ -48,6 +48,7 @@ dev = [
     "jupyter-server==2.12.5",
     "ruff>=0.4.9",
     "jupyter-book==1.0.2",
+    "papermill>=2.6.0",
 ]
 
 [tool.ruff]
