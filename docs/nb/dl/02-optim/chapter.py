@@ -1,12 +1,6 @@
 import torch
 import torch.nn as nn
 
-import numpy as np
-import matplotlib.pyplot as plt
-from matplotlib_inline import backend_inline
-backend_inline.set_matplotlib_formats("svg")
-
-
 class OptimizerBase:
     def __init__(self, params: list, lr: float):
         self.params = params
@@ -28,7 +22,7 @@ class OptimizerBase:
 
     def update_param(self, p):
         raise NotImplementedError
-    
+
 
 class GD(OptimizerBase):
     def __init__(self, params, lr):
@@ -37,12 +31,18 @@ class GD(OptimizerBase):
     def update_param(self, p):
         p += -self.lr * p.grad
 
-    
+
 # https://uvadlc-notebooks.readthedocs.io/en/latest/tutorial_notebooks/tutorial4/Optimization_and_Initialization.html
 def pathological_loss(w0, w1):
     l1 = torch.tanh(w0) ** 2 + 0.01 * torch.abs(w1)
     l2 = torch.sigmoid(w1)
     return l1 + l2
+
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib_inline import backend_inline
+from mpl_toolkits.mplot3d import Axes3D 
+backend_inline.set_matplotlib_formats('svg')
 
 
 def plot_surface(ax, f, title="", x_min=-5, x_max=5, y_min=-5, y_max=5, N=50):
@@ -118,11 +118,6 @@ def plot_gd_steps(ax, optim, optim_params: dict, label_map={}, w_init=[-2.5, 2.5
     return path
 
 
-label_map_gdm = {"lr": r"$\eta$", "momentum": r"$\beta$"}
-label_map_rmsprop = {"lr": r"$\eta$", "beta": r"$\beta$"}
-label_map_adam = {"lr": r"$\eta$", "beta1": r"$\beta_1$", "beta2": r"$\beta_2$"}
-
-
 class GDM(OptimizerBase):
     def __init__(self, params, lr, momentum=0.0):
         super().__init__(params, lr)
@@ -167,3 +162,4 @@ class Adam(OptimizerBase):
         m_hat = self.m[p] / (1 - self.beta1 ** self.t)
         v_hat = self.v[p] / (1 - self.beta2 ** self.t)
         p += -self.lr * m_hat / (torch.sqrt(v_hat) + self.eps)
+
