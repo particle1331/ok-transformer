@@ -3,6 +3,7 @@ import random
 random.seed(42)
 
 from typing import final
+from collections import OrderedDict
 
 
 class Node:
@@ -12,30 +13,34 @@ class Node:
         self._parents = parents     # parent -> self
 
     @final
-    def sorted_graph(self):
-        """Return toposorted comp graph with self as root."""
-        topo = []
-        visited = set()
+    def sorted_nodes(self):
+        """Return topologically sorted nodes with self as root."""
+        topo = OrderedDict()
+
         def dfs(node):
-            if node not in visited:
-                visited.add(node)
+            if node not in topo:
                 for parent in node._parents:
                     dfs(parent)
-                topo.append(node)
+
+                topo[node] = None
+
         dfs(self)
         return reversed(topo)
+
 
     @final
     def backward(self):
         """Send global grads backward to parent nodes."""
         self.grad = 1.0
-        for node in self.sorted_graph():
+        for node in self.sorted_nodes():
             for parent in node._parents:
                 parent.grad += node.grad * node._local_grad(parent)
+
 
     def _local_grad(self, parent) -> float:
         """Calculate local grads ∂self / ∂parent."""
         raise NotImplementedError("Base node has no parents.")
+
 
     def __add__(self, node):
         return BinaryOpNode(self, node, op="+")
