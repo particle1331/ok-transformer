@@ -43,7 +43,8 @@ parts:
     - file: nb/dl/00-backprop/00e-testing
     - file: nb/dl/00-backprop/00f-bp-equations
 
-#   - file: nb/dl/03-cnn
+  - file: nb/dl/03-cnn/03-cnn
+
 #   - file: nb/dl/04-lm
 #   - file: nb/dl/05-training
 #   - file: nb/dl/07-attention
