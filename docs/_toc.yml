@@ -26,6 +26,7 @@ parts:
       sections:
       - file: nb/dl/01-intro/01ea-theory
       - file: nb/dl/01-intro/01eb-experiments
+    - file: nb/dl/01-intro/01ec-depth
   
   - file: nb/dl/02-optim/02-optim
     sections:

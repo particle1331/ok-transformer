@@ -212,3 +212,8 @@ from IPython import get_ipython
 
 get_ipython().run_line_magic('load_ext', 'my_extension')
 ```
+
+```
+%matplotlib inline
+%config InlineBackend.figure_format = 'svg'
+```
