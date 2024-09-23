@@ -204,6 +204,8 @@ def save(line, cell):
 
     # Execute the cell content
     exec(cell, globals())
+
+    return Code(cell, language="python")
 ```
 
 ```python

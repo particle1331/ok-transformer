@@ -162,4 +162,3 @@ class Adam(OptimizerBase):
         m_hat = self.m[p] / (1 - self.beta1 ** self.t)
         v_hat = self.v[p] / (1 - self.beta2 ** self.t)
         p += -self.lr * m_hat / (torch.sqrt(v_hat) + self.eps)
-
