@@ -60,7 +60,7 @@ def plot_surface(ax, f, title="", x_min=-5, x_max=5, y_min=-5, y_max=5, N=50):
     ax.set_title(title)
     
 
-def plot_contourf(ax, f, w_hist, color, title="", x_min=-5, x_max=5, y_min=-5, y_max=5, N=50, **kw):
+def plot_contourf(ax, f, w_hist, color, title="", levels=20, x_min=-5, x_max=5, y_min=-5, y_max=5, N=50, **kw):
     x = np.linspace(x_min, x_max, N)
     y = np.linspace(y_min, y_max, N)
     X, Y = np.meshgrid(x, y)
@@ -72,7 +72,7 @@ def plot_contourf(ax, f, w_hist, color, title="", x_min=-5, x_max=5, y_min=-5, y
     for t in range(1, len(w_hist)):
         ax.plot([w_hist[t-1][0], w_hist[t][0]], [w_hist[t-1][1], w_hist[t][1]], color=color)
 
-    ax.contourf(X, Y, Z, levels=20, cmap='viridis')
+    ax.contourf(X, Y, Z, levels=levels, cmap='viridis')
     ax.scatter(w_hist[:, 0], w_hist[:, 1], marker='o', s=5, facecolors=color, color=color, **kw)
     ax.set_title(title)
     ax.set_xlabel(f'$w_0$')
@@ -162,3 +162,4 @@ class Adam(OptimizerBase):
         m_hat = self.m[p] / (1 - self.beta1 ** self.t)
         v_hat = self.v[p] / (1 - self.beta2 ** self.t)
         p += -self.lr * m_hat / (torch.sqrt(v_hat) + self.eps)
+
