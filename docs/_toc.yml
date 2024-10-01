@@ -34,7 +34,6 @@ parts:
     - file: nb/dl/02-optim/02b-momentum
     - file: nb/dl/02-optim/02c-sgd
     - file: nb/dl/02-optim/02d-hyperparameters
-    - file: nb/dl/02-optim/02e-model-saving
     
   - file: nb/dl/00-backprop/00-backprop
     sections:
