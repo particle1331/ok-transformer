@@ -6,20 +6,12 @@
 ![jupyter-book](https://github.com/executablebooks/jupyter-book/raw/master/docs/images/badge.svg)
 [![stars](https://img.shields.io/github/stars/particle1331/ok-transformer?style=social)](https://github.com/particle1331/ok-transformer) 
 
-Entry point: [**OK Transformer** website](https://particle1331.github.io/ok-transformer/intro.html)
+[Entry point](https://particle1331.github.io/ok-transformer/intro.html)
+
+A collection of notes and code on ML engineering and operations.
 
 <br>
 
-A collection of self-contained notebooks on machine learning theory, engineering, and operations. I try to cover topics that frequently come up as building blocks for applications or further theory. I also explore areas where I want to [clarify my understanding](http://www.paulgraham.com/words.html) or [delve into details](http://www.paulgraham.com/getideas.html) that I personally find interesting or intriguing.
-
-The notebooks 
-should ideally run end-to-end with reproducible results between 
-runs. Exact output values may change due to 
-external dependencies such as hardware and changing dataset versions, 
-but the conclusions should still generally hold. Please open an issue
-if you find that this is not the case (as I often do)!
-
-<br>
 
 ## Making a local build
 
