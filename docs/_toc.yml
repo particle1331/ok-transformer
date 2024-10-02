@@ -45,6 +45,8 @@ parts:
     - file: nb/dl/00-backprop/00f-bp-equations
 
   - file: nb/dl/03-cnn/03-cnn
+    sections:
+    - file: nb/dl/03-cnn/03a-notes
 
 #   - file: nb/dl/04-lm
 #   - file: nb/dl/05-training
