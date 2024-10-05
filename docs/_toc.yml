@@ -46,8 +46,23 @@ parts:
 
   - file: nb/dl/03-cnn/03-cnn
     sections:
-    - file: nb/dl/03-cnn/03a-notes
-
+    - file: nb/dl/03-cnn/03a-convolution
+      sections:
+      - file: nb/dl/03-cnn/03aa-conv-layer
+      - file: nb/dl/03-cnn/03ab-stride-padding
+      - file: nb/dl/03-cnn/03ac-max-pooling
+    - file: nb/dl/03-cnn/03b-convolutional-networks
+      sections:
+      - file: nb/dl/03-cnn/03ba-model
+      - file: nb/dl/03-cnn/03bb-trainer
+      - file: nb/dl/03-cnn/03bc-lr-sched
+      - file: nb/dl/03-cnn/03bd-feature-maps
+    - file: nb/dl/03-cnn/03c-data-augmentation
+    - file: nb/dl/03-cnn/03d-transfer-learning
+    - file: nb/dl/03-cnn/03e-guided-backprop
+    - file: nb/dl/03-cnn/03f-text-classification
+    - file: nb/dl/03-cnn/03g-maximal-input
+    
 #   - file: nb/dl/04-lm
 #   - file: nb/dl/05-training
 #   - file: nb/dl/07-attention
