@@ -29,4 +29,7 @@ ruff-format:
 	pdm run ruff format $(path)
 
 execute:
-	pdm run extras/run.py --folder $(folder)
+	pdm run extras/run.py --pattern $(pattern)
+
+validate:
+	pdm run extras/validate.py

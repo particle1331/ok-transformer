@@ -5,7 +5,7 @@
 groups = ["default", "dev"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:f1c9f6ad13d425fc78c64ed4e43a35b8fa5c61a9648273059d4f5e94f25abbbd"
+content_hash = "sha256:407855a1e7ce5c1554406ed43abcd0f6c1146b3b2ddc98da0e1629ad92039206"
 
 [[metadata.targets]]
 requires_python = "==3.10.*"
@@ -2249,6 +2249,17 @@ dependencies = [
 files = [
     {file = "mlflow_skinny-2.16.0-py3-none-any.whl", hash = "sha256:c55541f50efd0f6637377b10e8a654847a3fcd815b8680a95f02e0ca6bd7700c"},
     {file = "mlflow_skinny-2.16.0.tar.gz", hash = "sha256:9b823173063743783b4e7b6c52bdadcc7d9dab48eb883ac454c0d56609df6b2d"},
+]
+
+[[package]]
+name = "mlx"
+version = "0.19.0"
+requires_python = ">=3.9"
+summary = "A framework for machine learning on Apple silicon."
+groups = ["default"]
+files = [
+    {file = "mlx-0.19.0-cp310-cp310-macosx_13_0_arm64.whl", hash = "sha256:c5a7ffe09241a5782bf91e9ab4b6672da8c7f8922497949d781301ffd56b39b9"},
+    {file = "mlx-0.19.0-cp310-cp310-macosx_14_0_arm64.whl", hash = "sha256:6b975dfb615ea7b0aa882fd8e852cb69f4cac213c49d5ad1587715a535fa09cf"},
 ]
 
 [[package]]

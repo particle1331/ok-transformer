@@ -21,7 +21,7 @@ parts:
       - file: nb/dl/01-intro/01cb-regularization
       - file: nb/dl/01-intro/01cc-experiments
       - file: nb/dl/01-intro/01cd-split
-    - file: nb/dl/01-intro/01d-appendix-bce
+    # - file: nb/dl/01-intro/01d-appendix-bce
     - file: nb/dl/01-intro/01e-appendix-weaksup
       sections:
       - file: nb/dl/01-intro/01ea-theory
@@ -63,11 +63,22 @@ parts:
     - file: nb/dl/03-cnn/03f-text-classification
     - file: nb/dl/03-cnn/03g-maximal-input
 
-  - file: nb/dl/04-sequence-models/04-sequence-models
+  - file: nb/dl/04-sequence-models/04-intro
+    sections:
+    - file: nb/dl/04-sequence-models/04a-autoregressive-linear
+    - file: nb/dl/04-sequence-models/04b-getting-text-data
+    - file: nb/dl/04-sequence-models/04c-language-modeling
+      sections:
+      - file: nb/dl/04-sequence-models/04ca-ngrams
+      - file: nb/dl/04-sequence-models/04cc-embeddings
+      - file: nb/dl/04-sequence-models/04cb-neural-count-model
+      - file: nb/dl/04-sequence-models/04cd-wavenet
+    - file: nb/dl/04-sequence-models/04d-rnn
+
 
 #   - file: nb/dl/04-lm
 #   - file: nb/dl/05-training
-#   - file: nb/dl/07-attention
+  - file: nb/dl/07-attention
 
 # # - caption: NLP / LLMs
 # #   chapters:
