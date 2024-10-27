@@ -11,6 +11,8 @@ def save_remove_input(notebook_json: dict):
                 if r"%%save" in line:
                     try:
                         assert "remove-input" in cell["metadata"]["tags"]
+                        assert "remove-cell" not in cell["metadata"]["tags"]
+                        assert "remove-output" not in cell["metadata"]["tags"]
                     except:
                         return 1
     return 0
