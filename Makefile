@@ -30,3 +30,6 @@ ruff-format:
 
 execute:
 	pdm run extras/run.py --folder $(folder)
+
+validate:
+	pdm run extras/validate.py
