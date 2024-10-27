@@ -1,6 +1,5 @@
 import glob
 import json
-import pprint
 
 from tqdm import tqdm
 
