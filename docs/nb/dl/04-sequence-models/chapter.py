@@ -384,3 +384,278 @@ class Trainer:
         with eval_context(self.model):
             return self(x)
 
+import torch
+import numpy as np
+import torch.nn as nn
+
+
+class SimpleRNN(nn.Module):
+    def __init__(self, dim_inputs, dim_hidden):
+        super().__init__()
+        self.dim_hidden = dim_hidden
+        self.dim_inputs = dim_inputs
+        self.W = nn.Parameter(torch.randn(dim_hidden, dim_hidden) / np.sqrt(dim_hidden))
+        self.U = nn.Parameter(torch.randn(dim_inputs, dim_hidden) / np.sqrt(dim_inputs))
+        self.b = nn.Parameter(torch.zeros(dim_hidden))
+
+    def forward(self, x, state=None):
+        x = x.transpose(0, 1)  # (B, T, d) -> (T, B, d)
+        T, B, d = x.shape
+        assert d == self.dim_inputs
+        if state is None:
+            state = torch.zeros(B, self.dim_hidden, device=x.device)
+        else:
+            assert state.shape == (B, self.dim_hidden)
+
+        outs = []
+        for t in range(T):
+            state = torch.tanh(x[t] @ self.U + state @ self.W + self.b)
+            outs.append(state)
+
+        outs = torch.stack(outs)
+        outs = outs.transpose(0, 1)
+        return outs, state
+
+import torch
+import numpy as np
+import torch.nn as nn
+
+
+class SimpleRNN(nn.Module):
+    def __init__(self, dim_inputs, dim_hidden):
+        super().__init__()
+        self.dim_hidden = dim_hidden
+        self.dim_inputs = dim_inputs
+        self.W = nn.Parameter(torch.randn(dim_hidden, dim_hidden) / np.sqrt(dim_hidden))
+        self.U = nn.Parameter(torch.randn(dim_inputs, dim_hidden) / np.sqrt(dim_inputs))
+        self.b = nn.Parameter(torch.zeros(dim_hidden))
+
+    def forward(self, x, state=None):
+        x = x.transpose(0, 1)  # (B, T, d) -> (T, B, d)
+        T, B, d = x.shape
+        assert d == self.dim_inputs
+        if state is None:
+            state = torch.zeros(B, self.dim_hidden, device=x.device)
+        else:
+            assert state.shape == (B, self.dim_hidden)
+
+        outs = []
+        for t in range(T):
+            state = torch.tanh(x[t] @ self.U + state @ self.W + self.b)
+            outs.append(state)
+
+        outs = torch.stack(outs)
+        outs = outs.transpose(0, 1)
+        return outs, state
+
+import torch.nn.functional as F
+from torch.utils.data import Dataset, DataLoader
+
+class SequenceDataset(Dataset):
+    def __init__(self, corpus: list, seq_len: int, vocab_size: int):
+        super().__init__()
+        self.corpus = corpus
+        self.seq_len = seq_len
+        self.vocab_size = vocab_size
+
+    def __getitem__(self, i):
+        c = torch.tensor(self.corpus[i: i + self.seq_len + 1])
+        x, y = c[:-1], c[1:]
+        x = F.one_hot(x, num_classes=self.vocab_size).float()
+        return x, y
+    
+    def __len__(self):
+        return len(self.corpus) - self.seq_len
+
+class RNNLanguageModel(nn.Module):
+    """RNN based language model."""
+    def __init__(self, dim_inputs, dim_hidden, vocab_size):
+        super().__init__()
+        self.rnn = SimpleRNN(dim_inputs=dim_inputs, dim_hidden=dim_hidden)
+        self.out_layer = nn.Linear(dim_hidden, vocab_size)
+
+    def forward(self, x, state=None):
+        outs, _ = self.rnn(x, state)
+        logits = self.out_layer(outs)   # (B, T, H) -> (B, T, C)
+        return logits.permute(0, 2, 1)  # F.cross_entropy expects (B, C, T)
+
+class RNNLanguageModel(nn.Module):
+    """RNN based language model."""
+    def __init__(self, dim_inputs, dim_hidden, vocab_size):
+        super().__init__()
+        self.rnn = SimpleRNN(dim_inputs=dim_inputs, dim_hidden=dim_hidden)
+        self.ffn = nn.Linear(dim_hidden, vocab_size)
+
+    def forward(self, x, state=None):
+        outs, _ = self.rnn(x, state)
+        logits = self.ffn(outs)         # (B, T, H) -> (B, T, C)
+        return logits.permute(0, 2, 1)  # F.cross_entropy expects (B, C, T)
+
+import torch.nn.functional as F
+from torch.utils.data import Dataset, DataLoader
+
+class SequenceDataset(Dataset):
+    def __init__(self, corpus: list, seq_len: int, vocab_size: int):
+        super().__init__()
+        self.corpus = corpus
+        self.seq_len = seq_len
+        self.vocab_size = vocab_size
+
+    def __getitem__(self, i):
+        c = torch.tensor(self.corpus[i: i + self.seq_len + 1])
+        x, y = c[:-1], c[1:]
+        x = F.one_hot(x, num_classes=self.vocab_size).float()
+        return x, y
+    
+    def __len__(self):
+        return len(self.corpus) - self.seq_len
+
+class RNNLanguageModel(nn.Module):
+    """RNN based language model."""
+    def __init__(self, dim_inputs, dim_hidden, vocab_size):
+        super().__init__()
+        self.rnn = SimpleRNN(dim_inputs=dim_inputs, dim_hidden=dim_hidden)
+        self.lin = nn.Linear(dim_hidden, vocab_size)
+
+    def forward(self, x, state=None):
+        outs, _ = self.rnn(x, state)
+        logits = self.lin(outs)         # (B, T, H) -> (B, T, C)
+        return logits.permute(0, 2, 1)  # F.cross_entropy expects (B, C, T)
+
+class RNNLanguageModel(nn.Module):
+    """RNN based language model."""
+    def __init__(self, dim_inputs, dim_hidden, vocab_size):
+        super().__init__()
+        self.rnn = SimpleRNN(dim_inputs=dim_inputs, dim_hidden=dim_hidden)
+        self.lin = nn.Linear(dim_hidden, vocab_size)
+
+    def forward(self, x, state=None):
+        outs, _ = self.rnn(x, state)
+        logits = self.lin(outs)         # (B, T, H) -> (B, T, C)
+        return logits.permute(0, 2, 1)  # F.cross_entropy expects (B, C, T)
+
+import torch.nn.functional as F
+from torch.utils.data import Dataset, DataLoader
+
+class SequenceDataset(Dataset):
+    def __init__(self, corpus: list, seq_len: int, vocab_size: int):
+        super().__init__()
+        self.corpus = corpus
+        self.seq_len = seq_len
+        self.vocab_size = vocab_size
+
+    def __getitem__(self, i):
+        c = torch.tensor(self.corpus[i: i + self.seq_len + 1])
+        x, y = c[:-1], c[1:]
+        x = F.one_hot(x, num_classes=self.vocab_size).float()
+        return x, y
+    
+    def __len__(self):
+        return len(self.corpus) - self.seq_len
+
+class RNNLanguageModel(nn.Module):
+    """RNN based language model."""
+    def __init__(self, dim_inputs, dim_hidden, vocab_size):
+        super().__init__()
+        self.rnn = SimpleRNN(dim_inputs=dim_inputs, dim_hidden=dim_hidden)
+        self.linear = nn.Linear(dim_hidden, vocab_size)
+
+    def forward(self, x, state=None):
+        outs, _ = self.rnn(x, state)
+        logits = self.linear(outs)         # (B, T, H) -> (B, T, C)
+        return logits.permute(0, 2, 1)  # F.cross_entropy expects (B, C, T)
+
+class RNNLanguageModel(nn.Module):
+    """RNN based language model."""
+    def __init__(self, dim_inputs, dim_hidden, vocab_size):
+        super().__init__()
+        self.rnn = SimpleRNN(dim_inputs=dim_inputs, dim_hidden=dim_hidden)
+        self.linear = nn.Linear(dim_hidden, vocab_size)
+
+    def forward(self, x, state=None):
+        outs, _ = self.rnn(x, state)
+        logits = self.linear(outs)         # (B, T, H) -> (B, T, C)
+        return logits.permute(0, 2, 1)  # F.cross_entropy expects (B, C, T)
+
+import torch.nn.functional as F
+from torch.utils.data import Dataset, DataLoader
+
+class SequenceDataset(Dataset):
+    def __init__(self, corpus: list, seq_len: int, vocab_size: int):
+        super().__init__()
+        self.corpus = corpus
+        self.seq_len = seq_len
+        self.vocab_size = vocab_size
+
+    def __getitem__(self, i):
+        c = torch.tensor(self.corpus[i: i + self.seq_len + 1])
+        x, y = c[:-1], c[1:]
+        x = F.one_hot(x, num_classes=self.vocab_size).float()
+        return x, y
+    
+    def __len__(self):
+        return len(self.corpus) - self.seq_len
+
+import torch
+import numpy as np
+import torch.nn as nn
+
+
+class SimpleRNN(nn.Module):
+    def __init__(self, dim_inputs, dim_hidden):
+        super().__init__()
+        self.dim_hidden = dim_hidden
+        self.dim_inputs = dim_inputs
+        self.W = nn.Parameter(torch.randn(dim_hidden, dim_hidden) / np.sqrt(dim_hidden))
+        self.U = nn.Parameter(torch.randn(dim_inputs, dim_hidden) / np.sqrt(dim_inputs))
+        self.b = nn.Parameter(torch.zeros(dim_hidden))
+
+    def forward(self, x, state=None):
+        x = x.transpose(0, 1)  # (B, T, d) -> (T, B, d)
+        T, B, d = x.shape
+        assert d == self.dim_inputs
+        if state is None:
+            state = torch.zeros(B, self.dim_hidden, device=x.device)
+        else:
+            assert state.shape == (B, self.dim_hidden)
+
+        outs = []
+        for t in range(T):
+            state = torch.tanh(x[t] @ self.U + state @ self.W + self.b)
+            outs.append(state)
+
+        outs = torch.stack(outs)
+        outs = outs.transpose(0, 1)
+        return outs, state
+
+class RNNLanguageModel(nn.Module):
+    """RNN based language model."""
+    def __init__(self, dim_inputs, dim_hidden, vocab_size):
+        super().__init__()
+        self.rnn = SimpleRNN(dim_inputs, dim_hidden)
+        self.linear = nn.Linear(dim_hidden, vocab_size)
+
+    def forward(self, x, state=None):
+        outs, _ = self.rnn(x, state)
+        logits = self.linear(outs)         # (B, T, H) -> (B, T, C)
+        return logits.permute(0, 2, 1)  # F.cross_entropy expects (B, C, T)
+
+import torch.nn.functional as F
+from torch.utils.data import Dataset, DataLoader
+
+class SequenceDataset(Dataset):
+    def __init__(self, corpus: list, seq_len: int, vocab_size: int):
+        super().__init__()
+        self.corpus = corpus
+        self.seq_len = seq_len
+        self.vocab_size = vocab_size
+
+    def __getitem__(self, i):
+        c = torch.tensor(self.corpus[i: i + self.seq_len + 1])
+        x, y = c[:-1], c[1:]
+        x = F.one_hot(x, num_classes=self.vocab_size).float()
+        return x, y
+    
+    def __len__(self):
+        return len(self.corpus) - self.seq_len
+

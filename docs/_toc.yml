@@ -74,6 +74,12 @@ parts:
       - file: nb/dl/04-sequence-models/04cb-neural-count-model
       - file: nb/dl/04-sequence-models/04cd-wavenet
     - file: nb/dl/04-sequence-models/04d-rnn
+      sections:
+        - file: nb/dl/04-sequence-models/04da-rnn-lm
+        - file: nb/dl/04-sequence-models/04db-training
+        - file: nb/dl/04-sequence-models/04dc-decoding
+        - file: nb/dl/04-sequence-models/04dd-bptt
+        - file: nb/dl/04-sequence-models/04de-vanishing-exploding
 
 
 #   - file: nb/dl/04-lm
