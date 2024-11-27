@@ -111,7 +111,7 @@ class Trainer:
         loss = self.loss_fn(preds, y, reduction="sum")
         return {"loss": loss, "accs": accs}
     
-    def run(self, epochs, train_loader, valid_loader, window_size=None):
+    def run(self, epochs, train_loader, valid_loader):
         for e in tqdm(range(epochs)):
             for batch in train_loader:
                 # optim and lr step
@@ -125,7 +125,7 @@ class Trainer:
 
                 # logs @ train step
                 steps_per_epoch = len(train_loader)
-                w = int(0.05 * steps_per_epoch) if not window_size else window_size
+                w = int(0.05 * steps_per_epoch)
                 self.train_log["loss"].append(output["loss"].item())
                 self.train_log["accs"].append(output["accs"].item())
                 self.train_log["loss_avg"].append(np.mean(self.train_log["loss"][-w:]))
