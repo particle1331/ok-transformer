@@ -27,12 +27,11 @@ Effect of batch normalization on the magnitude of preactivation gradients.
 
 #
 
-## Dependencies
+## Frameworks
 
 ```text
 ╭────────────────────────────────────┬────────────────╮
 │ fastapi                            │ 0.111.0        │
-│ Flask                              │ 3.0.3          │
 │ keras                              │ 2.15.0         │
 │ lightning                          │ 2.3.0          │
 │ matplotlib                         │ 3.9.0          │
@@ -42,15 +41,8 @@ Effect of batch normalization on the magnitude of preactivation gradients.
 │ pandas                             │ 2.2.2          │
 │ scikit-learn                       │ 1.5.0          │
 │ scipy                              │ 1.13.1         │
-│ seaborn                            │ 0.13.2         │
 │ tensorflow                         │ 2.15.1         │
-│ tensorflow-datasets                │ 4.9.6          │
-│ tensorflow-estimator               │ 2.15.0         │
 │ torch                              │ 2.2.2          │
-│ torchaudio                         │ 2.2.2          │
-│ torchinfo                          │ 1.8.0          │
-│ torchmetrics                       │ 1.4.0.post0    │
-│ torchvision                        │ 0.17.2         │
 │ uvicorn                            │ 0.30.1         │
 │ xgboost                            │ 2.0.3          │
 ╰────────────────────────────────────┴────────────────╯

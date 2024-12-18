@@ -10,22 +10,25 @@ parts:
   - file: nb/dl/01-intro/01-intro
     sections:
     - file: nb/dl/01-intro/01a-fcnn
+    
     - file: nb/dl/01-intro/01b-linear
       sections:
       - file: nb/dl/01-intro/01ba-nll
       - file: nb/dl/01-intro/01bb-gradient
       - file: nb/dl/01-intro/01bc-nonlinear
+    
     - file: nb/dl/01-intro/01c-lossmin
       sections:
       - file: nb/dl/01-intro/01ca-bias-variance
       - file: nb/dl/01-intro/01cb-regularization
       - file: nb/dl/01-intro/01cc-experiments
       - file: nb/dl/01-intro/01cd-split
-    # - file: nb/dl/01-intro/01d-appendix-bce
+    
     - file: nb/dl/01-intro/01e-appendix-weaksup
       sections:
       - file: nb/dl/01-intro/01ea-theory
       - file: nb/dl/01-intro/01eb-experiments
+    
     - file: nb/dl/01-intro/01ec-depth
   
   - file: nb/dl/02-optim/02-optim
@@ -51,12 +54,14 @@ parts:
       - file: nb/dl/03-cnn/03aa-conv-layer
       - file: nb/dl/03-cnn/03ab-stride-padding
       - file: nb/dl/03-cnn/03ac-max-pooling
+    
     - file: nb/dl/03-cnn/03b-convolutional-networks
       sections:
       - file: nb/dl/03-cnn/03ba-model
       - file: nb/dl/03-cnn/03bb-trainer
       - file: nb/dl/03-cnn/03bc-lr-sched
       - file: nb/dl/03-cnn/03bd-feature-maps
+    
     - file: nb/dl/03-cnn/03c-data-augmentation
     - file: nb/dl/03-cnn/03d-transfer-learning
     - file: nb/dl/03-cnn/03e-guided-backprop
@@ -65,21 +70,29 @@ parts:
 
   - file: nb/dl/04-sequence-models/04-intro
     sections:
-    - file: nb/dl/04-sequence-models/04a-autoregressive-linear
     - file: nb/dl/04-sequence-models/04b-getting-text-data
-    - file: nb/dl/04-sequence-models/04c-language-modeling
-      sections:
-      - file: nb/dl/04-sequence-models/04ca-ngrams
-      - file: nb/dl/04-sequence-models/04cc-embeddings
-      - file: nb/dl/04-sequence-models/04cb-neural-count-model
-      - file: nb/dl/04-sequence-models/04cd-wavenet
-    - file: nb/dl/04-sequence-models/04d-rnn
-      sections:
-        - file: nb/dl/04-sequence-models/04da-rnn-lm
-        - file: nb/dl/04-sequence-models/04db-training
-        - file: nb/dl/04-sequence-models/04dc-decoding
-        - file: nb/dl/04-sequence-models/04dd-bptt
-        - file: nb/dl/04-sequence-models/04de-vanishing-exploding
+    - file: nb/dl/04-sequence-models/04ca-ngrams
+    - file: nb/dl/04-sequence-models/04cc-embeddings
+    - file: nb/dl/04-sequence-models/04cd-wavenet
+    - file: nb/dl/04-sequence-models/04cb-neural-count-model
+    - file: nb/dl/04-sequence-models/04a-autoregressive-linear
+    - file: nb/dl/04-sequence-models/04z-spell-corrector
+  
+  - file: nb/dl/05-rnns/05-intro
+    sections:
+      - file: nb/dl/05-rnns/05a-rnn
+      - file: nb/dl/05-rnns/05b-rnn-lm
+      - file: nb/dl/05-rnns/05c-training
+      - file: nb/dl/05-rnns/05d-textgen
+      - file: nb/dl/05-rnns/05e-bptt
+      - file: nb/dl/05-rnns/05f-modern-rnns
+        sections:
+        - file: nb/dl/05-rnns/05fa-lstm
+        - file: nb/dl/05-rnns/05fb-gru
+        - file: nb/dl/05-rnns/05fc-deep
+        - file: nb/dl/05-rnns/05fd-birnn
+
+      - file: nb/dl/05-rnns/05z-vanishing-gradients
 
 
 #   - file: nb/dl/04-lm

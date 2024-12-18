@@ -33,11 +33,17 @@ import re
 import os
 import requests
 
+from pathlib import Path
+
+DATA_DIR = Path("./data")
+DATA_DIR.mkdir(exist_ok=True)
+
 
 class TimeMachine:
-    def __init__(self, download=False, token_level="char"):
+    def __init__(self, download=False, path=None, token_level="char"):
+        DEFAULT_PATH = str((DATA_DIR / "time_machine.txt").absolute())
         self.token_level = token_level
-        self.filepath = "./data/time_machine.txt"
+        self.filepath = path or DEFAULT_PATH
         if download or not os.path.exists(self.filepath):
             self._download()
         
@@ -346,7 +352,7 @@ class Trainer:
         loss = self.loss_fn(preds, y, reduction="sum")
         return {"loss": loss}
     
-    def run(self, epochs, train_loader, valid_loader, window_size=None):
+    def run(self, epochs, train_loader, valid_loader):
         for e in tqdm(range(epochs)):
             for batch in train_loader:
                 # optim and lr step
@@ -360,7 +366,7 @@ class Trainer:
 
                 # logs @ train step
                 steps_per_epoch = len(train_loader)
-                w = int(0.05 * steps_per_epoch) if not window_size else window_size
+                w = int(0.05 * steps_per_epoch)
                 self.train_log["loss"].append(output["loss"].item())
                 self.train_log["loss_avg"].append(np.mean(self.train_log["loss"][-w:]))
 
@@ -383,67 +389,4 @@ class Trainer:
     def predict(self, x: torch.Tensor):
         with eval_context(self.model):
             return self(x)
-
-import torch
-import numpy as np
-import torch.nn as nn
-
-
-class SimpleRNN(nn.Module):
-    def __init__(self, dim_inputs, dim_hidden):
-        super().__init__()
-        self.dim_hidden = dim_hidden
-        self.dim_inputs = dim_inputs
-        self.W = nn.Parameter(torch.randn(dim_hidden, dim_hidden) / np.sqrt(dim_hidden))
-        self.U = nn.Parameter(torch.randn(dim_inputs, dim_hidden) / np.sqrt(dim_inputs))
-        self.b = nn.Parameter(torch.zeros(dim_hidden))
-
-    def forward(self, x, state=None):
-        x = x.transpose(0, 1)  # (B, T, d) -> (T, B, d)
-        T, B, d = x.shape
-        assert d == self.dim_inputs
-        if state is None:
-            state = torch.zeros(B, self.dim_hidden, device=x.device)
-        else:
-            assert state.shape == (B, self.dim_hidden)
-
-        outs = []
-        for t in range(T):
-            state = torch.tanh(x[t] @ self.U + state @ self.W + self.b)
-            outs.append(state)
-
-        outs = torch.stack(outs)
-        outs = outs.transpose(0, 1)
-        return outs, state
-
-class RNNLanguageModel(nn.Module):
-    """RNN based language model."""
-    def __init__(self, dim_inputs, dim_hidden, vocab_size):
-        super().__init__()
-        self.rnn = SimpleRNN(dim_inputs, dim_hidden)
-        self.linear = nn.Linear(dim_hidden, vocab_size)
-
-    def forward(self, x, state=None):
-        outs, _ = self.rnn(x, state)
-        logits = self.linear(outs)         # (B, T, H) -> (B, T, C)
-        return logits.permute(0, 2, 1)     # F.cross_entropy expects (B, C, T)
-
-import torch.nn.functional as F
-from torch.utils.data import Dataset, DataLoader
-
-class SequenceDataset(Dataset):
-    def __init__(self, corpus: list, seq_len: int, vocab_size: int):
-        super().__init__()
-        self.corpus = corpus
-        self.seq_len = seq_len
-        self.vocab_size = vocab_size
-
-    def __getitem__(self, i):
-        c = torch.tensor(self.corpus[i: i + self.seq_len + 1])
-        x, y = c[:-1], c[1:]
-        x = F.one_hot(x, num_classes=self.vocab_size).float()
-        return x, y
-    
-    def __len__(self):
-        return len(self.corpus) - self.seq_len
 

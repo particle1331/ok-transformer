@@ -1,9 +1,8 @@
-# See https://madewithml.com/courses/mlops/makefile/
+.PHONY: docs
 docs:
 	tox -e build
 
-.PHONY: docs
-rdocs:
+rmdocs:
 	rm -rf docs/_build
 	tox -e build
 
@@ -18,15 +17,6 @@ clean:
 
 create:
 	python extras/init.py "$(filename)" "$(title)"
-
-ruff-check:
-	- pdm run ruff check $(path)
-	- pdm run ruff check --select I --diff $(path)
-	- pdm run ruff format --diff $(path)
-
-ruff-format:
-	pdm run ruff check --select I --fix $(path)
-	pdm run ruff format $(path)
 
 execute:
 	pdm run extras/run.py --pattern $(pattern)
