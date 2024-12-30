@@ -11,32 +11,45 @@ MPS = torch.backends.mps.is_available()
 CUDA = torch.cuda.is_available()
 DEVICE = torch.device("cuda:0") if CUDA else torch.device("mps") if MPS else torch.device("cpu")
 
-
-class RNN(nn.Module):
-    def __init__(self, inputs_dim, hidden_dim):
+class RNNBase(nn.Module):
+    """Base class for recurrent units, e.g. RNN, LSTM, GRU, etc."""
+    def __init__(self, inputs_dim: int, hidden_dim: int):
         super().__init__()
-        self.inputs_dim = inputs_dim
         self.hidden_dim = hidden_dim
+        self.inputs_dim = inputs_dim
+        
+    def init_state(self, x):
+        raise NotImplementedError
+    
+    def compute(self, x, state):
+        raise NotImplementedError
+
+    def forward(self, x, state=None):
+        state = self.init_state(x) if state is None else state
+        outs, state = self.compute(x, state)
+        return outs, state
+
+class RNN(RNNBase):
+    """Simple RNN unit."""
+    def __init__(self, inputs_dim: int, hidden_dim: int):
+        super().__init__(inputs_dim, hidden_dim)
         self.U = nn.Parameter(torch.randn(inputs_dim, hidden_dim) / np.sqrt(inputs_dim))
         self.W = nn.Parameter(torch.randn(hidden_dim, hidden_dim) / np.sqrt(hidden_dim))
         self.b = nn.Parameter(torch.zeros(hidden_dim))
 
-    def forward(self, x, state=None):
-        B, T, d = x.shape
-        x = x.transpose(0, 1)   # (B, T, d) -> (T, B, d)
-        if state is not None:
-            h = state
-        else:
-            h = torch.zeros(B, self.hidden_dim, device=x.device)
-        
+    def init_state(self, x):
+        B = x.shape[1]
+        h = torch.zeros(B, self.hidden_dim, device=x.device)
+        return h
+    
+    def compute(self, x, state):
+        h = state
+        T = x.shape[0]
         outs = []
         for t in range(T):
             h = torch.tanh(x[t] @ self.U + h @ self.W + self.b)
             outs.append(h)
-
-        outs = torch.stack(outs)
-        outs = outs.transpose(0, 1)
-        return outs, h
+        return torch.stack(outs), h
 
 import torch
 import torch.nn as nn
@@ -46,7 +59,7 @@ from functools import partial
 
 class RNNLanguageModel(nn.Module):
     def __init__(self, 
-        cell: Type[nn.Module],
+        cell: Type[RNNBase],
         inputs_dim: int,
         hidden_dim: int,
         vocab_size: int,
@@ -58,9 +71,8 @@ class RNNLanguageModel(nn.Module):
 
     def forward(self, x, state=None, return_state=False):
         outs, state = self.cell(x, state)
-        # (B, T, H) -> (B, T, C) -> (B, C, T)
-        logits = self.linear(outs).transpose(1, 2)
-        return (logits, state) if return_state else logits
+        outs = self.linear(outs)    # (T, B, H) -> (T, B, C)
+        return outs if not return_state else (outs, state)
 
 
 LanguageModel = lambda cell: partial(RNNLanguageModel, cell)
@@ -162,6 +174,13 @@ class TimeMachine:
         corpus = vocab[self.tokens]
         return corpus, vocab
 
+def collate_fn(batch):
+    """Transforming the data to sequence-first format."""
+    x, y = zip(*batch)
+    x = torch.stack(x, 1)      # (T, B, vocab_size)
+    y = torch.stack(y, 1)      # (T, B)
+    return x, y
+
 import torch.nn.functional as F
 
 def clip_grad_norm(model, max_norm: float):
@@ -173,16 +192,22 @@ def clip_grad_norm(model, max_norm: float):
             p.grad[:] *= max_norm / norm   # [:] = shallow copy, in-place
 
 def train_step(model, optim, x, y, max_norm) -> float:
-    loss = F.cross_entropy(model(x), y)
+    target = y.transpose(0, 1)
+    output = model(x).permute(1, 2, 0)
+    loss = F.cross_entropy(output, target)
     loss.backward()
+    
     clip_grad_norm(model, max_norm=max_norm)
     optim.step()
     optim.zero_grad()
     return loss.item()
 
+
 @torch.no_grad()
 def valid_step(model, x, y) -> float:
-    loss = F.cross_entropy(model(x), y)
+    target = y.transpose(0, 1)
+    output = model(x).permute(1, 2, 0)
+    loss = F.cross_entropy(output, target)
     return loss.item()
 
 import torch
@@ -195,10 +220,10 @@ class TextGenerator:
         self.device = device
 
     def _inp(self, indices: list[int]):
-        """Preprocess indices (T,) to (1, T, V) mini-batch shape with bs=1."""
+        """Preprocess indices (T,) to (T, 1, V) mini-batch shape with batch_size=1."""
         n = len(self.vocab)
         x = F.one_hot(torch.tensor(indices), n).float()
-        return x.view(1, -1, n).to(self.device)
+        return x.view(-1, 1, n).to(self.device)
 
     @staticmethod
     def sample_token(logits, temp: float):
@@ -217,92 +242,85 @@ class TextGenerator:
         # Next token sampling and state update
         indices = []
         for _ in range(num_preds):
-            i = self.sample_token(logits=outs[:, :, -1], temp=temp)
+            i = self.sample_token(logits=outs[-1], temp=temp)
             indices.append(i)
             outs, state = self.model(self._inp([i]), state, return_state=True)
         
         return "".join(self.vocab.to_tokens(warmup_indices + indices))
 
-class LSTM(nn.Module):
-    def __init__(self, inputs_dim, hidden_dim):
-        super().__init__()
-        self.hidden_dim = hidden_dim
-        self.inputs_dim = inputs_dim
+class LSTM(RNNBase):
+    def __init__(self, inputs_dim: int, hidden_dim: int):
+        super().__init__(inputs_dim, hidden_dim)
         self.I = nn.Linear(inputs_dim + hidden_dim, hidden_dim)
         self.F = nn.Linear(inputs_dim + hidden_dim, hidden_dim)
         self.O = nn.Linear(inputs_dim + hidden_dim, hidden_dim)
         self.G = nn.Linear(inputs_dim + hidden_dim, hidden_dim)
 
-    def forward(self, x, h_c=None):
-        x = x.transpose(0, 1)  # (B, T, d) -> (T, B, d)
-        T, B, d = x.shape
-        assert d == self.inputs_dim
-        
-        if h_c is None:
-            h = torch.zeros(B, self.hidden_dim, device=x.device)
-            c = torch.zeros(B, self.hidden_dim, device=x.device)
-        else:
-            h, c = h_c
+    def init_state(self, x):
+        B = x.shape[1]
+        h = torch.zeros(B, self.hidden_dim, device=x.device)
+        c = torch.zeros(B, self.hidden_dim, device=x.device)
+        return h, c
+    
+    def _step(self, x_t, state):
+        h, c = state
+        x_gate = torch.cat([x_t, h], dim=1)
+        g = torch.tanh(self.G(x_gate))
+        i = torch.sigmoid(self.I(x_gate))
+        f = torch.sigmoid(self.F(x_gate))
+        o = torch.sigmoid(self.O(x_gate))
+        c = f * c + i * g
+        h = o * torch.tanh(c)
+        return h, (h, c)
 
+    def compute(self, x, state):
+        T = x.shape[0]
         outs = []
         for t in range(T):
-            gate_input = torch.cat([x[t], h], dim=1)
-            i = torch.sigmoid(self.I(gate_input))
-            f = torch.sigmoid(self.F(gate_input))
-            o = torch.sigmoid(self.O(gate_input))
-            g = torch.tanh(self.G(gate_input))
-            c = f * c + i * g
-            h = o * torch.tanh(c)
-            outs.append(h)
+            out, state = self._step(x[t], state)
+            outs.append(out)
+        return torch.stack(outs), state
 
-        outs = torch.stack(outs)
-        outs = outs.transpose(0, 1)
-        return outs, (h, c)
-
-class GRU(nn.Module):
-    def __init__(self, inputs_dim, hidden_dim):
-        super().__init__()
+class GRU(RNNBase):
+    def __init__(self, inputs_dim: int, hidden_dim: int):
+        super().__init__(inputs_dim, hidden_dim)
         self.hidden_dim = hidden_dim
         self.inputs_dim = inputs_dim
         self.R = nn.Linear(inputs_dim + hidden_dim, hidden_dim)
         self.Z = nn.Linear(inputs_dim + hidden_dim, hidden_dim)
         self.G = nn.Linear(inputs_dim + hidden_dim, hidden_dim)
-        
-    def forward(self, x, h=None):
-        x = x.transpose(0, 1)  # (B, T, d) -> (T, B, d)
-        T, B, d = x.shape
-        assert d == self.inputs_dim
-        
-        if h is None:
-            h = torch.zeros(B, self.hidden_dim, device=x.device)
-        else:
-            assert h.shape == (B, self.hidden_dim)
+    
+    def init_state(self, x):
+        B = x.shape[1]
+        return torch.zeros(B, self.hidden_dim, device=x.device)
 
+    def _step(self, x_t, state):
+        h = state
+        x_gate = torch.cat([x_t, h], dim=1)
+        r = torch.sigmoid(self.R(x_gate))
+        z = torch.sigmoid(self.Z(x_gate))
+        g = torch.tanh(self.G(torch.cat([x_t, r * h], dim=1)))
+        h = z * h + (1 - z) * g
+        return h, h
+
+    def compute(self, x, state):
+        T = x.shape[0]
         outs = []
         for t in range(T):
-            gate_input = torch.cat([x[t], h], dim=1)
-            r = torch.sigmoid(self.R(gate_input))
-            z = torch.sigmoid(self.Z(gate_input))
-            g = torch.tanh(self.G(torch.cat([x[t], r * h], dim=1)))
-            h = z * h + (1 - z) * g
-            outs.append(h)
-
-        outs = torch.stack(outs)
-        outs = outs.transpose(0, 1)
-        return outs, h
+            out, state = self._step(x[t], state)
+            outs.append(out)
+        return torch.stack(outs), state
 
 from functools import partial
 
-
-class DeepRNN(nn.Module):
+class DeepRNN(RNNBase):
     def __init__(self, 
-        cell: Type[nn.Module], 
-        inputs_dim: int, 
-        hidden_dim: int, 
-        num_layers: int,
+        cell: Type[RNNBase],
+        inputs_dim: int, hidden_dim: int,
+        num_layers: int,    # (!)
         **kwargs,
     ):
-        super().__init__()
+        super().__init__(inputs_dim, hidden_dim)
         self.num_layers = num_layers
         self.layers = nn.ModuleList()
         for l in range(num_layers):
@@ -310,15 +328,16 @@ class DeepRNN(nn.Module):
                 self.layers.append(cell(inputs_dim, hidden_dim, **kwargs))
             else:
                 self.layers.append(cell(hidden_dim, hidden_dim, **kwargs))
-
-    def forward(self, x, state=None):
-        if state is None:
-            state = [None] * self.num_layers
-        
+  
+    def init_state(self, x):
+        """Defer state init to each cell with state=None."""
+        return [None] * self.num_layers
+    
+    def compute(self, x, state):
+        T = x.shape[0]
         out = x
-        for l in range(self.num_layers):
-            out, state[l] = self.layers[l](out, state[l])
-
+        for l, cell in enumerate(self.layers):
+            out, state[l] = cell(out, state[l])
         return out, state
 
 
@@ -326,27 +345,25 @@ Deep = lambda cell: partial(DeepRNN, cell)
 
 from functools import partial
 
-
-class BiRNN(nn.Module):
+class BiRNN(RNNBase):
     def __init__(self, 
-        cell: Type[nn.Module], 
-        inputs_dim: int, 
-        hidden_dim: int, 
+        cell: Type[RNNBase],
+        inputs_dim: int, hidden_dim: int, 
         **kwargs
     ):
-        super().__init__()
-        self.hidden_dim = hidden_dim
-        self.inputs_dim = inputs_dim
+        super().__init__(inputs_dim, hidden_dim)
         assert hidden_dim % 2 == 0
         self.frnn = cell(inputs_dim, hidden_dim // 2, **kwargs)
         self.brnn = cell(inputs_dim, hidden_dim // 2, **kwargs)
         
-    def forward(self, x, state=None):
-        state = (None, None) if state is None else state
+    def init_state(self, x):
+        return (None, None)
+
+    def compute(self, x, state):
         fh, bh = state
         fo, fh = self.frnn(x, fh)
-        bo, bh = self.brnn(torch.flip(x, [1]), bh)
-        bo = torch.flip(bo, [1])
+        bo, bh = self.brnn(torch.flip(x, [0]), bh)  # Flip seq index: (T, B, d)
+        bo = torch.flip(bo, [0])                    # Flip back outputs. See above
         outs = torch.cat([fo, bo], dim=-1)
         return outs, (fh, bh)
 
