@@ -7,7 +7,7 @@
 
 [Entry point](https://particle1331.github.io/ok-transformer/intro.html)
 
-A collection of notes and code on ML engineering and operations.
+A collection of notes, code, and experiments on understanding ML engineering and operations.
 
 <br>
 
@@ -22,15 +22,15 @@ tox -e build
 
 ## Running the notebooks
 
-A virtual environment for running the notebooks in `docs/nb` can be 
-created using [`pdm`](https://github.com/pdm-project/pdm):
+The notebooks can be found in `docs/nb`. 
+To run them, create a venv using [`pdm`](https://github.com/pdm-project/pdm):
 
 ```
 pip install -U pdm
 pdm install
 ```
 
-Use the resulting `.venv` as jupyter kernel. 
+Use the resulting `.venv` as Jupyter kernel. 
 The following libraries will be installed (see `pdm.lock`):
 
 ```text
