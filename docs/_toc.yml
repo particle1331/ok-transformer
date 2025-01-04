@@ -76,7 +76,7 @@ parts:
     - file: nb/dl/04-sequence-models/04cd-wavenet
     - file: nb/dl/04-sequence-models/04cb-neural-count-model
     - file: nb/dl/04-sequence-models/04a-autoregressive-linear
-    - file: nb/dl/04-sequence-models/04z-spell-corrector
+    # - file: nb/dl/04-sequence-models/04z-spell-corrector
   
   - file: nb/dl/05-rnns/05-intro
     sections:
