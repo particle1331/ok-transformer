@@ -81,65 +81,108 @@ import torch.nn.functional as F
 from torch.utils.data import Dataset, DataLoader
 
 class SequenceDataset(Dataset):
-    def __init__(self, corpus: list, seq_len: int, vocab_size: int):
+    def __init__(self, data: torch.Tensor, seq_len: int, vocab_size: int):
         super().__init__()
-        self.corpus = corpus
+        self.data = data
         self.seq_len = seq_len
         self.vocab_size = vocab_size
 
     def __getitem__(self, i):
-        c = torch.tensor(self.corpus[i: i + self.seq_len + 1])
+        c = self.data[i: i + self.seq_len + 1]
         x, y = c[:-1], c[1:]
         x = F.one_hot(x, num_classes=self.vocab_size).float()
         return x, y
     
     def __len__(self):
-        return len(self.corpus) - self.seq_len
+        return len(self.data) - self.seq_len
 
 import re
 import os
+import torch
 import requests
-import collections
+from collections import Counter
+from typing import Union, Optional, TypeVar, List
+
 from pathlib import Path
 
 DATA_DIR = Path("./data")
 DATA_DIR.mkdir(exist_ok=True)
 
 
+T = TypeVar("T")
+ScalarOrList = Union[T, List[T]]
+
+
 class Vocab:
-    def __init__(self, tokens=[], min_freq=0, reserved_tokens=[]):
-        counter = collections.Counter(tokens)
+    def __init__(self, 
+        text: str, 
+        min_freq: int = 0, 
+        reserved_tokens: Optional[List[str]] = None,
+        preprocess: bool = True
+    ):
+        text = self.preprocess(text) if preprocess else text
+        tokens = list(text)
+        counter = Counter(tokens)
+        reserved_tokens = reserved_tokens or []
         self.token_freqs = sorted(counter.items(), key=lambda x: x[1], reverse=True)
-        self.itot = ["<unk>"] + list(sorted(set(
-            reserved_tokens +   # i.e. not subject to min_freq
-            [token for token, freq in self.token_freqs if freq >= min_freq]
-        )))
-        self.ttoi = {tok: idx for idx, tok in enumerate(self.itot)}
+        self.itos = [self.unk_token] + reserved_tokens + [tok for tok, f in filter(lambda tokf: tokf[1] >= min_freq, self.token_freqs)]
+        self.stoi = {tok: idx for idx, tok in enumerate(self.itos)}
 
     def __len__(self):
-        return len(self.itot)
+        return len(self.itos)
     
-    def __getitem__(self, tokens: list[str]) -> list[int]:
-        if isinstance(tokens, (list, tuple)):
+    def __getitem__(self, tokens: ScalarOrList[str]) -> ScalarOrList[int]:
+        if isinstance(tokens, str):
+            return self.stoi.get(tokens, self.unk)
+        else:
             return [self.__getitem__(tok) for tok in tokens]
+
+    def to_tokens(self, indices: ScalarOrList[int]) -> ScalarOrList[str]:
+        if isinstance(indices, int):
+            return self.itos[indices]
         else:
-            return self.ttoi.get(tokens, self.unk)
+            return [self.itos[int(index)] for index in indices]
             
-    def to_tokens(self, indices) -> list[str]:
-        if hasattr(indices, "__len__"):
-            return [self.itot[int(index)] for index in indices]
-        else:
-            return self.itot[indices]
+    def preprocess(self, text: str):
+        return re.sub("[^A-Za-z]+", " ", text).lower().strip()
+
+    @property
+    def unk_token(self) -> str:
+        return "▮"
 
     @property
     def unk(self) -> int:
-        return self.ttoi["<unk>"]
+        return self.stoi[self.unk_token]
+
+    @property
+    def tokens(self) -> List[int]:
+        return self.itos
+
+
+class Tokenizer:
+    def __init__(self, vocab: Vocab):
+        self.vocab = vocab
+
+    def tokenize(self, text: str) -> List[str]:
+        UNK = self.vocab.unk_token
+        tokens = self.vocab.stoi.keys()
+        return [c if c in tokens else UNK for c in list(text)]
+
+    def encode(self, text: str) -> torch.Tensor:
+        x = self.vocab[self.tokenize(text)]
+        return torch.tensor(x, dtype=torch.int64)
+
+    def decode(self, indices: Union[ScalarOrList[int], torch.Tensor]) -> str:
+        return "".join(self.vocab.to_tokens(indices))
+
+    @property
+    def vocab_size(self) -> int:
+        return len(self.vocab)
 
 
 class TimeMachine:
-    def __init__(self, download=False, path=None, token_level="char"):
+    def __init__(self, download=False, path=None):
         DEFAULT_PATH = str((DATA_DIR / "time_machine.txt").absolute())
-        self.token_level = token_level
         self.filepath = path or DEFAULT_PATH
         if download or not os.path.exists(self.filepath):
             self._download()
@@ -153,26 +196,19 @@ class TimeMachine:
         with open(self.filepath, "wb") as output:
             output.write(response.content)
         
-    def _preprocess(self, text: str):
+    def _load_text(self):
+        with open(self.filepath, "r") as f:
+            text = f.read()
         s = "*** START OF THE PROJECT GUTENBERG EBOOK THE TIME MACHINE ***"
         e = "*** END OF THE PROJECT GUTENBERG EBOOK THE TIME MACHINE ***"
-        text = text[text.find(s) + len(s): text.find(e)]
-        text = re.sub('[^A-Za-z]+', ' ', text).lower().strip()
-        return text
+        return text[text.find(s) + len(s): text.find(e)]
     
-    def tokenize(self, text: str):
-        return list(text) if self.token_level == "char" else text.split()
-        
-    def build(self, vocab=None):
-        with open(self.filepath, "r") as f:
-            raw_text = f.read()
-        
-        self.text = self._preprocess(raw_text)
-        self.tokens = self.tokenize(self.text) 
-        
-        vocab = Vocab(self.tokens) if vocab is None else vocab
-        corpus = vocab[self.tokens]
-        return corpus, vocab
+    def build(self, vocab: Optional[Vocab] = None):
+        self.text = self._load_text()
+        vocab = vocab or Vocab(self.text)
+        tokenizer = Tokenizer(vocab)
+        encoded_text = tokenizer.encode(vocab.preprocess(self.text))
+        return encoded_text, tokenizer
 
 def collate_fn(batch):
     """Transforming the data to sequence-first format."""
@@ -214,39 +250,38 @@ import torch
 import torch.nn.functional as F
 
 class TextGenerator:
-    def __init__(self, model, vocab, device="cpu"):
+    def __init__(self, model, tokenizer, device="cpu"):
         self.model = model.to(device)
-        self.vocab = vocab
         self.device = device
+        self.tokenizer = tokenizer
 
     def _inp(self, indices: list[int]):
-        """Preprocess indices (T,) to (T, 1, V) mini-batch shape with batch_size=1."""
-        n = len(self.vocab)
-        x = F.one_hot(torch.tensor(indices), n).float()
-        return x.view(-1, 1, n).to(self.device)
+        """Preprocess indices (T,) to (T, 1, V) shape with B=1."""
+        VOCAB_SIZE = self.tokenizer.vocab_size
+        x = F.one_hot(torch.tensor(indices), VOCAB_SIZE).float()
+        return x.view(-1, 1, VOCAB_SIZE).to(self.device)
 
     @staticmethod
-    def sample_token(logits, temp: float):
-        """Sample based on logits with softmax temperature."""
-        # higher temp => more uniform, i.e. exp ~ 1
-        p = F.softmax(logits / temp, dim=1)
+    def sample_token(logits, temperature: float):
+        """Convert logits to probs with softmax temperature."""
+        p = F.softmax(logits / temperature, dim=1)  # T = ∞ => exp ~ 1 => p ~ U[0, 1]
         return torch.multinomial(p, num_samples=1).item()
 
-    def predict(self, prompt: str, num_preds: int, temp=1.0):
+    def predict(self, prompt: str, num_preds: int, temperature=1.0):
         """Simulate character generation one at a time."""
 
         # Iterate over warmup text. RNN cell outputs final state
-        warmup_indices = self.vocab[list(prompt.lower())]
+        warmup_indices = self.tokenizer.encode(prompt.lower()).tolist()
         outs, state = self.model(self._inp(warmup_indices), return_state=True)
 
-        # Next token sampling and state update
+        # Sample next token and update state
         indices = []
         for _ in range(num_preds):
-            i = self.sample_token(logits=outs[-1], temp=temp)
+            i = self.sample_token(outs[-1], temperature)
             indices.append(i)
             outs, state = self.model(self._inp([i]), state, return_state=True)
-        
-        return "".join(self.vocab.to_tokens(warmup_indices + indices))
+
+        return self.tokenizer.decode(warmup_indices + indices)
 
 class LSTM(RNNBase):
     def __init__(self, inputs_dim: int, hidden_dim: int):
