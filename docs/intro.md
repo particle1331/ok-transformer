@@ -10,7 +10,7 @@ Exploring machine learning engineering and operations. ❚
 
 [![build-status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fparticle1331%2Fok-transformer%2Fbadge%3Fref%3Dmaster&label=build&logo=none)](https://actions-badge.atrox.dev/particle1331/ok-transformer/goto?ref=master)
 ![last-commit](https://img.shields.io/github/last-commit/particle1331/ok-transformer/master)
-![python](https://shields.io/badge/python-3.10%20-blue)
+![python](https://shields.io/badge/python-3.12%20-blue) 
 [![stars](https://img.shields.io/github/stars/particle1331/ok-transformer?style=social)](https://github.com/particle1331/ok-transformer)
 
 

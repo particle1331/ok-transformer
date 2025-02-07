@@ -2,12 +2,23 @@
 
 [![build-status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fparticle1331%2Fok-transformer%2Fbadge%3Fref%3Dmaster&label=build&logo=none)](https://actions-badge.atrox.dev/particle1331/ok-transformer/goto?ref=master)
 ![last-commit](https://img.shields.io/github/last-commit/particle1331/ok-transformer/master)
-![python](https://shields.io/badge/python-3.10%20-blue)
+![python](https://shields.io/badge/python-3.12%20-blue) 
+[![jupyter-book](https://raw.githubusercontent.com/jupyter-book/jupyter-book/refs/heads/main/docs/images/badge.svg)](https://jupyterbook.org/en/stable/intro.html)
 [![stars](https://img.shields.io/github/stars/particle1331/ok-transformer?style=social)](https://github.com/particle1331/ok-transformer) 
 
-[Entry point](https://particle1331.github.io/ok-transformer/intro.html)
+Entry point: [**OK Transformer** website](https://particle1331.github.io/ok-transformer/intro.html)
 
-A collection of notes, code, and experiments on understanding ML engineering and operations.
+<br>
+
+A collection of self-contained notebooks on machine learning theory, engineering, and operations. I try to cover topics that frequently come up as building blocks for applications or further theory. I also explore areas where I want to [clarify my understanding](http://www.paulgraham.com/words.html) or [delve into details](http://www.paulgraham.com/getideas.html) that I personally find interesting or intriguing.
+
+The notebooks 
+should ideally run end-to-end with reproducible results between 
+runs. Exact output values may change due to 
+external dependencies such as differences with hardware and dataset versions,
+or implementation quirks like [nondeterminism](https://pytorch.org/docs/stable/notes/randomness.html#reproducibility), 
+but the conclusions should still generally hold. Please open an issue
+if you find otherwise 👀 (as I often do)! 
 
 <br>
 
