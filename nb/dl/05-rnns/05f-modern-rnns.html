@@ -1,0 +1,182 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Modern RNN architectures &mdash; OK Transformer</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/togglebutton.css?v=13237357" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-thebe.css?v=4fa983c6" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=c854b03d" />
+
+  
+    <link rel="shortcut icon" href="../../../_static/favicon.png"/>
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=9eb32ce0"></script>
+      <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=f281be69"></script>
+      <script src="../../../_static/scripts/sphinx-book-theme.js"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../../../_static/togglebutton.js?v=4a39c7ea"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+      <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+      <script async="async" src="../../../_static/sphinx-thebe.js?v=c100c467"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+      <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Long Short-Term Memory (LSTM)" href="05fa-lstm.html" />
+    <link rel="prev" title="Backprop Through Time (BPTT)" href="05e-bptt.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../intro.html">
+            
+              <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Deep Learning</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../01-intro/01-intro.html">Introduction to Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-optim/02-optim.html">Gradient Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../00-backprop/00-backprop.html">Backpropagation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-cnn/03-cnn.html">Convolutional Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-sequence-models/04-intro.html">Language modeling</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="05-intro.html">Recurrent Neural Networks</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="05a-rnn.html">RNN  cell</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05b-rnn-lm.html">RNN language model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05c-training.html">RNN model training</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05d-textgen.html">Text generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05e-bptt.html">Backprop Through Time (BPTT)</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Modern RNN architectures</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="05fa-lstm.html">Long Short-Term Memory (LSTM)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="05fb-gru.html">Gated Recurrent Unit (GRU)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="05fc-deep.html">Deep Recurrent Networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="05fd-birnn.html">Bidirectional Recurrent Units</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="05z-vanishing-gradients.html">Appendix: Numerical stability</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../07-attention.html">Attention and Transformers</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../intro.html">Project name not set</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../intro.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="05-intro.html">Recurrent Neural Networks</a></li>
+      <li class="breadcrumb-item active">Modern RNN architectures</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/nb/dl/05-rnns/05f-modern-rnns.ipynb" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="modern-rnn-architectures">
+<span id="dl-05-rnns-05f-modern-rnns"></span><h1>Modern RNN architectures<a class="headerlink" href="#modern-rnn-architectures" title="Link to this heading"></a></h1>
+<p>Recall that the key quantity to calculate RNN gradients is <span class="math notranslate nohighlight">\(\frac{\partial \mathcal{L}}{\partial \boldsymbol{\mathsf{H}}_t}\)</span> that contain terms <span class="math notranslate nohighlight">\(\left(\boldsymbol{\mathsf{W}}^\top\right)^{\kappa}\)</span> for path length <span class="math notranslate nohighlight">\(\kappa\)</span> from the current time step <span class="math notranslate nohighlight">\(t,\)</span> where <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{W}}\)</span> is the matrix responsible for transforming the latent state vector. This explodes or vanishes with increasing <span class="math notranslate nohighlight">\(\kappa\)</span> depending on whether the norm of the principal eigenvalue of <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{W}}\)</span> is greater than or equal to 1. Hence, RNNs are said to have problems with modeling long-term dependencies between tokens. The consequence of this in practice is that RNNs are limited in context size.</p>
+<p>Exploding gradients can be solved in practice by gradient clipping or truncated BPTT. On the other hand, the problem of vanishing gradients requires nontrivial architectural changes. We will consider <strong>LSTM</strong> <span id="id1">[<a class="reference internal" href="../../../intro.html#id118" title="Sepp Hochreiter and Jürgen Schmidhuber. Long short-term memory. Neural Computation, 9(8):1735-1780, 1997. doi:10.1162/neco.1997.9.8.1735.">HS97b</a>]</span>, <strong>GRU</strong> <span id="id2">[<a class="reference internal" href="../../../intro.html#id117" title="Kyunghyun Cho, Bart van Merrienboer, Caglar Gulcehre, Fethi Bougares, Holger Schwenk, and Yoshua Bengio. Learning phrase representations using RNN encoder-decoder for statistical machine translation. CoRR, 2014. URL: http://arxiv.org/abs/1406.1078, arXiv:1406.1078.">CvMG+14</a>]</span>, as well as <strong>deep RNNs</strong> and <strong>Bidirectional RNNs</strong> <span id="id3">[<a class="reference internal" href="../../../intro.html#id119" title="M. Schuster and K.K. Paliwal. Bidirectional recurrent neural networks. IEEE Transactions on Signal Processing, 45(11):2673-2681, 1997. doi:10.1109/78.650093.">SP97</a>]</span> which increase model complexity. In the next chapter, we will apply these architectures to sequence-to-sequence tasks.</p>
+<p><strong>Code.</strong> In terms of code, we implement the following classes in order: <code class="docutils literal notranslate"><span class="pre">RNN</span></code>, <code class="docutils literal notranslate"><span class="pre">LSTM</span></code>, and <code class="docutils literal notranslate"><span class="pre">GRU</span></code>, as well as wrappers <code class="docutils literal notranslate"><span class="pre">Deep</span></code> and <code class="docutils literal notranslate"><span class="pre">Bidirectional</span></code> that augment units to the respective architecture, but with the same API. Note that we can also swap with PyTorch implementations, e.g.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Deep</span><span class="p">(</span><span class="n">Bidirectional</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">LSTM</span><span class="p">))(</span><span class="n">EMBED_DIM</span><span class="p">,</span> <span class="n">HIDDEN_DIM</span><span class="p">,</span> <span class="n">num_layers</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">batch_first</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Finally, all implementations are checked for correctness by comparing with PyTorch. 🔥</p>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./nb/dl/05-rnns"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="05e-bptt.html" class="btn btn-neutral float-left" title="Backprop Through Time (BPTT)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="05fa-lstm.html" class="btn btn-neutral float-right" title="Long Short-Term Memory (LSTM)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

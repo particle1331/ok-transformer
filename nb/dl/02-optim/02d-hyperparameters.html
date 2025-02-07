@@ -1,0 +1,424 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Optimization hyperparameters &mdash; OK Transformer</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/togglebutton.css?v=13237357" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-thebe.css?v=4fa983c6" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=c854b03d" />
+
+  
+    <link rel="shortcut icon" href="../../../_static/favicon.png"/>
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=9eb32ce0"></script>
+      <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=f281be69"></script>
+      <script src="../../../_static/scripts/sphinx-book-theme.js"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../../../_static/togglebutton.js?v=4a39c7ea"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+      <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+      <script async="async" src="../../../_static/sphinx-thebe.js?v=c100c467"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+      <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Backpropagation" href="../00-backprop/00-backprop.html" />
+    <link rel="prev" title="Stochastic Gradient Descent (SGD)" href="02c-sgd.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../intro.html">
+            
+              <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Deep Learning</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../01-intro/01-intro.html">Introduction to Neural Networks</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="02-optim.html">Gradient Optimization</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="02a-loss-landscape.html">Characterizing the loss surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02b-momentum.html">Momentum methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02c-sgd.html">Stochastic Gradient Descent (SGD)</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Optimization hyperparameters</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../00-backprop/00-backprop.html">Backpropagation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-cnn/03-cnn.html">Convolutional Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-sequence-models/04-intro.html">Language modeling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../05-rnns/05-intro.html">Recurrent Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../07-attention.html">Attention and Transformers</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../intro.html">Project name not set</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../intro.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="02-optim.html">Gradient Optimization</a></li>
+      <li class="breadcrumb-item active">Optimization hyperparameters</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/nb/dl/02-optim/02d-hyperparameters.ipynb" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="optimization-hyperparameters">
+<h1>Optimization hyperparameters<a class="headerlink" href="#optimization-hyperparameters" title="Link to this heading"></a></h1>
+<section id="batch-size">
+<h2>Batch size<a class="headerlink" href="#batch-size" title="Link to this heading"></a></h2>
+<p>Folk knowledge tells us to set powers of 2 for batch size <span class="math notranslate nohighlight">\(B = 16, 32, 64, ..., 512.\)</span>
+Starting with <span class="math notranslate nohighlight">\(B = 32\)</span> is recommended for image tasks <span id="id1">[<a class="reference internal" href="../../../intro.html#id99" title="Dominic Masters and Carlo Luschi. Revisiting small batch training for deep neural networks. CoRR, 2018. URL: http://arxiv.org/abs/1804.07612, arXiv:1804.07612.">ML18</a>]</span>.
+Note that we may need to train with large batch sizes depending on the network architecture, the
+nature of the training distribution, or if we have large compute <span id="id2">[<a class="reference internal" href="../../../intro.html#id69" title="Priya Goyal, Piotr Dollár, Ross Girshick, Pieter Noordhuis, Lukasz Wesolowski, Aapo Kyrola, Andrew Tulloch, Yangqing Jia, and Kaiming He. Accurate, large minibatch sgd: training imagenet in 1 hour. 2017. URL: https://arxiv.org/abs/1706.02677, doi:10.48550/ARXIV.1706.02677.">GDG+17</a>]</span>.
+Conversely, we may be forced to use small batches due to resource constraints with large models.</p>
+<p><strong>Large batch.</strong>
+Increasing <span class="math notranslate nohighlight">\(B\)</span> with other parameters fixed can result in worse generalization (<a class="reference internal" href="#large-batch-training"><span class="std std-numref">Fig. 26</span></a>). This has been attributed to large batch size decreasing gradient noise <span id="id3">[<a class="reference internal" href="../../../intro.html#id98" title="Diego Granziol, Stefan Zohren, and Stephen Roberts. Learning rates as a function of batch size: a random matrix theory approach to neural network training. 2021. arXiv:2006.09092.">GZR21</a>]</span>.
+Intuitively, less sampling noise means that we can use a larger learning rate, since the loss surface is more stable to different samples. Indeed, <span id="id4">[<a class="reference internal" href="../../../intro.html#id69" title="Priya Goyal, Piotr Dollár, Ross Girshick, Pieter Noordhuis, Lukasz Wesolowski, Aapo Kyrola, Andrew Tulloch, Yangqing Jia, and Kaiming He. Accurate, large minibatch sgd: training imagenet in 1 hour. 2017. URL: https://arxiv.org/abs/1706.02677, doi:10.48550/ARXIV.1706.02677.">GDG+17</a>]</span> suggests scaling up the learning rate
+by the same factor that batch size is increased (<a class="reference internal" href="#imagenet-1-hour"><span class="std std-numref">Fig. 28</span></a>).</p>
+<figure class="align-center" id="large-batch-training">
+<a class="reference internal image-reference" href="../../../_images/02-large-batch-training.png"><img alt="../../../_images/02-large-batch-training.png" src="../../../_images/02-large-batch-training.png" style="width: 600px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 26 </span><span class="caption-text"><span id="id5">[<a class="reference internal" href="../../../intro.html#id95" title="Nitish Shirish Keskar, Dheevatsa Mudigere, Jorge Nocedal, Mikhail Smelyanskiy, and Ping Tak Peter Tang. On large-batch training for deep learning: generalization gap and sharp minima. CoRR, 2016. URL: http://arxiv.org/abs/1609.04836, arXiv:1609.04836.">KMN+16b</a>]</span> All models are trained in PyTorch using <a class="reference external" href="https://pytorch.org/docs/stable/generated/torch.optim.Adam.html">Adam</a>
+with default parameters. Large batch training (LB) uses 10% of the dataset while small batch (SB) uses <span class="math notranslate nohighlight">\(B = 256\)</span>.
+Recall that generalization gap reflects model bias and therefore is generally a
+function of network architecture.
+The table shows results for models that were not overfitted to the training distribution.</span><a class="headerlink" href="#large-batch-training" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p><strong>Small batch.</strong> This generally results in slow and unstable convergence since
+the loss surface is poorly approximated at each step.
+This is fixed by <strong>gradient accumulation</strong>
+which simulates a larger batch size by adding
+gradients from multiple small batches before performing a weight update.
+Here accumulation step is increased by the same factor that batch size is
+decreased. This also means training takes longer by roughly the same factor.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">batch</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">train_loader</span><span class="p">):</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">batch</span>
+    <span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">loss_fn</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">outputs</span><span class="p">)</span> <span class="o">/</span> <span class="n">accumulation_steps</span>
+    <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="n">accumulation_steps</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+        <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+</pre></div>
+</div>
+<br><p><strong>Remark.</strong> GPU is underutilized when <span class="math notranslate nohighlight">\(B\)</span> is small, and we can get OOM when <span class="math notranslate nohighlight">\(B\)</span> is large.
+In general, hardware constraints should be considered in parallel with theory.
+GPU can idle if there is lots of CPU processing on a large batch, for example. One can set
+<code class="docutils literal notranslate"><span class="pre">pin_device=True</span></code> can be set in the data loader to speed up data transfers to
+the GPU by leveraging <a class="reference external" href="https://leimao.github.io/blog/Page-Locked-Host-Memory-Data-Transfer/">page locked memory</a>.
+Similar tricks
+(<a class="reference internal" href="#gpu-tricks"><span class="std std-numref">Fig. 27</span></a>) have to be tested empirically to see whether it works on your
+use-case. These are hard to figure out based on first principles.</p>
+<figure class="align-center" id="gpu-tricks">
+<a class="reference internal image-reference" href="../../../_images/02-gpu-tricks.png"><img alt="../../../_images/02-gpu-tricks.png" src="../../../_images/02-gpu-tricks.png" style="width: 600px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 27 </span><span class="caption-text">A <a class="reference external" href="https://twitter.com/karpathy/status/1299921324333170689?s=20">tweet</a> by Andrej Karpathy
+on tricks to optimize Pytorch code. The linked <a class="reference external" href="https://www.youtube.com/watch?v=9mS1fIYj1So">video</a>.</span><a class="headerlink" href="#gpu-tricks" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="learning-rate">
+<h2>Learning rate<a class="headerlink" href="#learning-rate" title="Link to this heading"></a></h2>
+<p>Finding an optimal learning rate is essential for both finding better minima and
+faster convergence. Based on our experiments, this is
+true even for optimizers that have adaptive learning rates such as Adam.
+As discussed earlier, the choice of learning rate depends on the batch size. If we
+find a good base learning rate, and want to change the batch size,
+we have to scale the learning rate with the same factor <span id="id6">[<a class="reference internal" href="../../../intro.html#id69" title="Priya Goyal, Piotr Dollár, Ross Girshick, Pieter Noordhuis, Lukasz Wesolowski, Aapo Kyrola, Andrew Tulloch, Yangqing Jia, and Kaiming He. Accurate, large minibatch sgd: training imagenet in 1 hour. 2017. URL: https://arxiv.org/abs/1706.02677, doi:10.48550/ARXIV.1706.02677.">GDG+17</a>]</span> <span id="id7">[<a class="reference internal" href="../../../intro.html#id98" title="Diego Granziol, Stefan Zohren, and Stephen Roberts. Learning rates as a function of batch size: a random matrix theory approach to neural network training. 2021. arXiv:2006.09092.">GZR21</a>]</span>.
+This means smaller learning rate for smaller batches, and vice-versa (<a class="reference internal" href="#imagenet-1-hour"><span class="std std-numref">Fig. 28</span></a>).</p>
+<p>In practice, we set a fixed batch size since this depends on certain hardware
+constraints such as GPU efficiency and
+CPU processing code and implementation, as well as data transfer latency. Then, we proceed with
+learning rate tuning (i.e. a choice of base LR and decay policy).</p>
+<figure class="align-center" id="imagenet-1-hour">
+<a class="reference internal image-reference" href="../../../_images/02-imagenet-1-hour.png"><img alt="../../../_images/02-imagenet-1-hour.png" src="../../../_images/02-imagenet-1-hour.png" style="width: 500px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 28 </span><span class="caption-text">From <span id="id8">[<a class="reference internal" href="../../../intro.html#id69" title="Priya Goyal, Piotr Dollár, Ross Girshick, Pieter Noordhuis, Lukasz Wesolowski, Aapo Kyrola, Andrew Tulloch, Yangqing Jia, and Kaiming He. Accurate, large minibatch sgd: training imagenet in 1 hour. 2017. URL: https://arxiv.org/abs/1706.02677, doi:10.48550/ARXIV.1706.02677.">GDG+17</a>]</span>.  For all experiments
+<span class="math notranslate nohighlight">\(B \leftarrow aB\)</span> and <span class="math notranslate nohighlight">\(\eta \leftarrow a\eta\)</span>
+sizes are set. Note that a simple warmup phase for the first few epochs of
+training until the learning rate stabilizes to <span class="math notranslate nohighlight">\(\eta\)</span> since
+early steps are away from any minima, hence can be unstable.
+All other hyper-parameters are kept fixed. Using this
+simple approach, accuracy of our models is invariant to minibatch
+size (up to an 8k minibatch size). As an aside the authors were able to train
+ResNet-50 on ImageNet in 1 hour using 256 GPUs. The scaling efficiency they obtained
+is 90% relative to the baseline of using 8 GPUs.</span><a class="headerlink" href="#imagenet-1-hour" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p><strong>LR finder.</strong> The following is a parameter-free approach to finding a good base learning rate.
+The idea is to select a base learning rate that is as large as possible without the loss diverging
+at early steps of training.
+This allows the optimizer to initially explore the surface with less risk of
+getting stuck in plateaus.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">num_steps</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">lre_min</span> <span class="o">=</span> <span class="o">-</span><span class="mf">2.0</span>
+<span class="n">lre_max</span> <span class="o">=</span>  <span class="mf">0.6</span>
+<span class="n">lre</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">lre_min</span><span class="p">,</span> <span class="n">lre_max</span><span class="p">,</span> <span class="n">num_steps</span><span class="p">)</span>
+<span class="n">lrs</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">**</span> <span class="n">lre</span>
+<span class="n">w</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">FloatTensor</span><span class="p">([</span><span class="o">-</span><span class="mf">4.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">4.0</span><span class="p">]),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">optim</span> <span class="o">=</span> <span class="n">Adam</span><span class="p">([</span><span class="n">w</span><span class="p">],</span> <span class="n">lr</span><span class="o">=</span><span class="n">lrs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="n">losses</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_steps</span><span class="p">):</span>
+    <span class="n">optim</span><span class="o">.</span><span class="n">lr</span> <span class="o">=</span> <span class="n">lrs</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>   <span class="c1"># (!) change LR at each step</span>
+    <span class="n">optim</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">pathological_loss</span><span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">w</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+    <span class="n">optim</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+    <span class="n">losses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lrs</span><span class="o">.</span><span class="n">detach</span><span class="p">(),</span> <span class="n">losses</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;learning rate&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;loss&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;dotted&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="mf">2.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;dashed&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;base LR&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../../../_images/937b61798a53032b022c159ce35c04927b7bd4dbee5e34186025828d12b1a15d.svg" src="../../../_images/937b61798a53032b022c159ce35c04927b7bd4dbee5e34186025828d12b1a15d.svg" />
+</div>
+</div>
+<p>Notice that sampling is biased towards small learning rates. This makes sense since large learning rates tend to diverge. The graph is not representative for practical problems since the network is small and the loss surface is relatively simple. But following the algorithm, <code class="docutils literal notranslate"><span class="pre">lr=2.0</span></code> may be chosen as the base learning rate.</p>
+<br><p><strong>LR scheduling.</strong> Learning rate has to be decayed in some way help with convergence.
+Recall that this happens automatically using adaptive methods, but having a loss surface independent
+policy still helps, especially when given a predetermined computational budget.
+The following modifies the training script to include a simple schedule. Repeating the same experiment above for RMSProp and GD which had issues with oscillation:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">train_curve</span><span class="p">(</span>
+    <span class="n">optim</span><span class="p">:</span> <span class="n">OptimizerBase</span><span class="p">,</span> 
+    <span class="n">optim_params</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> 
+    <span class="n">w_init</span><span class="o">=</span><span class="p">[</span><span class="mf">5.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">],</span> 
+    <span class="n">loss_fn</span><span class="o">=</span><span class="n">pathological_loss</span><span class="p">,</span> 
+    <span class="n">num_steps</span><span class="o">=</span><span class="mi">100</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return trajectory of optimizer through loss surface from init point.&quot;&quot;&quot;</span>
+
+    <span class="n">w_init</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">w_init</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">()</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">w_init</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">optim</span> <span class="o">=</span> <span class="n">optim</span><span class="p">([</span><span class="n">w</span><span class="p">],</span> <span class="o">**</span><span class="n">optim_params</span><span class="p">)</span>
+    <span class="n">points</span> <span class="o">=</span> <span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="n">w</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">w</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">loss_fn</span><span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">w</span><span class="p">[</span><span class="mi">1</span><span class="p">])])]</span>
+    
+    <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_steps</span><span class="p">):</span>
+        <span class="n">optim</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">loss_fn</span><span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">w</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+        <span class="n">optim</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+
+        <span class="c1"># logging</span>
+        <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+            <span class="n">z</span> <span class="o">=</span> <span class="n">loss</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">w</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">z</span><span class="p">]))</span>
+
+        <span class="c1"># LR schedule (!)</span>
+        <span class="k">if</span> <span class="n">step</span> <span class="o">%</span> <span class="mi">70</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">optim</span><span class="o">.</span><span class="n">lr</span> <span class="o">*=</span> <span class="mf">0.5</span>
+
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">label_map_gdm</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;lr&quot;</span><span class="p">:</span> <span class="sa">r</span><span class="s2">&quot;$\eta$&quot;</span><span class="p">,</span> <span class="s2">&quot;momentum&quot;</span><span class="p">:</span> <span class="sa">r</span><span class="s2">&quot;$\beta$&quot;</span><span class="p">}</span>
+<span class="n">label_map_rmsprop</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;lr&quot;</span><span class="p">:</span> <span class="sa">r</span><span class="s2">&quot;$\eta$&quot;</span><span class="p">,</span> <span class="s2">&quot;beta&quot;</span><span class="p">:</span> <span class="sa">r</span><span class="s2">&quot;$\beta$&quot;</span><span class="p">}</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">plot_gd_steps</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">optim</span><span class="o">=</span><span class="n">GD</span><span class="p">,</span>      <span class="n">optim_params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;lr&quot;</span><span class="p">:</span> <span class="mf">3.0</span><span class="p">},</span>              <span class="n">w_init</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">5.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">],</span> <span class="n">label_map</span><span class="o">=</span><span class="n">label_map_gdm</span><span class="p">,</span>     <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">)</span>
+<span class="n">plot_gd_steps</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">optim</span><span class="o">=</span><span class="n">RMSProp</span><span class="p">,</span> <span class="n">optim_params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;lr&quot;</span><span class="p">:</span> <span class="mf">3.0</span><span class="p">,</span> <span class="s2">&quot;beta&quot;</span><span class="p">:</span> <span class="mf">0.9</span><span class="p">},</span> <span class="n">w_init</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">5.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">],</span> <span class="n">label_map</span><span class="o">=</span><span class="n">label_map_rmsprop</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;steps&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;loss&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="mi">70</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;dashed&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="mi">140</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;dashed&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="mi">210</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;dashed&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;LR step&#39;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;dotted&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../../../_images/dcbdac49d2199ce87ddf138407c655c78dcc1ec215178c4bb2e4dbcbf5c25f06.svg" src="../../../_images/dcbdac49d2199ce87ddf138407c655c78dcc1ec215178c4bb2e4dbcbf5c25f06.svg" />
+</div>
+</div>
+<p>Learning rate decay decreases GD oscillation drastically. The schedule <span class="math notranslate nohighlight">\(\boldsymbol{\boldsymbol{\Theta}}^{t+1} = \boldsymbol{\boldsymbol{\Theta}}^{t} - \eta \frac{1}{\alpha^t} \, \boldsymbol{\mathsf{m}}^{t}\)</span> where <span class="math notranslate nohighlight">\(\alpha^t = 2^{\lfloor t / 100 \rfloor}\)</span> is known as <strong>step LR decay</strong>. Note that this augments the second-moment for RMSProp which already auto-tunes the learning rate. Here we are able to start with a large learning rate allowing the optimizer to escape the first plateau earlier than before. Note that decay only decreases learning rate which can cause slow convergence. Some schedules implement <strong>warm restarts</strong> to fix this (<a class="reference internal" href="#sgd-warm-restarts"><span class="std std-numref">Fig. 29</span></a>).</p>
+<p><strong>Remark.</strong> For more examples of learning rate decay schedules <a class="reference external" href="https://d2l.ai/chapter_optimization/lr-scheduler.html#schedulers">see here</a>  (e.g. <strong>warmup</strong> which initially gradually increases learning rate
+since SGD at initialization can be unstable with large LR). Also see <a class="reference external" href="https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate">PyTorch docs</a> on LR schedulers implemented in the library. For example, the schedule <strong>reduce LR on plateau</strong> which reduces the learning rate when a metric has stopped improving is implemented in PyTorch as <code class="docutils literal notranslate"><span class="pre">ReduceLROnPlateau</span></code> in the <code class="docutils literal notranslate"><span class="pre">torch.optim.lr_scheduler</span></code> library.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Example: PyTorch code for chaining LR schedulers</span>
+<span class="n">optim</span> <span class="o">=</span> <span class="n">SGD</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">momentum</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+<span class="n">scheduler1</span> <span class="o">=</span> <span class="n">ExponentialLR</span><span class="p">(</span><span class="n">optim</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+<span class="n">scheduler2</span> <span class="o">=</span> <span class="n">MultiStepLR</span><span class="p">(</span><span class="n">optim</span><span class="p">,</span> <span class="n">milestones</span><span class="o">=</span><span class="p">[</span><span class="mi">30</span><span class="p">,</span><span class="mi">80</span><span class="p">],</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">dataset</span><span class="p">:</span>
+        <span class="n">optim</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">loss_fn</span><span class="p">(</span><span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">y</span><span class="p">)</span>
+        <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+        <span class="n">optim</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+    
+    <span class="c1"># LR step called after optimizer update! ⚠⚠⚠</span>
+    <span class="n">scheduler1</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+    <span class="n">scheduler2</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+</pre></div>
+</div>
+<br><figure class="align-center" id="sgd-warm-restarts">
+<a class="reference internal image-reference" href="../../../_images/02-sgd-warm-restarts.png"><img alt="../../../_images/02-sgd-warm-restarts.png" src="../../../_images/02-sgd-warm-restarts.png" style="width: 60%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 29 </span><span class="caption-text">Cosine annealing starts with a large learning rate that is relatively rapidly decreased to a minimum value before being increased rapidly again. This resetting acts like a simulated restart of the model training and the re-use of good weights as the starting point of the restart is referred to as a “warm restart” in contrast to a “cold restart” at initialization. Source: <span id="id9">[<a class="reference internal" href="../../../intro.html#id102" title="Ilya Loshchilov and Frank Hutter. SGDR: stochastic gradient descent with restarts. CoRR, 2016. URL: http://arxiv.org/abs/1608.03983, arXiv:1608.03983.">LH16</a>]</span></span><a class="headerlink" href="#sgd-warm-restarts" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<figure class="align-center" id="snapshot-ensembles">
+<a class="reference internal image-reference" href="../../../_images/02-snapshot-ensembles.png"><img alt="../../../_images/02-snapshot-ensembles.png" src="../../../_images/02-snapshot-ensembles.png" style="width: 80%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 30 </span><span class="caption-text">Effect of cyclical learning rates. Each model checkpoint for each LR warm restart (which often correspond to a minimum) can be used to create an ensemble model. Source: <span id="id10">[<a class="reference internal" href="../../../intro.html#id100" title="Gao Huang, Yixuan Li, Geoff Pleiss, Zhuang Liu, John E. Hopcroft, and Kilian Q. Weinberger. Snapshot ensembles: train 1, get M for free. CoRR, 2017. URL: http://arxiv.org/abs/1704.00109, arXiv:1704.00109.">HLP+17</a>]</span></span><a class="headerlink" href="#snapshot-ensembles" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="momentum">
+<h2>Momentum<a class="headerlink" href="#momentum" title="Link to this heading"></a></h2>
+<p>Good starting values for SGD momentum are <span class="math notranslate nohighlight">\(\beta = 0.9\)</span> or <span class="math notranslate nohighlight">\(0.99\)</span>. Adam is easier to use out of the box where we like to keep the default parameters. If we have resources, and we want to push test performance, we can
+tune SGD which is known to generalize better than Adam with more epochs. See <span id="id11">[<a class="reference internal" href="../../../intro.html#id94" title="Pan Zhou, Jiashi Feng, Chao Ma, Caiming Xiong, Steven Hoi, and E. Weinan. Towards theoretically understanding why sgd generalizes better than adam in deep learning. In Proceedings of the 34th International Conference on Neural Information Processing Systems, NIPS'20. Red Hook, NY, USA, 2020. Curran Associates Inc.">ZFM+20</a>]</span> where it is shown that Adam is more stable at sharp minima which tend to generalize worse than flat ones (<a class="reference internal" href="#sharp-optim"><span class="std std-numref">Fig. 31</span></a>).</p>
+<figure class="align-center" id="sharp-optim">
+<a class="reference internal image-reference" href="../../../_images/02-sharp-optim.png"><img alt="../../../_images/02-sharp-optim.png" src="../../../_images/02-sharp-optim.png" style="width: 80%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 31 </span><span class="caption-text">A conceptual sketch of flat and sharp minima. The Y-axis indicates value of the loss
+function and the X-axis the variables. Source: <span id="id12">[<a class="reference internal" href="../../../intro.html#id95" title="Nitish Shirish Keskar, Dheevatsa Mudigere, Jorge Nocedal, Mikhail Smelyanskiy, and Ping Tak Peter Tang. On large-batch training for deep learning: generalization gap and sharp minima. CoRR, 2016. URL: http://arxiv.org/abs/1609.04836, arXiv:1609.04836.">KMN+16b</a>]</span></span><a class="headerlink" href="#sharp-optim" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p><strong>Remark.</strong> In principle, optimization hyperparameters affect training
+and not generalization. But the situation is more complex with SGD, where stochasticity
+contributes to regularization. This was shown above where choice of batch size influences
+the
+generalization gap. Also
+recall that for batch GD (i.e. <span class="math notranslate nohighlight">\(B = N\)</span> in SGD), consecutive gradients approaching a minimum
+roughly have the same direction.
+This should not happen with SGD with <span class="math notranslate nohighlight">\(B \ll N\)</span> in the learning regime as different samples
+will capture different aspects of the loss surface.
+Otherwise, the network is starting to overfit. So in practice, optimization hyperparameters
+are tuned on the validation set as well.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./nb/dl/02-optim"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="02c-sgd.html" class="btn btn-neutral float-left" title="Stochastic Gradient Descent (SGD)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../00-backprop/00-backprop.html" class="btn btn-neutral float-right" title="Backpropagation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

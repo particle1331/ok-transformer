@@ -1,0 +1,199 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Convolutional networks &mdash; OK Transformer</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/togglebutton.css?v=13237357" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-thebe.css?v=4fa983c6" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=c854b03d" />
+
+  
+    <link rel="shortcut icon" href="../../../_static/favicon.png"/>
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=9eb32ce0"></script>
+      <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=f281be69"></script>
+      <script src="../../../_static/scripts/sphinx-book-theme.js"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../../../_static/togglebutton.js?v=4a39c7ea"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+      <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+      <script async="async" src="../../../_static/sphinx-thebe.js?v=c100c467"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+      <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Model" href="03ba-model.html" />
+    <link rel="prev" title="Pooling layers" href="03ac-max-pooling.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../intro.html">
+            
+              <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Deep Learning</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../01-intro/01-intro.html">Introduction to Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-optim/02-optim.html">Gradient Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../00-backprop/00-backprop.html">Backpropagation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="03-cnn.html">Convolutional Neural Networks</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="03a-convolution.html">Convolution operation</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Convolutional networks</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="03ba-model.html">Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03bb-trainer.html">Trainer engine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03bc-lr-sched.html">LR scheduling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03bd-feature-maps.html">Feature maps</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="03c-data-augmentation.html">Data augmentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03d-transfer-learning.html">Transfer learning and fine-tuning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03e-guided-backprop.html">Appendix: Guided Backprop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03f-text-classification.html">Appendix: Text classification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03g-maximal-input.html">Appendix: Maximal class input</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../04-sequence-models/04-intro.html">Language modeling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../05-rnns/05-intro.html">Recurrent Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../07-attention.html">Attention and Transformers</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../intro.html">Project name not set</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../intro.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="03-cnn.html">Convolutional Neural Networks</a></li>
+      <li class="breadcrumb-item active">Convolutional networks</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/nb/dl/03-cnn/03b-convolutional-networks.ipynb" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="convolutional-networks">
+<h1>Convolutional networks<a class="headerlink" href="#convolutional-networks" title="Link to this heading"></a></h1>
+<p>In this section, we train an implementation of <strong>LeNet-5</strong> <span id="id1">[<a class="reference internal" href="../../../intro.html#id79" title="Yann LeCun, Léon Bottou, Yoshua Bengio, and Patrick Haffner. Gradient-based learning applied to document recognition. In Proceedings of the IEEE, volume 86, 2278–2324. 1998. URL: http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.42.7665.">LBBH98</a>]</span>  on MNIST.
+LeNet-5 was used in the 1990s to identify handwritten zip code numbers in the US Postal Service (<a class="reference internal" href="#lenet-timeline"><span class="std std-numref">Fig. 47</span></a>).
+This network is characterized as having convolution and pooling blocks as feature extractor. The features are then passed to an MLP with 10 output nodes for each class label.</p>
+<figure class="align-center" id="lenet">
+<img alt="https://www.d2l.ai/_images/lenet.svg" src="https://www.d2l.ai/_images/lenet.svg" />
+<figcaption>
+<p><span class="caption-number">Fig. 45 </span><span class="caption-text">Lenet-5 (1989) network architecture. <a class="reference external" href="https://www.d2l.ai/chapter_convolutional-neural-networks/lenet.html">Source</a></span><a class="headerlink" href="#lenet" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<br>
+<p><strong>Remark.</strong> A <em>block</em> is composed of multiple layers that together form a basic functional unit. This is generally used in designing neural net architectures. See also <strong>AlexNet</strong> <span id="id2">[<a class="reference internal" href="../../../intro.html#id80" title="Alex Krizhevsky, Ilya Sutskever, and Geoffrey E. Hinton. Imagenet classification with deep convolutional neural networks. In F. Pereira, C. J. C. Burges, L. Bottou, and K. Q. Weinberger, editors, Advances in Neural Information Processing Systems 25, pages 1097–1105. Curran Associates, Inc., 2012. URL: http://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf.">KSH12</a>]</span> and <strong>VGG</strong> <span id="id3">[<a class="reference internal" href="../../../intro.html#id78" title="Karen Simonyan and Andrew Zisserman. Very deep convolutional networks for large-scale image recognition. CoRR, 2014. URL: http://arxiv.org/abs/1409.1556.">SZ14</a>]</span> which take the conv+pool blocks design to the extreme (<a class="reference internal" href="#alexnet-vgg"><span class="std std-numref">Fig. 46</span></a>). AlexNet and VGG likewise contain consecutive convolutional blocks that downsample the spatial dims, while increasing the number of output channels so that network capacity is not diminished.</p>
+<figure class="align-center" id="alexnet-vgg">
+<img alt="../../../_images/03-alexnet-vgg.png" src="../../../_images/03-alexnet-vgg.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 46 </span><span class="caption-text">Network architecture of AlexNet and VGG. More layers means more processing, which is
+why we see repeated convolutions and blocks. <a class="reference external" href="https://www.d2l.ai/chapter_convolutional-modern/vgg.html#vgg-network">Source</a></span><a class="headerlink" href="#alexnet-vgg" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<figure class="align-center" id="lenet-timeline">
+<img alt="../../../_images/03-lenet-timeline.png" src="../../../_images/03-lenet-timeline.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 47 </span><span class="caption-text">A bit of history. Timeline of the development of LeNet and MNIST. <a class="reference external" href="https://en.wikipedia.org/wiki/LeNet">Source</a></span><a class="headerlink" href="#lenet-timeline" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./nb/dl/03-cnn"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="03ac-max-pooling.html" class="btn btn-neutral float-left" title="Pooling layers" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="03ba-model.html" class="btn btn-neutral float-right" title="Model" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

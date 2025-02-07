@@ -1,0 +1,249 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Regularization &mdash; OK Transformer</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/togglebutton.css?v=13237357" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-thebe.css?v=4fa983c6" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=c854b03d" />
+
+  
+    <link rel="shortcut icon" href="../../../_static/favicon.png"/>
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=9eb32ce0"></script>
+      <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=f281be69"></script>
+      <script src="../../../_static/scripts/sphinx-book-theme.js"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../../../_static/togglebutton.js?v=4a39c7ea"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+      <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+      <script async="async" src="../../../_static/sphinx-thebe.js?v=c100c467"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+      <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Experiments" href="01cc-experiments.html" />
+    <link rel="prev" title="Bias-variance decomposition" href="01ca-bias-variance.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../intro.html">
+            
+              <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Deep Learning</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="01-intro.html">Introduction to Neural Networks</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="01a-fcnn.html">Fully-connected NNs (MLPs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01b-linear.html">Linear classification</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="01c-lossmin.html">Machine learning theory</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="01ca-bias-variance.html">Bias-variance decomposition</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Regularization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01cc-experiments.html">Experiments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01cd-split.html">Train-validation split</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="01e-appendix-weaksup.html">Appendix: Weak supervision</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01ec-depth.html">Appendix: Expressivity and Depth</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../02-optim/02-optim.html">Gradient Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../00-backprop/00-backprop.html">Backpropagation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-cnn/03-cnn.html">Convolutional Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-sequence-models/04-intro.html">Language modeling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../05-rnns/05-intro.html">Recurrent Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../07-attention.html">Attention and Transformers</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../intro.html">Project name not set</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../intro.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="01-intro.html">Introduction to Neural Networks</a></li>
+          <li class="breadcrumb-item"><a href="01c-lossmin.html">Machine learning theory</a></li>
+      <li class="breadcrumb-item active">Regularization</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/nb/dl/01-intro/01cb-regularization.ipynb" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="regularization">
+<h1>Regularization<a class="headerlink" href="#regularization" title="Link to this heading"></a></h1>
+<p>How do we control bias and variance? There are two solutions: (1) getting <strong>more data</strong>, (2) tuning <strong>model complexity</strong>. More data decreases variance but has no effect on bias. Increasing complexity decreases bias but increases variance. Since biased models do not scale well with data, a good approach is to start with a complex model and decrease complexity it until we get a good tradeoff. This approach is called <strong>regularization</strong>. Regularization can be thought of as a continuous knob on complexity that smoothly restricts model class.</p>
+<br>
+<figure class="align-center" id="high-variance">
+<a class="reference internal image-reference" href="../../../_images/01-high-variance.png"><img alt="../../../_images/01-high-variance.png" src="../../../_images/01-high-variance.png" style="width: 90%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 11 </span><span class="caption-text">All these have zero training error. But the third one is better. This is because resampling will result in higher empirical risk for the first two, which implies high true risk. Source: <a class="reference external" href="https://cs182sp21.github.io/static/slides/lec-3.pdf">[CS182-lec3]</a></span><a class="headerlink" href="#high-variance" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<section id="bayesian-perspective">
+<h2>Bayesian perspective<a class="headerlink" href="#bayesian-perspective" title="Link to this heading"></a></h2>
+<p>High variance occurs when data does not give enough information to identify parameters. If we provide enough information to disambiguate between (almost) equally good models, we can pick the best one. One way to provide more information is to make certain parameter values more likely. In other words, we assign a <strong>prior</strong> on the parameters. Since the optimizer picks parameter values based on the loss, we can look into how we can augment the loss function to do this. Instead of MLE, we do a <a class="reference external" href="https://en.wikipedia.org/wiki/Maximum_a_posteriori_estimation">MAP estimate</a> for <span class="math notranslate nohighlight">\(\boldsymbol{\Theta}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+p(\boldsymbol{\Theta} \mid \mathcal{D}) &amp;\propto p(\boldsymbol{\Theta}) \; {p(\mathcal{D} \mid \boldsymbol{\Theta})} \\[4pt]
+&amp;= p(\boldsymbol{\Theta}) \, \prod_i \frac{p(\boldsymbol{\mathsf{x}}_i, y_i, \boldsymbol{\Theta})}{ p(\boldsymbol{\Theta})\,p(\boldsymbol{\mathsf{x}}_i)} \,p(\boldsymbol{\mathsf{x}}_i)
+\\
+&amp;= p(\boldsymbol{\Theta}) \, \prod_i \frac{p(\boldsymbol{\mathsf{x}}_i, y_i, \boldsymbol{\Theta})}{ p(\boldsymbol{\mathsf{x}}_i, \boldsymbol{\Theta})} \,p(\boldsymbol{\mathsf{x}}_i)
+\\
+&amp;= p(\boldsymbol{\Theta}) \, \prod_i p_{\boldsymbol{\Theta}}(y_i \mid \boldsymbol{\mathsf{x}}_i) \,p(\boldsymbol{\mathsf{x}}_i).
+\\
+\end{aligned}
+\end{split}\]</div>
+<p>Note we used independence between params and input. This also means that the term for the input is an additive constant, and therefore ignored in the resulting loss:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L}_{\mathcal{D}}(\boldsymbol{\Theta}) = - \left (\sum_i \log p_{\boldsymbol{\Theta}}(y_i \mid \boldsymbol{\mathsf{x}}_i) \right) - \underbrace{\log p(\boldsymbol{\Theta})}_{\text{we choose this}}.
+\]</div>
+<p>Can we pick a prior that makes the smoother function more likely?
+This can be done by assuming a distribution on <span class="math notranslate nohighlight">\(\boldsymbol{\Theta}\)</span> that assigns higher probabilities to <strong>small</strong> weights: e.g. <span class="math notranslate nohighlight">\(p(\boldsymbol{\Theta}) \sim \mathcal{N}(\mathbf{0}, \sigma^2\mathbf{I}).\)</span> This may result
+in a smoother fit (<a class="reference internal" href="#high-variance"><span class="std std-numref">Fig. 11</span></a>c). Solving the prior:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\log p(\boldsymbol{\Theta}) 
+&amp;= \sum_{j} \left(-\frac{1}{2\sigma^2} {\theta_j}^2  - \log \sigma - \frac{1}{2} \log 2 \pi \right) \\
+&amp;= - \lambda \lVert \boldsymbol{\Theta} \rVert^2 + \text{const.} \\
+\end{aligned}
+\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\lambda &gt; 0\)</span>  and <span class="math notranslate nohighlight">\(\lVert \cdot \rVert\)</span> is the L2 norm.
+Since we choose the prior, <span class="math notranslate nohighlight">\(\lambda\)</span> effectively becomes a <strong>hyperparameter</strong> that controls the strength of regularization. The resulting loss has the <strong>L2 regularization</strong> term:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L}_{\mathcal{D}}(\boldsymbol{\Theta}) = - \left( \sum_i \log p_{\boldsymbol{\Theta}}(y_i \mid \boldsymbol{\mathsf{x}}_i) \right) - \lambda \lVert \boldsymbol{\Theta} \rVert^2.
+\]</div>
+<p>The same analysis with a <a class="reference external" href="https://en.wikipedia.org/wiki/Laplace_distribution">Laplace prior</a> results in the <strong>L1 regularization</strong> term:</p>
+<div class="math notranslate nohighlight">
+\[- \lambda \lVert \boldsymbol{\Theta} \rVert_1 = -\lambda \sum_j |\theta_j|.\]</div>
+<p><strong>Remark.</strong> It makes sense that MAP estimates result in weight penalty since the weight distribution is biased towards low values.
+Intuitively, large weights means that the network is memorizing the training dataset, and we get sharper probability distributions
+with respect to varying input features. Since the class of models are restricted to having low weights, this puts a constraint on
+the model class, resulting in decreased complexity.
+Note that these regularizers introduce hyperparameters that we have to tune well. See experiments below.</p>
+<br>
+<figure class="align-center" id="regularization-contour">
+<a class="reference internal image-reference" href="../../../_images/01-regularization-contour.png"><img alt="../../../_images/01-regularization-contour.png" src="../../../_images/01-regularization-contour.png" style="width: 80%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 12 </span><span class="caption-text">Minimizing both prediction loss and regularization loss surfaces.
+The green point shows the optimal weights for fixed prediction loss.
+L1 results in sparse weights, while L2 distributes the contraint among both weights.
+<a class="reference external" href="https://cs182sp21.github.io/static/slides/lec-3.pdf">Source</a></span><a class="headerlink" href="#regularization-contour" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="other-perspectives">
+<h2>Other perspectives<a class="headerlink" href="#other-perspectives" title="Link to this heading"></a></h2>
+<p>A numerical perspective is that adding a regularization term can make underdetermined problems well-determined (i.e. has a better defined minimum). The optimization perspective is that the regularizer makes the loss landscape easier to search.
+Paradoxically, regularizers can sometimes reduce underfitting if it was due to poor optimization!
+Other types of regularizers are ensembling (e.g. <a class="reference external" href="https://machinelearningmastery.com/dropout-for-regularizing-deep-neural-networks/">Dropout</a>) and <a class="reference external" href="https://towardsdatascience.com/demystified-wasserstein-gan-with-gradient-penalty-ba5e9b905ead">gradient penalty</a> (for GANs).</p>
+<br>
+<figure class="align-center" id="dropout">
+<a class="reference internal image-reference" href="../../../_images/01-dropout.png"><img alt="../../../_images/01-dropout.png" src="../../../_images/01-dropout.png" style="width: 80%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 13 </span><span class="caption-text"><span id="id1">[<a class="reference internal" href="../../../intro.html#id65" title="Nitish Srivastava, Geoffrey E. Hinton, Alex Krizhevsky, Ilya Sutskever, and Ruslan Salakhutdinov. Dropout: a simple way to prevent neural networks from overfitting. Journal of Machine Learning Research, 15(1):1929-1958, 2014. URL: http://www.cs.toronto.edu/~rsalakhu/papers/srivastava14a.pdf.">SHK+14</a>]</span> Dropout drops random units with probability <span class="math notranslate nohighlight">\(p\)</span> at each step during training. This prevents overfitting by reducing the co-adaptation of neurons during training, which in turn limits the capacity of the model to fit noise in the training data. Since only <span class="math notranslate nohighlight">\(1 - p\)</span> units are present during training, the activations are scaled by <span class="math notranslate nohighlight">\(\frac{1}{1 - p}\)</span> to match test behavior.</span><a class="headerlink" href="#dropout" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./nb/dl/01-intro"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="01ca-bias-variance.html" class="btn btn-neutral float-left" title="Bias-variance decomposition" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="01cc-experiments.html" class="btn btn-neutral float-right" title="Experiments" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

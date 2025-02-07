@@ -1,0 +1,333 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Backpropagation &mdash; OK Transformer</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/togglebutton.css?v=13237357" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-thebe.css?v=4fa983c6" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=c854b03d" />
+
+  
+    <link rel="shortcut icon" href="../../../_static/favicon.png"/>
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=9eb32ce0"></script>
+      <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=f281be69"></script>
+      <script src="../../../_static/scripts/sphinx-book-theme.js"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../../../_static/togglebutton.js?v=4a39c7ea"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+      <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+      <script async="async" src="../../../_static/sphinx-thebe.js?v=c100c467"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+      <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Defined operations" href="00a-compute-nodes.html" />
+    <link rel="prev" title="Optimization hyperparameters" href="../02-optim/02d-hyperparameters.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../intro.html">
+            
+              <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Deep Learning</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../01-intro/01-intro.html">Introduction to Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-optim/02-optim.html">Gradient Optimization</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Backpropagation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="00a-compute-nodes.html">Defined operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="00b-neural-net-module.html">Neural network module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="00d-network-training.html">Training from scratch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="00c-benchmarking.html">Appendix: Benchmarking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="00e-testing.html">Appendix: Testing with <code class="docutils literal notranslate"><span class="pre">autograd</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="00f-bp-equations.html">Appendix: BP equations for MLPs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../03-cnn/03-cnn.html">Convolutional Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-sequence-models/04-intro.html">Language modeling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../05-rnns/05-intro.html">Recurrent Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../07-attention.html">Attention and Transformers</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../intro.html">Project name not set</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../intro.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Backpropagation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/nb/dl/00-backprop/00-backprop.ipynb" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="backpropagation">
+<span id="backprop"></span><h1>Backpropagation<a class="headerlink" href="#backpropagation" title="Link to this heading"></a></h1>
+<p>In this notebook, we look at the <strong>backpropagation algorithm</strong> (BP) for efficient gradient computation on computational graphs. Backpropagation involves local message passing of values in the forward pass, and gradients in the backward pass. Neural networks are computational graphs with nodes for differentiable operations. The time complexity of BP is linear in the size of the network, i.e. the total number of edges and compute nodes. This fact allows scaling training large neural networks. We will implement a minimal scalar-valued <strong>autograd engine</strong> and a neural network library<a class="footnote-reference brackets" href="#id2" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> on top it to train a small regression model.</p>
+<section id="bp-on-computational-graphs">
+<h2>BP on computational graphs<a class="headerlink" href="#bp-on-computational-graphs" title="Link to this heading"></a></h2>
+<p>A neural network can be implemented as a <strong>directed acyclic graph</strong> (DAG) of nodes that models a function <span class="math notranslate nohighlight">\(f\)</span>, i.e. all computation flows from an input <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{x}}\)</span> to an output node <span class="math notranslate nohighlight">\(f(\boldsymbol{\mathsf{x}})\)</span> with no cycles.
+During training, this is extended to implement the calculation of the loss.
+Recall that our goal is to obtain optimal parameter node values <span class="math notranslate nohighlight">\(\hat{\boldsymbol{\Theta}}\)</span> after optimization (e.g. with SGD) such that the <span class="math notranslate nohighlight">\(f_{\hat{\boldsymbol{\Theta}}}\)</span> minimizes the expected value of the loss function <span class="math notranslate nohighlight">\(\ell.\)</span> Backpropagation allows us to efficiently compute <span class="math notranslate nohighlight">\(\nabla_{\boldsymbol{\Theta}} \ell\)</span> for SGD after <span class="math notranslate nohighlight">\((\boldsymbol{\mathsf{x}}, y) \in \mathcal{B}\)</span> is passed to the input nodes.</p>
+<figure class="align-center" id="compute">
+<a class="reference internal image-reference" href="../../../_images/03-comp-graph.png"><img alt="../../../_images/03-comp-graph.png" src="../../../_images/03-comp-graph.png" style="width: 700px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 32 </span><span class="caption-text">Computational graph of a dense layer. Note that parameter nodes (yellow) always have zero fan-in.</span><a class="headerlink" href="#compute" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p><strong>Forward pass.</strong> Forward pass computes <span class="math notranslate nohighlight">\(f_{\boldsymbol{\Theta}}(\boldsymbol{\mathsf{x}}).\)</span> All compute nodes are executed starting from the input nodes (which evaluates to the input vector <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf x}\)</span>). This passed to its child nodes, and so on up to the loss node. The output value of each node is stored to avoid recomputation for child nodes that depend on the same node. This also preserves the network state for backward pass. Finally, forward pass builds the computational graph which is stored in memory. It follows that forward pass for one input is roughly <span class="math notranslate nohighlight">\(O(\mathsf{E})\)</span> in time and memory where <span class="math notranslate nohighlight">\(\mathsf{E}\)</span> is the number of edges of the graph.</p>
+<p><strong>Backward pass.</strong> Backward computes gradients starting from the loss node <span class="math notranslate nohighlight">\(\ell\)</span> down
+to the input nodes <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{x}}.\)</span>
+The gradient of <span class="math notranslate nohighlight">\(\ell\)</span> with respect to itself is <span class="math notranslate nohighlight">\(1\)</span>. This serves as the base step.
+For any other node <span class="math notranslate nohighlight">\(u\)</span> in the graph, we can assume that the <strong>global gradient</strong>
+<span class="math notranslate nohighlight">\({\partial \ell}/{\partial v}\)</span> is cached for each node <span class="math notranslate nohighlight">\(v \in N_u\)</span>, where <span class="math notranslate nohighlight">\(N_u\)</span> are all nodes
+in the graph that depend on <span class="math notranslate nohighlight">\(u\)</span>. On the other hand, the <strong>local gradient</strong>
+<span class="math notranslate nohighlight">\({\partial v}/{\partial u}\)</span> is determined analytically based on the functional
+dependence of <span class="math notranslate nohighlight">\(v\)</span> upon <span class="math notranslate nohighlight">\(u.\)</span> These are computed at runtime given current node values
+cached during forward pass.</p>
+<p>The global gradient with respect to node <span class="math notranslate nohighlight">\(u\)</span> can then be inductively calculated using the chain
+rule:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial \ell}{\partial u} = \sum_{v \in N_u} \frac{\partial \ell}{\partial v} \frac{\partial v}{\partial u}.
+\]</div>
+<p>This can be visualized as gradients flowing from the loss node to each network node.
+The flow of gradients will end on parameter and input nodes which depend on no other
+nodes. These are called <strong>leaf nodes</strong>. It follows that the algorithm terminates.</p>
+<figure class="align-center" id="backward-1">
+<a class="reference internal image-reference" href="../../../_images/backward-1.svg"><img alt="../../../_images/backward-1.svg" src="../../../_images/backward-1.svg" style="width: 80%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 33 </span><span class="caption-text">Computing the global gradient for a single node. Note that gradient type is distinguished by color: <strong>local</strong> (red) and <strong>global</strong> (blue).</span><a class="headerlink" href="#backward-1" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>This can be visualized as gradients flowing to each network node from the loss node. The flow of gradients will end on parameter and input nodes which have zero fan-in. Global gradients are stored in each compute node in the <code class="docutils literal notranslate"><span class="pre">grad</span></code> attribute for use by the next layer, along with node values obtained during forward pass which are used in local gradient computation. Memory can be released after the weights are updated. On the other hand, there is no need to store local gradients as these are computed as needed.</p>
+<p>Backward pass is implemented as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Node</span><span class="p">:</span>
+    <span class="o">...</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">sorted_nodes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return topologically sorted nodes with self as root.&quot;&quot;&quot;</span>
+        <span class="o">...</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">backward</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">grad</span> <span class="o">=</span> <span class="mf">1.0</span>
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sorted_nodes</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">parent</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">_parents</span><span class="p">:</span>
+                <span class="n">parent</span><span class="o">.</span><span class="n">grad</span> <span class="o">+=</span> <span class="n">node</span><span class="o">.</span><span class="n">grad</span> <span class="o">*</span> <span class="n">node</span><span class="o">.</span><span class="n">_local_grad</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
+
+</pre></div>
+</div>
+<p>Each node has to wait for all incoming gradients from dependent nodes before passing the gradient to its parents. This is done by <a class="reference external" href="https://en.wikipedia.org/wiki/Topological_sorting">topological sorting</a> of the nodes, based on functional dependency, with <code class="docutils literal notranslate"><span class="pre">self</span></code> as root (i.e. the node calling <code class="docutils literal notranslate"><span class="pre">backward</span></code> is always treated as the terminal node).
+The contributions of child nodes are then accumulated based on the chain rule, where
+<code class="docutils literal notranslate"><span class="pre">node.grad</span></code> is the global gradient which is equal to <code class="docutils literal notranslate"><span class="pre">∂self</span> <span class="pre">/</span> <span class="pre">∂node</span></code>, while the local gradient <code class="docutils literal notranslate"><span class="pre">node._local_grad(parent)</span></code> is equal to <code class="docutils literal notranslate"><span class="pre">∂node</span> <span class="pre">/</span> <span class="pre">∂parent</span></code>. By construction, each child node occurs before any of its parent nodes, thus the full gradient of a child node is calculated before it is sent to its parent nodes (<a class="reference internal" href="#parent-child-nodes"><span class="std std-numref">Fig. 34</span></a>).</p>
+<figure class="align-default" id="parent-child-nodes">
+<a class="reference internal image-reference" href="../../../_images/03-parent-child-nodes.png"><img alt="../../../_images/03-parent-child-nodes.png" src="../../../_images/03-parent-child-nodes.png" style="width: 100%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 34 </span><span class="caption-text">Equivalent ways of computing the global gradient. (<strong>left</strong>) The global gradient is computed by tracking the dependencies from <span class="math notranslate nohighlight">\(u\)</span> to each of its child node during forward pass. This is our formal statement before. Algorithmically, we start from each node in the upper layer, and we contribute one term in the sum to each parent node (<strong>right</strong>). Note that this assumes that the global gradient at <span class="math notranslate nohighlight">\(v\)</span> has been fully accumulated / calculated.</span><a class="headerlink" href="#parent-child-nodes" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="topological-sorting-with-dfs">
+<h2>Topological sorting with DFS<a class="headerlink" href="#topological-sorting-with-dfs" title="Link to this heading"></a></h2>
+<p>To construct the topologically sorted list of nodes of a DAG starting from a terminal node, we use <a class="reference external" href="https://www.geeksforgeeks.org/topological-sorting/">depth-first search</a>. The following example is shown in <a class="reference internal" href="#toposort"><span class="std std-numref">Fig. 35</span></a>. The following algorithm steps into <code class="docutils literal notranslate"><span class="pre">dfs</span></code> for each parent node until a leaf node is reached, which is pushed immediately to <code class="docutils literal notranslate"><span class="pre">topo</span></code>. Then, the algorithm steps out and the next parent node is processed. A node is only pushed when all its parents have been pushed (i.e. already in <code class="docutils literal notranslate"><span class="pre">topo</span></code> or finished looping through its parents), preserving the required linear ordering.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">OrderedDict</span>
+
+<span class="n">parents</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="p">[],</span>
+    <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="p">[],</span>
+    <span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="p">[],</span>
+    <span class="s2">&quot;c&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;d&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;e&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;c&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;d&quot;</span><span class="p">]</span>
+<span class="p">}</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">sorted_nodes</span><span class="p">(</span><span class="n">root</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return topologically sorted nodes with self as root.&quot;&quot;&quot;</span>
+    <span class="n">topo</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">dfs</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="n">node</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">node</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">topo</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">parent</span> <span class="ow">in</span> <span class="n">parents</span><span class="p">[</span><span class="n">node</span><span class="p">]:</span>
+                <span class="n">dfs</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
+            
+            <span class="n">topo</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;t&quot;</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">topo</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+
+    <span class="n">dfs</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">topo</span><span class="p">)</span>
+
+<span class="nb">list</span><span class="p">(</span><span class="n">sorted_nodes</span><span class="p">(</span><span class="s2">&quot;f&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>v f
+v d
+v x
+t [&#39;x&#39;]
+v a
+t [&#39;x&#39;, &#39;a&#39;]
+v c
+v a
+v b
+t [&#39;x&#39;, &#39;a&#39;, &#39;b&#39;]
+t [&#39;x&#39;, &#39;a&#39;, &#39;b&#39;, &#39;c&#39;]
+t [&#39;x&#39;, &#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;]
+t [&#39;x&#39;, &#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;, &#39;f&#39;]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;f&#39;, &#39;d&#39;, &#39;c&#39;, &#39;b&#39;, &#39;a&#39;, &#39;x&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Remark.</strong> Note that we get infinite recursion if there is a cycle in the graph, so the acyclic hypothesis is important for the algorithm to terminate. A way to detect cycles is to maintain a set of <em>visited</em> nodes. Revisiting a node that is not pushed to the output queue means that the graph is cyclic (see above outputs where <code class="docutils literal notranslate"><span class="pre">v</span></code> indicates visiting the node).</p>
+<figure class="align-center" id="toposort">
+<a class="reference internal image-reference" href="../../../_images/00-toposort.png"><img alt="../../../_images/00-toposort.png" src="../../../_images/00-toposort.png" style="width: 600px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 35 </span><span class="caption-text">(a) Graph encoded in the <code class="docutils literal notranslate"><span class="pre">parents</span></code> dictionary above. Note <code class="docutils literal notranslate"><span class="pre">e</span></code>, which <code class="docutils literal notranslate"><span class="pre">f</span></code> has no dependence on, is excluded.
+Visited nodes (red) starts from the terminal node backwards into the graph. Then, each node is pushed  once all its parents are pushed (starting from leaf nodes, yellow), preserving topological ordering. Here <code class="docutils literal notranslate"><span class="pre">a</span></code> is not pushed twice, even if both <code class="docutils literal notranslate"><span class="pre">d</span></code> and <code class="docutils literal notranslate"><span class="pre">c</span></code> depends on it, since <code class="docutils literal notranslate"><span class="pre">a</span></code> has already been visited after node <code class="docutils literal notranslate"><span class="pre">d</span></code>. (b) Topological sorting exposes a linear ordering of the compute nodes.</span><a class="headerlink" href="#toposort" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<br>
+</section>
+<section id="properties-of-backpropagation">
+<h2>Properties of backpropagation<a class="headerlink" href="#properties-of-backpropagation" title="Link to this heading"></a></h2>
+<p>Some characteristics of backprop which explains why it is ubiquitous in deep learning:</p>
+<ul class="simple">
+<li><p><strong>Modularity.</strong> Backprop is a useful tool for reasoning about gradient flow and can suggest ways to improve training or network design. Moreover, since it only requires local gradients between nodes, it allows modularity when designing deep neural networks.
+In other words, we can (in principle) arbitrarily connect layers of computation. Another interesting fact is that a set of operations can be fused into a single node, resulting in more efficient computation (assuming there is an efficient way to solve for the local gradient in one step).</p></li>
+</ul>
+<ul class="simple">
+<li><p><strong>Runtime.</strong> Each edge in the DAG is passed exactly once (<a class="reference internal" href="#parent-child-nodes"><span class="std std-numref">Fig. 34</span></a>). Hence, the time complexity for finding global gradients is <span class="math notranslate nohighlight">\(O(\mathsf{E} + \mathsf{V})\)</span> where <span class="math notranslate nohighlight">\(\mathsf{E}\)</span> is the number of edges in the graph and <span class="math notranslate nohighlight">\(\mathsf{V}\)</span> is the number of vertices. Moreover, we assume that each compute node and local gradient evaluation is <span class="math notranslate nohighlight">\(O(1)\)</span>. It follows that computing <span class="math notranslate nohighlight">\(\nabla_{\boldsymbol{\Theta}}\,\mathcal{L}\)</span> for an instance <span class="math notranslate nohighlight">\((\boldsymbol{\mathsf{x}}, y)\)</span> is proportional to the network size, i.e. the same complexity as computing <span class="math notranslate nohighlight">\(f(\boldsymbol{\mathsf{x}})\)</span>. Note that topological sorting of the nodes require the same time complexity.</p></li>
+</ul>
+<ul class="simple">
+<li><p><strong>Memory.</strong> Each training step naively requires twice the memory for an inference step, since we store both gradients and values. This can be improved by releasing the gradients and neurons of non-leaf nodes in the previous layer once a layer finishes computing its gradient.</p></li>
+</ul>
+<ul class="simple">
+<li><p><strong>GPU parallelism.</strong> Forward computation can generally be parallelized in the batch dimension and often times in the layer dimension. This can leverage massive parallelism in the GPU significantly decreasing runtime by trading off memory. The same is true for backward pass which can also be expressed in terms of matrix multiplications! <a class="reference internal" href="00f-bp-equations.html#equation-backprop-output">(2)</a></p></li>
+</ul>
+<br>
+</section>
+<section id="readings">
+<h2>Readings<a class="headerlink" href="#readings" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.offconvex.org/2016/12/20/backprop/">Back-propagation, an introduction</a></p></li>
+<li><p><a class="reference external" href="https://timvieira.github.io/blog/post/2016/09/25/evaluating-fx-is-as-fast-as-fx/">Evaluating <span class="math notranslate nohighlight">\(\nabla f(x)\)</span> is as fast as <span class="math notranslate nohighlight">\(f(x).\)</span></a></p></li>
+<li><p><a class="reference external" href="https://www.youtube.com/watch?v=MswxJw-8PvE">Pytorch autograd explained - in-depth tutorial</a></p></li>
+<li><p><a class="reference external" href="https://www.youtube.com/watch?v=VMj-3S1tku0">The spelled-out intro to neural networks and backpropagation: building micrograd</a></p></li>
+</ul>
+<hr class="footnotes docutils" />
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id2" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>Inspired by <a class="reference external" href="https://github.com/karpathy/micrograd">https://github.com/karpathy/micrograd</a>.</p>
+</aside>
+</aside>
+</section>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./nb/dl/00-backprop"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../02-optim/02d-hyperparameters.html" class="btn btn-neutral float-left" title="Optimization hyperparameters" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="00a-compute-nodes.html" class="btn btn-neutral float-right" title="Defined operations" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

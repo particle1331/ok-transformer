@@ -1,0 +1,241 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Characterizing the loss surface &mdash; OK Transformer</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/togglebutton.css?v=13237357" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-thebe.css?v=4fa983c6" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=c854b03d" />
+
+  
+    <link rel="shortcut icon" href="../../../_static/favicon.png"/>
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=9eb32ce0"></script>
+      <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=f281be69"></script>
+      <script src="../../../_static/scripts/sphinx-book-theme.js"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../../../_static/togglebutton.js?v=4a39c7ea"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+      <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+      <script async="async" src="../../../_static/sphinx-thebe.js?v=c100c467"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+      <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Momentum methods" href="02b-momentum.html" />
+    <link rel="prev" title="Gradient Optimization" href="02-optim.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../intro.html">
+            
+              <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Deep Learning</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../01-intro/01-intro.html">Introduction to Neural Networks</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="02-optim.html">Gradient Optimization</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Characterizing the loss surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02b-momentum.html">Momentum methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02c-sgd.html">Stochastic Gradient Descent (SGD)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02d-hyperparameters.html">Optimization hyperparameters</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../00-backprop/00-backprop.html">Backpropagation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-cnn/03-cnn.html">Convolutional Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-sequence-models/04-intro.html">Language modeling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../05-rnns/05-intro.html">Recurrent Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../07-attention.html">Attention and Transformers</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../intro.html">Project name not set</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../intro.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="02-optim.html">Gradient Optimization</a></li>
+      <li class="breadcrumb-item active">Characterizing the loss surface</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/nb/dl/02-optim/02a-loss-landscape.ipynb" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="characterizing-the-loss-surface">
+<h1>Characterizing the loss surface<a class="headerlink" href="#characterizing-the-loss-surface" title="Link to this heading"></a></h1>
+<p>For convex functions, gradient descent has strong guarantees of converging. However, the loss surface of neural networks
+are generally nonconvex. Clever dimensionality reduction techniques allow us to visualize loss function curvature despite the very large number of parameters (<a class="reference internal" href="#visualizing-loss"><span class="std std-numref">Fig. 22</span></a> from <span id="id1">[<a class="reference internal" href="../../../intro.html#id90" title="Hao Li, Zheng Xu, Gavin Taylor, and Tom Goldstein. Visualizing the loss landscape of neural nets. CoRR, 2017. URL: http://arxiv.org/abs/1712.09913, arXiv:1712.09913.">LXTG17</a>]</span>). Notice that there are <strong>plateaus</strong> (or flat minimas) and <strong>local minimas</strong> which makes gradient descent hard. In high-dimension <strong>saddle points</strong> are the most common critical points.</p>
+<br><figure class="align-center" id="visualizing-loss">
+<a class="reference internal image-reference" href="../../../_images/02-visualizing-loss.png"><img alt="../../../_images/02-visualizing-loss.png" src="../../../_images/02-visualizing-loss.png" style="width: 80%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 22 </span><span class="caption-text">The loss surfaces of ResNet-56 with (<strong>right</strong>) and without (<strong>left</strong>) skip connections.
+The loss surface on the right looks better although there are still some flatness. <span id="id2">[<a class="reference internal" href="../../../intro.html#id90" title="Hao Li, Zheng Xu, Gavin Taylor, and Tom Goldstein. Visualizing the loss landscape of neural nets. CoRR, 2017. URL: http://arxiv.org/abs/1712.09913, arXiv:1712.09913.">LXTG17</a>]</span></span><a class="headerlink" href="#visualizing-loss" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<figure class="align-center" id="optima-type">
+<a class="reference internal image-reference" href="../../../_images/02-optima-type.png"><img alt="../../../_images/02-optima-type.png" src="../../../_images/02-optima-type.png" style="width: 100%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 23 </span><span class="caption-text">Types of critical points. <a class="reference external" href="https://cs182sp21.github.io/static/slides/lec-4.pdf">Source</a></span><a class="headerlink" href="#optima-type" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<section id="local-minima">
+<h2>Local minima<a class="headerlink" href="#local-minima" title="Link to this heading"></a></h2>
+<p>Local minimas are very scary, in principle, since gradient descent could converge to a
+solution that is <em>arbitrarily worse</em> than the global optimum. Surprisingly, this becomes
+less of an issue as the number of parameters increases, as they
+tend to be not much worse than global optima. <a class="reference internal" href="#id4"><span class="std std-numref">Fig. 24</span></a>
+below shows that for larger networks the test loss variance between training
+runs become
+smaller. This indicates that local minima tend to be increasingly equivalent
+as we increase network size.</p>
+<figure class="align-center" id="id4">
+<a class="reference internal image-reference" href="../../../_images/02-local-minima.png"><img alt="../../../_images/02-local-minima.png" src="../../../_images/02-local-minima.png" style="width: 80%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 24 </span><span class="caption-text">Test loss of 1000 networks on a scaled-down version of MNIST, where
+each image was downsampled to size 10×10. The networks have one hidden layer
+and with 25, 50, 100, 250, and 500 hidden units,
+each one starting from a random set of parameters sampled uniformly within the unit cube.
+All networks were trained for 200 epochs using SGD with
+learning rate decay. Source: <span id="id3">[<a class="reference internal" href="../../../intro.html#id91" title="Anna Choromanska, MIkael Henaff, Michael Mathieu, Gerard Ben Arous, and Yann LeCun. The Loss Surfaces of Multilayer Networks. In Guy Lebanon and S. V. N. Vishwanathan, editors, Proceedings of the Eighteenth International Conference on Artificial Intelligence and Statistics, volume 38 of Proceedings of Machine Learning Research, 192–204. San Diego, California, USA, 09–12 May 2015. PMLR. URL: https://proceedings.mlr.press/v38/choromanska15.html.">CHM+15</a>]</span></span><a class="headerlink" href="#id4" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="plateaus">
+<h2>Plateaus<a class="headerlink" href="#plateaus" title="Link to this heading"></a></h2>
+<p>Plateaus are regions in the loss landscape with small gradients. It can also be a flat local minima. Below the initial weights is in a plateau, and the optimizer with small learning rate gets stuck and fails to converge. Large learning rate allows the optimizer to escape such regions. As such, we cannot simply choose small learning rate to prevent oscillations.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">plot_gd_steps</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">optim</span><span class="o">=</span><span class="n">GD</span><span class="p">,</span> <span class="n">optim_params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;lr&quot;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">},</span> <span class="n">w_init</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">4.0</span><span class="p">,</span>  <span class="mf">6.0</span><span class="p">],</span> <span class="n">label_map</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;lr&quot;</span><span class="p">:</span> <span class="sa">r</span><span class="s2">&quot;$\eta$&quot;</span><span class="p">},</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">)</span>
+<span class="n">plot_gd_steps</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">optim</span><span class="o">=</span><span class="n">GD</span><span class="p">,</span> <span class="n">optim_params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;lr&quot;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">},</span> <span class="n">w_init</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">4.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.0</span><span class="p">],</span> <span class="n">label_map</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;lr&quot;</span><span class="p">:</span> <span class="sa">r</span><span class="s2">&quot;$\eta$&quot;</span><span class="p">},</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../../_images/3957ff019b69ccab1ad3cbd56d9d04ec9f0218e2764cb01405047e5b2fd7f9d6.svg" src="../../../_images/3957ff019b69ccab1ad3cbd56d9d04ec9f0218e2764cb01405047e5b2fd7f9d6.svg" />
+</div>
+</div>
+</section>
+<section id="saddle-points">
+<h2>Saddle points<a class="headerlink" href="#saddle-points" title="Link to this heading"></a></h2>
+<p>Saddle points are critical points (i.e. gradient zero) that are local minimum in some dimensions but local maximum in other dimensions. Neural networks have a lot of symmetry which can result in exponentially many local minima. Saddle points naturally arise
+in paths that connect these local minima (<a class="reference internal" href="#connected-minima"><span class="std std-numref">Fig. 25</span></a>).
+It takes a long time to escape a saddle point since it is usually surrounded by high-loss plateaus <span id="id5">[<a class="reference internal" href="../../../intro.html#id92" title="Yann N. Dauphin, Razvan Pascanu, Caglar Gulcehre, Kyunghyun Cho, Surya Ganguli, and Yoshua Bengio. Identifying and attacking the saddle point problem in high-dimensional non-convex optimization. In Proceedings of the 27th International Conference on Neural Information Processing Systems - Volume 2, NIPS'14, 2933–2941. Cambridge, MA, USA, 2014. MIT Press.">DPG+14</a>]</span>.
+A saddle point looks like a special structure. But in high-dimension, it turns out that most optima are saddle points.</p>
+<figure class="align-center" id="connected-minima">
+<a class="reference internal image-reference" href="../../../_images/02-connected-minima.png"><img alt="../../../_images/02-connected-minima.png" src="../../../_images/02-connected-minima.png" style="width: 60%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 25 </span><span class="caption-text">Paths between two minimas result in a saddle point. <a class="reference external" href="https://www.offconvex.org/2016/03/22/saddlepoints/">Source</a></span><a class="headerlink" href="#connected-minima" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>The Hessian <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{H}}\)</span> at the critical point of a surface is a matrix containing second derivatives at that point. We will see shortly that these characterize the local curvature. From <a class="reference external" href="https://en.wikipedia.org/wiki/Symmetry_of_second_derivatives#Schwarz's_theorem">Schwarz’s theorem</a>, mixed partials are equal assuming the second partial derivatives are continuous around the optima. It follows that <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{H}}\)</span> is symmetric, and from the <a class="reference external" href="https://github.com/particle1331/computational-linear-algebra/blob/master/chapters/02-svd.ipynb">Real Spectral Theorem</a>, <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{H}}\)</span> is diagonalizable with real eigenvalues. It turns out that local curvature is characterized by whether the eigenvalues are negative, zero, or positive.</p>
+<p>If all eigenvalues of the Hessian are positive, it is <a class="reference external" href="https://en.wikipedia.org/wiki/Definite_matrix">positive-definite</a>, i.e. <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{x}}^\top \boldsymbol{\mathsf{H}}\, \boldsymbol{\mathsf{x}} &gt; 0\)</span> for <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{x}} \neq \boldsymbol{0}.\)</span> This follows directly from the spectral decomposition <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{H}} = \boldsymbol{\mathsf{U}} \boldsymbol{\Lambda} \boldsymbol{\mathsf{U}}^\top\)</span> such that <span class="math notranslate nohighlight">\(\boldsymbol{\Lambda}\)</span> is the diagonal matrix of eigenvalues of <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{H}}\)</span> and <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{U}}\)</span> is an orthogonal matrix with corresponding unit eigenvectors as columns. This is the multivariable equivalent of <strong>concave up</strong>. On the other hand, if all eigenvalues of <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{H}}\)</span> are negative, then it is negative-definite or <strong>concave down</strong>. To see this, observe that the Taylor expansion at the critical point is:</p>
+<div class="math notranslate nohighlight">
+\[
+\Delta \mathcal{L}_{\mathcal{D}} = \frac{1}{2} \Delta \boldsymbol{\Theta}^\top \boldsymbol{\mathsf{H}}\, \Delta \boldsymbol{\Theta} + O(\Delta \boldsymbol{\Theta}^3).
+\]</div>
+<p>If any eigenvalue is zero, more information is needed (i.e. we need third order terms). Finally, if the eigenvalues are mixed, we get a <strong>saddle point</strong> where there are orthogonal directions corresponding to eigenvectors where the loss decreases and directions where the loss increases. Getting <span class="math notranslate nohighlight">\(M = |\boldsymbol{\Theta}|\)</span> eigenvalues of the same sign or having one zero eigenvalue is relatively rare for large networks with complex loss surfaces, so that the probability that the critical point is a saddle point is high.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./nb/dl/02-optim"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="02-optim.html" class="btn btn-neutral float-left" title="Gradient Optimization" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="02b-momentum.html" class="btn btn-neutral float-right" title="Momentum methods" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

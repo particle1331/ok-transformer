@@ -1,0 +1,418 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Appendix: BP equations for MLPs &mdash; OK Transformer</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/togglebutton.css?v=13237357" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-thebe.css?v=4fa983c6" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=c854b03d" />
+
+  
+    <link rel="shortcut icon" href="../../../_static/favicon.png"/>
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=9eb32ce0"></script>
+      <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=f281be69"></script>
+      <script src="../../../_static/scripts/sphinx-book-theme.js"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../../../_static/togglebutton.js?v=4a39c7ea"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+      <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+      <script async="async" src="../../../_static/sphinx-thebe.js?v=c100c467"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+      <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Convolutional Neural Networks" href="../03-cnn/03-cnn.html" />
+    <link rel="prev" title="Appendix: Testing with autograd" href="00e-testing.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../intro.html">
+            
+              <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Deep Learning</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../01-intro/01-intro.html">Introduction to Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-optim/02-optim.html">Gradient Optimization</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="00-backprop.html">Backpropagation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="00a-compute-nodes.html">Defined operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="00b-neural-net-module.html">Neural network module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="00d-network-training.html">Training from scratch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="00c-benchmarking.html">Appendix: Benchmarking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="00e-testing.html">Appendix: Testing with <code class="docutils literal notranslate"><span class="pre">autograd</span></code></a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Appendix: BP equations for MLPs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../03-cnn/03-cnn.html">Convolutional Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-sequence-models/04-intro.html">Language modeling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../05-rnns/05-intro.html">Recurrent Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../07-attention.html">Attention and Transformers</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../intro.html">Project name not set</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../intro.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="00-backprop.html">Backpropagation</a></li>
+      <li class="breadcrumb-item active">Appendix: BP equations for MLPs</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/nb/dl/00-backprop/00f-bp-equations.ipynb" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="appendix-bp-equations-for-mlps">
+<span id="backprop-appendix-backpropagation-equations-for-mlps"></span><h1>Appendix: BP equations for MLPs<a class="headerlink" href="#appendix-bp-equations-for-mlps" title="Link to this heading"></a></h1>
+<p>Closed-form expressions for the gradients
+is generally more efficient to compute, since
+no explicit passing of gradients between nodes is performed.
+Moreover, they can give us an understanding of the dynamics of gradient flow, e.g. bottlenecks.
+In this section, we derive BP equations specifically for MLPs.
+Recall that a dense layer with weights <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{w}}_j \in \mathbb{R}^d\)</span>
+and bias <span class="math notranslate nohighlight">\({b}_j \in \mathbb{R}\)</span> computes given an input <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{x}} \in \mathbb{R}^d\)</span>
+the following equations for <span class="math notranslate nohighlight">\(j = 1, \ldots, h\)</span> where <span class="math notranslate nohighlight">\(h\)</span> is the layer width:</p>
+<div class="math notranslate nohighlight" id="equation-fully-connected-layer">
+<span class="eqno">(1)<a class="headerlink" href="#equation-fully-connected-layer" title="Link to this equation"></a></span>\[\begin{split}\begin{aligned}
+    z_j &amp;= \boldsymbol{\mathsf{x}} \cdot \boldsymbol{\mathsf{w}}_j + {b}_j \\
+    y_j &amp;= \phi\left( z_j \right) \\
+\end{aligned}\end{split}\]</div>
+<p>Given global gradients
+<span class="math notranslate nohighlight">\(\partial \ell / \partial y_j\)</span>
+that flow into the layer via the output nodes, we compute the global gradients of nodes
+<span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{z}}\)</span>, <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{w}}\)</span>, <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{b}}\)</span>, and <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{x}}\)</span>
+in the layer.
+As previously discussed, this can be done by tracking backward dependencies in
+the computational graph (<a class="reference internal" href="#jacobian"><span class="std std-numref">Fig. 36</span></a>). Following backward dependencies for the compute nodes:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align}
+\frac{\partial \ell}{\partial {z}_j} &amp;= \sum_k \frac{\partial \ell}{\partial {y}_k}  \frac{\partial {y}_k}{\partial {z}_j} =  \sum_k \frac{\partial \ell}{\partial {y}_k} \mathsf{J}^{\phi}_{kj} \\
+\frac{\partial \ell}{\partial {x}_i} &amp;= \sum_j \frac{\partial \ell}{\partial {z}_j} \frac{\partial {z}_j}{\partial {x}_i} = \sum_j \frac{\partial \ell}{\partial {z}_j} {w}_{ij} = \sum_j \frac{\partial \ell}{\partial {z}_j} {w}_{ji}^{\top}
+\end{align}\end{split}\]</div>
+<p>where
+<span class="math notranslate nohighlight">\(\mathsf{J}^{\phi}_{kj}(\boldsymbol{\mathsf{z}}) = ({\partial y_k}/{\partial z_j}) |_{\boldsymbol{\mathsf{z}}}\)</span>
+is the <a class="reference external" href="https://mathworld.wolfram.com/Jacobian.html">Jacobian</a>. The second equation is visualized below:</p>
+<figure class="align-center" id="jacobian">
+<a class="reference internal image-reference" href="../../../_images/jacobian.svg"><img alt="../../../_images/jacobian.svg" src="../../../_images/jacobian.svg" style="width: 75%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 36 </span><span class="caption-text">Node dependencies in compute nodes of a fully connected layer. All nodes <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{z}}_k\)</span> depend on <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{x}}_j.\)</span></span><a class="headerlink" href="#jacobian" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>The gradients are passed towards the input nodes, so that the second equation uses the gradients calculated using the first equation.
+For typical activations, such as <span class="math notranslate nohighlight">\(\text{ReLU}\)</span> or <span class="math notranslate nohighlight">\(\text{Tanh}\)</span>, the Jacobian has no cross-dependencies and it reduces to the diagonal matrix <span class="math notranslate nohighlight">\(\phi^\prime(z_k)\)</span>.
+Hence, the output node grads are modulated by the derivative of the activation function, e.g. if <span class="math notranslate nohighlight">\(\phi^\prime \approx 0,\)</span> then the gradients also vanish.</p>
+<p>Finally, we compute gradients of the weights:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align}
+\frac{\partial \ell}{\partial{w}_{ij}} 
+&amp;= \frac{\partial \ell}{\partial{z}_{j}} \frac{\partial{z}_{j}}{\partial{w}_{ij}} 
+= {x}_{i} \frac{\partial \ell}{\partial{z}_{j}} \label{eq:gradient_weight} \\
+\frac{\partial \ell}{\partial{b}_{j}} 
+&amp;= \frac{\partial \ell}{\partial{z}_{j}}  \frac{\partial{z}_{j}} {\partial{b}_{j}} 
+= \frac{\partial \ell}{\partial{z}_{j}}. \label{eq:gradient_bias} \\
+\end{align}\end{split}\]</div>
+<br>
+<p><strong>Remark.</strong> The weight gradient exhibits sensitivity to the input scale, introducing an implicit scaling factor to the LR that varies with input dim. This motivates the use of normalization layers, or some weight initialization scheme that ensures inputs to a hidden layer are consistently scaled.</p>
+<br><section id="batch-computation">
+<h2>Batch computation<a class="headerlink" href="#batch-computation" title="Link to this heading"></a></h2>
+<p>Processing a batch of size <span class="math notranslate nohighlight">\(\mathcal{B}\)</span> in parallel, in principle, creates a graph
+consisting of <span class="math notranslate nohighlight">\(B = |\mathcal{B}|\)</span> copies of the original computational graph that share the same parameters.
+The outputs of these form the loss node <span class="math notranslate nohighlight">\(\mathcal{L} = \frac{1}{B}\sum_{b \in \mathcal{B}} \ell_b.\)</span> For simplicity, let’s assume that <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{J}}^\phi = \text{diag}(\phi^\prime(\boldsymbol{\mathsf{z}}))\)</span> which is true for usual activations. The output and input gradients can be written in the following matrix notation for fast computation:</p>
+<div class="math notranslate nohighlight" id="equation-backprop-output">
+<span class="eqno">(2)<a class="headerlink" href="#equation-backprop-output" title="Link to this equation"></a></span>\[\begin{aligned}
+\underbrace{\frac{\partial \mathcal{L}}{\partial \boldsymbol{\mathsf{Z}}}}_{(B, h)}
+&amp;= 
+\underbrace{\frac{\partial \mathcal{L}}{\partial \boldsymbol{\mathsf{Y}}} \odot \phi^\prime(\boldsymbol{\mathsf{Z}})}_{(B, h)\, \cdot\, (B, h)}
+\end{aligned}\]</div>
+<div class="math notranslate nohighlight" id="equation-backprop-input">
+<span class="eqno">(3)<a class="headerlink" href="#equation-backprop-input" title="Link to this equation"></a></span>\[\begin{aligned}
+\underbrace{\frac{\partial \mathcal{L}}{\partial \boldsymbol{\mathsf{X}}}}_{(B, d)} &amp;= \underbrace{\frac{\partial \mathcal{L}}{\partial \boldsymbol{\mathsf{Z}}}\, \boldsymbol{\mathsf{W}}^\top}_{(B, h) \times (h, d)} \hspace{18pt}
+\end{aligned}\]</div>
+<p>The stacked output tensors <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{Z}}\)</span> and <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{Y}}\)</span> have shape <span class="math notranslate nohighlight">\((B, h)\)</span> where <span class="math notranslate nohighlight">\(h\)</span> is the layer width and <span class="math notranslate nohighlight">\(B\)</span> is the batch size, while the stacked input tensor <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{X}}\)</span> has shape <span class="math notranslate nohighlight">\((B, d)\)</span> where <span class="math notranslate nohighlight">\(d\)</span> is the input dimension. Finally, the weight tensor <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{W}}\)</span> has shape <span class="math notranslate nohighlight">\((d, h).\)</span> For the weights, the contribution of the entire batch has to be accumulated (<a class="reference internal" href="#weight-backprop-drawio"><span class="std std-numref">Fig. 37</span></a>):</p>
+<div class="math notranslate nohighlight" id="equation-backprop-weights">
+<span class="eqno">(4)<a class="headerlink" href="#equation-backprop-weights" title="Link to this equation"></a></span>\[\begin{align}
+\underbrace{\frac{\partial \mathcal{L}}{\partial{\boldsymbol{\mathsf{W}}}}}_{(d, h)}
+= 
+\underbrace{\boldsymbol{\mathsf{X}}^\top \frac{\partial \mathcal{L}}{\partial \boldsymbol{\mathsf{Z}}}}_{(d, B) \times (B, h)}. \hspace{30pt}
+\end{align}\]</div>
+<div class="math notranslate nohighlight" id="equation-backprop-bias">
+<span class="eqno">(5)<a class="headerlink" href="#equation-backprop-bias" title="Link to this equation"></a></span>\[\begin{align}
+\underbrace{\frac{\partial \mathcal{L}}{\partial{\boldsymbol{\mathsf{b}}}}}_{(1, h)}
+= 
+\underbrace{[1, \ldots, 1] \, \frac{\partial \mathcal{L}}{\partial \boldsymbol{\mathsf{Z}}}}_{(1, B) \times (B, h)}.
+\end{align}\]</div>
+<p><strong>Remark.</strong> One way to remember these equations is that the shapes must check out.</p>
+<br>
+<figure class="align-center" id="weight-backprop-drawio">
+<a class="reference internal image-reference" href="../../../_images/weight-backprop.drawio.svg"><img alt="../../../_images/weight-backprop.drawio.svg" src="../../../_images/weight-backprop.drawio.svg" style="width: 30%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 37 </span><span class="caption-text">Node dependencies for a weight node. The nodes <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{z}}_{bj}\)</span> depend on <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{w}}_{ij}\)</span> for <span class="math notranslate nohighlight">\(b = 1, \ldots, B.\)</span></span><a class="headerlink" href="#weight-backprop-drawio" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="cross-entropy">
+<h2>Cross entropy<a class="headerlink" href="#cross-entropy" title="Link to this heading"></a></h2>
+<p>In this section, we compute the gradient across the <strong>cross-entropy loss</strong>.
+This can be calculated using backpropagation, but we will derive it
+symbolically to get a closed-form formula. Recall that cross-entropy loss computes
+for logits <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{s}}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\ell 
+&amp;= -\log \frac{\exp({s_{y}})}{\sum_{k=1}^m \exp({{s}_{k}})} \\
+&amp;= - s_{y} + \log \sum_{k=1}^m \exp({s_k}).
+\end{aligned}
+\end{split}\]</div>
+<p>Calculating the derivatives, we get</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\frac{\partial \ell}{\partial s_j} 
+&amp;= - \delta_{j}^y + \frac{\exp({s_j})}{\sum_{k=1}^m \exp({s_k})} \\ \\
+&amp;= - \delta_{j}^y + \text{softmax}(s_j) = 
+\left\{
+\begin{array}{l}
+p_j \quad \quad\;\;\; \text{if $\;j \neq y$}\\
+p_y - 1 \quad \text{else}\\
+\end{array}
+\right.
+\end{aligned}
+\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\delta_{j}^y\)</span> is the <a class="reference external" href="https://en.wikipedia.org/wiki/Kronecker_delta">Kronecker delta</a>.
+This makes sense: having output values in nodes that do not correspond
+to the true class only contributes to increasing the loss. This effect is particularly strong
+when the model is confidently wrong such that <span class="math notranslate nohighlight">\(p_y \approx 0\)</span> on the true class and
+<span class="math notranslate nohighlight">\(p_{j^*} \approx 1\)</span> where <span class="math notranslate nohighlight">\(j^* = \text{arg max}_j\, s_j\)</span>
+is the predicted wrong class.
+On the other hand,
+increasing values in the node for the true class results in decreasing loss for all nodes.
+In this case,
+<span class="math notranslate nohighlight">\(\text{softmax}(\boldsymbol{\mathsf{s}}) \approx \mathbf{1}_y,\)</span> and
+<span class="math notranslate nohighlight">\({\partial \ell}/{\partial \boldsymbol{\mathsf{s}}}\)</span> becomes close to the zero vector,
+so that <span class="math notranslate nohighlight">\(\nabla_{\boldsymbol{\Theta}} \ell\)</span> is also close to zero.</p>
+<p>The gradient of the logits <span class="math notranslate nohighlight">\({\boldsymbol{\mathsf{S}}}\)</span> can be written in matrix form
+where <span class="math notranslate nohighlight">\(\mathcal{L} = \frac{1}{B}\sum_b \ell_b\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-backprop-cross-entropy">
+<span class="eqno">(6)<a class="headerlink" href="#equation-backprop-cross-entropy" title="Link to this equation"></a></span>\[\begin{aligned}
+\frac{\partial \mathcal{L}}{\partial {\boldsymbol{\mathsf{S}}}} 
+&amp;= - \frac{1}{B} \left( \boldsymbol{\delta} - \text{softmax}({\boldsymbol{\mathsf{S}}}) \right).
+\end{aligned}\]</div>
+<p><strong>Remark.</strong> Examples with similar features but different labels can contribute to a smoothing between
+the labels of the predicted probability vector. This is nice since we can use the probability
+value as a measure of confidence. We should also expect a noisy loss curve in the presence of significant label noise.</p>
+</section>
+<section id="gradient-checking">
+<h2>Gradient checking<a class="headerlink" href="#gradient-checking" title="Link to this heading"></a></h2>
+<p>Computing the cross-entropy for a batch:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn.functional</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">F</span>
+
+<span class="n">B</span> <span class="o">=</span> <span class="mi">32</span>
+<span class="n">N</span> <span class="o">=</span> <span class="mi">27</span>
+
+<span class="c1"># forward pass</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="n">N</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">B</span><span class="p">,))</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">w</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">N</span><span class="p">,</span>      <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">x</span> <span class="o">@</span> <span class="n">w</span> <span class="o">+</span> <span class="n">b</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">y</span><span class="p">]:</span>
+    <span class="n">node</span><span class="o">.</span><span class="n">retain_grad</span><span class="p">()</span>
+
+<span class="c1"># backprop batch loss</span>
+<span class="n">loss</span> <span class="o">=</span> <span class="o">-</span><span class="n">torch</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="nb">range</span><span class="p">(</span><span class="n">B</span><span class="p">),</span> <span class="n">t</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">B</span>
+<span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Plotting the gradient of the logits:</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">config</span> InlineBackend.figure_format = &quot;svg&quot;
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span> <span class="o">*</span> <span class="n">B</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="o">-</span><span class="n">F</span><span class="o">.</span><span class="n">one_hot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">num_classes</span><span class="o">=</span><span class="n">N</span><span class="p">)</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;$B$&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;$B$&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;$N$&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;$N$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../../../_images/df4e9c1aa40ca48f4ffd6e9c527e4965da81b863311e7a47ad623ea6c359153a.svg" src="../../../_images/df4e9c1aa40ca48f4ffd6e9c527e4965da81b863311e7a47ad623ea6c359153a.svg" />
+</div>
+</div>
+<p>Fig. <em>Gradient of the logits for given batch (<strong>left</strong>) and actual targets (<strong>right</strong>). Notice the sharp contribution to decreasing loss by increasing the logit of the correct class. Other nodes contribute to increasing the loss. It’s hard to see, but incorrect pixels have positive values that sum to the pixel value in the target.</em></p>
+<p>Checking this to ensure correctness:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor(1.8026e-09)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Recall that the above equations were vectorized with the convention that the gradient with respect to a tensor <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{v}}\)</span> has the same shape as <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{v}}.\)</span> In PyTorch, <code class="docutils literal notranslate"><span class="pre">v.grad</span></code> is the global gradient with respect to <code class="docutils literal notranslate"><span class="pre">v</span></code> of the tensor that called <code class="docutils literal notranslate"><span class="pre">.backward()</span></code> (i.e. <code class="docutils literal notranslate"><span class="pre">loss</span></code> in our case). The following computation should give us an intuition of how gradients flow backwards through the neural net starting from the loss to all intermediate results:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">J</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">y</span> <span class="o">**</span> <span class="mi">2</span>
+<span class="n">δ_tk</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">one_hot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">num_classes</span><span class="o">=</span><span class="n">N</span><span class="p">)</span>
+<span class="n">dy</span> <span class="o">=</span> <span class="o">-</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">B</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">δ_tk</span> <span class="o">-</span> <span class="n">F</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">dz</span> <span class="o">=</span> <span class="n">dy</span> <span class="o">*</span> <span class="n">J</span>
+<span class="n">dx</span> <span class="o">=</span> <span class="n">dz</span> <span class="o">@</span> <span class="n">w</span><span class="o">.</span><span class="n">T</span>
+<span class="n">dw</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">dz</span>
+<span class="n">db</span> <span class="o">=</span> <span class="n">dz</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Refer to <a class="reference internal" href="#equation-backprop-cross-entropy">(6)</a>, <a class="reference internal" href="#equation-backprop-output">(2)</a>, <a class="reference internal" href="#equation-backprop-input">(3)</a>, <a class="reference internal" href="#equation-backprop-weights">(4)</a>, and <a class="reference internal" href="#equation-backprop-bias">(5)</a> above. These equations can be checked using <code class="docutils literal notranslate"><span class="pre">autograd</span></code> as follows:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">compare</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+    <span class="n">exact</span>  <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">dt</span> <span class="o">==</span> <span class="n">t</span><span class="o">.</span><span class="n">grad</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+    <span class="n">approx</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">grad</span><span class="p">,</span> <span class="n">rtol</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">)</span>
+    <span class="n">maxdiff</span> <span class="o">=</span> <span class="p">(</span><span class="n">dt</span> <span class="o">-</span> <span class="n">t</span><span class="o">.</span><span class="n">grad</span><span class="p">)</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">name</span><span class="si">:</span><span class="s1">&lt;3s</span><span class="si">}</span><span class="s1"> | exact: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">exact</span><span class="p">)</span><span class="si">:</span><span class="s1">5s</span><span class="si">}</span><span class="s1"> | approx: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">approx</span><span class="p">)</span><span class="si">:</span><span class="s1">5s</span><span class="si">}</span><span class="s1"> | maxdiff: </span><span class="si">{</span><span class="n">maxdiff</span><span class="si">:</span><span class="s1">.2e</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+
+<span class="n">compare</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">dy</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">compare</span><span class="p">(</span><span class="s1">&#39;z&#39;</span><span class="p">,</span> <span class="n">dz</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+<span class="n">compare</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">dx</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+<span class="n">compare</span><span class="p">(</span><span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">dw</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
+<span class="n">compare</span><span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">db</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>y   | exact: False | approx: True  | maxdiff: 1.86e-09
+z   | exact: False | approx: True  | maxdiff: 9.31e-10
+x   | exact: False | approx: True  | maxdiff: 1.86e-09
+w   | exact: False | approx: True  | maxdiff: 3.73e-09
+b   | exact: False | approx: True  | maxdiff: 9.31e-10
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./nb/dl/00-backprop"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="00e-testing.html" class="btn btn-neutral float-left" title="Appendix: Testing with autograd" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../03-cnn/03-cnn.html" class="btn btn-neutral float-right" title="Convolutional Neural Networks" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

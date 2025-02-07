@@ -1,0 +1,202 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Machine learning theory &mdash; OK Transformer</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/togglebutton.css?v=13237357" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-thebe.css?v=4fa983c6" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=c854b03d" />
+
+  
+    <link rel="shortcut icon" href="../../../_static/favicon.png"/>
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=9eb32ce0"></script>
+      <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=f281be69"></script>
+      <script src="../../../_static/scripts/sphinx-book-theme.js"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../../../_static/togglebutton.js?v=4a39c7ea"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+      <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+      <script async="async" src="../../../_static/sphinx-thebe.js?v=c100c467"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+      <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Bias-variance decomposition" href="01ca-bias-variance.html" />
+    <link rel="prev" title="Non-linear decision boundary" href="01bc-nonlinear.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../intro.html">
+            
+              <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Deep Learning</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="01-intro.html">Introduction to Neural Networks</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="01a-fcnn.html">Fully-connected NNs (MLPs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01b-linear.html">Linear classification</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Machine learning theory</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="01ca-bias-variance.html">Bias-variance decomposition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01cb-regularization.html">Regularization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01cc-experiments.html">Experiments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01cd-split.html">Train-validation split</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="01e-appendix-weaksup.html">Appendix: Weak supervision</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01ec-depth.html">Appendix: Expressivity and Depth</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../02-optim/02-optim.html">Gradient Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../00-backprop/00-backprop.html">Backpropagation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-cnn/03-cnn.html">Convolutional Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-sequence-models/04-intro.html">Language modeling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../05-rnns/05-intro.html">Recurrent Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../07-attention.html">Attention and Transformers</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../intro.html">Project name not set</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../intro.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="01-intro.html">Introduction to Neural Networks</a></li>
+      <li class="breadcrumb-item active">Machine learning theory</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/nb/dl/01-intro/01c-lossmin.ipynb" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="machine-learning-theory">
+<h1>Machine learning theory<a class="headerlink" href="#machine-learning-theory" title="Link to this heading"></a></h1>
+<p>For each choice of parameters <span class="math notranslate nohighlight">\(\boldsymbol{\Theta}\)</span>, we defined the empirical risk  <span class="math notranslate nohighlight">\(\mathcal{L}_\mathcal{D}(\boldsymbol{\Theta})\)</span> as an unbiased estimate of the true risk <span class="math notranslate nohighlight">\(\mathcal{L}(\boldsymbol{\Theta})\)</span> defined as the expected loss on the underlying distribution given the model <span class="math notranslate nohighlight">\(f_{\boldsymbol{\Theta}}\)</span>. It is natural to ask whether this is an accurate estimate. There are two things to watch out for when training our models:</p>
+<ul class="simple">
+<li><p><strong>Overfitting.</strong> This is characterized by having low empirical risk, but high true risk. This can happen if the dataset is too small to be representative of the true distribution. Or if the model is too complex. In the latter case, the model will interpolate the sample, but will have arbitrary behavior between datapoints.</p></li>
+</ul>
+<ul class="simple">
+<li><p><strong>Underfitting.</strong> Here the empirical risk, and thereby the true risk, is high. This can happen if the model is too weak (low capacity, or too few parameters) — e.g. too strong regularization. Or if the optimizer is not configured well (e.g. wrong learning rate), so that the parameters <span class="math notranslate nohighlight">\(\boldsymbol{\Theta}\)</span> found are inadequate even on the training set.</p></li>
+</ul>
+<br><p>Observe that MLE is by definition prone to overfitting. We rely on smoothness between data points for the model to generalize to test data. It is important to analyze the error between different <strong>training samples</strong>. A well-trained model should not look too different between samples. But we also don’t want it to have the same errors with different data! (<a class="reference internal" href="#overfitting-underfitting"><span class="std std-numref">Fig. 7</span></a>)</p>
+<br>
+<figure class="align-center" id="overfitting-underfitting">
+<a class="reference internal image-reference" href="../../../_images/01-overfitting-underfitting.png"><img alt="../../../_images/01-overfitting-underfitting.png" src="../../../_images/01-overfitting-underfitting.png" style="width: 100%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 7 </span><span class="caption-text">Drawing of a model that overfits and underfits the distribution. <a class="reference external" href="https://cs182sp21.github.io/static/slides/lec-3.pdf">Source</a></span><a class="headerlink" href="#overfitting-underfitting" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<br>
+<section id="model-complexity">
+<h2>Model complexity<a class="headerlink" href="#model-complexity" title="Link to this heading"></a></h2>
+<p>Here <strong>model capacity</strong> or <strong>complexity</strong> is a measure of how complicated a pattern or relationship a model architecture can express.  Let <span class="math notranslate nohighlight">\(f\)</span> be the true function that underlies the task. If model capacity is sufficiently large, the <strong>model class</strong> <span class="math notranslate nohighlight">\(\mathscr{F} = \{f_{\boldsymbol{\Theta}} \mid \boldsymbol{\Theta} \in \mathbb{R}^d \}\)</span> contains an approximation <span class="math notranslate nohighlight">\(\hat{f} \in \mathscr{F}\)</span> such that <span class="math notranslate nohighlight">\(\| f - \hat{f} \| &lt; \epsilon\)</span> for a small enough <span class="math notranslate nohighlight">\(\epsilon &gt; 0.\)</span></p>
+<p>Here <strong>model architecture</strong> refers to the computation graph with unspecified parameters <span class="math notranslate nohighlight">\(\boldsymbol{\Theta}\)</span>. That is, the map <span class="math notranslate nohighlight">\(\boldsymbol{\Theta} \mapsto f_{\boldsymbol{\Theta}}\)</span> results to an actual function once the parameters are specified, e.g. a <strong>trained model</strong> if <span class="math notranslate nohighlight">\(\boldsymbol{\Theta}^*\)</span> is optimally chosen. All these distinct objects are typically referred to simply as a ‘model’, with the distinction being determined by context.</p>
+<p>Model capacity<a class="footnote-reference brackets" href="#id2" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> can be controlled by the number of parameters in practical architectures. It can also be constrained directly by applying <strong>regularization</strong> or certain <strong>inductive biases</strong>. Inductive bias refers to built-in knowledge or biases in a model designed to help it learn. All such knowledge is bias in the sense that it makes some solutions more likely, and others less likely.</p>
+<hr class="footnotes docutils" />
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id2" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>A related concept is <a class="reference external" href="https://en.wikipedia.org/wiki/Neural_scaling_law">scaling</a> which characterizes performance increase as resources such as data, compute, and parameters are increased.</p>
+</aside>
+</aside>
+</section>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./nb/dl/01-intro"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="01bc-nonlinear.html" class="btn btn-neutral float-left" title="Non-linear decision boundary" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="01ca-bias-variance.html" class="btn btn-neutral float-right" title="Bias-variance decomposition" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

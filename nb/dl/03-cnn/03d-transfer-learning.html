@@ -1,0 +1,645 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Transfer learning and fine-tuning &mdash; OK Transformer</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/togglebutton.css?v=13237357" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-thebe.css?v=4fa983c6" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=c854b03d" />
+
+  
+    <link rel="shortcut icon" href="../../../_static/favicon.png"/>
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=9eb32ce0"></script>
+      <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=f281be69"></script>
+      <script src="../../../_static/scripts/sphinx-book-theme.js"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../../../_static/togglebutton.js?v=4a39c7ea"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+      <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+      <script async="async" src="../../../_static/sphinx-thebe.js?v=c100c467"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+      <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      <script type="application/vnd.jupyter.widget-state+json">{"state": {"121bf42a1b53461ba261df8bca549811": {"model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "model_name": "HTMLModel", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HTMLView", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_d03b05aa1b7e4869be1d1909d72dcb62", "placeholder": "\u200b", "style": "IPY_MODEL_ff11500feb8e44a68ad795c4ecb2b585", "tabbable": null, "tooltip": null, "value": "100%"}}, "1292acc7bba3457ea4c0295f8e4119cb": {"model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "model_name": "HTMLStyleModel", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "background": null, "description_width": "", "font_size": null, "text_color": null}}, "13f9026a57c54ce2afea7a402f41e552": {"model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "model_name": "LayoutModel", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "23ec2f2e72b440acb2ec9b42398ffa5a": {"model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "model_name": "LayoutModel", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "31ad7bede71b4de786a0de137174e2ab": {"model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "model_name": "ProgressStyleModel", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "ProgressStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "bar_color": null, "description_width": ""}}, "31ec201a9bb04627a01caaa6df28d7d5": {"model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "model_name": "HTMLStyleModel", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "background": null, "description_width": "", "font_size": null, "text_color": null}}, "3cc9dc9550a14d968c2dc60c8a373ce5": {"model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "model_name": "HBoxModel", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HBoxModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HBoxView", "box_style": "", "children": ["IPY_MODEL_b1da38d1854448f09c46f42437533c93", "IPY_MODEL_b243323e449d4fe1a670f5c759ac7d87", "IPY_MODEL_629e6e1e5e964278a9cfe96905e338bb"], "layout": "IPY_MODEL_13f9026a57c54ce2afea7a402f41e552", "tabbable": null, "tooltip": null}}, "428934d7f3104150a773a5e7e67cb0ce": {"model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "model_name": "FloatProgressModel", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "FloatProgressModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "ProgressView", "bar_style": "success", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_c59b369291994e37ac257e9e23abd061", "max": 10, "min": 0, "orientation": "horizontal", "style": "IPY_MODEL_8322b553d5be4357a1ad5d0caa586fc5", "tabbable": null, "tooltip": null, "value": 10}}, "47939df752444b37b79eed0c11f435bb": {"model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "model_name": "LayoutModel", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "4f97f4a77ead4520ae0ab134e7291b88": {"model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "model_name": "HTMLStyleModel", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "background": null, "description_width": "", "font_size": null, "text_color": null}}, "629e6e1e5e964278a9cfe96905e338bb": {"model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "model_name": "HTMLModel", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HTMLView", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_bb6e6a371acc4f9ea2f95cf805becbd6", "placeholder": "\u200b", "style": "IPY_MODEL_4f97f4a77ead4520ae0ab134e7291b88", "tabbable": null, "tooltip": null, "value": "\u200720/20\u2007[1:30:25&lt;00:00,\u2007251.57s/it]"}}, "7d15dc56412c44c2b096008ba18546cd": {"model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "model_name": "LayoutModel", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "8322b553d5be4357a1ad5d0caa586fc5": {"model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "model_name": "ProgressStyleModel", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "ProgressStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "bar_color": null, "description_width": ""}}, "90cc9eb77a8e49129b48a7f47fe09db0": {"model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "model_name": "LayoutModel", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "b1da38d1854448f09c46f42437533c93": {"model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "model_name": "HTMLModel", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HTMLView", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_23ec2f2e72b440acb2ec9b42398ffa5a", "placeholder": "\u200b", "style": "IPY_MODEL_1292acc7bba3457ea4c0295f8e4119cb", "tabbable": null, "tooltip": null, "value": "100%"}}, "b243323e449d4fe1a670f5c759ac7d87": {"model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "model_name": "FloatProgressModel", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "FloatProgressModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "ProgressView", "bar_style": "success", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_7d15dc56412c44c2b096008ba18546cd", "max": 20, "min": 0, "orientation": "horizontal", "style": "IPY_MODEL_31ad7bede71b4de786a0de137174e2ab", "tabbable": null, "tooltip": null, "value": 20}}, "b65b4dbd24584357853237961adac364": {"model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "model_name": "HTMLModel", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HTMLView", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_47939df752444b37b79eed0c11f435bb", "placeholder": "\u200b", "style": "IPY_MODEL_31ec201a9bb04627a01caaa6df28d7d5", "tabbable": null, "tooltip": null, "value": "\u200710/10\u2007[13:31&lt;00:00,\u200779.96s/it]"}}, "bb6e6a371acc4f9ea2f95cf805becbd6": {"model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "model_name": "LayoutModel", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "c59b369291994e37ac257e9e23abd061": {"model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "model_name": "LayoutModel", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "d03b05aa1b7e4869be1d1909d72dcb62": {"model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "model_name": "LayoutModel", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "ff11500feb8e44a68ad795c4ecb2b585": {"model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "model_name": "HTMLStyleModel", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "background": null, "description_width": "", "font_size": null, "text_color": null}}, "ff91598ee0674ffab6818db9c071a142": {"model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "model_name": "HBoxModel", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HBoxModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HBoxView", "box_style": "", "children": ["IPY_MODEL_121bf42a1b53461ba261df8bca549811", "IPY_MODEL_428934d7f3104150a773a5e7e67cb0ce", "IPY_MODEL_b65b4dbd24584357853237961adac364"], "layout": "IPY_MODEL_90cc9eb77a8e49129b48a7f47fe09db0", "tabbable": null, "tooltip": null}}}, "version_major": 2, "version_minor": 0}</script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script crossorigin="anonymous" data-jupyter-widgets-cdn="https://cdn.jsdelivr.net/npm/" src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@1.0.6/dist/embed-amd.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Appendix: Guided Backprop" href="03e-guided-backprop.html" />
+    <link rel="prev" title="Data augmentation" href="03c-data-augmentation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../intro.html">
+            
+              <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Deep Learning</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../01-intro/01-intro.html">Introduction to Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-optim/02-optim.html">Gradient Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../00-backprop/00-backprop.html">Backpropagation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="03-cnn.html">Convolutional Neural Networks</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="03a-convolution.html">Convolution operation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03b-convolutional-networks.html">Convolutional networks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03c-data-augmentation.html">Data augmentation</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Transfer learning and fine-tuning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03e-guided-backprop.html">Appendix: Guided Backprop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03f-text-classification.html">Appendix: Text classification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03g-maximal-input.html">Appendix: Maximal class input</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../04-sequence-models/04-intro.html">Language modeling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../05-rnns/05-intro.html">Recurrent Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../07-attention.html">Attention and Transformers</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../intro.html">Project name not set</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../intro.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="03-cnn.html">Convolutional Neural Networks</a></li>
+      <li class="breadcrumb-item active">Transfer learning and fine-tuning</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/nb/dl/03-cnn/03d-transfer-learning.ipynb" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="transfer-learning-and-fine-tuning">
+<h1>Transfer learning and fine-tuning<a class="headerlink" href="#transfer-learning-and-fine-tuning" title="Link to this heading"></a></h1>
+<p>Transfer learning is a common technique for leveraging large models trained on related tasks (i.e. the <strong>pretrained model</strong>). Here we use ResNet <span id="id1">[<a class="reference internal" href="../../../intro.html#id30" title="Kaiming He, Xiangyu Zhang, Shaoqing Ren, and Jian Sun. Deep residual learning for image recognition. CoRR, 2015. URL: http://arxiv.org/abs/1512.03385, arXiv:1512.03385.">HZRS15</a>]</span> which is trained on <a class="reference external" href="https://image-net.org/">ImageNet</a> consisting of 1M+ images in 1000 categories. To adapt the pretrained model to our task, we use only the feature extractors and retrain a <strong>classification head</strong> (<a class="reference internal" href="#transfer-learning"><span class="std std-numref">Fig. 48</span></a>).</p>
+<p>To avoid nullifying the pretrained weights with large random gradients, we first have to train the classification head to convergence, while keeping the weights of the pretrained model fixed. Then, we proceed with <strong>fine-tuning</strong> where we train the entire model with a very low learning rate, again so that the pretrained weights are gradually changed.</p>
+<figure class="align-center" id="transfer-learning">
+<a class="reference internal image-reference" href="../../../_images/transfer-learning.png"><img alt="../../../_images/transfer-learning.png" src="../../../_images/transfer-learning.png" style="width: 80%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 48 </span><span class="caption-text">Training a new classifier over the same convolutional base. <strong>Source:</strong> Fig 8.12 of <span id="id2">[<a class="reference internal" href="../../../intro.html#id31" title="François Chollet. Deep Learning with Python, Second Edition. Manning, 2021. ISBN 9781617296864.">Cho21</a>]</span>.</span><a class="headerlink" href="#transfer-learning" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<div class="cell tag_hide-output docutils container">
+<div class="cell_input above-output-prompt docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torchinfo</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torchvision</span><span class="w"> </span><span class="kn">import</span> <span class="n">models</span>
+
+<span class="n">resnet</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">resnet18</span><span class="p">(</span><span class="n">pretrained</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">BATCH_SIZE</span> <span class="o">=</span> <span class="mi">16</span>
+<span class="n">torchinfo</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">resnet</span><span class="p">,</span> <span class="n">input_size</span><span class="o">=</span><span class="p">(</span><span class="n">BATCH_SIZE</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">49</span><span class="p">,</span> <span class="mi">49</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<details class="hide below-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell output</span>
+<span class="expanded">Hide code cell output</span>
+</summary>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>==========================================================================================
+Layer (type:depth-idx)                   Output Shape              Param #
+==========================================================================================
+ResNet                                   [16, 1000]                --
+├─Conv2d: 1-1                            [16, 64, 25, 25]          9,408
+├─BatchNorm2d: 1-2                       [16, 64, 25, 25]          128
+├─ReLU: 1-3                              [16, 64, 25, 25]          --
+├─MaxPool2d: 1-4                         [16, 64, 13, 13]          --
+├─Sequential: 1-5                        [16, 64, 13, 13]          --
+│    └─BasicBlock: 2-1                   [16, 64, 13, 13]          --
+│    │    └─Conv2d: 3-1                  [16, 64, 13, 13]          36,864
+│    │    └─BatchNorm2d: 3-2             [16, 64, 13, 13]          128
+│    │    └─ReLU: 3-3                    [16, 64, 13, 13]          --
+│    │    └─Conv2d: 3-4                  [16, 64, 13, 13]          36,864
+│    │    └─BatchNorm2d: 3-5             [16, 64, 13, 13]          128
+│    │    └─ReLU: 3-6                    [16, 64, 13, 13]          --
+│    └─BasicBlock: 2-2                   [16, 64, 13, 13]          --
+│    │    └─Conv2d: 3-7                  [16, 64, 13, 13]          36,864
+│    │    └─BatchNorm2d: 3-8             [16, 64, 13, 13]          128
+│    │    └─ReLU: 3-9                    [16, 64, 13, 13]          --
+│    │    └─Conv2d: 3-10                 [16, 64, 13, 13]          36,864
+│    │    └─BatchNorm2d: 3-11            [16, 64, 13, 13]          128
+│    │    └─ReLU: 3-12                   [16, 64, 13, 13]          --
+├─Sequential: 1-6                        [16, 128, 7, 7]           --
+│    └─BasicBlock: 2-3                   [16, 128, 7, 7]           --
+│    │    └─Conv2d: 3-13                 [16, 128, 7, 7]           73,728
+│    │    └─BatchNorm2d: 3-14            [16, 128, 7, 7]           256
+│    │    └─ReLU: 3-15                   [16, 128, 7, 7]           --
+│    │    └─Conv2d: 3-16                 [16, 128, 7, 7]           147,456
+│    │    └─BatchNorm2d: 3-17            [16, 128, 7, 7]           256
+│    │    └─Sequential: 3-18             [16, 128, 7, 7]           8,448
+│    │    └─ReLU: 3-19                   [16, 128, 7, 7]           --
+│    └─BasicBlock: 2-4                   [16, 128, 7, 7]           --
+│    │    └─Conv2d: 3-20                 [16, 128, 7, 7]           147,456
+│    │    └─BatchNorm2d: 3-21            [16, 128, 7, 7]           256
+│    │    └─ReLU: 3-22                   [16, 128, 7, 7]           --
+│    │    └─Conv2d: 3-23                 [16, 128, 7, 7]           147,456
+│    │    └─BatchNorm2d: 3-24            [16, 128, 7, 7]           256
+│    │    └─ReLU: 3-25                   [16, 128, 7, 7]           --
+├─Sequential: 1-7                        [16, 256, 4, 4]           --
+│    └─BasicBlock: 2-5                   [16, 256, 4, 4]           --
+│    │    └─Conv2d: 3-26                 [16, 256, 4, 4]           294,912
+│    │    └─BatchNorm2d: 3-27            [16, 256, 4, 4]           512
+│    │    └─ReLU: 3-28                   [16, 256, 4, 4]           --
+│    │    └─Conv2d: 3-29                 [16, 256, 4, 4]           589,824
+│    │    └─BatchNorm2d: 3-30            [16, 256, 4, 4]           512
+│    │    └─Sequential: 3-31             [16, 256, 4, 4]           33,280
+│    │    └─ReLU: 3-32                   [16, 256, 4, 4]           --
+│    └─BasicBlock: 2-6                   [16, 256, 4, 4]           --
+│    │    └─Conv2d: 3-33                 [16, 256, 4, 4]           589,824
+│    │    └─BatchNorm2d: 3-34            [16, 256, 4, 4]           512
+│    │    └─ReLU: 3-35                   [16, 256, 4, 4]           --
+│    │    └─Conv2d: 3-36                 [16, 256, 4, 4]           589,824
+│    │    └─BatchNorm2d: 3-37            [16, 256, 4, 4]           512
+│    │    └─ReLU: 3-38                   [16, 256, 4, 4]           --
+├─Sequential: 1-8                        [16, 512, 2, 2]           --
+│    └─BasicBlock: 2-7                   [16, 512, 2, 2]           --
+│    │    └─Conv2d: 3-39                 [16, 512, 2, 2]           1,179,648
+│    │    └─BatchNorm2d: 3-40            [16, 512, 2, 2]           1,024
+│    │    └─ReLU: 3-41                   [16, 512, 2, 2]           --
+│    │    └─Conv2d: 3-42                 [16, 512, 2, 2]           2,359,296
+│    │    └─BatchNorm2d: 3-43            [16, 512, 2, 2]           1,024
+│    │    └─Sequential: 3-44             [16, 512, 2, 2]           132,096
+│    │    └─ReLU: 3-45                   [16, 512, 2, 2]           --
+│    └─BasicBlock: 2-8                   [16, 512, 2, 2]           --
+│    │    └─Conv2d: 3-46                 [16, 512, 2, 2]           2,359,296
+│    │    └─BatchNorm2d: 3-47            [16, 512, 2, 2]           1,024
+│    │    └─ReLU: 3-48                   [16, 512, 2, 2]           --
+│    │    └─Conv2d: 3-49                 [16, 512, 2, 2]           2,359,296
+│    │    └─BatchNorm2d: 3-50            [16, 512, 2, 2]           1,024
+│    │    └─ReLU: 3-51                   [16, 512, 2, 2]           --
+├─AdaptiveAvgPool2d: 1-9                 [16, 512, 1, 1]           --
+├─Linear: 1-10                           [16, 1000]                513,000
+==========================================================================================
+Total params: 11,689,512
+Trainable params: 11,689,512
+Non-trainable params: 0
+Total mult-adds (G): 1.99
+==========================================================================================
+Input size (MB): 0.46
+Forward/backward pass size (MB): 37.34
+Params size (MB): 46.76
+Estimated Total Size (MB): 84.56
+==========================================================================================
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">in_features</span> <span class="o">=</span> <span class="n">resnet</span><span class="o">.</span><span class="n">fc</span><span class="o">.</span><span class="n">in_features</span>
+<span class="n">num_hidden</span> <span class="o">=</span> <span class="mi">256</span>
+
+<span class="n">head</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+    <span class="n">nn</span><span class="o">.</span><span class="n">AdaptiveAvgPool2d</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>
+    <span class="n">nn</span><span class="o">.</span><span class="n">Flatten</span><span class="p">(),</span>
+    <span class="n">nn</span><span class="o">.</span><span class="n">BatchNorm1d</span><span class="p">(</span><span class="n">in_features</span><span class="p">),</span>
+    <span class="n">nn</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="mf">0.5</span><span class="p">),</span>
+    <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">in_features</span><span class="p">,</span> <span class="n">num_hidden</span><span class="p">),</span>
+    <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+    <span class="n">nn</span><span class="o">.</span><span class="n">BatchNorm1d</span><span class="p">(</span><span class="n">num_hidden</span><span class="p">),</span>
+    <span class="n">nn</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="mf">0.5</span><span class="p">),</span>
+    <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">num_hidden</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+<span class="p">)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+    <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="o">*</span><span class="nb">list</span><span class="p">(</span><span class="n">resnet</span><span class="o">.</span><span class="n">children</span><span class="p">())[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]),</span>
+    <span class="n">head</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Remark.</strong> BatchNorm <span id="id3">[<a class="reference internal" href="../../../intro.html#id28" title="Sergey Ioffe and Christian Szegedy. Batch normalization: accelerating deep network training by reducing internal covariate shift. CoRR, 2015. URL: http://arxiv.org/abs/1502.03167, arXiv:1502.03167.">IS15</a>]</span> on the network head aids with activation and gradient stability. Dropout is also used to regularize the dense layers.</p>
+<section id="static-features">
+<h2>Static features<a class="headerlink" href="#static-features" title="Link to this heading"></a></h2>
+<p>Freezing the feature extraction layers:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">model</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">parameters</span><span class="p">():</span> <span class="c1"># model[0] = pretrained</span>
+    <span class="n">param</span><span class="o">.</span><span class="n">requires_grad</span> <span class="o">=</span> <span class="kc">False</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Setting up the data loaders:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dl_train</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">Subset</span><span class="p">(</span><span class="n">ds_train</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">32000</span><span class="p">)),</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">BATCH_SIZE</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">dl_valid</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">Subset</span><span class="p">(</span><span class="n">ds_valid</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">8000</span><span class="p">)),</span>  <span class="n">batch_size</span><span class="o">=</span><span class="n">BATCH_SIZE</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Training the model using AdamW <span id="id4">[<a class="reference internal" href="../../../intro.html#id101" title="Ilya Loshchilov and Frank Hutter. Fixing weight decay regularization in adam. CoRR, 2017. URL: http://arxiv.org/abs/1711.05101, arXiv:1711.05101.">LH17</a>]</span> with learning rate <code class="docutils literal notranslate"><span class="pre">0.001</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">epochs</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">optim</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">AdamW</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
+<span class="n">scheduler</span> <span class="o">=</span> <span class="n">OneCycleLR</span><span class="p">(</span><span class="n">optim</span><span class="p">,</span> <span class="n">max_lr</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">steps_per_epoch</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">dl_train</span><span class="p">),</span> <span class="n">epochs</span><span class="o">=</span><span class="n">epochs</span><span class="p">)</span>
+<span class="n">trainer</span> <span class="o">=</span> <span class="n">Trainer</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">optim</span><span class="p">,</span> <span class="n">loss_fn</span><span class="o">=</span><span class="n">F</span><span class="o">.</span><span class="n">cross_entropy</span><span class="p">,</span> <span class="n">scheduler</span><span class="o">=</span><span class="n">scheduler</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">DEVICE</span><span class="p">)</span>
+<span class="n">trainer</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">epochs</span><span class="o">=</span><span class="n">epochs</span><span class="p">,</span> <span class="n">train_loader</span><span class="o">=</span><span class="n">dl_train</span><span class="p">,</span> <span class="n">valid_loader</span><span class="o">=</span><span class="n">dl_valid</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "ff91598ee0674ffab6818db9c071a142", "version_major": 2, "version_minor": 0}</script><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Epoch: 01/10]    loss: 0.5991  acc: 0.7019    val_loss: 0.5274  val_acc: 0.7422
+[Epoch: 02/10]    loss: 0.5862  acc: 0.6944    val_loss: 0.5135  val_acc: 0.7561
+[Epoch: 03/10]    loss: 0.5926  acc: 0.6794    val_loss: 0.5142  val_acc: 0.7522
+[Epoch: 04/10]    loss: 0.5714  acc: 0.6956    val_loss: 0.5250  val_acc: 0.7376
+[Epoch: 05/10]    loss: 0.5760  acc: 0.7069    val_loss: 0.5082  val_acc: 0.7558
+[Epoch: 06/10]    loss: 0.5508  acc: 0.7188    val_loss: 0.5039  val_acc: 0.7611
+[Epoch: 07/10]    loss: 0.5172  acc: 0.7400    val_loss: 0.4862  val_acc: 0.7691
+[Epoch: 08/10]    loss: 0.5345  acc: 0.7362    val_loss: 0.4896  val_acc: 0.7791
+[Epoch: 09/10]    loss: 0.5257  acc: 0.7456    val_loss: 0.4851  val_acc: 0.7749
+[Epoch: 10/10]    loss: 0.5327  acc: 0.7225    val_loss: 0.4857  val_acc: 0.7744
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_remove-input tag_hide-output docutils container">
+<details class="hide above-output">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell outputs</span>
+<span class="expanded">Hide code cell outputs</span>
+</summary>
+<div class="cell_output docutils container">
+<div class="output text_html"><style>pre { line-height: 125%; }
+td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.output_html .hll { background-color: #ffffcc }
+.output_html { background: #f8f8f8; }
+.output_html .c { color: #3D7B7B; font-style: italic } /* Comment */
+.output_html .err { border: 1px solid #FF0000 } /* Error */
+.output_html .k { color: #008000; font-weight: bold } /* Keyword */
+.output_html .o { color: #666666 } /* Operator */
+.output_html .ch { color: #3D7B7B; font-style: italic } /* Comment.Hashbang */
+.output_html .cm { color: #3D7B7B; font-style: italic } /* Comment.Multiline */
+.output_html .cp { color: #9C6500 } /* Comment.Preproc */
+.output_html .cpf { color: #3D7B7B; font-style: italic } /* Comment.PreprocFile */
+.output_html .c1 { color: #3D7B7B; font-style: italic } /* Comment.Single */
+.output_html .cs { color: #3D7B7B; font-style: italic } /* Comment.Special */
+.output_html .gd { color: #A00000 } /* Generic.Deleted */
+.output_html .ge { font-style: italic } /* Generic.Emph */
+.output_html .ges { font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.output_html .gr { color: #E40000 } /* Generic.Error */
+.output_html .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.output_html .gi { color: #008400 } /* Generic.Inserted */
+.output_html .go { color: #717171 } /* Generic.Output */
+.output_html .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.output_html .gs { font-weight: bold } /* Generic.Strong */
+.output_html .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.output_html .gt { color: #0044DD } /* Generic.Traceback */
+.output_html .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.output_html .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.output_html .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.output_html .kp { color: #008000 } /* Keyword.Pseudo */
+.output_html .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.output_html .kt { color: #B00040 } /* Keyword.Type */
+.output_html .m { color: #666666 } /* Literal.Number */
+.output_html .s { color: #BA2121 } /* Literal.String */
+.output_html .na { color: #687822 } /* Name.Attribute */
+.output_html .nb { color: #008000 } /* Name.Builtin */
+.output_html .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.output_html .no { color: #880000 } /* Name.Constant */
+.output_html .nd { color: #AA22FF } /* Name.Decorator */
+.output_html .ni { color: #717171; font-weight: bold } /* Name.Entity */
+.output_html .ne { color: #CB3F38; font-weight: bold } /* Name.Exception */
+.output_html .nf { color: #0000FF } /* Name.Function */
+.output_html .nl { color: #767600 } /* Name.Label */
+.output_html .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.output_html .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.output_html .nv { color: #19177C } /* Name.Variable */
+.output_html .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.output_html .w { color: #bbbbbb } /* Text.Whitespace */
+.output_html .mb { color: #666666 } /* Literal.Number.Bin */
+.output_html .mf { color: #666666 } /* Literal.Number.Float */
+.output_html .mh { color: #666666 } /* Literal.Number.Hex */
+.output_html .mi { color: #666666 } /* Literal.Number.Integer */
+.output_html .mo { color: #666666 } /* Literal.Number.Oct */
+.output_html .sa { color: #BA2121 } /* Literal.String.Affix */
+.output_html .sb { color: #BA2121 } /* Literal.String.Backtick */
+.output_html .sc { color: #BA2121 } /* Literal.String.Char */
+.output_html .dl { color: #BA2121 } /* Literal.String.Delimiter */
+.output_html .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.output_html .s2 { color: #BA2121 } /* Literal.String.Double */
+.output_html .se { color: #AA5D1F; font-weight: bold } /* Literal.String.Escape */
+.output_html .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.output_html .si { color: #A45A77; font-weight: bold } /* Literal.String.Interpol */
+.output_html .sx { color: #008000 } /* Literal.String.Other */
+.output_html .sr { color: #A45A77 } /* Literal.String.Regex */
+.output_html .s1 { color: #BA2121 } /* Literal.String.Single */
+.output_html .ss { color: #19177C } /* Literal.String.Symbol */
+.output_html .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.output_html .fm { color: #0000FF } /* Name.Function.Magic */
+.output_html .vc { color: #19177C } /* Name.Variable.Class */
+.output_html .vg { color: #19177C } /* Name.Variable.Global */
+.output_html .vi { color: #19177C } /* Name.Variable.Instance */
+.output_html .vm { color: #19177C } /* Name.Variable.Magic */
+.output_html .il { color: #666666 } /* Literal.Number.Integer.Long */</style><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plot_training_history</span><span class="p">(</span><span class="n">trainer</span><span class="p">):</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+    
+    <span class="n">num_epochs</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">trainer</span><span class="o">.</span><span class="n">valid_log</span><span class="p">[</span><span class="s2">&quot;accs&quot;</span><span class="p">])</span>
+    <span class="n">num_steps_per_epoch</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">trainer</span><span class="o">.</span><span class="n">train_log</span><span class="p">[</span><span class="s2">&quot;accs&quot;</span><span class="p">])</span> <span class="o">//</span> <span class="n">num_epochs</span>
+    <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">trainer</span><span class="o">.</span><span class="n">train_log</span><span class="p">[</span><span class="s2">&quot;loss&quot;</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C0&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">trainer</span><span class="o">.</span><span class="n">train_log</span><span class="p">[</span><span class="s2">&quot;accs&quot;</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C0&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">trainer</span><span class="o">.</span><span class="n">train_log</span><span class="p">[</span><span class="s2">&quot;loss_avg&quot;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;train&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C0&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">trainer</span><span class="o">.</span><span class="n">train_log</span><span class="p">[</span><span class="s2">&quot;accs_avg&quot;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;train&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C0&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">num_steps_per_epoch</span><span class="p">,</span> <span class="p">(</span><span class="n">num_epochs</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">num_steps_per_epoch</span><span class="p">,</span> <span class="n">num_steps_per_epoch</span><span class="p">)),</span> <span class="n">trainer</span><span class="o">.</span><span class="n">valid_log</span><span class="p">[</span><span class="s2">&quot;loss&quot;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;valid&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C1&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">num_steps_per_epoch</span><span class="p">,</span> <span class="p">(</span><span class="n">num_epochs</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">num_steps_per_epoch</span><span class="p">,</span> <span class="n">num_steps_per_epoch</span><span class="p">)),</span> <span class="n">trainer</span><span class="o">.</span><span class="n">valid_log</span><span class="p">[</span><span class="s2">&quot;accs&quot;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;valid&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C1&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;step&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;loss&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;dashed&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;step&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;accuracy&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;dashed&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">trainer</span><span class="o">.</span><span class="n">train_log</span><span class="p">[</span><span class="s2">&quot;loss&quot;</span><span class="p">]))</span>
+    <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">ticklabel_format</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;sci&quot;</span><span class="p">,</span> <span class="n">scilimits</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+    <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">ticklabel_format</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;sci&quot;</span><span class="p">,</span> <span class="n">scilimits</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+    
+    <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">();</span>
+</pre></div>
+</div></div>
+</details>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_training_history</span><span class="p">(</span><span class="n">trainer</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../../_images/1ea11f90411210d48635df7159218e82c37facb3c94200abbe7490a82bf7a86a.svg" src="../../../_images/1ea11f90411210d48635df7159218e82c37facb3c94200abbe7490a82bf7a86a.svg" />
+</div>
+</div>
+<p><strong>Remark.</strong> The validation step accumulates results over after an epoch for a fixed set of weights. This simulates inference performance if we load the trained model at that <strong>checkpoint</strong>. On the other hand, train metrics are expensive since the training dataset is large. Instead, these are accumulated at each step as an average with the previous steps.</p>
+<br>
+</section>
+<section id="fine-tuning">
+<h2>Fine-tuning<a class="headerlink" href="#fine-tuning" title="Link to this heading"></a></h2>
+<p>Unfreezing the pretrained model layers. Note that we set small learning rates:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">model</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">parameters</span><span class="p">():</span>
+    <span class="n">param</span><span class="o">.</span><span class="n">requires_grad</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="c1"># 100x smaller lr (both optim and scheduler)</span>
+<span class="n">epochs</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">optim</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">AdamW</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">,</span> <span class="n">weight_decay</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
+<span class="n">scheduler</span> <span class="o">=</span> <span class="n">OneCycleLR</span><span class="p">(</span><span class="n">optim</span><span class="p">,</span> <span class="n">max_lr</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">,</span> <span class="n">steps_per_epoch</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">dl_train</span><span class="p">),</span> <span class="n">epochs</span><span class="o">=</span><span class="n">epochs</span><span class="p">)</span>
+<span class="n">trainer_ft</span> <span class="o">=</span> <span class="n">Trainer</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">optim</span><span class="p">,</span> <span class="n">loss_fn</span><span class="o">=</span><span class="n">F</span><span class="o">.</span><span class="n">cross_entropy</span><span class="p">,</span> <span class="n">scheduler</span><span class="o">=</span><span class="n">scheduler</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">DEVICE</span><span class="p">)</span>
+<span class="n">trainer_ft</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">epochs</span><span class="o">=</span><span class="n">epochs</span><span class="p">,</span> <span class="n">train_loader</span><span class="o">=</span><span class="n">dl_train</span><span class="p">,</span> <span class="n">valid_loader</span><span class="o">=</span><span class="n">dl_valid</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "3cc9dc9550a14d968c2dc60c8a373ce5", "version_major": 2, "version_minor": 0}</script><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Epoch: 01/20]    loss: 0.4978  acc: 0.7706    val_loss: 0.4265  val_acc: 0.8160
+[Epoch: 02/20]    loss: 0.4262  acc: 0.8113    val_loss: 0.3741  val_acc: 0.8434
+[Epoch: 03/20]    loss: 0.4110  acc: 0.8175    val_loss: 0.3544  val_acc: 0.8540
+[Epoch: 04/20]    loss: 0.3923  acc: 0.8331    val_loss: 0.3363  val_acc: 0.8626
+[Epoch: 05/20]    loss: 0.3599  acc: 0.8469    val_loss: 0.3388  val_acc: 0.8596
+[Epoch: 06/20]    loss: 0.3406  acc: 0.8581    val_loss: 0.3171  val_acc: 0.8699
+[Epoch: 07/20]    loss: 0.3875  acc: 0.8469    val_loss: 0.3338  val_acc: 0.8685
+[Epoch: 08/20]    loss: 0.3433  acc: 0.8650    val_loss: 0.3190  val_acc: 0.8856
+[Epoch: 09/20]    loss: 0.3260  acc: 0.8712    val_loss: 0.3132  val_acc: 0.8698
+[Epoch: 10/20]    loss: 0.3074  acc: 0.8831    val_loss: 0.2931  val_acc: 0.8825
+[Epoch: 11/20]    loss: 0.3176  acc: 0.8806    val_loss: 0.2966  val_acc: 0.8868
+[Epoch: 12/20]    loss: 0.3048  acc: 0.8775    val_loss: 0.2904  val_acc: 0.8848
+[Epoch: 13/20]    loss: 0.2680  acc: 0.8894    val_loss: 0.3251  val_acc: 0.8842
+[Epoch: 14/20]    loss: 0.2866  acc: 0.8825    val_loss: 0.2846  val_acc: 0.8896
+[Epoch: 15/20]    loss: 0.2699  acc: 0.8919    val_loss: 0.2710  val_acc: 0.8958
+[Epoch: 16/20]    loss: 0.2517  acc: 0.9062    val_loss: 0.2798  val_acc: 0.8948
+[Epoch: 17/20]    loss: 0.2405  acc: 0.9100    val_loss: 0.2753  val_acc: 0.8981
+[Epoch: 18/20]    loss: 0.2378  acc: 0.9031    val_loss: 0.2645  val_acc: 0.8969
+[Epoch: 19/20]    loss: 0.2349  acc: 0.9144    val_loss: 0.2649  val_acc: 0.8990
+[Epoch: 20/20]    loss: 0.2411  acc: 0.9163    val_loss: 0.2642  val_acc: 0.8986
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">loss</span> <span class="o">=</span> <span class="n">trainer</span><span class="o">.</span><span class="n">train_log</span><span class="p">[</span><span class="s2">&quot;loss&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">trainer_ft</span><span class="o">.</span><span class="n">train_log</span><span class="p">[</span><span class="s2">&quot;loss&quot;</span><span class="p">]</span>
+<span class="n">accs</span> <span class="o">=</span> <span class="n">trainer</span><span class="o">.</span><span class="n">train_log</span><span class="p">[</span><span class="s2">&quot;accs&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">trainer_ft</span><span class="o">.</span><span class="n">train_log</span><span class="p">[</span><span class="s2">&quot;accs&quot;</span><span class="p">]</span>
+<span class="n">loss_avg</span> <span class="o">=</span> <span class="n">trainer</span><span class="o">.</span><span class="n">train_log</span><span class="p">[</span><span class="s2">&quot;loss_avg&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">trainer_ft</span><span class="o">.</span><span class="n">train_log</span><span class="p">[</span><span class="s2">&quot;loss_avg&quot;</span><span class="p">]</span>
+<span class="n">accs_avg</span> <span class="o">=</span> <span class="n">trainer</span><span class="o">.</span><span class="n">train_log</span><span class="p">[</span><span class="s2">&quot;accs_avg&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">trainer_ft</span><span class="o">.</span><span class="n">train_log</span><span class="p">[</span><span class="s2">&quot;accs_avg&quot;</span><span class="p">]</span>
+<span class="n">val_loss</span> <span class="o">=</span> <span class="n">trainer</span><span class="o">.</span><span class="n">valid_log</span><span class="p">[</span><span class="s2">&quot;loss&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">trainer_ft</span><span class="o">.</span><span class="n">valid_log</span><span class="p">[</span><span class="s2">&quot;loss&quot;</span><span class="p">]</span>
+<span class="n">val_accs</span> <span class="o">=</span> <span class="n">trainer</span><span class="o">.</span><span class="n">valid_log</span><span class="p">[</span><span class="s2">&quot;accs&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">trainer_ft</span><span class="o">.</span><span class="n">valid_log</span><span class="p">[</span><span class="s2">&quot;accs&quot;</span><span class="p">]</span>
+<span class="n">num_epochs</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">val_loss</span><span class="p">)</span>
+<span class="n">num_steps_per_epoch</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">loss</span><span class="p">)</span> <span class="o">//</span> <span class="n">num_epochs</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C0&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">accs</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C0&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">loss_avg</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;train&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C0&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">accs_avg</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;train&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C0&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">num_steps_per_epoch</span><span class="p">,</span> <span class="p">(</span><span class="n">num_epochs</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">num_steps_per_epoch</span><span class="p">,</span> <span class="n">num_steps_per_epoch</span><span class="p">)),</span> <span class="n">val_loss</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;valid&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C1&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">num_steps_per_epoch</span><span class="p">,</span> <span class="p">(</span><span class="n">num_epochs</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">num_steps_per_epoch</span><span class="p">,</span> <span class="n">num_steps_per_epoch</span><span class="p">)),</span> <span class="n">val_accs</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;valid&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C1&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">trainer</span><span class="o">.</span><span class="n">train_log</span><span class="p">[</span><span class="s2">&quot;loss&quot;</span><span class="p">]),</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;dotted&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;[fine-tuning]&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">trainer</span><span class="o">.</span><span class="n">train_log</span><span class="p">[</span><span class="s2">&quot;loss&quot;</span><span class="p">]),</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;dotted&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;[fine-tuning]&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;step&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;loss&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;dashed&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">loss</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;step&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;accuracy&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;dashed&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">framealpha</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">ticklabel_format</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;sci&quot;</span><span class="p">,</span> <span class="n">scilimits</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">ticklabel_format</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;sci&quot;</span><span class="p">,</span> <span class="n">scilimits</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../../../_images/159d96e951ddf068838b7b18e2e0f1b8b63e5e0fc4ca63c6ff05d7a2ebda8b1e.svg" src="../../../_images/159d96e951ddf068838b7b18e2e0f1b8b63e5e0fc4ca63c6ff05d7a2ebda8b1e.svg" />
+</div>
+</div>
+<p>Fig. <em>The weights of the classification head are trained on the outputs of the pretrained ResNet model with fixed weights. After the classification head forms proper weights, the pretrained weights are unfreezed, and trained with small LR. Performance improves at a faster rate, but also fluctuates more at this stage.</em></p>
+<br>
+<p><strong>Remarks.</strong> The model overfits and the validation curves diverge very early in the training when we turn off data augmentation (i.e. model memorizes the training data). Data augmentation prevents this by adding noise in the input. The dense layers also does not train well without BN. Finally, since the data is slightly imbalanced, we should also look at the <a class="reference external" href="https://en.wikipedia.org/wiki/Confusion_matrix">confusion matrix</a> and <a class="reference external" href="https://scikit-learn.org/stable/auto_examples/model_selection/plot_precision_recall.html">PR curve</a>.</p>
+</section>
+<section id="inference">
+<h2>Inference<a class="headerlink" href="#inference" title="Link to this heading"></a></h2>
+<p>Note that calling the model on an input <code class="docutils literal notranslate"><span class="pre">x</span></code> with large batch dim may cause memory error for large models. Hence, using a data loader for offline batch inference is good practice:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">InputDataLoader</span><span class="p">(</span><span class="n">DataLoader</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_loader</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_loader</span> <span class="o">=</span> <span class="n">data_loader</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_loader</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">batch</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+
+<span class="nd">@torch</span><span class="o">.</span><span class="n">inference_mode</span><span class="p">()</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">batch_predict</span><span class="p">(</span><span class="n">trainer</span><span class="p">:</span> <span class="n">Trainer</span><span class="p">,</span> <span class="n">input_loader</span><span class="p">:</span> <span class="n">DataLoader</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">eval_context</span><span class="p">(</span><span class="n">trainer</span><span class="o">.</span><span class="n">model</span><span class="p">):</span>
+        <span class="n">preds</span> <span class="o">=</span> <span class="p">[</span><span class="n">trainer</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">input_loader</span><span class="p">]</span>
+        <span class="n">preds</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">preds</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">preds</span>
+
+
+<span class="n">pred</span> <span class="o">=</span> <span class="n">batch_predict</span><span class="p">(</span><span class="n">trainer</span><span class="p">,</span> <span class="n">InputDataLoader</span><span class="p">(</span><span class="n">dl_valid</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pred</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pred</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>torch.Size([8000, 2])
+tensor([[ 0.0836, -0.0971],
+        [ 1.1856, -1.1767],
+        [ 0.8685, -0.8674],
+        ...,
+        [ 1.0003, -0.9968],
+        [-2.4745,  2.4580],
+        [-2.5150,  2.4989]], device=&#39;mps:0&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<p>This should be equal to the final validation accuracy:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">batch</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">dl_valid</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">((</span><span class="n">pred</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="n">y</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">DEVICE</span><span class="p">))</span><span class="o">.</span><span class="n">float</span><span class="p">()</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">trainer_ft</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">dl_valid</span><span class="p">)[</span><span class="s2">&quot;accs&quot;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">trainer_ft</span><span class="o">.</span><span class="n">valid_log</span><span class="p">[</span><span class="s2">&quot;accs&quot;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="c1"># or look at final valid log</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8986250162124634
+0.898625
+0.898625
+</pre></div>
+</div>
+</div>
+</div>
+<p>Note that input from our data loaders come transformed. For processing raw images, we have to transform the inputs in eval mode:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">file_path</span> <span class="o">=</span> <span class="s2">&quot;data/histopathologic-cancer-detection/test/0a0a1f3867f41e02353afcaf503f63be1bdd35ec.tif&quot;</span>
+<span class="n">test_data</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">trainer</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">transform_infer</span><span class="p">(</span><span class="n">test_data</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[ 1.4946, -1.4783]], device=&#39;mps:0&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./nb/dl/03-cnn"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="03c-data-augmentation.html" class="btn btn-neutral float-left" title="Data augmentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="03e-guided-backprop.html" class="btn btn-neutral float-right" title="Appendix: Guided Backprop" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

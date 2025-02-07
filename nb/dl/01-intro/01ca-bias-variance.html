@@ -1,0 +1,241 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bias-variance decomposition &mdash; OK Transformer</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/togglebutton.css?v=13237357" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-thebe.css?v=4fa983c6" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=c854b03d" />
+
+  
+    <link rel="shortcut icon" href="../../../_static/favicon.png"/>
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=9eb32ce0"></script>
+      <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=f281be69"></script>
+      <script src="../../../_static/scripts/sphinx-book-theme.js"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../../../_static/togglebutton.js?v=4a39c7ea"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+      <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+      <script async="async" src="../../../_static/sphinx-thebe.js?v=c100c467"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+      <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Regularization" href="01cb-regularization.html" />
+    <link rel="prev" title="Machine learning theory" href="01c-lossmin.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../intro.html">
+            
+              <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Deep Learning</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="01-intro.html">Introduction to Neural Networks</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="01a-fcnn.html">Fully-connected NNs (MLPs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01b-linear.html">Linear classification</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="01c-lossmin.html">Machine learning theory</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Bias-variance decomposition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01cb-regularization.html">Regularization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01cc-experiments.html">Experiments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01cd-split.html">Train-validation split</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="01e-appendix-weaksup.html">Appendix: Weak supervision</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01ec-depth.html">Appendix: Expressivity and Depth</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../02-optim/02-optim.html">Gradient Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../00-backprop/00-backprop.html">Backpropagation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-cnn/03-cnn.html">Convolutional Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-sequence-models/04-intro.html">Language modeling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../05-rnns/05-intro.html">Recurrent Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../07-attention.html">Attention and Transformers</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../intro.html">Project name not set</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../intro.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="01-intro.html">Introduction to Neural Networks</a></li>
+          <li class="breadcrumb-item"><a href="01c-lossmin.html">Machine learning theory</a></li>
+      <li class="breadcrumb-item active">Bias-variance decomposition</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/nb/dl/01-intro/01ca-bias-variance.ipynb" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="bias-variance-decomposition">
+<h1>Bias-variance decomposition<a class="headerlink" href="#bias-variance-decomposition" title="Link to this heading"></a></h1>
+<p>Recall that the training set <span class="math notranslate nohighlight">\(\mathcal{D}\)</span> is sampled from an underlying distribution <span class="math notranslate nohighlight">\(P\)</span> (i.e. the data generating process). Thus, we want to know how model performance of the trained model <span class="math notranslate nohighlight">\(f_{\mathcal{D}}\)</span> varies with respect to training sample <span class="math notranslate nohighlight">\({\mathcal{D}}.\)</span> Here, we will analyze the squared error of regression models. For simplicity, we assume the existence of a a ground truth function <span class="math notranslate nohighlight">\(f\)</span> that assigns the label of an input <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{x}}\)</span> (see remark below).</p>
+<p>Let <span class="math notranslate nohighlight">\(f_{\mathcal{D}}\)</span> be the function obtained by the training process over the sample <span class="math notranslate nohighlight">\(\mathcal{D}.\)</span> Let <span class="math notranslate nohighlight">\(\bar{f}\)</span> be the expected function when drawing fixed sized samples <span class="math notranslate nohighlight">\(\mathcal{D} \stackrel{\text{iid}}{\sim} P^N\)</span> where <span class="math notranslate nohighlight">\(N = |\mathcal{D}|\)</span> and <span class="math notranslate nohighlight">\(P\)</span> is the underlying data distribution. In other words, <span class="math notranslate nohighlight">\(\bar{f}\)</span> is an ensemble of trained models weighted by the probability of its training dataset. Then:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\mathbb{E}_{\boldsymbol{\mathsf{x}}, \mathcal{D}}\left[ \left(f_{\mathcal{D}}(\boldsymbol{\mathsf{x}}) - f(\boldsymbol{\mathsf{x}}) \right)^2 \right]
+&amp;= \mathbb{E}_{\boldsymbol{\mathsf{x}}, \mathcal{D}}\left[ \left((f_{\mathcal{D}}(\boldsymbol{\mathsf{x}}) - \bar{f}(\boldsymbol{\mathsf{x}})) + (\bar{f}(\boldsymbol{\mathsf{x}}) - f(\boldsymbol{\mathsf{x}})) \right)^2 \right] \\
+&amp;= \mathbb{E}_{\boldsymbol{\mathsf{x}}, \mathcal{D}}\left[ (f_{\mathcal{D}}(\boldsymbol{\mathsf{x}}) - \bar{f}(\boldsymbol{\mathsf{x}}))^2 \right] 
++ \mathbb{E}_{\boldsymbol{\mathsf{x}}, \mathcal{D}}\left[(\bar{f}(\boldsymbol{\mathsf{x}}) - f(\boldsymbol{\mathsf{x}}))^2 \right] \\
+&amp;\quad+\; 2\cdot \mathbb{E}_{\boldsymbol{\mathsf{x}}, \mathcal{D}}\left[(f_{\mathcal{D}}(\boldsymbol{\mathsf{x}}) - \bar{f}(\boldsymbol{\mathsf{x}}))(\bar{f}(\boldsymbol{\mathsf{x}}) - f(\boldsymbol{\mathsf{x}})) \right] \\ \\
+&amp;= \mathbb{E}_{\boldsymbol{\mathsf{x}}, \mathcal{D}}\left[ (f_{\mathcal{D}}(\boldsymbol{\mathsf{x}}) - \bar{f}(\boldsymbol{\mathsf{x}}))^2 \right] 
++ \mathbb{E}_{\boldsymbol{\mathsf{x}}, \mathcal{D}}\left[(\bar{f}(\boldsymbol{\mathsf{x}}) - f(\boldsymbol{\mathsf{x}}))^2 \right] + 0 \\
+&amp;= \underbrace{\mathbb{E}_{\boldsymbol{\mathsf{x}}, \mathcal{D}}\left[ (f_{\mathcal{D}}(\boldsymbol{\mathsf{x}}) - \bar{f}(\boldsymbol{\mathsf{x}}))^2 \right]}_{\text{Variance}} 
+ + \underbrace{\mathbb{E}_{\boldsymbol{\mathsf{x}}}\left[(\bar{f}(\boldsymbol{\mathsf{x}}) - f(\boldsymbol{\mathsf{x}}))^2 \right]}_{\text{Bias}^2}. \\
+\end{aligned} \\
+\end{split}\]</div>
+<p>The middle term vanishes by writing it as:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbb{E}_{\boldsymbol{\mathsf{x}}} \left[\underbrace{\mathbb{E}_{\mathcal{D}}\left[(f_{\mathcal{D}}(\boldsymbol{\mathsf{x}}) - \bar{f}(\boldsymbol{\mathsf{x}}))\right]}_{0} \; (\bar{f}(\boldsymbol{\mathsf{x}}) - f(\boldsymbol{\mathsf{x}}))  \right] = 0.
+\]</div>
+<p>Observe that the <strong>variance</strong> term describes variability of models as we re-run the training process without actually looking into the true function. The <strong>bias</strong> term, on the other hand, looks at the error of the ensemble <span class="math notranslate nohighlight">\(\bar{f}\)</span> from the true function <span class="math notranslate nohighlight">\(f.\)</span> These can be visualized as manifesting in the left and right plots respectively of <a class="reference internal" href="01c-lossmin.html#overfitting-underfitting"><span class="std std-numref">Fig. 7</span></a>.</p>
+<p><strong>Remark.</strong> This derivation ignores target noise which is relevant in real-world datasets. Here we have a distribution <span class="math notranslate nohighlight">\(p(y \mid \boldsymbol{\mathsf{x}})\)</span> around the target on which we integrate over to get the expected target. See <a class="reference external" href="https://www.cs.cornell.edu/courses/cs4780/2018sp/lectures/lecturenote12.html">these notes</a> for a more careful treatment.</p>
+<br>
+<section id="classical-tradeoff">
+<h2>Classical tradeoff<a class="headerlink" href="#classical-tradeoff" title="Link to this heading"></a></h2>
+<p>The classical tradeoff is that, as model complexity increases, models fit each sample so closely that they capture even sampling noise. However, these errors tend to cancel out over many samples, resulting in low bias. Overfitting occurs when the model performs well on the training data but may not generalize to a test sample due to high variance. Conversely, simpler models tend to have high bias and underfit any sample from the dataset.</p>
+<p>For a fixed model class, assuming the data is well-structured, increasing the sample size generally decreases variance, as more data smooths out noise. Interestingly, bias stems from the choice of model class (e.g., architecture, choice of hyperparameters) and persists regardless of the amount of data available. Indeed, <span id="id1">[<a class="reference internal" href="../../../intro.html#id89" title="A. R. Barron. Approximation and estimation bounds for artificial neural networks. In Proceedings of the Fourth Annual Workshop on Computational Learning Theory, COLT '91, 243–249. San Francisco, CA, USA, 1991. Morgan Kaufmann Publishers Inc.">Bar91</a>]</span> provides an explicit tradeoff between data and network size (i.e. its width) for sigmoidal FCNNs with two layers:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbb{E}_{\boldsymbol{\mathsf{x}}, \mathcal{D}}\left[ \left(f_{\mathcal{D}}(\boldsymbol{\mathsf{x}}) - f(\boldsymbol{\mathsf{x}}) \right)^2 \right] \leq O\left(\frac{1}{M}\right) + O\left(\frac{Md}{N}\right)\log N
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(M\)</span> is the number of nodes, <span class="math notranslate nohighlight">\(N = |\mathcal{D}|\)</span> is the number of training observations, and <span class="math notranslate nohighlight">\(d\)</span> is the input dimension. Here the first term corresponds to the bias which is data independent, while the second term corresponds to the variance which increases with network size and decreases with data. The above bound also highlights the <a class="reference external" href="https://www.cs.cornell.edu/courses/cs4780/2018fa/lectures/lecturenote02_kNN.html">curse of dimensionality</a>. The input dimension contributes linearly to the error, while data only decreases error at the rate <span class="math notranslate nohighlight">\(O(\log N / N)\)</span>.</p>
+<br>
+</section>
+<section id="double-descent">
+<h2>Double descent<a class="headerlink" href="#double-descent" title="Link to this heading"></a></h2>
+<p>For large models there is the phenomenon of <strong>double descent</strong> <span id="id2">[<a class="reference internal" href="../../../intro.html#id85" title="Preetum Nakkiran, Gal Kaplun, Yamini Bansal, Tristan Yang, Boaz Barak, and Ilya Sutskever. Deep double descent: where bigger models and more data hurt. CoRR, 2019. URL: http://arxiv.org/abs/1912.02292, arXiv:1912.02292.">NKB+19</a>]</span> observed in most networks used in practice where both bias and variance go down with excess complexity. One intuition is that near the <em>interpolation threshold</em>, where there is roughly a 1-1 correspondence between the sample datasets and the models, small changes in the dataset lead to large changes in the model. The strip around this is the <em>critical regime</em> in the classical case where overfitting occurs. Having more data destroys this 1-1 correspondence, which is covered by the classical tradeoff discussed above.</p>
+<p>Double descent occurs in the opposite case where we have much more parameters than data (<a class="reference internal" href="#id6"><span class="std std-numref">Fig. 8</span></a>). SGD gets to focus more on what it wants to do, i.e. search for flat minima <span id="id3">[<a class="reference internal" href="../../../intro.html#id86" title="Nitish Shirish Keskar, Dheevatsa Mudigere, Jorge Nocedal, Mikhail Smelyanskiy, and Ping Tak Peter Tang. On large-batch training for deep learning: generalization gap and sharp minima. CoRR, 2016. URL: http://arxiv.org/abs/1609.04836, arXiv:1609.04836.">KMN+16a</a>]</span>, since it is not constrained to use the full model capacity. Interestingly, the double descent curve is more prominent when there is label noise. In this case, there is less redundancy in the model parameters when the dataset is harder to learn, so that the complexity tradeoff is sharper in the critical strip.</p>
+<p><strong>Remark.</strong> Models around with weights flat minimas have validation errors that are much more stable to perturbation in the weights and, as such, tend to be smooth between data points <span id="id4">[<a class="reference internal" href="../../../intro.html#id88" title="Sepp Hochreiter and Jürgen Schmidhuber. Flat minima. Neural Computation, 9(1):1-42, 1997. doi:10.1162/neco.1997.9.1.1.">HS97a</a>]</span>. SGD is discussed in the next chapter.</p>
+<br>
+<figure class="align-center" id="id6">
+<a class="reference internal image-reference" href="../../../_images/01-double-descent.png"><img alt="../../../_images/01-double-descent.png" src="../../../_images/01-double-descent.png" style="width: 80%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 8 </span><span class="caption-text">Double descent for ResNet18. The width parameter controls model complexity. Source: <span id="id5">[<a class="reference internal" href="../../../intro.html#id85" title="Preetum Nakkiran, Gal Kaplun, Yamini Bansal, Tristan Yang, Boaz Barak, and Ilya Sutskever. Deep double descent: where bigger models and more data hurt. CoRR, 2019. URL: http://arxiv.org/abs/1912.02292, arXiv:1912.02292.">NKB+19</a>]</span></span><a class="headerlink" href="#id6" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<br>
+<figure class="align-center" id="double-descent-data">
+<a class="reference internal image-reference" href="../../../_images/01-double-descent-data.png"><img alt="../../../_images/01-double-descent-data.png" src="../../../_images/01-double-descent-data.png" style="width: 90%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 9 </span><span class="caption-text">Additional data increases model variance within the critical regime.
+More data shifts the interpolation threshold to the right, resulting in
+worse test performance compared to the same model trained on a smaller sample.
+Increasing model complexity improves test performance.
+Source: <span id="id7">[<a class="reference internal" href="../../../intro.html#id85" title="Preetum Nakkiran, Gal Kaplun, Yamini Bansal, Tristan Yang, Boaz Barak, and Ilya Sutskever. Deep double descent: where bigger models and more data hurt. CoRR, 2019. URL: http://arxiv.org/abs/1912.02292, arXiv:1912.02292.">NKB+19</a>]</span></span><a class="headerlink" href="#double-descent-data" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<br>
+<figure class="align-center" id="double-descent-epochs">
+<a class="reference internal image-reference" href="../../../_images/01-double-descent-epochs.png"><img alt="../../../_images/01-double-descent-epochs.png" src="../../../_images/01-double-descent-epochs.png" style="width: 100%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 10 </span><span class="caption-text">Epoch dimension to double descent. Models are ResNet18s on CIFAR10
+with 20% label noise, trained using Adam with learning rate 0.0001, and data augmentation.
+<strong>Left:</strong> Training dynamics for models in three regimes. <strong>Right:</strong> Test error vs. Model size × Epochs.
+Three slices of this plot are shown on the left. Source: <span id="id8">[<a class="reference internal" href="../../../intro.html#id85" title="Preetum Nakkiran, Gal Kaplun, Yamini Bansal, Tristan Yang, Boaz Barak, and Ilya Sutskever. Deep double descent: where bigger models and more data hurt. CoRR, 2019. URL: http://arxiv.org/abs/1912.02292, arXiv:1912.02292.">NKB+19</a>]</span></span><a class="headerlink" href="#double-descent-epochs" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./nb/dl/01-intro"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="01c-lossmin.html" class="btn btn-neutral float-left" title="Machine learning theory" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="01cb-regularization.html" class="btn btn-neutral float-right" title="Regularization" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

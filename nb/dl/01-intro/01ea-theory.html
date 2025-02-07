@@ -1,0 +1,316 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Basic theory &mdash; OK Transformer</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/togglebutton.css?v=13237357" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-thebe.css?v=4fa983c6" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=c854b03d" />
+
+  
+    <link rel="shortcut icon" href="../../../_static/favicon.png"/>
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=9eb32ce0"></script>
+      <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=f281be69"></script>
+      <script src="../../../_static/scripts/sphinx-book-theme.js"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../../../_static/togglebutton.js?v=4a39c7ea"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+      <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+      <script async="async" src="../../../_static/sphinx-thebe.js?v=c100c467"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+      <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Experiments" href="01eb-experiments.html" />
+    <link rel="prev" title="Appendix: Weak supervision" href="01e-appendix-weaksup.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../intro.html">
+            
+              <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Deep Learning</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="01-intro.html">Introduction to Neural Networks</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="01a-fcnn.html">Fully-connected NNs (MLPs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01b-linear.html">Linear classification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01c-lossmin.html">Machine learning theory</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="01e-appendix-weaksup.html">Appendix: Weak supervision</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Basic theory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01eb-experiments.html">Experiments</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="01ec-depth.html">Appendix: Expressivity and Depth</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../02-optim/02-optim.html">Gradient Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../00-backprop/00-backprop.html">Backpropagation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-cnn/03-cnn.html">Convolutional Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-sequence-models/04-intro.html">Language modeling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../05-rnns/05-intro.html">Recurrent Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../07-attention.html">Attention and Transformers</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../intro.html">Project name not set</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../intro.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="01-intro.html">Introduction to Neural Networks</a></li>
+          <li class="breadcrumb-item"><a href="01e-appendix-weaksup.html">Appendix: Weak supervision</a></li>
+      <li class="breadcrumb-item active">Basic theory</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/nb/dl/01-intro/01ea-theory.ipynb" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="basic-theory">
+<h1>Basic theory<a class="headerlink" href="#basic-theory" title="Link to this heading"></a></h1>
+<p>Here we will consider binary classification, although the method can be easily extended to the multiclass setting. For each data point <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{x}} \in \mathscr{X}\)</span> the latent true label is denoted by <span class="math notranslate nohighlight">\(y \in \mathscr{Y} = \{-1, +1\}\)</span>. We have <span class="math notranslate nohighlight">\(n\)</span> labeling functions <span class="math notranslate nohighlight">\(\lambda_j\colon \mathscr{X} \to \mathscr{Y} \cup \{0\}\)</span> for <span class="math notranslate nohighlight">\(j = 1, \ldots, n.\)</span> In case that the LF is not applicable, then the LF returns <span class="math notranslate nohighlight">\(0\)</span> for <em>abstain</em>. This explains why we augmented the target space with the zero label. So if we have data points <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{x}}_i\)</span> for <span class="math notranslate nohighlight">\(i = 1, \ldots, m\)</span>, then we get an <span class="math notranslate nohighlight">\(m \times n\)</span> matrix of LF outputs <span class="math notranslate nohighlight">\(\Lambda_{ij} = \lambda_j(\boldsymbol{\mathsf{x}}_i)\)</span>.</p>
+<p>Our first step is to estimate the distribution <span class="math notranslate nohighlight">\(p_{\delta, \gamma}(\Lambda=\lambda(\boldsymbol{\mathsf{x}}), Y=y)\)</span> defined as the probability that LFs output <span class="math notranslate nohighlight">\(\lambda(\boldsymbol{\mathsf{x}}) = (\lambda_1(\boldsymbol{\mathsf{x}}), \ldots, \lambda_n(\boldsymbol{\mathsf{x}}))\)</span> for a test instance <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{x}}\)</span> with true label <span class="math notranslate nohighlight">\(y\)</span>. The parameters are chosen such that the marginal probability <span class="math notranslate nohighlight">\(p(\Lambda_{ij})\)</span> of the observed LF outputs is maximized.
+This parameters of the model are <strong>coverage</strong> <span class="math notranslate nohighlight">\(\delta = (\delta_1, \ldots, \delta_n)\)</span> and <strong>accuracy</strong> <span class="math notranslate nohighlight">\(\gamma = (\gamma_1, \ldots, \gamma_n)\)</span> of each LF. Once the parameters <span class="math notranslate nohighlight">\(\hat{\delta}\)</span> and <span class="math notranslate nohighlight">\(\hat{\gamma}\)</span> have been learned, we can train a <strong>noise-aware</strong> discriminative model by minimizing the ff. loss function:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathscr{L}(\Theta) = 
+\frac{1}{m}\sum_{i=1}^m \sum_{y=-1,+1} 
+\ell(f_\Theta(\boldsymbol{\mathsf{x}}), y) \cdot 
+{p_{\hat{\delta}, \hat{\gamma}}(Y = y \mid \Lambda = \lambda(\boldsymbol{\mathsf{x}}))}
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\ell\)</span> is the instance loss. This looks like the usual loss except that the contribution for each target is summed over weighted by the probability of the target given the labeling of the input.</p>
+<section id="generative-model">
+<h2>Generative model<a class="headerlink" href="#generative-model" title="Link to this heading"></a></h2>
+<p>For each LF <span class="math notranslate nohighlight">\(\lambda_j\)</span> we assign two parameters <span class="math notranslate nohighlight">\((\delta_j, \gamma_j)\)</span> corresponding to its coverage and accuracy. Coverage <span class="math notranslate nohighlight">\(\delta_j\)</span> is defined as the probability of labeling an input, and accuracy as <span class="math notranslate nohighlight">\(\gamma_j\)</span> as the probability of labeling it correctly. This assumes that the LFs have the same distribution for each label (e.g. not more accurate when the label is positive). Moreover, we assume that LF outputs are independent of each other. Hence,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+p_{\delta, \gamma}(\Lambda = \lambda(\boldsymbol{\mathsf{x}})) 
+&amp;= \sum_{y=-1,+1}  p_{\delta, \gamma}(\Lambda = \lambda(\boldsymbol{\mathsf{x}}), Y = y) \\
+&amp;= \sum_{y=-1,+1} p(Y = y) \cdot p_{\delta, \gamma}(\Lambda = \lambda(\boldsymbol{\mathsf{x}}) \mid Y = y) \\
+&amp;= \sum_{y=-1,+1} p(Y = y) \cdot \prod_{j=1}^n \begin{cases} 
+1 - \delta_j \quad&amp; \phantom{y}\lambda_j(\boldsymbol{\mathsf{x}}) &amp;= \phantom{-}0 \\
+\delta_j\gamma_j \quad&amp; y \lambda_j(\boldsymbol{\mathsf{x}}) &amp;= +1 \\
+\delta_j(1 - \gamma_j) \quad&amp; y \lambda_j(\boldsymbol{\mathsf{x}}) &amp;= -1 \\
+\end{cases}.
+\end{aligned}
+\end{split}\]</div>
+<p>Our goal therefore is to find parameters that maximize the observed LF outputs for our dataset:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+(\hat{\delta}, \hat{\gamma}) 
+&amp;= \underset{\delta,\gamma}{\text{arg min}}\sum_{i=1}^m -\log \; p_{\delta, \gamma}(\Lambda_{i}) \\
+&amp;= \underset{\delta,\gamma}{\text{arg min}}\sum_{i=1}^m -\log 
+\left( 
+    \sum_{y=-1,+1} p_y 
+    \cdot 
+    \prod_{j=1}^n 
+    \begin{cases} 
+        1 - \delta_j            \quad&amp; \phantom{y}\Lambda_{ij} &amp;= \phantom{-}0 \\
+        \delta_j\gamma_j        \quad&amp;          y \Lambda_{ij} &amp;= +1 \\
+        \delta_j(1 - \gamma_j)  \quad&amp;          y \Lambda_{ij} &amp;= -1
+    \end{cases} 
+\right).
+\end{aligned}
+\end{split}\]</div>
+<p><strong>Remark.</strong> The assumption that accuracy is independent of true label is strong. Recall that the distributions in the rows of a confusion matrix for a classifier are not generally the same for each true label. This is fixed by having a separate set of LF parameters for each true label. For the multi-class case with <span class="math notranslate nohighlight">\(K\)</span> classes, we have to learn parameters for <span class="math notranslate nohighlight">\(K-1\)</span> entries of each row of the confusion matrix of every LF. For the sake of simplicity, we stick with the idealized case for binary classification.</p>
+</section>
+<section id="code-implementation">
+<h2>Code implementation<a class="headerlink" href="#code-implementation" title="Link to this heading"></a></h2>
+<p>We implement the above equations using some clever indexing:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">delta</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">])</span>  <span class="c1"># coverage</span>
+<span class="n">gamma</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">])</span>  <span class="c1"># accuracy</span>
+
+<span class="n">n</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">L</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span>
+    <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span>  <span class="mi">0</span><span class="p">,</span> <span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="o">+</span><span class="mi">1</span><span class="p">],</span>
+    <span class="p">[</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>  <span class="mi">0</span><span class="p">],</span>
+<span class="p">])</span>
+
+<span class="n">params</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span>
+    <span class="mi">1</span> <span class="o">-</span> <span class="n">delta</span><span class="p">,</span>              <span class="c1"># abstained</span>
+    <span class="n">delta</span> <span class="o">*</span> <span class="n">gamma</span><span class="p">,</span>          <span class="c1"># accurate</span>
+    <span class="n">delta</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">gamma</span><span class="p">)</span>     <span class="c1"># inaccurate</span>
+<span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">params</span>  <span class="c1"># Note sum along dim=0 is 1, i.e. sum of all p(λ | y) for λ = -1, 0, 1 is 1.</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[0.7000, 0.7000, 0.7000, 0.7000],
+        [0.2100, 0.1800, 0.2400, 0.2700],
+        [0.0900, 0.1200, 0.0600, 0.0300]])
+</pre></div>
+</div>
+</div>
+</div>
+<p>We will use the empirical LF matrix to pick out the appropriate weight given its value:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># p(L | y = +1)</span>
+<span class="n">params</span><span class="p">[</span><span class="n">L</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[0.0900, 0.7000, 0.2400, 0.2700],
+        [0.2100, 0.1200, 0.0600, 0.7000]])
+</pre></div>
+</div>
+</div>
+</div>
+<p>Notice that non-abstained probabilities will flip:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># p(L | y = -1)</span>
+<span class="n">params</span><span class="p">[</span><span class="o">-</span><span class="n">L</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[0.2100, 0.7000, 0.0600, 0.0300],
+        [0.0900, 0.1800, 0.2400, 0.7000]])
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let <span class="math notranslate nohighlight">\(p_{y=-1} = 0.7\)</span> and <span class="math notranslate nohighlight">\(p_{y=+1} = 0.3\)</span>. The marginal probability of the LF outputs for each instance is given by:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">py</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]</span>    <span class="c1"># zero-index = dummy</span>
+<span class="n">p_pos</span> <span class="o">=</span> <span class="n">py</span><span class="p">[</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="o">+</span><span class="n">L</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n</span><span class="p">)])</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> 
+<span class="n">p_neg</span> <span class="o">=</span> <span class="n">py</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="o">-</span><span class="n">L</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n</span><span class="p">)])</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> 
+<span class="n">p</span> <span class="o">=</span> <span class="n">p_pos</span> <span class="o">+</span> <span class="n">p_neg</span>
+<span class="n">p</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([0.0022, 0.0019])
+</pre></div>
+</div>
+</div>
+</div>
+<p>Note that we generally have <span class="math notranslate nohighlight">\(m \gg 1\)</span> terms with valuees in <span class="math notranslate nohighlight">\([0, 1].\)</span> So we use <span class="math notranslate nohighlight">\(\log\)</span> to convert the product to a sum:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;     p(Λ):&quot;</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">prod</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-log p(Λ):&quot;</span><span class="p">,</span> <span class="o">-</span><span class="n">torch</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>     p(Λ): 4.107915628992487e-06
+-log p(Λ): 12.402594566345215
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./nb/dl/01-intro"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="01e-appendix-weaksup.html" class="btn btn-neutral float-left" title="Appendix: Weak supervision" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="01eb-experiments.html" class="btn btn-neutral float-right" title="Experiments" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

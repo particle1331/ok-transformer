@@ -1,0 +1,333 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Negative log loss / MLE &mdash; OK Transformer</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/togglebutton.css?v=13237357" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-thebe.css?v=4fa983c6" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=c854b03d" />
+
+  
+    <link rel="shortcut icon" href="../../../_static/favicon.png"/>
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=9eb32ce0"></script>
+      <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=f281be69"></script>
+      <script src="../../../_static/scripts/sphinx-book-theme.js"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../../../_static/togglebutton.js?v=4a39c7ea"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+      <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+      <script async="async" src="../../../_static/sphinx-thebe.js?v=c100c467"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+      <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Gradient descent" href="01bb-gradient.html" />
+    <link rel="prev" title="Linear classification" href="01b-linear.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../intro.html">
+            
+              <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Deep Learning</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="01-intro.html">Introduction to Neural Networks</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="01a-fcnn.html">Fully-connected NNs (MLPs)</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="01b-linear.html">Linear classification</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Negative log loss / MLE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01bb-gradient.html">Gradient descent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01bc-nonlinear.html">Non-linear decision boundary</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="01c-lossmin.html">Machine learning theory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01e-appendix-weaksup.html">Appendix: Weak supervision</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01ec-depth.html">Appendix: Expressivity and Depth</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../02-optim/02-optim.html">Gradient Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../00-backprop/00-backprop.html">Backpropagation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-cnn/03-cnn.html">Convolutional Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-sequence-models/04-intro.html">Language modeling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../05-rnns/05-intro.html">Recurrent Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../07-attention.html">Attention and Transformers</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../intro.html">Project name not set</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../intro.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="01-intro.html">Introduction to Neural Networks</a></li>
+          <li class="breadcrumb-item"><a href="01b-linear.html">Linear classification</a></li>
+      <li class="breadcrumb-item active">Negative log loss / MLE</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/nb/dl/01-intro/01ba-nll.ipynb" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="negative-log-loss-mle">
+<span id="dl-01ba-nll"></span><h1>Negative log loss / MLE<a class="headerlink" href="#negative-log-loss-mle" title="Link to this heading"></a></h1>
+<p>Machine learning training requires four steps: defining a model, defining a loss function,
+choosing an optimizer, and running it on large compute (e.g. GPUs). A <strong>loss function</strong>
+acts a smooth surrogate to the true objective which may not be amenable to available optimization
+techniques. Hence, we can think of loss functions as a measure of model quality.
+The choice of loss function determines what the model parameters will optimize towards.</p>
+<figure class="align-center" id="c-loss-surface">
+<a class="reference internal image-reference" href="../../../_images/02-loss-surface.png"><img alt="../../../_images/02-loss-surface.png" src="../../../_images/02-loss-surface.png" style="width: 60%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 6 </span><span class="caption-text">Loss surface for a model with two weights. <a class="reference external" href="https://cs182sp21.github.io/static/slides/lec-4.pdf">Source</a></span><a class="headerlink" href="#c-loss-surface" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>Here we derive a loss function based on the principle of <a class="reference external" href="https://en.wikipedia.org/wiki/Maximum_likelihood_estimation">maximum likelihood estimation</a> (MLE), i.e. finding optimal parameters <span class="math notranslate nohighlight">\(\hat{\boldsymbol{\Theta}}\)</span> such that the dataset is assigned the highest probability under <span class="math notranslate nohighlight">\(\hat{\boldsymbol{\Theta}}.\)</span> Consider a parametric model of the target denoted by <span class="math notranslate nohighlight">\(p_{\boldsymbol{\Theta}}(y \mid \boldsymbol{\mathsf{x}}).\)</span>
+The <strong>likelihood</strong> of the <a class="reference external" href="https://en.wikipedia.org/wiki/Independent_and_identically_distributed_random_variables">IID</a> sample <span class="math notranslate nohighlight">\(\mathcal{D} = \{(\boldsymbol{\mathsf{x}}_i, y_i)\}_{i=1}^N\)</span> can be defined as</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{aligned}
+L(\boldsymbol{\Theta}) 
+= \left({\prod_{i=1}^N {p_{\boldsymbol{\Theta}}(y_i \mid \boldsymbol{\mathsf{x}}_i)}}\right)^{\frac{1}{N}}.
+\end{aligned}
+\]</div>
+<p>This is proportional to the probability assigned by the parametric model with parameters <span class="math notranslate nohighlight">\(\boldsymbol{\Theta}\)</span> on the sample <span class="math notranslate nohighlight">\(\mathcal{D}.\)</span>
+The IID assumption is important. Note that maximizing the likelihood results in a model that focuses more on inputs that are more probable since they are better represented in the sample.
+Probabilities are
+small numbers in <span class="math notranslate nohighlight">\([0, 1]\)</span>, so applying the logarithm to convert the large product to a sum
+is a good idea:</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{aligned}
+\log L(\boldsymbol{\Theta}) 
+&amp;= \frac{1}{N}\sum_{i=1}^N \log p_{\boldsymbol{\Theta}}(y_i \mid \boldsymbol{\mathsf{x}}_i).
+\end{aligned}
+\]</div>
+<p>MLE then maximizes the log-likelihood with respect to the parameters <span class="math notranslate nohighlight">\(\boldsymbol{\Theta}.\)</span> The idea is that a good model makes training data more probable. It is customary in machine learning to convert this to a minimization problem. The following then becomes our optimization problem:</p>
+<div class="math notranslate nohighlight">
+\[\hat{\boldsymbol{\Theta}} = \underset{\boldsymbol{\Theta}}{\text{argmin}}\,\left( -\frac{1}{N}\sum_{i=1}^N \log p_{\boldsymbol{\Theta}}(y_i \mid \boldsymbol{\mathsf{x}}_i)\right).\]</div>
+<p>This allows us to define <span class="math notranslate nohighlight">\(\ell = -\log p_{\boldsymbol{\Theta}}(y \mid \boldsymbol{\mathsf{x}}).\)</span> In general, the loss function can be any nonnegative function whose value approaches zero whenever the prediction of the network the target value. Observe that:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(p_{\boldsymbol{\Theta}}(y \mid \boldsymbol{\mathsf{x}}) \to 1\)</span> <span class="math notranslate nohighlight">\(\implies\)</span> <span class="math notranslate nohighlight">\(\ell \to 0\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(p_{\boldsymbol{\Theta}}(y \mid \boldsymbol{\mathsf{x}}) \to 0\)</span> <span class="math notranslate nohighlight">\(\implies\)</span> <span class="math notranslate nohighlight">\(\ell \to \infty\)</span></p></li>
+</ul>
+<p>Using an expectation over the underlying distribution allows the model to focus on errors based on its probability of occuring. For every set of parameters <span class="math notranslate nohighlight">\(\boldsymbol{\Theta},\)</span> we approximate the <strong>true risk</strong> which is the expectation of <span class="math notranslate nohighlight">\(\ell\)</span> on the underlying distribution with the <strong>empirical risk</strong> calculated on the sample <span class="math notranslate nohighlight">\(\mathcal{D}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\mathcal{L}(\boldsymbol{\Theta}) 
+&amp;= \mathbb{E}_{\boldsymbol{\mathsf{x}},y}\left[\ell(y, f_{\boldsymbol{\Theta}}(\boldsymbol{\mathsf{x}}))\right] \\
+&amp;\approx \frac{1}{|\mathcal{D}|} \sum_i \ell(y_i, f_{\boldsymbol{\Theta}}(\boldsymbol{\mathsf{x}}_i)) = \mathcal{L}_\mathcal{D}(\boldsymbol{\Theta}).
+\end{aligned}
+\end{split}\]</div>
+<p>The optimization problem can be written more generally as
+<span class="math notranslate nohighlight">\(\hat{\boldsymbol{\Theta}} = \underset{\boldsymbol{\Theta}}{\text{argmin}}\, \mathcal{L}_\mathcal{D}(\boldsymbol{\Theta})
+\)</span>.</p>
+<section id="cross-entropy">
+<h2>Cross-entropy<a class="headerlink" href="#cross-entropy" title="Link to this heading"></a></h2>
+<p>Note that the same input <span class="math notranslate nohighlight">\({\boldsymbol{\mathsf{x}}}\)</span> can have multiple labels in the dataset.
+Consider the contribution <span class="math notranslate nohighlight">\(\mathcal{L}_{\boldsymbol{\mathsf{x}}}\)</span> to the loss of the model’s predictions <span class="math notranslate nohighlight">\(\hat{{p}}_{\boldsymbol{\mathsf{x}}} \in [0, 1]^C\)</span> on an input <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{x}}.\)</span> Suppose each label has occured <span class="math notranslate nohighlight">\(n^1, \ldots, n^C\)</span> times given input <span class="math notranslate nohighlight">\({\boldsymbol{\mathsf{x}}}\)</span> out of <span class="math notranslate nohighlight">\(N\)</span> training pairs. Let <span class="math notranslate nohighlight">\(n = n^1 + \ldots, n^C.\)</span> Then,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\mathcal{L}_{\boldsymbol{\mathsf{x}}} 
+&amp;= -\frac{1}{N} \, \Big(n^1 \log \hat{{p}}_{\boldsymbol{\mathsf{x}}}^1 + \ldots + n^C \log \hat{{p}}_{\boldsymbol{\mathsf{x}}}^C \Big)\\
+&amp;= \frac{1}{N} \, \left[n^1, \ldots, n^C \right] \cdot -\log \hat{{p}}_{\boldsymbol{\mathsf{x}}} \\
+&amp;= \frac{n}{N} \, {\left[\frac{n^1}{n}, \ldots, \frac{n^C}{n}\right]} \cdot -\log \hat{{p}}_{\boldsymbol{\mathsf{x}}}.
+\end{aligned}
+\end{split}\]</div>
+<p>Note that the dot product is the <a class="reference external" href="https://en.wikipedia.org/wiki/Cross-entropy#Cross-entropy_loss_function_and_logistic_regression">cross-entropy</a> between<a class="footnote-reference brackets" href="#id3" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> model predict probabilities and the label distribution<a class="footnote-reference brackets" href="#id4" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a> given input <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{x}}.\)</span> Finally, this cross-entropy is weighted by the empirical probability of <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{x}}\)</span> occuring.
+It follows that the NLL is equivalent to the <em>expected</em> cross-entropy between the model predict probabilities and the label distribution given an input. Consequently, any classification model trained to minimize cross-entropy on hard labels maximizes the likelihood of the training dataset.</p>
+<p><strong>Example.</strong> The PyTorch implementation of <a class="reference external" href="https://pytorch.org/docs/stable/generated/torch.nn.functional.cross_entropy.html"><code class="docutils literal notranslate"><span class="pre">F.cross_entropy</span></code></a> converts logits to probabilities using the softmax. Consistent with the above discussion, we can either pass hard labels <span class="math notranslate nohighlight">\((B,)\)</span> for a batch of <span class="math notranslate nohighlight">\(B\)</span> inputs, or <span class="math notranslate nohighlight">\((B, C)\)</span> where <span class="math notranslate nohighlight">\(p_{ij} \in [0, 1]\)</span> containing probabilities for class <span class="math notranslate nohighlight">\(j\)</span> (soft labels) given instance <span class="math notranslate nohighlight">\(i.\)</span></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn.functional</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">F</span>
+
+<span class="n">s</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span>
+    <span class="p">[</span><span class="mf">0.3333</span><span class="p">,</span> <span class="mf">0.3333</span><span class="p">,</span> <span class="mf">0.3333</span><span class="p">],</span>
+    <span class="p">[</span><span class="mf">0.3333</span><span class="p">,</span> <span class="mf">0.3333</span><span class="p">,</span> <span class="mf">0.3333</span><span class="p">],</span>
+    <span class="p">[</span><span class="mf">0.3333</span><span class="p">,</span> <span class="mf">0.3333</span><span class="p">,</span> <span class="mf">0.3333</span><span class="p">],</span>
+    <span class="p">[</span><span class="mf">0.4333</span><span class="p">,</span> <span class="mf">0.2333</span><span class="p">,</span> <span class="mf">0.3333</span><span class="p">],</span>
+    <span class="p">[</span><span class="mf">0.3333</span><span class="p">,</span> <span class="mf">0.2333</span><span class="p">,</span> <span class="mf">0.4333</span><span class="p">],</span>
+    <span class="p">[</span><span class="mf">0.1333</span><span class="p">,</span> <span class="mf">0.3333</span><span class="p">,</span> <span class="mf">0.5333</span><span class="p">],</span>
+<span class="p">])</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="n">F</span><span class="o">.</span><span class="n">cross_entropy</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>         <span class="c1"># expects logits -&gt; applies softmax</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor(1.0686)
+</pre></div>
+</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">F.cross_entropy</span></code> calculates cross-entropy with softmax probas:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">q</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="o">-</span><span class="n">torch</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">q</span><span class="p">[</span><span class="nb">range</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">y</span><span class="p">])</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor(1.0686)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Following the above discussion, we can also use soft labels based on empirical label distribution:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span>
+    <span class="p">[</span><span class="mf">0.3333</span><span class="p">,</span> <span class="mf">0.6666</span><span class="p">,</span> <span class="mf">0.0000</span><span class="p">],</span>
+    <span class="p">[</span><span class="mf">0.3333</span><span class="p">,</span> <span class="mf">0.6666</span><span class="p">,</span> <span class="mf">0.0000</span><span class="p">],</span>
+    <span class="p">[</span><span class="mf">0.3333</span><span class="p">,</span> <span class="mf">0.6666</span><span class="p">,</span> <span class="mf">0.0000</span><span class="p">],</span>
+    <span class="p">[</span><span class="mf">1.0000</span><span class="p">,</span> <span class="mf">0.0000</span><span class="p">,</span> <span class="mf">0.0000</span><span class="p">],</span>
+    <span class="p">[</span><span class="mf">0.0000</span><span class="p">,</span> <span class="mf">1.0000</span><span class="p">,</span> <span class="mf">0.0000</span><span class="p">],</span>
+    <span class="p">[</span><span class="mf">0.0000</span><span class="p">,</span> <span class="mf">0.0000</span><span class="p">,</span> <span class="mf">1.0000</span><span class="p">]</span>
+<span class="p">])</span>
+
+<span class="n">F</span><span class="o">.</span><span class="n">cross_entropy</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="n">p</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor(1.0685)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Or with one-hot probability vectors:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span>
+    <span class="p">[</span><span class="mf">1.0000</span><span class="p">,</span> <span class="mf">0.0000</span><span class="p">,</span> <span class="mf">0.0000</span><span class="p">],</span>
+    <span class="p">[</span><span class="mf">0.0000</span><span class="p">,</span> <span class="mf">1.0000</span><span class="p">,</span> <span class="mf">0.0000</span><span class="p">],</span>
+    <span class="p">[</span><span class="mf">0.0000</span><span class="p">,</span> <span class="mf">1.0000</span><span class="p">,</span> <span class="mf">0.0000</span><span class="p">],</span>
+    <span class="p">[</span><span class="mf">1.0000</span><span class="p">,</span> <span class="mf">0.0000</span><span class="p">,</span> <span class="mf">0.0000</span><span class="p">],</span>
+    <span class="p">[</span><span class="mf">0.0000</span><span class="p">,</span> <span class="mf">1.0000</span><span class="p">,</span> <span class="mf">0.0000</span><span class="p">],</span>
+    <span class="p">[</span><span class="mf">0.0000</span><span class="p">,</span> <span class="mf">0.0000</span><span class="p">,</span> <span class="mf">1.0000</span><span class="p">]</span>
+<span class="p">])</span>
+
+<span class="n">F</span><span class="o">.</span><span class="n">cross_entropy</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="n">p</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor(1.0686)
+</pre></div>
+</div>
+</div>
+</div>
+<hr class="footnotes docutils" />
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id3" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>From <a class="reference external" href="https://en.wikipedia.org/wiki/Gibbs%27_inequality">Gibbs’ inequality</a>, we have <span class="math notranslate nohighlight">\(H(p, q) \geq H(p, p)\)</span>. Hence, the cross-entropy is minimized when the model predict probabilities precisely match the label distribution. In principle, the cross entropy measures the amount of “information” needed to describe outputs of the model. Recall that the input output pairs <span class="math notranslate nohighlight">\((\boldsymbol{\mathsf{x}}, y)\)</span> are generated by a random process. The cross entropy increases as more information is needed to describe each outcome of this random process.</p>
+</aside>
+<aside class="footnote brackets" id="id4" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">2</a><span class="fn-bracket">]</span></span>
+<p>The empirical label distribution becomes a one-hot vector whenever <span class="math notranslate nohighlight">\(n = 1.\)</span> In fact, we can convert each instance to a one-hot vector and calculate the loss as the expected cross-entropy with one-hot vectors as label distribution, even when an instance has multiple labels in the dataset, and get the same result. But deriving the probability distribution of the next state is important to understand as it occurs in a lot of scenarios (e.g. language modeling and RL).</p>
+</aside>
+</aside>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./nb/dl/01-intro"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="01b-linear.html" class="btn btn-neutral float-left" title="Linear classification" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="01bb-gradient.html" class="btn btn-neutral float-right" title="Gradient descent" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

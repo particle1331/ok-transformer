@@ -1,0 +1,251 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Language modeling &mdash; OK Transformer</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/togglebutton.css?v=13237357" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-thebe.css?v=4fa983c6" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=c854b03d" />
+
+  
+    <link rel="shortcut icon" href="../../../_static/favicon.png"/>
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=9eb32ce0"></script>
+      <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=f281be69"></script>
+      <script src="../../../_static/scripts/sphinx-book-theme.js"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../../../_static/togglebutton.js?v=4a39c7ea"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+      <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+      <script async="async" src="../../../_static/sphinx-thebe.js?v=c100c467"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+      <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Getting sequence data" href="04b-getting-text-data.html" />
+    <link rel="prev" title="Appendix: Maximal class input" href="../03-cnn/03g-maximal-input.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../intro.html">
+            
+              <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Deep Learning</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../01-intro/01-intro.html">Introduction to Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-optim/02-optim.html">Gradient Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../00-backprop/00-backprop.html">Backpropagation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-cnn/03-cnn.html">Convolutional Neural Networks</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Language modeling</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="04b-getting-text-data.html">Getting sequence data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04ca-ngrams.html">Counting <em>n</em>-grams</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04cc-embeddings.html">Character embeddings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04cd-wavenet.html">Temporal / Causal convolutions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04cb-neural-count-model.html">Appendix: Neural <em>n</em>-gram model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04a-autoregressive-linear.html">Appendix: Autoregressive models</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../05-rnns/05-intro.html">Recurrent Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../07-attention.html">Attention and Transformers</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../intro.html">Project name not set</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../intro.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Language modeling</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/nb/dl/04-sequence-models/04-intro.ipynb" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="language-modeling">
+<h1>Language modeling<a class="headerlink" href="#language-modeling" title="Link to this heading"></a></h1>
+<p>Estimating the joint probability <span class="math notranslate nohighlight">\(p(\boldsymbol{\mathsf x}_1, \ldots,\boldsymbol{\mathsf x}_T)\)</span> of a sequence of discrete tokens prove useful for various reasons. This task is called <em>language modeling</em>.
+For instance, machine translation or ASR systems generate sequences by optimizing for the most probable ones. In particular, models which predicts the next element of a sequence are referred to as a <strong>language model</strong> (LM). Recall that we can write a joint distribution as a chain of conditional distributions:</p>
+<div class="math notranslate nohighlight">
+\[
+p(\boldsymbol{\mathsf x}_1, \ldots,\boldsymbol{\mathsf x}_T) = p(\boldsymbol{\mathsf x}_1) \prod_{t = 2}^{T} p(\boldsymbol{\mathsf x}_{t} \mid \boldsymbol{\mathsf x}_{1}, \ldots, \boldsymbol{\mathsf x}_{t-1}).
+\]</div>
+<p>Hence, the output of a model for discrete data must be a distribution <span class="math notranslate nohighlight">\(p(\boldsymbol{\mathsf x}_{t} \mid \boldsymbol{\mathsf x}_{1}, \ldots, \boldsymbol{\mathsf x}_{t-1})\)</span> for each token instead of expected values for regression models. In practice, this means that we need to have a finite collection of valid tokens called a <strong>vocabulary</strong>. Then, we can generate text, simply by drawing one token at a time <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{x}}_t \sim p(\boldsymbol{\mathsf{x}}_t \mid \boldsymbol{\mathsf{x}}_1, \ldots, \boldsymbol{\mathsf{x}}_{t-1})\)</span>. For example,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+&amp;\;p(\text{deep}, \text{learning}, \text{is}, \text{fun}) \\
+=&amp; \;p(\text{deep}) \cdot p(\text{learning} \mid \text{deep}) \cdot p(\text{is} \mid \text{deep}, \text{learning}) \cdot p(\text{fun} \mid \text{deep}, \text{learning}, \text{is}).
+\end{aligned}
+\end{split}\]</div>
+<p>The probabilities can be estimated using <a class="reference external" href="https://en.wikipedia.org/wiki/Empirical_probability">relative frequencies</a> perhaps with <a class="reference external" href="https://en.wikipedia.org/wiki/Additive_smoothing">Laplace smoothing</a>:</p>
+<div class="math notranslate nohighlight">
+\[
+p(\text{deep} \mid \text{learning}) \approx \frac{\#(\text{deep},\, \text{learning}) + \kappa}{\#(\text{learning}) + \kappa|\mathcal{V}|}
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\kappa &gt; 0\)</span> can be thought of as <em>pseudo-count</em>. Observe that the smoothing parameter <span class="math notranslate nohighlight">\(\kappa\)</span> acts as a regularizer when <span class="math notranslate nohighlight">\(\kappa \gg 1,\)</span> where the distribution becomes uniform. Moreover, we usually truncate the context to a fixed number of terms as a Markov hypothesis, and because <em>n</em>-grams become sparse in naturally occuring text as <em>n</em> increases.</p>
+<br>
+<section id="perplexity">
+<h2>Perplexity<a class="headerlink" href="#perplexity" title="Link to this heading"></a></h2>
+<p>Next, we need a generic metric to measure the quality of the language model.
+One way is to check how <em>surprising</em> the text is.
+A good language model is able to predict, with high accuracy, the tokens that come next.
+Consider the following continuations of the phrase “It is sunny”, as proposed by three different language models:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>1. It is sunny outside
+2. It is sunny banana tree
+3. It is sunny soiupt;mkj ldfosim
+</pre></div>
+</div>
+<p>The first example is clearly the best, although not necessarily factual or accurate, model predicts kind of word correctly. The next is nonsensical, but at least model has learned some degree of correlation between words (‘banana’ and ‘tree’). Finally, the last example
+indicates poor training.</p>
+<p>To evaluate a language model, we can use the cross-entropy on the next token which is equivalent to maximizing the likelihood of a text. We normalize this over the number of tokens predicted. For example, we evaluate the model on contexts of variable length <span class="math notranslate nohighlight">\(\delta = 1, \ldots, T\)</span> starting from <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{x}}_{t}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L} = -\frac{1}{n}\sum_{t}\sum_{\delta = 1}^{T} \log p(\boldsymbol{\mathsf{x}}_{t + \delta} \mid \boldsymbol{\mathsf{x}}_{t}, \ldots, \boldsymbol{\mathsf{x}}_{t + \delta - 1})
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(n\)</span> is the number predictions. For a classifier that predicts all tokens uniformly random, then <span class="math notranslate nohighlight">\(\mathcal{L} = \log |\mathcal{V}|\)</span> where <span class="math notranslate nohighlight">\(\mathcal{V}\)</span> is the set of tokens. This is a useful baseline. A similarly simple model predicts prior probabilities based on counts of each token in the training data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn.functional</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">F</span>
+
+<span class="c1"># Reduction over B × T elements</span>
+<span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">T</span> <span class="o">=</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">128</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">cross_entropy</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">T</span><span class="p">),</span> <span class="n">target</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">T</span><span class="p">))))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">C</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor(3.3711)
+3.332204510175204
+</pre></div>
+</div>
+</div>
+</div>
+<p>Historically, researchers in NLP have also used <em>perplexity</em> (PP) which is simply the exponential of the cross-entropy:</p>
+<div class="math notranslate nohighlight">
+\[
+\text{PP} = \exp\left(-\frac{1}{n}\sum_{t}\sum_{\delta = 1}^{T} \log p(\boldsymbol{\mathsf{x}}_{t + \delta} \mid \boldsymbol{\mathsf{x}}_{t}, \ldots, \boldsymbol{\mathsf{x}}_{t + \delta - 1})\right).
+\]</div>
+<p>Note that perplexity is equivalent to an inverse likelihood, and to the geometric mean of <span class="math notranslate nohighlight">\(\frac{1}{p(\boldsymbol{\mathsf{x}}_t \mid \boldsymbol{\mathsf{x}}_{&lt;t})}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\text{PP} = \frac{1}{\sqrt[n]{\prod_{t}\prod_{\delta = 1}^{T} p(\boldsymbol{\mathsf{x}}_{t + \delta} \mid \boldsymbol{\mathsf{x}}_{[t:\,t + \delta-1]})}} = \sqrt[n]{\prod_{t}\prod_{\delta = 1}^{T} \frac{1} {p(\boldsymbol{\mathsf{x}}_{t + \delta} \mid \boldsymbol{\mathsf{x}}_{[t:\,t + \delta-1]})}}.
+\]</div>
+<p>Hence, for a perfect model, <span class="math notranslate nohighlight">\(\text{PP} = 1.\)</span> On the other hand, if the model predicts <span class="math notranslate nohighlight">\(p \approx 0\)</span> for the correct token at one step, then<a class="footnote-reference brackets" href="#id3" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> we get <span class="math notranslate nohighlight">\(\text{PP} = \infty.\)</span> As a baseline, for a uniformly random model, we have <span class="math notranslate nohighlight">\(\text{PP} = |\mathcal{V}|.\)</span> This provides a nontrivial upper bound that any useful model must beat. So, we have <span class="math notranslate nohighlight">\(\text{PP}\)</span> values <span class="math notranslate nohighlight">\(\infty &gt; |\mathcal{V}| \geq 1\)</span> for the three regimes<a class="footnote-reference brackets" href="#id4" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>. This can be interpreted as the average number of tries to get the correct prediction at each step, e.g. single try for a perfect model.</p>
+<p><strong>Remark.</strong> For the sake of concreteness, we evaluated cross-entropy over predictions with context of varying length <span class="math notranslate nohighlight">\(\delta = 1, \ldots, T\)</span> from <span class="math notranslate nohighlight">\(t.\)</span> But we can also use fixed-length contexts, depending on the given task. In general, we simply evaluate cross-entropy over all instances of next-token prediction regardless of the particulars of the prediction process.</p>
+<hr class="footnotes docutils" />
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id3" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>More precisely, for any <span class="math notranslate nohighlight">\(\epsilon &gt; 0\)</span>, if <span class="math notranslate nohighlight">\(p_{t + \delta} \leq \epsilon\)</span> for some <span class="math notranslate nohighlight">\((t, \delta)\)</span>, then <span class="math notranslate nohighlight">\(\text{PP} \geq \epsilon^{-1/n}.\)</span></p>
+</aside>
+<aside class="footnote brackets" id="id4" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">2</a><span class="fn-bracket">]</span></span>
+<p>The regimes correspond to <span class="math notranslate nohighlight">\(\infty &gt; \log |\mathcal{V}| \geq 0\)</span> with cross-entropy.</p>
+</aside>
+</aside>
+</section>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./nb/dl/04-sequence-models"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../03-cnn/03g-maximal-input.html" class="btn btn-neutral float-left" title="Appendix: Maximal class input" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="04b-getting-text-data.html" class="btn btn-neutral float-right" title="Getting sequence data" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,433 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Appendix: Weak supervision &mdash; OK Transformer</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/togglebutton.css?v=13237357" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-thebe.css?v=4fa983c6" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=c854b03d" />
+
+  
+    <link rel="shortcut icon" href="../../../_static/favicon.png"/>
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=9eb32ce0"></script>
+      <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=f281be69"></script>
+      <script src="../../../_static/scripts/sphinx-book-theme.js"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../../../_static/togglebutton.js?v=4a39c7ea"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+      <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+      <script async="async" src="../../../_static/sphinx-thebe.js?v=c100c467"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+      <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Basic theory" href="01ea-theory.html" />
+    <link rel="prev" title="Train-validation split" href="01cd-split.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../intro.html">
+            
+              <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Deep Learning</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="01-intro.html">Introduction to Neural Networks</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="01a-fcnn.html">Fully-connected NNs (MLPs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01b-linear.html">Linear classification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01c-lossmin.html">Machine learning theory</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Appendix: Weak supervision</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="01ea-theory.html">Basic theory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01eb-experiments.html">Experiments</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="01ec-depth.html">Appendix: Expressivity and Depth</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../02-optim/02-optim.html">Gradient Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../00-backprop/00-backprop.html">Backpropagation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-cnn/03-cnn.html">Convolutional Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-sequence-models/04-intro.html">Language modeling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../05-rnns/05-intro.html">Recurrent Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../07-attention.html">Attention and Transformers</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../intro.html">Project name not set</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../intro.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="01-intro.html">Introduction to Neural Networks</a></li>
+      <li class="breadcrumb-item active">Appendix: Weak supervision</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/nb/dl/01-intro/01e-appendix-weaksup.ipynb" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="appendix-weak-supervision">
+<h1>Appendix: Weak supervision<a class="headerlink" href="#appendix-weak-supervision" title="Link to this heading"></a></h1>
+<p>In this section, we apply what we learned in this chapter to implement <strong>weak supervision</strong>.
+The idea of weak supervision is that for each data point there is a latent true label that we do not have access to (even during training), instead we can utilize weak signals from user-defined <strong>labeling functions</strong> (LFs).</p>
+<p>LFs can be thought of as heuristic rules that can be applied to a large subset of the data. In case the LF is not applicable, then the function simply abstains from making a prediction. Note that this is a realistic scenario, it’s easier to describe rules than to manually annotate a large number of data. LFs provides noisy, less expensive labels, which can be useful in training noise-aware discriminative models.</p>
+<br>
+<figure class="align-center" id="weak-supervision-pipeline-png">
+<a class="reference internal image-reference" href="../../../_images/01-weak-supervision-pipeline.png"><img alt="../../../_images/01-weak-supervision-pipeline.png" src="../../../_images/01-weak-supervision-pipeline.png" style="width: 100%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 17 </span><span class="caption-text">Pipeline for training a model based on weakly supervised labels. The third image is flipped (i.e. the flow of prediction is right to left.)
+These two tasks will be implemented in this notebook. <a class="reference external" href="https://cs.brown.edu/people/sbach/files/bach-icml17-slides.pdf">Source</a></span><a class="headerlink" href="#weak-supervision-pipeline-png" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p><strong>Remark.</strong> The material here is an exposition and implementation of the <strong>data programming</strong> approach to weak supervision using LFs described in <span id="id1">[<a class="reference internal" href="../../../intro.html#id105" title="Alexander Ratner, Christopher De Sa, Sen Wu, Daniel Selsam, and Christopher Ré. Data programming: creating large training sets, quickly. 2017. arXiv:1605.07723.">RSW+17</a>]</span>.</p>
+<section id="toy-example">
+<h2>Toy example<a class="headerlink" href="#toy-example" title="Link to this heading"></a></h2>
+<p>Our task is to classify whether a sentence is a question or a quote. We will use true labels to evaluate the train and validation performance of the model. But this will not be used during training. In practice, we have a small labeled dataset for validation, that is a part of a large unlabeled dataset, which we want to somehow use for training. The toy dataset consists of 88 sentences:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;What would you name your boat if you had one? &quot;</span><span class="p">,</span>
+    <span class="s2">&quot;What&#39;s the closest thing to real magic? &quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Who is the messiest person you know? &quot;</span><span class="p">,</span>
+    <span class="s2">&quot;What will finally break the internet? &quot;</span><span class="p">,</span>
+    <span class="s2">&quot;What&#39;s the most useless talent you have? &quot;</span><span class="p">,</span>
+    <span class="s2">&quot;What would be on the gag reel of your life? &quot;</span><span class="p">,</span>
+    <span class="o">...</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;What would you name your boat if you had one? &quot;</span><span class="p">,</span>
+    <span class="s2">&quot;What&#39;s the closest thing to real magic? &quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Who is the messiest person you know? &quot;</span><span class="p">,</span>
+    <span class="s2">&quot;What will finally break the internet? &quot;</span><span class="p">,</span>
+    <span class="s2">&quot;What&#39;s the most useless talent you have? &quot;</span><span class="p">,</span>
+    <span class="s2">&quot;What would be on the gag reel of your life? &quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Where is the worst smelling place you&#39;ve been?&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;What Secret Do You Have That No One Else Knows Except Your Sibling/S?&quot;</span>
+    <span class="s2">&quot;What Did You Think Was Cool Then, When You Were Young But Isn’t Cool Now?&quot;</span>
+    <span class="s2">&quot;When Was The Last Time You Did Something And Regret Doing It?&quot;</span>
+    <span class="s2">&quot;What Guilty Pleasure Makes You Feel Alive?&quot;</span>
+    <span class="s2">&quot;Any fool can write code that a computer can understand. Good programmers write code that humans can understand.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;First, solve the problem. Then, write the code.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Experience is the name everyone gives to their mistakes.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot; In order to be irreplaceable, one must always be different&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Java is to JavaScript what car is to Carpet.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Knowledge is power.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Sometimes it pays to stay in bed on Monday, rather than spending the rest of the week debugging Monday’s code.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Perfection is achieved not when there is nothing more to add, but rather when there is nothing more to take away.&quot;</span><span class="p">,</span> 
+    <span class="s2">&quot;Ruby is rubbish! PHP is phpantastic!&quot;</span><span class="p">,</span>
+    <span class="s2">&quot; Code is like humor. When you have to explain it, it’s bad.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Fix the cause, not the symptom.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Optimism is an occupational hazard of programming: feedback is the treatment. &quot;</span> <span class="p">,</span>
+    <span class="s2">&quot;When to use iterative development? You should use iterative development only on projects that you want to succeed.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Simplicity is the soul of efficiency.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Before software can be reusable it first has to be usable.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Make it work, make it right, make it fast.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Programmer: A machine that turns coffee into code.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Computers are fast; programmers keep it slow.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;When I wrote this code, only God and I understood what I did. Now only God knows.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;A son asked his father (a programmer) why the sun rises in the east, and sets in the west. His response? It works, don’t touch!&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;How many programmers does it take to change a light bulb? None, that’s a hardware problem.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Programming is like sex: One mistake and you have to support it for the rest of your life.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Programming can be fun, and so can cryptography; however, they should not be combined.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Programming today is a race between software engineers striving to build bigger and better idiot-proof programs, and the Universe trying to produce bigger and better idiots. So far, the Universe is winning.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Copy-and-Paste was programmed by programmers for programmers actually.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Always code as if the person who ends up maintaining your code will be a violent psychopath who knows where you live.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Algorithm: Word used by programmers when they don’t want to explain what they did.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Software and cathedrals are much the same — first we build them, then we pray.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;There are two ways to write error-free programs; only the third works.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;If debugging is the process of removing bugs, then programming must be the process of putting them in.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;99 little bugs in the code. 99 little bugs in the code. Take one down, patch it around. 127 little bugs in the code …&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Remember that there is no code faster than no code.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;One man’s crappy software is another man’s full-time job.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;No code has zero defects.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;A good programmer is someone who always looks both ways before crossing a one-way street.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Deleted code is debugged code.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Don’t worry if it doesn’t work right. If everything did, you’d be out of a job.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;It’s not a bug — it’s an undocumented feature.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;It works on my machine.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;It compiles; ship it.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;There is no Ctrl-Z in life.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Whitespace is never white.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;What’s your favorite way to spend a day off?&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;What type of music are you into?&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;What was the best vacation you ever took and why?&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Where’s the next place on your travel bucket list and why?&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;What are your hobbies, and how did you get into them?&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;What was your favorite age growing up?&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Was the last thing you read?&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Would you say you’re more of an extrovert or an introvert?&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;What&#39;s your favorite ice cream topping?&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;What was the last TV show you binge-watched?&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Are you into podcasts or do you only listen to music?&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Do you have a favorite holiday? Why or why not?&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;If you could only eat one food for the rest of your life, what would it be?&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Do you like going to the movies or prefer watching at home?&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;What’s your favorite sleeping position?&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;What’s your go-to guilty pleasure?&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;In the summer, would you rather go to the beach or go camping?&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;What’s your favorite quote from a TV show/movie/book?&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;How old were you when you had your first celebrity crush, and who was it?&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;What&#39;s one thing that can instantly make your day better?&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Do you have any pet peeves?&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;What’s your favorite thing about your current job?&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;What annoys you most?&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;What’s the career highlight you’re most proud of?&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Do you think you’ll stay in your current gig awhile? Why or why not?&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;What type of role do you want to take on after this one?&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Are you more of a work to live or a live to work type of person?&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Does your job make you feel happy and fulfilled? Why or why not?&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;How would your 10-year-old self react to what you do now?&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;What do you remember most about your first job?&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;How old were you when you started working?&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;What’s the worst job you’ve ever had?&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;What originally got you interested in your current field of work?&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Have you ever had a side hustle or considered having one?&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;What’s your favorite part of the workday?&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;What’s the best career decision you’ve ever made?&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;What’s the worst career decision you’ve ever made?&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Do you consider yourself good at networking?&quot;</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<p>Then, we can define labeling functions. Notice that these are user-defined and requires some domain expertise to be effective:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">QUESTION</span> <span class="o">=</span>  <span class="mi">1</span>
+<span class="n">QUOTE</span>    <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+<span class="n">ABSTAIN</span>  <span class="o">=</span>  <span class="mi">0</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">lf_keyword_lookup</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">keywords</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;why&quot;</span><span class="p">,</span> <span class="s2">&quot;what&quot;</span><span class="p">,</span> <span class="s2">&quot;when&quot;</span><span class="p">,</span> <span class="s2">&quot;who&quot;</span><span class="p">,</span> <span class="s2">&quot;where&quot;</span><span class="p">,</span> <span class="s2">&quot;how&quot;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">QUESTION</span> <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">word</span> <span class="ow">in</span> <span class="n">x</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">keywords</span><span class="p">)</span> <span class="k">else</span> <span class="n">ABSTAIN</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">lf_char_length</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">QUOTE</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">100</span> <span class="k">else</span> <span class="n">ABSTAIN</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">lf_regex_endswith_dot</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">QUOTE</span> <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="n">ABSTAIN</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="coverage-and-accuracy">
+<h2>Coverage and accuracy<a class="headerlink" href="#coverage-and-accuracy" title="Link to this heading"></a></h2>
+<p>Applying this to our dataset we get the <span class="math notranslate nohighlight">\(\Lambda_{ij}\)</span> matrix. We will also assign the true label:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;sentences&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">})</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;LF1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sentences</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">lf_keyword_lookup</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;LF2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sentences</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">lf_char_length</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;LF3&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sentences</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">lf_regex_endswith_dot</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span>   <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sentences</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;?&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sentences</th>
+      <th>LF1</th>
+      <th>LF2</th>
+      <th>LF3</th>
+      <th>y</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>What would you name your boat if you had one?</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>What's the closest thing to real magic?</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Who is the messiest person you know?</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>What will finally break the internet?</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>What's the most useless talent you have?</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Note that LF2 is intuitively not a good LF function.
+Indeed, we can look at the strength of the signals of each LF by comparing it with the true label.
+A labeling function is characterized by its <strong>coverage</strong> and <strong>accuracy</strong> (i.e. given it did not abstain):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Note: the ff. shows *latent* LF parameters</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;coverage: </span><span class="si">{</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">LF1</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">    acc: </span><span class="si">{</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">LF1</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">LF1</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">LF1</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;coverage: </span><span class="si">{</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">LF2</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">    acc: </span><span class="si">{</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">LF2</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">LF2</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">LF2</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;coverage: </span><span class="si">{</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">LF3</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">    acc: </span><span class="si">{</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">LF3</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">LF3</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">LF3</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>coverage: 0.545    acc: 0.750
+coverage: 0.114    acc: 1.000
+coverage: 0.432    acc: 1.000
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Remark.</strong> Note that we generally do not have access to true labels for a representative sample of our dataset. Hence, even estimating the parameters of our LFs are not possible. The following sections will deal with algorithms for estimating these parameters as well as training a machine learning model with noisy labels.</p>
+</section>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./nb/dl/01-intro"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="01cd-split.html" class="btn btn-neutral float-left" title="Train-validation split" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="01ea-theory.html" class="btn btn-neutral float-right" title="Basic theory" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,287 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Appendix: Testing with autograd &mdash; OK Transformer</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/togglebutton.css?v=13237357" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-thebe.css?v=4fa983c6" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=c854b03d" />
+
+  
+    <link rel="shortcut icon" href="../../../_static/favicon.png"/>
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=9eb32ce0"></script>
+      <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=f281be69"></script>
+      <script src="../../../_static/scripts/sphinx-book-theme.js"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../../../_static/togglebutton.js?v=4a39c7ea"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+      <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+      <script async="async" src="../../../_static/sphinx-thebe.js?v=c100c467"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+      <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Appendix: BP equations for MLPs" href="00f-bp-equations.html" />
+    <link rel="prev" title="Appendix: Benchmarking" href="00c-benchmarking.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../intro.html">
+            
+              <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Deep Learning</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../01-intro/01-intro.html">Introduction to Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-optim/02-optim.html">Gradient Optimization</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="00-backprop.html">Backpropagation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="00a-compute-nodes.html">Defined operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="00b-neural-net-module.html">Neural network module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="00d-network-training.html">Training from scratch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="00c-benchmarking.html">Appendix: Benchmarking</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Appendix: Testing with <code class="docutils literal notranslate"><span class="pre">autograd</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="00f-bp-equations.html">Appendix: BP equations for MLPs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../03-cnn/03-cnn.html">Convolutional Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-sequence-models/04-intro.html">Language modeling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../05-rnns/05-intro.html">Recurrent Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../07-attention.html">Attention and Transformers</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../intro.html">Project name not set</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../intro.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="00-backprop.html">Backpropagation</a></li>
+      <li class="breadcrumb-item active">Appendix: Testing with <code class="docutils literal notranslate"><span class="pre">autograd</span></code></li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/nb/dl/00-backprop/00e-testing.ipynb" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="appendix-testing-with-autograd">
+<h1>Appendix: Testing with <code class="docutils literal notranslate"><span class="pre">autograd</span></code><a class="headerlink" href="#appendix-testing-with-autograd" title="Link to this heading"></a></h1>
+<p>The <code class="docutils literal notranslate"><span class="pre">autograd</span></code> package allows automatic differentiation by building computational graphs on the fly every time we pass data through our model. Autograd tracks which data combined through which operations to produce the output. This allows us to take derivatives over ordinary imperative code. This functionality is consistent with the memory and time requirements outlined above for BP.</p>
+<p><strong>Scalars.</strong> Here we calculate <span class="math notranslate nohighlight">\(\mathsf{y} = \boldsymbol{\mathsf x}^\top \boldsymbol{\mathsf x} = \sum_i {\boldsymbol{\mathsf{x}}_i}^2\)</span> where the initialized tensor <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{x}}\)</span> initially has no gradient (i.e. <code class="docutils literal notranslate"><span class="pre">None</span></code>). Calling backward on <span class="math notranslate nohighlight">\(\mathsf{y}\)</span> results in gradients being stored on the leaf tensor <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{x}}.\)</span> Note that unlike our implementation, there is no need to set <code class="docutils literal notranslate"><span class="pre">y.grad</span> <span class="pre">=</span> <span class="pre">1.0</span></code>. Moreover, doing so would result in an error as <span class="math notranslate nohighlight">\(\mathsf{y}\)</span> is not a <a class="reference external" href="https://pytorch.org/docs/stable/generated/torch.Tensor.is_leaf.html">leaf node</a> in the graph.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn.functional</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">F</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2.2.2
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">grad</span><span class="p">)</span>
+
+<span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">@</span> <span class="n">x</span> 
+<span class="n">y</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span> 
+<span class="nb">print</span><span class="p">((</span><span class="n">x</span><span class="o">.</span><span class="n">grad</span> <span class="o">==</span> <span class="mi">2</span><span class="o">*</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>None
+True
+</pre></div>
+</div>
+</div>
+</div>
+<br>
+<p><strong>Vectors.</strong> Let <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf y} = g(\boldsymbol{\mathsf x})\)</span> and let <span class="math notranslate nohighlight">\(\boldsymbol{{\mathsf v}}\)</span> be a vector having the same length as <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf y}.\)</span> Then <code class="docutils literal notranslate"><span class="pre">y.backward(v)</span></code> calculates
+<span class="math notranslate nohighlight">\(\sum_i {\boldsymbol{\mathsf v}}_i \frac{\partial {\boldsymbol{\mathsf y}}_i}{\partial {\boldsymbol{\mathsf x}}_j}\)</span>
+resulting in a vector of same length as <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{x}}\)</span> stored in <code class="docutils literal notranslate"><span class="pre">x.grad</span></code>. Note that the terms on the right are the local gradients. Setting <span class="math notranslate nohighlight">\({\boldsymbol{\mathsf v}} = \frac{\partial \mathcal{L} }{\partial \boldsymbol{\mathsf y}}\)</span> gives us the vector <span class="math notranslate nohighlight">\(\frac{\partial \mathcal{L} }{\partial \boldsymbol{\mathsf x}}.\)</span> Below <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf y}(\boldsymbol{\mathsf x}) = [x_0, x_1].\)</span></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">v</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
+
+<span class="c1"># Computing the Jacobian by hand</span>
+<span class="n">J</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span>
+    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float</span>
+<span class="p">)</span>
+
+<span class="c1"># Confirming the above formula</span>
+<span class="n">y</span><span class="o">.</span><span class="n">backward</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+<span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">grad</span> <span class="o">==</span> <span class="n">v</span> <span class="o">@</span> <span class="n">J</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor(True)
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Remark.</strong> Memory and compute is wasted for running code that should not involve backpropagation. Hence, we wrap this part our code in a <code class="docutils literal notranslate"><span class="pre">torch.no_grad()</span></code> context (or run it inside a function decorated with <code class="docutils literal notranslate"><span class="pre">&#64;torch.no_grad()</span></code>) so that a computation graph is not built.</p>
+<p>A related method is <code class="docutils literal notranslate"><span class="pre">.detach()</span></code> used to return a tensor detached from the current graph. The result will therefore not require gradients. It is important to note that the detached tensor still shares the same storage with the original one, so that in-place modifications on either tensor takes effect for both and can result in subtle bugs.</p>
+<section id="testing">
+<h2>Testing<a class="headerlink" href="#testing" title="Link to this heading"></a></h2>
+<p>Finally, we write our tests with <code class="docutils literal notranslate"><span class="pre">autograd</span></code> to check the correctness of our implementation:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="o">-</span><span class="mf">0.4</span><span class="p">)</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="mf">0.2</span><span class="p">)</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">Node</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span> <span class="o">-</span> <span class="n">x</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">z</span><span class="o">.</span><span class="n">relu</span><span class="p">()</span> <span class="o">**</span> <span class="mf">0.3</span> <span class="o">+</span> <span class="n">z</span> <span class="o">*</span> <span class="n">x</span><span class="o">.</span><span class="n">tanh</span><span class="p">()</span>
+<span class="n">h</span> <span class="o">=</span> <span class="p">(</span><span class="n">z</span> <span class="o">*</span> <span class="n">z</span><span class="p">)</span><span class="o">.</span><span class="n">relu</span><span class="p">()</span>
+<span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">h</span> <span class="o">+</span> <span class="n">q</span> <span class="o">+</span> <span class="n">q</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">tanh</span><span class="p">()</span>
+<span class="n">y</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+
+<span class="n">x_node</span><span class="p">,</span> <span class="n">y_node</span><span class="p">,</span> <span class="n">z_node</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span>
+<span class="n">draw_graph</span><span class="p">(</span><span class="n">y_node</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../../_images/3a00955c3003db78e67d0b62140abf410537ba2aa228a6c24c9eb8475388f537.svg" src="../../../_images/3a00955c3003db78e67d0b62140abf410537ba2aa228a6c24c9eb8475388f537.svg" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="o">-</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">z</span> <span class="o">=</span> <span class="mf">0.2</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="mf">0.1</span> <span class="o">-</span> <span class="n">x</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">z</span><span class="o">.</span><span class="n">relu</span><span class="p">()</span> <span class="o">**</span> <span class="mf">0.3</span> <span class="o">+</span> <span class="n">z</span> <span class="o">*</span> <span class="n">x</span><span class="o">.</span><span class="n">tanh</span><span class="p">()</span>
+<span class="n">h</span> <span class="o">=</span> <span class="p">(</span><span class="n">z</span> <span class="o">*</span> <span class="n">z</span><span class="p">)</span><span class="o">.</span><span class="n">relu</span><span class="p">()</span>
+<span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">h</span> <span class="o">+</span> <span class="n">q</span> <span class="o">+</span> <span class="n">q</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">tanh</span><span class="p">()</span>
+
+<span class="n">z</span><span class="o">.</span><span class="n">retain_grad</span><span class="p">()</span>
+<span class="n">y</span><span class="o">.</span><span class="n">retain_grad</span><span class="p">()</span>
+<span class="n">y</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+
+<span class="n">x_torch</span><span class="p">,</span> <span class="n">y_torch</span><span class="p">,</span> <span class="n">z_torch</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span>
+
+<span class="c1"># forward</span>
+<span class="n">errors</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">x_node</span><span class="o">.</span><span class="n">data</span> <span class="o">-</span> <span class="n">x_torch</span><span class="o">.</span><span class="n">item</span><span class="p">()))</span>
+<span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">y_node</span><span class="o">.</span><span class="n">data</span> <span class="o">-</span> <span class="n">y_torch</span><span class="o">.</span><span class="n">item</span><span class="p">()))</span>
+<span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">z_node</span><span class="o">.</span><span class="n">data</span> <span class="o">-</span> <span class="n">z_torch</span><span class="o">.</span><span class="n">item</span><span class="p">()))</span>
+
+<span class="c1"># backward</span>
+<span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">x_node</span><span class="o">.</span><span class="n">grad</span> <span class="o">-</span> <span class="n">x_torch</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">item</span><span class="p">()))</span>
+<span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">y_node</span><span class="o">.</span><span class="n">grad</span> <span class="o">-</span> <span class="n">y_torch</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">item</span><span class="p">()))</span>
+<span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">z_node</span><span class="o">.</span><span class="n">grad</span> <span class="o">-</span> <span class="n">z_torch</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">item</span><span class="p">()))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Max absolute error: </span><span class="si">{</span><span class="nb">max</span><span class="p">(</span><span class="n">errors</span><span class="p">)</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Max absolute error: 3.51e-08
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./nb/dl/00-backprop"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="00c-benchmarking.html" class="btn btn-neutral float-left" title="Appendix: Benchmarking" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="00f-bp-equations.html" class="btn btn-neutral float-right" title="Appendix: BP equations for MLPs" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,428 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Backprop Through Time (BPTT) &mdash; OK Transformer</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/togglebutton.css?v=13237357" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-thebe.css?v=4fa983c6" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=c854b03d" />
+
+  
+    <link rel="shortcut icon" href="../../../_static/favicon.png"/>
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=9eb32ce0"></script>
+      <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=f281be69"></script>
+      <script src="../../../_static/scripts/sphinx-book-theme.js"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../../../_static/togglebutton.js?v=4a39c7ea"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+      <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+      <script async="async" src="../../../_static/sphinx-thebe.js?v=c100c467"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+      <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Modern RNN architectures" href="05f-modern-rnns.html" />
+    <link rel="prev" title="Text generation" href="05d-textgen.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../intro.html">
+            
+              <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Deep Learning</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../01-intro/01-intro.html">Introduction to Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-optim/02-optim.html">Gradient Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../00-backprop/00-backprop.html">Backpropagation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-cnn/03-cnn.html">Convolutional Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-sequence-models/04-intro.html">Language modeling</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="05-intro.html">Recurrent Neural Networks</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="05a-rnn.html">RNN  cell</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05b-rnn-lm.html">RNN language model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05c-training.html">RNN model training</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05d-textgen.html">Text generation</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Backprop Through Time (BPTT)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05f-modern-rnns.html">Modern RNN architectures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05z-vanishing-gradients.html">Appendix: Numerical stability</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../07-attention.html">Attention and Transformers</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../intro.html">Project name not set</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../intro.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="05-intro.html">Recurrent Neural Networks</a></li>
+      <li class="breadcrumb-item active">Backprop Through Time (BPTT)</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/nb/dl/05-rnns/05e-bptt.ipynb" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="backprop-through-time-bptt">
+<h1>Backprop Through Time (BPTT)<a class="headerlink" href="#backprop-through-time-bptt" title="Link to this heading"></a></h1>
+<p>Recall that the state is updated at each time step with the current input. Thus, we have to track the dependencies across time steps where the RNN parameters are shared. This is called <em>Backprogation Through Time</em> (BPTT) or BP for sequence models.
+Hopefully, this discussion will bring some precision to the notion of vanishing and exploding gradients.</p>
+<p>This procedure requires us to expand (or unroll) the computational graph of an RNN one time step at a time. The unrolled RNN is essentially a feedforward neural network with the special property that the same parameters are repeated throughout the unrolled network, appearing at each time step.
+Then, we can apply the usual BP through the unrolled net. In particular, we want to see causality in the equations, i.e. state at time <span class="math notranslate nohighlight">\(t\)</span> only influences future time steps.</p>
+<p>For long sequences, e.g. text sequences containing over a thousand tokens, BP across many layers poses problems both from a computational (too much memory to compress in a single state vector) and optimization standpoint (numerical instability). Here input from the first step passes through <span class="math notranslate nohighlight">\(T\)</span> matrix products before arriving at the output. Similarly, we expect <span class="math notranslate nohighlight">\(T\)</span> matrix products are required to compute the gradient at the first time step.</p>
+<figure class="align-center" id="rnn-backprop">
+<a class="reference internal image-reference" href="../../../_images/04-rnn-backprop.svg"><img alt="../../../_images/04-rnn-backprop.svg" src="../../../_images/04-rnn-backprop.svg" style="width: 500px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 59 </span><span class="caption-text">RNN cell backpropation. Note that the matrices <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{W}}, \boldsymbol{\mathsf{U}},\)</span> and <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{V}}\)</span> are shared across time steps.</span><a class="headerlink" href="#rnn-backprop" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>Recall:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\boldsymbol{\mathsf{H}}_t &amp;= f(\boldsymbol{\mathsf{X}}_t \boldsymbol{\mathsf{U}} + \boldsymbol{\mathsf{H}}_{t-1} \boldsymbol{\mathsf{W}} + \boldsymbol{\mathsf{b}}) \\
+\boldsymbol{\mathsf{Y}}_t &amp;= \boldsymbol{\mathsf{H}}_t \boldsymbol{\mathsf{V}} + \boldsymbol{\mathsf{c}} \\
+\boldsymbol{\mathsf{H}}_{t+1} &amp;= f(\boldsymbol{\mathsf{X}}_{t+1} \boldsymbol{\mathsf{U}} + \boldsymbol{\mathsf{H}}_{t} \boldsymbol{\mathsf{W}} + \boldsymbol{\mathsf{b}}).
+\end{aligned}
+\end{split}\]</div>
+<p>Assume incoming gradients <span class="math notranslate nohighlight">\(\frac{\partial \mathcal{L}}{\partial \boldsymbol{\mathsf{Y}}_t}\)</span> and <span class="math notranslate nohighlight">\(\frac{\partial \mathcal{L}}{\partial \boldsymbol{\mathsf{H}}_{t+1}}\)</span> from the next layer.
+We start by calculating the gradient with respect to <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{V}}.\)</span> Here we abstract the product between two tensors on appropriate indices by using the <span class="math notranslate nohighlight">\(\text{prod}\)</span> notation. The exact formula can be recovered with <a class="reference external" href="https://en.wikipedia.org/wiki/Einstein_notation">tensor index notation</a>. Let <span class="math notranslate nohighlight">\(f\)</span> be an activation function. Upper case indicates that a tensor’s first dimension is the batch dimension when applicable. Then,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\underbrace{\frac{\partial \mathcal{L}}{\partial \boldsymbol{\mathsf{V}}}}_{(h, q)} &amp;= \sum_{t=1}^T \text{prod}\left(\frac{\partial \mathcal{L}}{\partial \boldsymbol{\mathsf{Y}}_t}, \frac{\partial \boldsymbol{\mathsf{Y}}_t}{\partial \boldsymbol{\mathsf{V}}}\right) = \sum_{t=1}^T \underbrace{\boldsymbol{\mathsf{H}}_t^\top \frac{\partial \mathcal{L}}{\partial \boldsymbol{\mathsf{Y}}_t}}_{(h, B) \,\times\, (B, q)} \\
+\underbrace{\frac{\partial \mathcal{L}}{\partial \boldsymbol{\mathsf{c}}}}_{(1, q)}
+&amp;= \sum_{t=1}^T \text{prod}\left(\frac{\partial \mathcal{L}}{\partial \boldsymbol{\mathsf{Y}}_t}, \frac{\partial \boldsymbol{\mathsf{Y}}_t}{\partial \boldsymbol{\mathsf{c}}}\right) = \sum_{t=1}^T \underbrace{\boldsymbol{\mathsf{1}}^\top \frac{\partial \mathcal{L}}{\partial \boldsymbol{\mathsf{Y}}_t}}_{(1, B) \,\times\, (B, q)} 
+\end{aligned}
+\end{split}\]</div>
+<p>Next, we calculate the gradients flowing to <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{H}}_t\)</span> which will be our gateway to compute gradients of <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{W}}\)</span>, <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{U}}\)</span>, and <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{b}}\)</span>, and finally <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{X}}_t.\)</span> Note that <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{H}}_t\)</span> affects not only <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{Y}}_t\)</span>, but also future <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{Y}}_{t^\prime}\)</span> via <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{H}}_{t^\prime}\)</span> for <span class="math notranslate nohighlight">\(t^\prime &gt; t.\)</span> But in terms of direct dependence, the nodes that immediately depend on <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{H}}_t\)</span> are <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{Y}}_t\)</span> and <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{H}}_{t+1}\)</span> (<a class="reference internal" href="#rnn-backprop"><span class="std std-numref">Fig. 59</span></a>). Let <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{Z}}_{t+1} = \boldsymbol{\mathsf{X}}_{t+1} \boldsymbol{\mathsf{U}} + \boldsymbol{\mathsf{H}}_{t} \boldsymbol{\mathsf{W}} + \boldsymbol{\mathsf{b}}.\)</span> Then,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\underbrace{\frac{\partial\mathcal{L}}{\partial\boldsymbol{\mathsf{H}}_t}}_{(B, h)}
+&amp;= 
+\text{prod}\left(
+    \frac{\partial\mathcal{L}}{\partial\boldsymbol{\mathsf{Y}}_t}, 
+    \frac{\partial\boldsymbol{\mathsf{Y}}_t}{\partial\boldsymbol{\mathsf{H}}_t}
+\right) + 
+\text{prod}\left(
+    \frac{\partial\mathcal{L}}{\partial\boldsymbol{\mathsf{H}}_{t + 1}}, 
+    \frac{\partial\boldsymbol{\mathsf{H}}_{t + 1}}{\partial\boldsymbol{\mathsf{Z}}_{t+1}},
+    \frac{\partial\boldsymbol{\mathsf{Z}}_{t+1}}{\partial\boldsymbol{\mathsf{H}}_{t }}
+\right) \\
+&amp;= 
+\underbrace{\frac{\partial\mathcal{L}}{\partial\boldsymbol{\mathsf{Y}}_t}\, \boldsymbol{\mathsf{V}}^\top}_{(B, q)\,\times\,(q, h)} +
+\underbrace{
+    \left(
+        \frac{\partial\mathcal{L}}{\partial\boldsymbol{\mathsf{H}}_{t + 1}}
+        \odot 
+        f^\prime(\boldsymbol{\mathsf{Z}}_{t+1})
+    \right) \boldsymbol{\mathsf{W}}^\top
+}_{((B, h)\, \cdot \, (B, h)) \, \times \, (h, h)}
+\end{aligned}
+\end{split}\]</div>
+<p>To make sense of this, recall <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{V}}\)</span> and <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{W}}\)</span> acts on <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{H}}_t\)</span> from the left. Hence, when we take its transpose, multiplying a tensor to the right of <span class="math notranslate nohighlight">\(\frac{\partial\mathcal{L}}{\partial\boldsymbol{\mathsf{H}}_t}\)</span>, results in a summation along the dimension containing information about the state <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{H}}_t.\)</span>
+Similarly, the orientation of the products within the expression are also correct.</p>
+<p>Note that the above expression is recursive, we should be able to get a closed form expression from terms in time step <span class="math notranslate nohighlight">\(t, t+1, \ldots, T.\)</span> For tractability, let’s assume we have no nonlinearity, or <span class="math notranslate nohighlight">\(f = \text{Id},\)</span> so that <span class="math notranslate nohighlight">\(f^\prime(\boldsymbol{\mathsf{Z}}_{t + 1}) = \mathbf{1}_{(B, h)}\)</span>. Then, we can write:</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{aligned}
+a_t = \frac{\partial\mathcal{L}}{\partial\boldsymbol{\mathsf{H}}_t}, \quad
+b_t = \frac{\partial\mathcal{L}}{\partial\boldsymbol{\mathsf{Y}}_t}\, \boldsymbol{\mathsf{V}}^\top, \quad
+c_t = c = \boldsymbol{\mathsf{W}}^\top
+\end{aligned}
+\]</div>
+<p>with <span class="math notranslate nohighlight">\(a_{T+1} = 0\)</span> and <span class="math notranslate nohighlight">\(a_T = b_T.\)</span> Hence,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+a_t &amp;= b_t + a_{t+1} c_t \\
+&amp;= b_t + (b_{t + 1} + a_{t + 2} c_{t + 1}) c_t \\ 
+&amp;= b_t + (b_{t + 1} + (b_{t + 2} + a_{t + 3} c_{t + 2}) c_{t + 1}) c_t \\
+&amp;= b_t + b_{t + 1} c_t + b_{t + 2}c_{t + 1}c_t + a_{t + 3} c_{t + 2}c_{t + 1}c_t \\
+&amp;\vdots \\
+&amp;= \sum_{\kappa = 0}^{T - t} b_{t + \kappa}\, c^{\kappa}.
+\end{aligned}
+\end{split}\]</div>
+<p>Thus,</p>
+<div class="math notranslate nohighlight" id="equation-state-vec-grad">
+<span class="eqno">(7)<a class="headerlink" href="#equation-state-vec-grad" title="Link to this equation"></a></span>\[
+\boxed{
+\frac{\partial\mathcal{L}}{\partial\boldsymbol{\mathsf{H}}_t} = 
+ \sum_{\kappa = 0}^{T - t}
+\frac{\partial\mathcal{L}}{\partial\boldsymbol{\mathsf{Y}}_{t + \kappa}}\, \boldsymbol{\mathsf{V}}^\top
+\left(\boldsymbol{\mathsf{W}}^\top\right)^{\kappa}.
+}
+\]</div>
+<br>
+<p>This formula is similar to that for gradient flow across the layers of a deep MLP network, but here the depth is along sequence length.
+The terms in the sum correspond to paths of increasing <em>path lengths</em> <span class="math notranslate nohighlight">\(\kappa = 0, \ldots, T - t\)</span> from the  current time step <span class="math notranslate nohighlight">\(t.\)</span> Finally, observe that the change in loss due to the current time step is only due to its effect on future time steps, not on the past, so we have a notion of causality in RNNs.</p>
+<br>
+<figure class="align-center" id="rnn-bptt">
+<a class="reference internal image-reference" href="../../../_images/04-rnn-bptt.svg"><img alt="../../../_images/04-rnn-bptt.svg" src="../../../_images/04-rnn-bptt.svg" style="width: 600px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 60 </span><span class="caption-text">Gradient transformation graph to get <span class="math notranslate nohighlight">\(\frac{\partial\mathcal{L}}{\partial\boldsymbol{\mathsf{H}}_t}\)</span> at time step <span class="math notranslate nohighlight">\(t\)</span> with increasing path length <span class="math notranslate nohighlight">\(\kappa.\)</span> Each edge is modulated by <span class="math notranslate nohighlight">\(f^\prime\)</span> and <span class="math notranslate nohighlight">\(\boldsymbol{\mathsf{W}}^\top.\)</span></span><a class="headerlink" href="#rnn-bptt" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>Finally, let’s calculate the rest of the parameter gradients. Then,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\underbrace{\frac{\partial \mathcal{L}}{\partial \boldsymbol{\mathsf{U}}}}_{(d, h)} &amp;= \sum_{t=1}^T \text{prod}\left(
+    \frac{\partial \mathcal{L}}{\partial \boldsymbol{\mathsf{H}}_t}, 
+    \frac{\partial \boldsymbol{\mathsf{H}}_t}{\partial \boldsymbol{\mathsf{Z}}_t},
+    \frac{\partial \boldsymbol{\mathsf{Z}}_t}{\partial \boldsymbol{\mathsf{U}}}
+\right) 
+= 
+\sum_{t=1}^T \underbrace{
+    \boldsymbol{\mathsf{X}}_{t}^\top 
+    \left(
+        \frac{\partial\mathcal{L}}{\partial\boldsymbol{\mathsf{H}}_{t}}
+        \odot 
+        f^\prime(\boldsymbol{\mathsf{Z}}_{t})
+    \right)
+}_{(d, B) \,\times\, ((B, h) \, \cdot\, (B, h))}
+\\\\
+\underbrace{\frac{\partial \mathcal{L}}{\partial \boldsymbol{\mathsf{W}}}}_{(h, h)} &amp;= \sum_{t=1}^T \text{prod}\left(
+    \frac{\partial \mathcal{L}}{\partial \boldsymbol{\mathsf{H}}_t}, 
+    \frac{\partial \boldsymbol{\mathsf{H}}_t}{\partial \boldsymbol{\mathsf{Z}}_t},
+    \frac{\partial \boldsymbol{\mathsf{Z}}_t}{\partial \boldsymbol{\mathsf{W}}}
+\right) 
+= 
+\sum_{t=1}^T \underbrace{\boldsymbol{\mathsf{H}}_{t-1}^\top \left(
+        \frac{\partial\mathcal{L}}{\partial\boldsymbol{\mathsf{H}}_{t}}
+        \odot 
+        f^\prime(\boldsymbol{\mathsf{Z}}_{t})
+    \right)}_{(h, B) \,\times\, ((B, h) \, \cdot\, (B, h))} 
+\\\\
+\underbrace{\frac{\partial \mathcal{L}}{\partial \boldsymbol{\mathsf{b}}}}_{(1, h)}
+&amp;= 
+\sum_{t=1}^T \text{prod}\left(
+    \frac{\partial \mathcal{L}}{\partial \boldsymbol{\mathsf{H}}_t}, 
+    \frac{\partial \boldsymbol{\mathsf{H}}_t}{\partial \boldsymbol{\mathsf{Z}}_t},
+    \frac{\partial \boldsymbol{\mathsf{Z}}_t}{\partial \boldsymbol{\mathsf{b}}}
+\right) 
+= \sum_{t=1}^T \underbrace{\boldsymbol{\mathsf{1}}^\top
+    \left(
+        \frac{\partial\mathcal{L}}{\partial\boldsymbol{\mathsf{H}}_{t}}
+        \odot 
+        f^\prime(\boldsymbol{\mathsf{Z}}_{t})
+    \right)
+}_{(1, B) \,\times\, ((B, h) \, \cdot \, (B, h))}.
+\end{aligned}
+\end{split}\]</div>
+<p>The gradient to inputs may be also relevant (e.g. deep RNNs):</p>
+<div class="math notranslate nohighlight">
+\[
+\underbrace{\frac{\partial \mathcal{L}}{\partial \boldsymbol{\mathsf{X}}_t}}_{(B, d)}
+=
+\text{prod}\left(
+    \frac{\partial \mathcal{L}}{\partial \boldsymbol{\mathsf{H}}_t}, 
+    \frac{\partial \boldsymbol{\mathsf{H}}_t}{\partial \boldsymbol{\mathsf{Z}}_t},
+    \frac{\partial \boldsymbol{\mathsf{Z}}_t}{\partial \boldsymbol{\mathsf{X}}_t}
+\right) 
+= \underbrace{
+    \left(
+        \frac{\partial\mathcal{L}}{\partial\boldsymbol{\mathsf{H}}_{t}}
+        \odot 
+        f^\prime(\boldsymbol{\mathsf{Z}}_{t})
+    \right) \boldsymbol{\mathsf{U}}^\top
+}_{((B, h) \, \cdot \, (B, h)) \, \times \, (h, d)}
+\]</div>
+<p>Hence, the key quantity that affects the numerical stability is <span class="math notranslate nohighlight">\(\frac{\partial\mathcal{L}}{\partial\boldsymbol{\mathsf{H}}_t}\)</span> <a class="reference internal" href="#equation-state-vec-grad">(7)</a>.</p>
+<br>
+<section id="manual-verification">
+<h2>Manual verification<a class="headerlink" href="#manual-verification" title="Link to this heading"></a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn.functional</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">F</span>
+
+<span class="n">B</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">64</span>
+
+<span class="c1"># forward pass</span>
+<span class="n">O</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="n">V</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">B</span><span class="p">))</span>    <span class="c1"># (T, B)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="n">V</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">B</span><span class="p">))</span>    <span class="c1"># (T, B)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">one_hot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">num_classes</span><span class="o">=</span><span class="n">V</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">()</span>          <span class="c1"># (T, B, V)</span>
+<span class="n">X</span><span class="o">.</span><span class="n">requires_grad</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">LanguageModel</span><span class="p">(</span><span class="n">RNN</span><span class="p">)(</span><span class="n">V</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">V</span><span class="p">)</span>   
+
+<span class="n">W</span>  <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">cell</span><span class="o">.</span><span class="n">W</span>                                <span class="c1"># (h, h)</span>
+<span class="n">U</span>  <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">cell</span><span class="o">.</span><span class="n">U</span>                                <span class="c1"># (V, h)</span>
+<span class="n">b</span>  <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">cell</span><span class="o">.</span><span class="n">b</span>                                <span class="c1"># (h,)</span>
+<span class="n">Vt</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">linear</span><span class="o">.</span><span class="n">weight</span>                         <span class="c1"># (V, h)</span>
+<span class="n">c</span>  <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">linear</span><span class="o">.</span><span class="n">bias</span>                           <span class="c1"># (V,)</span>
+<span class="n">Y</span>  <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>                                    <span class="c1"># (T, B, V)</span>
+<span class="n">H</span>  <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">cell</span><span class="p">(</span><span class="n">X</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>                            <span class="c1"># (T, B, h)</span>
+<span class="n">J</span>  <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">H</span> <span class="o">*</span> <span class="n">H</span>                                   <span class="c1"># (T, B, h)</span>
+
+<span class="c1"># backprop</span>
+<span class="n">X</span><span class="o">.</span><span class="n">retain_grad</span><span class="p">()</span>
+<span class="n">Y</span><span class="o">.</span><span class="n">retain_grad</span><span class="p">()</span>
+<span class="n">loss</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">cross_entropy</span><span class="p">(</span><span class="n">Y</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">O</span><span class="p">)</span>
+<span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">(</span><span class="n">retain_graph</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Smoke test:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">assert</span> <span class="p">((</span><span class="n">H</span> <span class="o">@</span> <span class="n">Vt</span><span class="o">.</span><span class="n">T</span> <span class="o">+</span> <span class="n">c</span><span class="p">)</span> <span class="o">-</span> <span class="n">Y</span><span class="p">)</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">==</span> <span class="mf">0.0</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Calculating the gradients by hand:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dY</span> <span class="o">=</span> <span class="n">Y</span><span class="o">.</span><span class="n">grad</span>
+<span class="n">dH</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">T</span>
+<span class="n">dH</span><span class="p">[</span><span class="n">T</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">dY</span><span class="p">[</span><span class="n">T</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">@</span> <span class="n">Vt</span>
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">T</span> <span class="o">-</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">dH</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">dY</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">@</span> <span class="n">Vt</span> <span class="o">+</span> <span class="p">(</span><span class="n">dH</span><span class="p">[</span><span class="n">t</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">J</span><span class="p">[</span><span class="n">t</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span> <span class="o">@</span> <span class="n">W</span><span class="o">.</span><span class="n">T</span>
+    
+<span class="n">dH</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">dH</span><span class="p">)</span>
+<span class="n">dZ</span> <span class="o">=</span> <span class="n">dH</span> <span class="o">*</span> <span class="n">J</span>
+<span class="n">dc</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;tbj -&gt; j&#39;</span><span class="p">,</span> <span class="n">dY</span><span class="p">)</span>
+<span class="n">dV</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;tbh, tbv -&gt; hv&#39;</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">dY</span><span class="p">)</span>
+<span class="n">dU</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;tbv, tbh -&gt; vh&#39;</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">dH</span> <span class="o">*</span> <span class="n">J</span><span class="p">)</span>
+<span class="n">db</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;tbh -&gt; h&#39;</span><span class="p">,</span> <span class="n">dH</span> <span class="o">*</span> <span class="n">J</span><span class="p">)</span>
+<span class="n">dX</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;tbh, vh -&gt; tbv&#39;</span><span class="p">,</span> <span class="n">dH</span> <span class="o">*</span> <span class="n">J</span><span class="p">,</span> <span class="n">U</span><span class="p">)</span>
+<span class="n">dW</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="n">H</span><span class="p">[</span><span class="n">t</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="p">(</span><span class="n">dH</span> <span class="o">*</span> <span class="n">J</span><span class="p">)[</span><span class="n">t</span><span class="p">]</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">T</span><span class="p">)],</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">h</span><span class="p">,</span> <span class="n">h</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Calculating absolute errors versus <code class="docutils literal notranslate"><span class="pre">autograd</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">compare</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+    <span class="n">exact</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">dt</span> <span class="o">==</span> <span class="n">t</span><span class="o">.</span><span class="n">grad</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+    <span class="n">approx</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">grad</span><span class="p">,</span> <span class="n">rtol</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">)</span>
+    <span class="n">maxdiff</span> <span class="o">=</span> <span class="p">(</span><span class="n">dt</span> <span class="o">-</span> <span class="n">t</span><span class="o">.</span><span class="n">grad</span><span class="p">)</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">name</span><span class="si">:</span><span class="s1">&lt;3s</span><span class="si">}</span><span class="s1"> | exact: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">exact</span><span class="p">)</span><span class="si">:</span><span class="s1">5s</span><span class="si">}</span><span class="s1"> | approx: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">approx</span><span class="p">)</span><span class="si">:</span><span class="s1">5s</span><span class="si">}</span><span class="s1"> | maxdiff: </span><span class="si">{</span><span class="n">maxdiff</span><span class="si">:</span><span class="s1">.2e</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">approx</span>
+
+<span class="k">assert</span> <span class="n">compare</span><span class="p">(</span><span class="s1">&#39;dV&#39;</span><span class="p">,</span> <span class="n">dV</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">Vt</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">compare</span><span class="p">(</span><span class="s1">&#39;dc&#39;</span><span class="p">,</span> <span class="n">dc</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">compare</span><span class="p">(</span><span class="s1">&#39;dU&#39;</span><span class="p">,</span> <span class="n">dU</span><span class="p">,</span> <span class="n">U</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">compare</span><span class="p">(</span><span class="s1">&#39;dW&#39;</span><span class="p">,</span> <span class="n">dW</span><span class="p">,</span> <span class="n">W</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">compare</span><span class="p">(</span><span class="s1">&#39;db&#39;</span><span class="p">,</span> <span class="n">db</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">compare</span><span class="p">(</span><span class="s1">&#39;dX&#39;</span><span class="p">,</span> <span class="n">dX</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>dV  | exact: False | approx: True  | maxdiff: 6.52e-09
+dc  | exact: True  | approx: True  | maxdiff: 0.00e+00
+dU  | exact: False | approx: True  | maxdiff: 9.31e-10
+dW  | exact: False | approx: True  | maxdiff: 4.66e-10
+db  | exact: False | approx: True  | maxdiff: 3.73e-09
+dX  | exact: True  | approx: True  | maxdiff: 0.00e+00
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./nb/dl/05-rnns"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="05d-textgen.html" class="btn btn-neutral float-left" title="Text generation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="05f-modern-rnns.html" class="btn btn-neutral float-right" title="Modern RNN architectures" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
