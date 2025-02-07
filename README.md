@@ -12,72 +12,45 @@ Entry point: [**OK Transformer** website](https://particle1331.github.io/ok-tran
 
 A collection of self-contained notebooks on machine learning theory, engineering, and operations. I try to cover topics that frequently come up as building blocks for applications or further theory. I also explore areas where I want to [clarify my understanding](http://www.paulgraham.com/words.html) or [delve into details](http://www.paulgraham.com/getideas.html) that I personally find interesting or intriguing.
 
-The notebooks 
-should ideally run end-to-end with reproducible results between 
-runs. Exact output values may change due to 
-external dependencies such as differences with hardware and dataset versions,
-or implementation quirks like [nondeterminism](https://pytorch.org/docs/stable/notes/randomness.html#reproducibility), 
-but the conclusions should still generally hold. Please open an issue
-if you find otherwise 👀 (as I often do)! 
+The notebooks generally run end-to-end with reproducible results between runs. 
+Exact output values may change due to external dependencies such as differences 
+with hardware and dataset versions, or implementation quirks like [nondeterminism](https://pytorch.org/docs/stable/notes/randomness.html#reproducibility), but conclusions should still hold.
 
 <br>
 
 
 ## Making a local build
 
+Assuming [`uv`](https://docs.astral.sh/uv/getting-started/installation/) is installed, the book can be built with:
+
 ```
 git clone git@github.com:particle1331/ok-transformer.git && cd ok-transformer
-pip install -U tox
-tox -e build
+make build
 ```
+
 
 ## Running the notebooks
 
-The notebooks can be found in `docs/nb`. 
-To run them, create a venv using [`pdm`](https://github.com/pdm-project/pdm):
+The notebooks are located in `/docs/nb`. 
+To run them, create a virtual environment using:
 
 ```
-pip install -U pdm
-pdm install
+uv venv
+uv sync
 ```
 
-Use the resulting `.venv` as Jupyter kernel. 
-The following libraries will be installed (see `pdm.lock`):
+Use the resulting `.venv` as Jupyter kernel. See [`pyproject.toml`](https://github.com/particle1331/ok-transformer/blob/master/pyproject.toml) for the library versions installed.
 
-```text
-╭────────────────────────────────────┬────────────────╮
-│ fastapi                            │ 0.111.0        │
-│ Flask                              │ 3.0.3          │
-│ keras                              │ 2.15.0         │
-│ lightning                          │ 2.3.0          │
-│ matplotlib                         │ 3.9.0          │
-│ mlflow                             │ 2.13.2         │
-│ numpy                              │ 1.26.4         │
-│ optuna                             │ 3.6.1          │
-│ pandas                             │ 2.2.2          │
-│ scikit-learn                       │ 1.5.0          │
-│ scipy                              │ 1.13.1         │
-│ seaborn                            │ 0.13.2         │
-│ tensorflow                         │ 2.15.1         │
-│ tensorflow-datasets                │ 4.9.6          │
-│ tensorflow-estimator               │ 2.15.0         │
-│ torch                              │ 2.2.2          │
-│ torchaudio                         │ 2.2.2          │
-│ torchinfo                          │ 1.8.0          │
-│ torchmetrics                       │ 1.4.0.post0    │
-│ torchvision                        │ 0.17.2         │
-│ uvicorn                            │ 0.30.1         │
-│ xgboost                            │ 2.0.3          │
-╰────────────────────────────────────┴────────────────╯
-```
 
 ## Hardware
 
-```
-GPU 0:                           Tesla P100-PCIE-16GB
-CPU:                             Intel(R) Xeon(R) CPU @ 2.00GHz
-Core:                            1
-Threads per core:                2
-L3 cache:                        38.5 MiB
-Memory:                          15 Gb
-```
+The hardware requirements for running the notebooks are generally modest:
+
+| **Component**       | **Kaggle Notebook**   | **MacBook Air M1**                  |
+|---------------------|----------------------------------|-------------------------------------|
+| **GPU 0**          | Tesla P100-PCIE-16GB            | Apple M1 Integrated GPU |
+| **CPU**            | Intel Xeon CPU @ 2.00GHz        | Apple M1 8-core CPU                |
+| **Core**           | 1                                | 4 high-performance, 4 efficiency |
+| **Threads per core**| 2                                | 1                                   |
+| **L3 Cache**       | 38.5 MiB                        | 12 MiB                             |
+| **Memory**         | 15 GB                           | 8 GB Unified Memory             |
