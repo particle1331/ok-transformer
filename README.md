@@ -10,18 +10,14 @@ Entry point: [**OK Transformer** website](https://particle1331.github.io/ok-tran
 
 <br>
 
-A collection of self-contained notebooks on machine learning theory, engineering, and operations. I try to cover topics that frequently come up as building blocks for applications or further theory. I also explore areas where I want to [clarify my understanding](http://www.paulgraham.com/words.html) or [delve into details](http://www.paulgraham.com/getideas.html) that I personally find interesting or intriguing.
-
-The notebooks generally run end-to-end with reproducible results between runs. 
-Exact output values may change due to external dependencies such as differences 
-with hardware and dataset versions, or implementation quirks like [nondeterminism](https://pytorch.org/docs/stable/notes/randomness.html#reproducibility), but conclusions should still hold.
+A collection of self-contained notebooks on machine learning theory, engineering, and operations. I try to cover topics that frequently come up as building blocks for applications or further theory. I also explore areas where I want to [clarify my understanding](http://www.paulgraham.com/words.html) or [delve into details](http://www.paulgraham.com/getideas.html) that I personally find interesting or intriguing. 
 
 <br>
 
 
 ## Making a local build
 
-Assuming [`uv`](https://docs.astral.sh/uv/getting-started/installation/) is installed, the book can be built with:
+The book can be built using [`uv`](https://docs.astral.sh/uv/getting-started/installation/):
 
 ```
 git clone git@github.com:particle1331/ok-transformer.git && cd ok-transformer
@@ -41,10 +37,14 @@ uv sync
 
 Use the resulting `.venv` as Jupyter kernel. See [`pyproject.toml`](https://github.com/particle1331/ok-transformer/blob/master/pyproject.toml) for the library versions installed.
 
+**NOTE:** The notebooks generally run end-to-end with reproducible results between runs. 
+Exact output values may change due to external dependencies such as differences 
+with hardware and dataset versions, or implementation quirks like [nondeterminism](https://pytorch.org/docs/stable/notes/randomness.html#reproducibility), but conclusions should still hold.
+
 
 ## Hardware
 
-The hardware requirements for running the notebooks are generally modest:
+The hardware requirements used to run the notebooks are modest:
 
 | **Component**       | **Kaggle Notebook**   | **MacBook Air M1**                  |
 |---------------------|----------------------------------|-------------------------------------|
