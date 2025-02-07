@@ -2,8 +2,8 @@
 
 [![build-status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fparticle1331%2Fok-transformer%2Fbadge%3Fref%3Dmaster&label=build&logo=none)](https://actions-badge.atrox.dev/particle1331/ok-transformer/goto?ref=master)
 ![last-commit](https://img.shields.io/github/last-commit/particle1331/ok-transformer/master)
-![python](https://shields.io/badge/python-3.10%20-blue)
-![jupyter-book](https://github.com/executablebooks/jupyter-book/raw/master/docs/images/badge.svg)
+![python](https://shields.io/badge/python-3.12%20-blue) 
+[![jupyter-book](https://raw.githubusercontent.com/jupyter-book/jupyter-book/refs/heads/main/docs/images/badge.svg)](https://jupyterbook.org/en/stable/intro.html)
 [![stars](https://img.shields.io/github/stars/particle1331/ok-transformer?style=social)](https://github.com/particle1331/ok-transformer) 
 
 Entry point: [**OK Transformer** website](https://particle1331.github.io/ok-transformer/intro.html)
@@ -15,33 +15,34 @@ A collection of self-contained notebooks on machine learning theory, engineering
 The notebooks 
 should ideally run end-to-end with reproducible results between 
 runs. Exact output values may change due to 
-external dependencies such as hardware and changing dataset versions, 
+external dependencies such as differences with hardware and dataset versions,
+or implementation quirks like [nondeterminism](https://pytorch.org/docs/stable/notes/randomness.html#reproducibility), 
 but the conclusions should still generally hold. Please open an issue
-if you find that this is not the case (as I often do)!
+if you find otherwise 👀 (as I often do)! 
 
 <br>
+
 
 ## Making a local build
 
 ```
 git clone git@github.com:particle1331/ok-transformer.git && cd ok-transformer
-pip install --user tox
+pip install -U tox
 tox -e build
 ```
 
 ## Running the notebooks
 
-The notebooks can be found in `docs/nb`.
-A virtual environment for running the notebooks can be 
-created using [`pdm`](https://github.com/pdm-project/pdm)
-(use this as jupyter kernel):
+The notebooks can be found in `docs/nb`. 
+To run them, create a venv using [`pdm`](https://github.com/pdm-project/pdm):
 
 ```
 pip install -U pdm
 pdm install
 ```
 
-The following libraries (specified in `pdm.lock`) will be installed:
+Use the resulting `.venv` as Jupyter kernel. 
+The following libraries will be installed (see `pdm.lock`):
 
 ```text
 ╭────────────────────────────────────┬────────────────╮

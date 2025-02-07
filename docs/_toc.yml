@@ -7,33 +7,118 @@ parts:
 
 - caption: Deep Learning
   chapters:
-  - file: nb/dl/01-intro
-  - file: nb/dl/02-optim
-  - file: nb/dl/00-backprop
-  - file: nb/dl/03-cnn
-  - file: nb/dl/04-lm
-  - file: nb/dl/05-training
+  - file: nb/dl/01-intro/01-intro
+    sections:
+    - file: nb/dl/01-intro/01a-fcnn
+    
+    - file: nb/dl/01-intro/01b-linear
+      sections:
+      - file: nb/dl/01-intro/01ba-nll
+      - file: nb/dl/01-intro/01bb-gradient
+      - file: nb/dl/01-intro/01bc-nonlinear
+    
+    - file: nb/dl/01-intro/01c-lossmin
+      sections:
+      - file: nb/dl/01-intro/01ca-bias-variance
+      - file: nb/dl/01-intro/01cb-regularization
+      - file: nb/dl/01-intro/01cc-experiments
+      - file: nb/dl/01-intro/01cd-split
+    
+    - file: nb/dl/01-intro/01e-appendix-weaksup
+      sections:
+      - file: nb/dl/01-intro/01ea-theory
+      - file: nb/dl/01-intro/01eb-experiments
+    
+    - file: nb/dl/01-intro/01ec-depth
+  
+  - file: nb/dl/02-optim/02-optim
+    sections:
+    - file: nb/dl/02-optim/02a-loss-landscape
+    - file: nb/dl/02-optim/02b-momentum
+    - file: nb/dl/02-optim/02c-sgd
+    - file: nb/dl/02-optim/02d-hyperparameters
+    
+  - file: nb/dl/00-backprop/00-backprop
+    sections:
+    - file: nb/dl/00-backprop/00a-compute-nodes
+    - file: nb/dl/00-backprop/00b-neural-net-module
+    - file: nb/dl/00-backprop/00d-network-training
+    - file: nb/dl/00-backprop/00c-benchmarking
+    - file: nb/dl/00-backprop/00e-testing
+    - file: nb/dl/00-backprop/00f-bp-equations
+
+  - file: nb/dl/03-cnn/03-cnn
+    sections:
+    - file: nb/dl/03-cnn/03a-convolution
+      sections:
+      - file: nb/dl/03-cnn/03aa-conv-layer
+      - file: nb/dl/03-cnn/03ab-stride-padding
+      - file: nb/dl/03-cnn/03ac-max-pooling
+    
+    - file: nb/dl/03-cnn/03b-convolutional-networks
+      sections:
+      - file: nb/dl/03-cnn/03ba-model
+      - file: nb/dl/03-cnn/03bb-trainer
+      - file: nb/dl/03-cnn/03bc-lr-sched
+      - file: nb/dl/03-cnn/03bd-feature-maps
+    
+    - file: nb/dl/03-cnn/03c-data-augmentation
+    - file: nb/dl/03-cnn/03d-transfer-learning
+    - file: nb/dl/03-cnn/03e-guided-backprop
+    - file: nb/dl/03-cnn/03f-text-classification
+    - file: nb/dl/03-cnn/03g-maximal-input
+
+  - file: nb/dl/04-sequence-models/04-intro
+    sections:
+    - file: nb/dl/04-sequence-models/04b-getting-text-data
+    - file: nb/dl/04-sequence-models/04ca-ngrams
+    - file: nb/dl/04-sequence-models/04cc-embeddings
+    - file: nb/dl/04-sequence-models/04cd-wavenet
+    - file: nb/dl/04-sequence-models/04cb-neural-count-model
+    - file: nb/dl/04-sequence-models/04a-autoregressive-linear
+    # - file: nb/dl/04-sequence-models/04z-spell-corrector
+  
+  - file: nb/dl/05-rnns/05-intro
+    sections:
+      - file: nb/dl/05-rnns/05a-rnn
+      - file: nb/dl/05-rnns/05b-rnn-lm
+      - file: nb/dl/05-rnns/05c-training
+      - file: nb/dl/05-rnns/05d-textgen
+      - file: nb/dl/05-rnns/05e-bptt
+      - file: nb/dl/05-rnns/05f-modern-rnns
+        sections:
+        - file: nb/dl/05-rnns/05fa-lstm
+        - file: nb/dl/05-rnns/05fb-gru
+        - file: nb/dl/05-rnns/05fc-deep
+        - file: nb/dl/05-rnns/05fd-birnn
+
+      - file: nb/dl/05-rnns/05z-vanishing-gradients
+
+
+#   - file: nb/dl/04-lm
+#   - file: nb/dl/05-training
   - file: nb/dl/07-attention
 
-# - caption: NLP / LLMs
+# # - caption: NLP / LLMs
+# #   chapters:
+# #   - file: nb/dl/06-gpt
+# #   - file: nb/dl/08-translation
+
+# - caption: ML Engineering & MLOps
 #   chapters:
-#   - file: nb/dl/06-gpt
-#   - file: nb/dl/08-translation
+#   - file: nb/mlops/01-intro
+#   - file: nb/mlops/02-package
+#   - file: nb/mlops/03-mlflow
+#   - file: nb/mlops/04-tasks
+#   - file: nb/mlops/04-deployment/notes
+#   # - file: nb/mlops/05-monitoring/notes
+#   - file: nb/mlops/06-best-practices/notes
+#   - file: nb/mle/cicd-pipelines
+#   - file: nb/mle/model-serving-api
 
-- caption: ML Engineering & MLOps
-  chapters:
-  - file: nb/mlops/01-intro
-  - file: nb/mlops/02-package
-  - file: nb/mlops/03-mlflow
-  - file: nb/mlops/04-tasks
-  - file: nb/mlops/04-deployment/notes
-  # - file: nb/mlops/05-monitoring/notes
-  - file: nb/mlops/06-best-practices/notes
-  - file: nb/mle/cicd-pipelines
-  - file: nb/mle/model-serving-api
-
-- caption: Notes
-  chapters:
-  - file: nb/notes/containers
-  - file: nb/notes/tf-course
-  - file: nb/notes/benchmarking
+# - caption: Notes
+#   chapters:
+#   - file: nb/notes/containers
+#   - file: nb/notes/tf-course
+#   - file: nb/notes/benchmarking
+#   - file: nb/apis/01-fastapi
