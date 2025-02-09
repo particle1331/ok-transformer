@@ -76,7 +76,6 @@ parts:
     - file: nb/dl/04-sequence-models/04cd-wavenet
     - file: nb/dl/04-sequence-models/04cb-neural-count-model
     - file: nb/dl/04-sequence-models/04a-autoregressive-linear
-    # - file: nb/dl/04-sequence-models/04z-spell-corrector
   
   - file: nb/dl/05-rnns/05-intro
     sections:
@@ -94,10 +93,13 @@ parts:
 
       - file: nb/dl/05-rnns/05z-vanishing-gradients
 
-
-#   - file: nb/dl/04-lm
-#   - file: nb/dl/05-training
+  - file: nb/dl/06-seq2seq/06-intro
   - file: nb/dl/07-attention
+  # - file: nb/dl/05-training
+
+- caption: Azure MLOps
+  chapters:
+  - file: nb/azure/01-mlservice
 
 # # - caption: NLP / LLMs
 # #   chapters:
