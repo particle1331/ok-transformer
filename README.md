@@ -6,9 +6,9 @@
 [![jupyter-book](https://raw.githubusercontent.com/jupyter-book/jupyter-book/refs/heads/main/docs/images/badge.svg)](https://jupyterbook.org/en/stable/intro.html)
 [![stars](https://img.shields.io/github/stars/particle1331/ok-transformer?style=social)](https://github.com/particle1331/ok-transformer) 
 
-Entry point: [**OK Transformer** website](https://particle1331.github.io/ok-transformer/intro.html)
+Entry point: [<ins>**OK Transformer** website</ins>](https://particle1331.github.io/ok-transformer/intro.html)
 
-A collection of self-contained notebooks on machine learning theory, engineering, and operations. I cover topics that frequently serve as building blocks for applications or further theory. I also explore areas where I seek to [clarify my understanding](http://www.paulgraham.com/words.html) or [delve into details](http://www.paulgraham.com/getideas.html) that I find particularly interesting or intriguing.
+A collection of self-contained notebooks on machine learning theory, engineering, and operations. I cover topics that frequently come up as building blocks for applications or further theory. I also explore areas where I seek to [clarify my understanding](http://www.paulgraham.com/words.html) or [delve into details](http://www.paulgraham.com/getideas.html) that I find particularly interesting or intriguing.
 
 
 ## Making a local build
@@ -23,7 +23,7 @@ make build
 ## Running the notebooks
 
 The notebooks are located in `/docs/nb`. 
-To run them, create a virtual environment using:
+Create a virtual environment using:
 
 ```
 uv venv
@@ -34,7 +34,7 @@ Use the resulting `.venv` as Jupyter kernel. See [`pyproject.toml`](https://gith
 
 ⚙️ The notebooks generally run end-to-end with reproducible results between runs. 
 Exact output values may change due to external dependencies such as differences 
-with hardware and dataset versions, or implementation quirks like [non-determinism](https://pytorch.org/docs/stable/notes/randomness.html#reproducibility), but conclusions should still hold.
+with hardware and dataset versions, or implementation quirks like [non-determinism](https://pytorch.org/docs/stable/notes/randomness.html#reproducibility), but the conclusions should still hold.
 
 ## Hardware
 
