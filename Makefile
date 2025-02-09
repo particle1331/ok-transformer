@@ -1,3 +1,5 @@
+.PHONY: $(MAKECMDGOALS)
+
 build:
 	uvx --with "sphinx-rtd-theme" --with "jupyter-book==1.0.2" jupyter-book build docs
 
