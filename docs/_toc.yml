@@ -68,14 +68,14 @@ parts:
     - file: nb/dl/03-cnn/03f-text-classification
     - file: nb/dl/03-cnn/03g-maximal-input
 
-  - file: nb/dl/04-sequence-models/04-intro
+  - file: nb/dl/04-lm/04-intro
     sections:
-    - file: nb/dl/04-sequence-models/04b-getting-text-data
-    - file: nb/dl/04-sequence-models/04ca-ngrams
-    - file: nb/dl/04-sequence-models/04cc-embeddings
-    - file: nb/dl/04-sequence-models/04cd-wavenet
-    - file: nb/dl/04-sequence-models/04cb-neural-count-model
-    - file: nb/dl/04-sequence-models/04a-autoregressive-linear
+    - file: nb/dl/04-lm/04b-getting-text-data
+    - file: nb/dl/04-lm/04ca-ngrams
+    - file: nb/dl/04-lm/04cc-embeddings
+    - file: nb/dl/04-lm/04cd-wavenet
+    - file: nb/dl/04-lm/04cb-neural-count-model
+    - file: nb/dl/04-lm/04a-autoregressive-linear
   
   - file: nb/dl/05-rnns/05-intro
     sections:
