@@ -38,7 +38,7 @@ in hardware and dataset versions, or implementation quirks like [non-determinism
 
 ## Hardware
 
-The hardware requirements used to run the notebooks are modest:
+Running the notebooks require modest hardware:
 
 | **Component**       | **Kaggle Notebook**   | **MacBook Air M1**                  |
 |---------------------|----------------------------------|-------------------------------------|
