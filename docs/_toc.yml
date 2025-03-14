@@ -92,6 +92,7 @@ parts:
         - file: nb/dl/05-rnns/05fd-birnn
 
       - file: nb/dl/05-rnns/05z-vanishing-gradients
+      - file: nb/dl/05-rnns/05y-sequence-labeling
 
   - file: nb/dl/06-seq2seq/06-intro
   
