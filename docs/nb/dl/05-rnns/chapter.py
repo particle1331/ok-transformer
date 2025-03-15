@@ -405,3 +405,219 @@ class BiRNN(RNNBase):
 
 Bidirectional = lambda cell: partial(BiRNN, cell)
 
+from functools import partial
+
+class BiRNN(RNNBase):
+    def __init__(self, 
+        cell: Type[RNNBase],
+        inputs_dim: int, hidden_dim: int, 
+        **kwargs
+    ):
+        super().__init__(inputs_dim, hidden_dim)
+        assert hidden_dim % 2 == 0
+        self.frnn = cell(inputs_dim, hidden_dim // 2, **kwargs)
+        self.brnn = cell(inputs_dim, hidden_dim // 2, **kwargs)
+        
+    def init_state(self, x):
+        return (None, None)
+
+    def compute(self, x, state):
+        fh, bh = state
+        fo, fh = self.frnn(x, fh)
+        bo, bh = self.brnn(torch.flip(x, [0]), bh)  # flip seq index: (T, B, d)
+        bo = torch.flip(bo, [0])                    # flip back outputs. See above
+        outs = torch.cat([fo, bo], dim=-1)
+        return outs, (fh, bh)
+
+
+Bidirectional = lambda cell: partial(BiRNN, cell)
+
+from functools import partial
+
+class BiRNN(RNNBase):
+    def __init__(self, 
+        cell: Type[RNNBase],
+        inputs_dim: int, hidden_dim: int, 
+        **kwargs
+    ):
+        super().__init__(inputs_dim, hidden_dim)
+        assert hidden_dim % 2 == 0
+        self.frnn = cell(inputs_dim, hidden_dim // 2, **kwargs)
+        self.brnn = cell(inputs_dim, hidden_dim // 2, **kwargs)
+        
+    def init_state(self, x):
+        return (None, None)
+
+    def compute(self, x, state):
+        fh, bh = state
+        fo, fh = self.frnn(x, fh)
+        bo, bh = self.brnn(torch.flip(x, [0]), bh)  # flip seq index: (T, B, d)
+        bo = torch.flip(bo, [0])                    # flip back outputs. See above
+        outs = torch.cat([fo, bo], dim=-1)
+        return outs, (fh, bh)
+
+
+Bidirectional = lambda cell: partial(BiRNN, cell)
+
+from functools import partial
+
+class BiRNN(RNNBase):
+    def __init__(self, 
+        cell: Type[RNNBase],
+        inputs_dim: int, hidden_dim: int, 
+        **kwargs
+    ):
+        super().__init__(inputs_dim, hidden_dim)
+        assert hidden_dim % 2 == 0
+        self.frnn = cell(inputs_dim, hidden_dim // 2, **kwargs)
+        self.brnn = cell(inputs_dim, hidden_dim // 2, **kwargs)
+
+    def init_state(self, x):
+        return (None, None)
+
+    def compute(self, x, state):
+        fh, bh = state
+        fo, fh = self.frnn(x, fh)
+        bo, bh = self.brnn(torch.flip(x, [0]), bh)  # flip seq index: (T, B, d)
+        bo = torch.flip(bo, [0])                    # flip back outputs. See above
+        outs = torch.cat([fo, bo], dim=-1)
+        return outs, (fh, bh)
+
+
+Bidirectional = lambda cell: partial(BiRNN, cell)
+
+from functools import partial
+
+class BiRNN(RNNBase):
+    def __init__(self, 
+        cell: Type[RNNBase],
+        inputs_dim: int, hidden_dim: int, 
+        **kwargs
+    ):
+        super().__init__(inputs_dim, hidden_dim)
+        assert hidden_dim % 2 == 0
+        self.frnn = cell(inputs_dim, hidden_dim // 2, **kwargs)
+        self.brnn = cell(inputs_dim, hidden_dim // 2, **kwargs)
+
+    def init_state(self, x):
+        return (None, None)
+
+    def compute(self, x, state):
+        fh, bh = state
+        fo, fh = self.frnn(x, fh)
+        bo, bh = self.brnn(torch.flip(x, [0]), bh)  # flip seq index: (T, B, d)
+        bo = torch.flip(bo, [0])                    # flip back outputs. See above
+        outs = torch.cat([fo, bo], dim=-1)
+        return outs, (fh, bh)
+
+
+Bidirectional = lambda cell: partial(BiRNN, cell)
+
+from functools import partial
+
+class BiRNN(RNNBase):
+    def __init__(self, 
+        cell: Type[RNNBase],
+        inputs_dim: int, hidden_dim: int, 
+        **kwargs
+    ):
+        super().__init__(inputs_dim, hidden_dim)
+        assert hidden_dim % 2 == 0
+        self.frnn = cell(inputs_dim, hidden_dim // 2, **kwargs)
+        self.brnn = cell(inputs_dim, hidden_dim // 2, **kwargs)
+
+    def init_state(self, x):
+        return (None, None)
+
+    def compute(self, x, state):
+        fh, bh = state
+        fo, fh = self.frnn(x, fh)
+        bo, bh = self.brnn(torch.flip(x, [0]), bh)  # flip seq index: (T, B, d)
+        bo = torch.flip(bo, [0])                    # flip back outputs. See above
+        outs = torch.cat([fo, bo], dim=-1)
+        return outs, (fh, bh)
+
+
+Bidirectional = lambda cell: partial(BiRNN, cell)
+
+from functools import partial
+
+class BiRNN(RNNBase):
+    def __init__(self, 
+        cell: Type[RNNBase],
+        inputs_dim: int, hidden_dim: int, 
+        **kwargs
+    ):
+        super().__init__(inputs_dim, hidden_dim)
+        assert hidden_dim % 2 == 0
+        self.frnn = cell(inputs_dim, hidden_dim // 2, **kwargs)
+        self.brnn = cell(inputs_dim, hidden_dim // 2, **kwargs)
+
+    def init_state(self, x):
+        return (None, None)
+
+    def compute(self, x, state):
+        fh, bh = state
+        fo, fh = self.frnn(x, fh)
+        bo, bh = self.brnn(torch.flip(x, [0]), bh)  # flip seq index: (T, B, d)
+        bo = torch.flip(bo, [0])                    # flip back outputs. See above
+        outs = torch.cat([fo, bo], dim=-1)
+        return outs, (fh, bh)
+
+
+Bidirectional = lambda cell: partial(BiRNN, cell)
+
+from functools import partial
+
+class BiRNN(RNNBase):
+    def __init__(self, 
+        cell: Type[RNNBase],
+        inputs_dim: int, hidden_dim: int, 
+        **kwargs
+    ):
+        super().__init__(inputs_dim, hidden_dim)
+        assert hidden_dim % 2 == 0
+        self.frnn = cell(inputs_dim, hidden_dim // 2, **kwargs)
+        self.brnn = cell(inputs_dim, hidden_dim // 2, **kwargs)
+
+    def init_state(self, x):
+        return (None, None)
+
+    def compute(self, x, state):
+        fh, bh = state
+        fo, fh = self.frnn(x, fh)
+        bo, bh = self.brnn(torch.flip(x, [0]), bh)  # flip seq index: (T, B, d)
+        bo = torch.flip(bo, [0])                    # flip back outputs. See above
+        outs = torch.cat([fo, bo], dim=-1)
+        return outs, (fh, bh)
+
+
+Bidirectional = lambda cell: partial(BiRNN, cell)
+
+from functools import partial
+
+class BiRNN(RNNBase):
+    def __init__(self, 
+        cell: Type[RNNBase],
+        inputs_dim: int, hidden_dim: int, 
+        **kwargs
+    ):
+        super().__init__(inputs_dim, hidden_dim)
+        assert hidden_dim % 2 == 0
+        self.frnn = cell(inputs_dim, hidden_dim // 2, **kwargs)
+        self.brnn = cell(inputs_dim, hidden_dim // 2, **kwargs)
+
+    def init_state(self, x):
+        return (None, None)
+
+    def compute(self, x, state):
+        fh, bh = state
+        fo, fh = self.frnn(x, fh)
+        bo, bh = self.brnn(torch.flip(x, [0]), bh)  # flip seq index: (T, B, d)
+        bo = torch.flip(bo, [0])                    # flip back outputs. See above
+        outs = torch.cat([fo, bo], dim=-1)
+        return outs, (fh, bh)
+
+
+Bidirectional = lambda cell: partial(BiRNN, cell)
+
