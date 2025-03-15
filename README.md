@@ -15,7 +15,7 @@ A collection of self-contained notebooks on machine learning theory, engineering
 
 The book can be built locally using [`uv`](https://docs.astral.sh/uv/getting-started/installation/):
 
-```
+```bash
 git clone git@github.com:particle1331/ok-transformer.git && cd ok-transformer
 make build
 ```
@@ -25,9 +25,9 @@ make build
 The notebooks are located in `/docs/nb`. 
 To run them, create a virtual environment using:
 
-```
+```bash
 uv venv --python 3.12
-uv sync
+make init   # install requirements, configure ipython
 ```
 
 Use the resulting `.venv` as the Jupyter kernel. See [`pyproject.toml`](https://github.com/particle1331/ok-transformer/blob/master/pyproject.toml) for the library versions installed.
