@@ -92,12 +92,13 @@ parts:
         - file: nb/dl/05-rnns/05fd-birnn
 
       - file: nb/dl/05-rnns/05z-vanishing-gradients
-      - file: nb/dl/05-rnns/05y-sequence-labeling
-
-  - file: nb/dl/06-seq2seq/06-intro
   
-  - file: nb/dl/07-attention
-  # - file: nb/dl/05-training
+  - file: nb/dl/06-captioning/06-intro
+
+  # - file: nb/dl/06-seq2seq/06-intro
+  
+  # - file: nb/dl/07-attention
+  # # - file: nb/dl/05-training
 
 - caption: Azure MLOps
   chapters:
