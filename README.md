@@ -6,7 +6,7 @@
 [![jupyter-book](https://raw.githubusercontent.com/jupyter-book/jupyter-book/refs/heads/main/docs/images/badge.svg)](https://jupyterbook.org/en/stable/intro.html)
 &nbsp; ⭐ [![stars](https://img.shields.io/github/stars/particle1331/ok-transformer?style=social)](https://github.com/particle1331/ok-transformer) 
 
-[OK TRANSFORMER](https://en.wikipedia.org/wiki/OK_Computer#Title) is a repository of Jupyter notebooks on **machine learning** **engineering** and **operations**. The notebooks contain *some* theory, end-to-end experiments, tests, benchmarks, as well as explorations of tools and frameworks in the larger ML ecosystem.
+[OK TRANSFORMER](https://en.wikipedia.org/wiki/OK_Computer#Title) is a repository of Jupyter notebooks on **machine learning** **engineering** and **operations**. The notebooks contain some theory, end-to-end experiments, tests, benchmarks, as well as explorations of tools and frameworks in the larger ML ecosystem.
 My goal in writing is to clarify my understanding[^1] and explore details[^2] that I might otherwise overlook. More pragmatically, the notebooks document patterns that worked, showing actual reproducible results.
 
 
@@ -51,3 +51,5 @@ Running the notebooks require modest hardware:
 | **Threads per core**| 2                                | 1                                   |
 | **L3 Cache**        | 38.5 MiB                         | 12 MiB                              |
 | **Memory**          | 15 GB                            | 8 GB Unified Memory                 |
+
+---

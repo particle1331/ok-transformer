@@ -1,0 +1,11 @@
+checklist when updating jupyter-book version
+current version: v2.0.0a
+
+supported
+- show / hide content for jupyter cells
+- Figure 6: <bold, greyed out> <caption + markdown, e.g. bold => white in dark mode>
+- custom css styling
+
+not supported
+- margin content
+- render multi-axes matplotlib figures

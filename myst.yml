@@ -15,10 +15,31 @@ project:
     - file: README.md
     
     - file: docs/deep-learning/index.md
-      # children:
-      #   - file: docs/deep-learning/00-intro.ipynb
+      children:
+        - file: docs/deep-learning/00-intro.ipynb
+          children:
+          - file: docs/deep-learning/00-intro/00a-fcnn.ipynb
+          
+          - file: docs/deep-learning/00-intro/00b-linear.ipynb
+            children:
+            - file: docs/deep-learning/00-intro/00ba-nll.ipynb
+            - file: docs/deep-learning/00-intro/00bb-gradient.ipynb
+            - file: docs/deep-learning/00-intro/00bc-nonlinear.ipynb
+          
+          - file: docs/deep-learning/00-intro/00c-lossmin.ipynb
+            children:
+            - file: docs/deep-learning/00-intro/00ca-bias-variance.ipynb
+            - file: docs/deep-learning/00-intro/00cb-regularization.ipynb
+            - file: docs/deep-learning/00-intro/00cc-experiments.ipynb
+            - file: docs/deep-learning/00-intro/00cd-split.ipynb
+          
+          - file: docs/deep-learning/00-intro/00e-appendix-weaksup.ipynb
+            children:
+            - file: docs/deep-learning/00-intro/00ea-theory.ipynb
+            - file: docs/deep-learning/00-intro/00eb-experiments.ipynb
+          
+          - file: docs/deep-learning/00-intro/00ec-depth.ipynb
 
-    
 site:
   template: book-theme
   options:
