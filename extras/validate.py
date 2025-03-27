@@ -105,7 +105,7 @@ if __name__ == "__main__":
         combine_multiline_outputs,
     ]
 
-    PATHS = list(glob.glob("docs/nb/**/*.ipynb", recursive=True))
+    PATHS = list(glob.glob("docs/**/*.ipynb", recursive=True))
     print(f"Checking {len(PATHS)} notebooks...")
 
     logs, flag = [], 0

@@ -11,7 +11,7 @@ args = parser.parse_args()
 
 workdir = args.pattern.split("/")[:-1]
 pattern = args.pattern.split("/")[-1]
-os.chdir("docs/nb/" + "/".join(workdir))
+os.chdir("docs/" + "/".join(workdir))
 
 PATHS = sorted(glob.glob(f"{pattern}*.ipynb"))
 pprint.pprint(PATHS)
