@@ -15,7 +15,3 @@ execute:
 
 validate:
 	uv run python extras/validate.py
-
-init:
-	uv sync
-	cp -r extras/ipython/* ~/.ipython/profile_default/startup/

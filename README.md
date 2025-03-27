@@ -6,8 +6,8 @@
 [![jupyter-book](https://raw.githubusercontent.com/jupyter-book/jupyter-book/refs/heads/main/docs/images/badge.svg)](https://jupyterbook.org/en/stable/intro.html)
 &nbsp; ⭐ [![stars](https://img.shields.io/github/stars/particle1331/ok-transformer?style=social)](https://github.com/particle1331/ok-transformer) 
 
-[OK TRANSFORMER](https://en.wikipedia.org/wiki/OK_Computer#Title) is a repository of Jupyter notebooks on **machine learning** **engineering** and **operations**. The notebooks contain theory, end-to-end experiments, tests & benchmarks, as well as explorations of tools and frameworks in the ML ecosystem.
-My goal in writing is to clarify my understanding[^1] and explore details[^2] that I might otherwise overlook. More pragmatically, the notebooks document patterns that worked showing actual reproducible results.
+[OK TRANSFORMER](https://en.wikipedia.org/wiki/OK_Computer#Title) is a repository of Jupyter notebooks on **machine learning** **engineering** and **operations**. The notebooks contain *some* theory, end-to-end experiments, tests, benchmarks, as well as explorations of tools and frameworks in the larger ML ecosystem.
+My goal in writing is to clarify my understanding[^1] and explore details[^2] that I might otherwise overlook. More pragmatically, the notebooks document patterns that worked, showing actual reproducible results.
 
 
 [^1]: http://www.paulgraham.com/words.html
@@ -16,7 +16,7 @@ My goal in writing is to clarify my understanding[^1] and explore details[^2] th
 ## Making a local build
 
 ```bash
-curl -LsSf https://astral.sh/uv/install.sh | sh  # optional: install uv
+curl -LsSf https://astral.sh/uv/install.sh | sh  # install uv (optional)
 git clone git@github.com:particle1331/ok-transformer.git && cd ok-transformer
 make build
 ```
@@ -25,11 +25,11 @@ make build
 ## Running the notebooks
 
 The notebooks are located in `/docs/*`. 
-To run them, create a virtual environment using:
+Run them in a virtual environment created using:
 
 ```bash
 uv venv --python 3.12
-make init   # install requirements, configure ipython
+uv sync # install requirements
 ```
 
 Use the resulting `.venv` as the Jupyter kernel. See [`pyproject.toml`](https://github.com/particle1331/ok-transformer/blob/master/pyproject.toml) for the dependency versions.
