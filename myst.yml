@@ -1,0 +1,27 @@
+# See docs at: https://mystmd.org/guide/frontmatter
+version: 1
+project:
+  id: cbcc29a7-f3e1-49bb-a555-a964f611534b
+  title: ■ OK TRANSFORMER
+  description: Public repository of my experiments & research in machine learning. ❚
+  keywords: [pytorch]
+  github: particle1331/ok-transformer
+  license:
+    code: MIT
+    content: CC-BY-4.0
+  bibliography:
+    - extras/references.bib
+  toc:
+    - file: README.md
+    
+    - file: docs/deep-learning/index.md
+      # children:
+      #   - file: docs/deep-learning/00-intro.ipynb
+
+    
+site:
+  template: book-theme
+  options:
+    logo: extras/logo.png
+    style: extras/style.css
+    favicon: extras/favicon.png

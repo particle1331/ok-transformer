@@ -2697,6 +2697,22 @@ wheels = [
 ]
 
 [[package]]
+name = "jupyter-book"
+version = "2.0.0a3"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "ipykernel" },
+    { name = "jupyter-core" },
+    { name = "jupyter-server" },
+    { name = "nodeenv" },
+    { name = "platformdirs" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/3c/6e/55f1c1a56c0dda49e107f9733d3407fab3068286ef1187f9e499ad8c12fc/jupyter_book-2.0.0a3.tar.gz", hash = "sha256:558ed176a027294ef2890c807853cac2be039b11df2d531f909589ab26cdaf00", size = 14415900 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/f8/b3/05463fab4cbecf1037216ec4e7d8511d0a5768d580f570311c19ebc75f2c/jupyter_book-2.0.0a3-py3-none-any.whl", hash = "sha256:3328b6388cd9c9dd9b0d06b22ff031e53878a80d3ee40873daaef7ab393286ab", size = 2604018 },
+]
+
+[[package]]
 name = "jupyter-client"
 version = "8.6.3"
 source = { registry = "https://pypi.org/simple" }
@@ -3382,6 +3398,15 @@ wheels = [
 ]
 
 [[package]]
+name = "nodeenv"
+version = "1.9.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/43/16/fc88b08840de0e0a72a2f9d8c6bae36be573e475a6326ae854bcc549fc45/nodeenv-1.9.1.tar.gz", hash = "sha256:6ec12890a2dab7946721edbfbcd91f3319c6ccc9aec47be7c7e6b7011ee6645f", size = 47437 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/d2/1d/1b658dbd2b9fa9c4c9f32accbfc0205d532c8c6194dc0f2a4c0428e7128a/nodeenv-1.9.1-py2.py3-none-any.whl", hash = "sha256:ba11c9782d29c27c70ffbdda2d7415098754709be8a7056d79a737cd901155c9", size = 22314 },
+]
+
+[[package]]
 name = "notebook"
 version = "7.4.0b1"
 source = { registry = "https://pypi.org/simple" }
@@ -3606,6 +3631,7 @@ dependencies = [
     { name = "fastapi", extra = ["all"] },
     { name = "graphviz" },
     { name = "httpie" },
+    { name = "jupyter-book" },
     { name = "lightning" },
     { name = "matplotlib" },
     { name = "mlflow" },
