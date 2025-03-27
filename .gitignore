@@ -121,9 +121,6 @@ venv.bak/
 
 # Specific
 .tox
-docs/_build/
-docs/nb/input/
-docs/nb/tmp
 mlruns/
 artifacts/
 logs/
@@ -135,3 +132,4 @@ TODO.md
 .pdm-python
 *.pem
 .ignore/
+_build/
