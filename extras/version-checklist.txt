@@ -1,12 +1,22 @@
-checklist when updating jupyter-book version
-current version: v2.0.0a
+jupyter-book checklist. version: 2.0.0a0
+(to check in new versions, e.g. beta release)
 
-supported
-- show / hide content for jupyter cells
+features
+- show / hide content for jupyter cells works
 - Figure 6: <bold, greyed out> <caption + markdown, e.g. bold => white in dark mode>
 - custom css styling
 - same latex engine as vscode
+- {cite} -> {cite:p}
+- list-table 's are awesome
 
-not supported
+not supported / issues
 - margin content
 - render multi-axes matplotlib figures
+- tqdm notebook (base tqdm works)
+- dataframes look bad in dark mode
+- hide source doesn't look as good as JB1
+- font in left sidebar doesn't look too good.
+- code background becomes transparent after around 120 cols
+
+notes:
+* closing figures to make smaller notebooks => easier diff!

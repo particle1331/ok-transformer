@@ -2082,6 +2082,7 @@ wheels = [
 [package.optional-dependencies]
 standard = [
     { name = "uvicorn" },
+    { name = "uvicorn", extra = ["standard"] },
 ]
 
 [[package]]
@@ -2698,7 +2699,7 @@ wheels = [
 
 [[package]]
 name = "jupyter-book"
-version = "2.0.0a3"
+version = "2.0.0a0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "ipykernel" },
@@ -2707,9 +2708,9 @@ dependencies = [
     { name = "nodeenv" },
     { name = "platformdirs" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/3c/6e/55f1c1a56c0dda49e107f9733d3407fab3068286ef1187f9e499ad8c12fc/jupyter_book-2.0.0a3.tar.gz", hash = "sha256:558ed176a027294ef2890c807853cac2be039b11df2d531f909589ab26cdaf00", size = 14415900 }
+sdist = { url = "https://files.pythonhosted.org/packages/98/da/83e5517fb96d09f8f514f3c29cb49b36ed5f0b487fefb699111b6a871f44/jupyter_book-2.0.0a0.tar.gz", hash = "sha256:e707ac5e48085cf521bda7638e868ec846421fe879f45e83e2e0de77c309f095", size = 13890390 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/f8/b3/05463fab4cbecf1037216ec4e7d8511d0a5768d580f570311c19ebc75f2c/jupyter_book-2.0.0a3-py3-none-any.whl", hash = "sha256:3328b6388cd9c9dd9b0d06b22ff031e53878a80d3ee40873daaef7ab393286ab", size = 2604018 },
+    { url = "https://files.pythonhosted.org/packages/62/41/c333788655bc09b77d34f6a5231c168655d2013ff4ebc79b42d63bdd3194/jupyter_book-2.0.0a0-py3-none-any.whl", hash = "sha256:4759836159520066a3f45a7f78d92010863d48b115457b86b865e79d018320b7", size = 2581461 },
 ]
 
 [[package]]
@@ -3936,11 +3937,11 @@ wheels = [
 
 [[package]]
 name = "platformdirs"
-version = "4.3.6"
+version = "4.2.2"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/13/fc/128cc9cb8f03208bdbf93d3aa862e16d376844a14f9a0ce5cf4507372de4/platformdirs-4.3.6.tar.gz", hash = "sha256:357fb2acbc885b0419afd3ce3ed34564c13c9b95c89360cd9563f73aa5e2b907", size = 21302 }
+sdist = { url = "https://files.pythonhosted.org/packages/f5/52/0763d1d976d5c262df53ddda8d8d4719eedf9594d046f117c25a27261a19/platformdirs-4.2.2.tar.gz", hash = "sha256:38b7b51f512eed9e84a22788b4bce1de17c0adb134d6becb09836e37d8654cd3", size = 20916 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/3c/a6/bc1012356d8ece4d66dd75c4b9fc6c1f6650ddd5991e421177d9f8f671be/platformdirs-4.3.6-py3-none-any.whl", hash = "sha256:73e575e1408ab8103900836b97580d5307456908a03e92031bab39e4554cc3fb", size = 18439 },
+    { url = "https://files.pythonhosted.org/packages/68/13/2aa1f0e1364feb2c9ef45302f387ac0bd81484e9c9a4c5688a322fbdfd08/platformdirs-4.2.2-py3-none-any.whl", hash = "sha256:2d7a1657e36a80ea911db832a8a6ece5ee53d8de21edd5cc5879af6530b1bfee", size = 18146 },
 ]
 
 [[package]]
@@ -5117,6 +5118,8 @@ dependencies = [
     { name = "torch" },
 ]
 wheels = [
+    { url = "https://files.pythonhosted.org/packages/52/5b/76ca113a853b19c7b1da761f8a72cb6429b3bd0bf932537d8df4657f47c3/torchvision-0.21.0-1-cp312-cp312-manylinux_2_28_aarch64.whl", hash = "sha256:ffa2a16499508fe6798323e455f312c7c55f2a88901c9a7c0fb1efa86cf7e327", size = 2329878 },
+    { url = "https://files.pythonhosted.org/packages/4e/fe/5e193353706dab96fe73ae100d5a633ff635ce310e0d92f3bc2958d075b1/torchvision-0.21.0-1-cp313-cp313-manylinux_2_28_aarch64.whl", hash = "sha256:7e9e9afa150e40cd2a8f0701c43cb82a8d724f512896455c0918b987f94b84a4", size = 2280711 },
     { url = "https://files.pythonhosted.org/packages/6e/1b/28f527b22d5e8800184d0bc847f801ae92c7573a8c15979d92b7091c0751/torchvision-0.21.0-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:97a5814a93c793aaf0179cfc7f916024f4b63218929aee977b645633d074a49f", size = 1784140 },
     { url = "https://files.pythonhosted.org/packages/36/63/0722e153fd27d64d5b0af45b5c8cb0e80b35a68cf0130303bc9a8bb095c7/torchvision-0.21.0-cp312-cp312-manylinux1_x86_64.whl", hash = "sha256:b578bcad8a4083b40d34f689b19ca9f7c63e511758d806510ea03c29ac568f7b", size = 7238673 },
     { url = "https://files.pythonhosted.org/packages/bb/ea/03541ed901cdc30b934f897060d09bbf7a98466a08ad1680320f9ce0cbe0/torchvision-0.21.0-cp312-cp312-manylinux_2_28_aarch64.whl", hash = "sha256:5083a5b1fec2351bf5ea9900a741d54086db75baec4b1d21e39451e00977f1b1", size = 14701186 },

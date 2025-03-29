@@ -5,7 +5,11 @@ subtitle: From feed-forward neural networks to transformers.
 
 ## Contents
 
-- [](00-intro.ipynb)
+1. Introduction to Neural Networks
+    - [Part 1](00-intro-0.ipynb)
+    - [Part 2](00-intro-1.ipynb)
+    - [Appendix: Weak Supervision](00-intro-2.ipynb)
+    - [Appendix: Expressivity & Depth](00-intro-3.ipynb)
 
 <!-- 
 ## Readings

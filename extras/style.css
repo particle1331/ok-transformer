@@ -5,3 +5,47 @@
 ul, ol {
     text-align: justify;
 } */
+
+/* Improve Pandas DataFrame appearance in dark mode */
+table.dataframe {
+    background-color: #111 !important; /* Dark background */
+    color: #bbb !important; /* Light gray text */
+    border-collapse: collapse;
+    width: 100%;
+}
+
+/* Alternate row colors for better readability */
+table.dataframe tr:nth-child(even) {
+    background-color: #222 !important; /* Dark gray */
+}
+
+table.dataframe tr:nth-child(odd) {
+    background-color: #111 !important; /* Black */
+}
+
+/* Header styling */
+table.dataframe thead {
+    background-color: #333 !important; /* Medium gray */
+    color: #ddd !important; /* Slightly lighter gray */
+    font-weight: bold;
+}
+
+/* Borders and cell spacing */
+table.dataframe th, table.dataframe td {
+    border: 1px solid #444 !important;
+    padding: 8px !important;
+    text-align: left;
+}
+
+/* Hover effect */
+table.dataframe tr:hover {
+    background-color: #444 !important; /* Slightly lighter gray */
+}
+
+/* Fix oversized index column */
+table.dataframe th:first-child, 
+table.dataframe td:first-child {
+    width: 5% !important; /* Adjust width as needed */
+    min-width: 50px !important;
+    text-align: center; /* Center-align index */
+}
