@@ -16,7 +16,8 @@ project:
     
     - file: docs/deep-learning/index.md
       children: 
-      - title: "Introduction to Neural Networks"
+
+      - title: "Neural Networks"
         children:
         - file: docs/deep-learning/00-intro-0.ipynb
           title: Part 1
@@ -26,6 +27,9 @@ project:
           children:
           - file: docs/deep-learning/00-intro-2.ipynb
           - file: docs/deep-learning/00-intro-3.ipynb
+          
+      - file: docs/deep-learning/01-optim.ipynb
+
       - title: "Backpropagation"
         children:
         - file: docs/deep-learning/02-backprop.ipynb
