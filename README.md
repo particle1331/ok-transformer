@@ -1,12 +1,12 @@
 # OK TRANSFORMER
 
-[![build-status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fparticle1331%2Fok-transformer%2Fbadge%3Fref%3Dmaster&label=build&logo=none)](https://actions-badge.atrox.dev/particle1331/ok-transformer/goto?ref=master)
+![build-status](https://img.shields.io/github/actions/workflow/status/particle1331/ok-transformer/publish-book.yml?branch=master)
 ![last-commit](https://img.shields.io/github/last-commit/particle1331/ok-transformer/master)
 ![python](https://shields.io/badge/python-3.12%20-blue) 
 [![jupyter-book](https://raw.githubusercontent.com/jupyter-book/jupyter-book/refs/heads/main/docs/images/badge.svg)](https://jupyterbook.org/en/stable/intro.html)
 &nbsp; ⭐ [![stars](https://img.shields.io/github/stars/particle1331/ok-transformer?style=social)](https://github.com/particle1331/ok-transformer) 
 
-[OK TRANSFORMER](https://en.wikipedia.org/wiki/OK_Computer#Title) is a repository of Jupyter notebooks on **machine learning** **engineering** and **operations**. The notebooks contain some theory, end-to-end experiments, tests, benchmarks, as well as explorations of tools and frameworks in the larger ML ecosystem.
+[OK TRANSFORMER](https://en.wikipedia.org/wiki/OK_Computer#Title) is a repository of Jupyter notebooks on **machine learning** **engineering** and **operations**. The notebooks contain some theory, end-to-end experiments, tests and benchmarks, as well as explorations of tools and frameworks in the larger ML ecosystem.
 My goal in writing is to clarify my understanding[^1] and explore details[^2] that I might otherwise overlook. More pragmatically, the notebooks document patterns that worked, showing actual reproducible results.
 
 

@@ -2698,7 +2698,7 @@ wheels = [
 
 [[package]]
 name = "jupyter-book"
-version = "2.0.0a0"
+version = "2.0.0a3"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "ipykernel" },
@@ -2707,9 +2707,9 @@ dependencies = [
     { name = "nodeenv" },
     { name = "platformdirs" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/98/da/83e5517fb96d09f8f514f3c29cb49b36ed5f0b487fefb699111b6a871f44/jupyter_book-2.0.0a0.tar.gz", hash = "sha256:e707ac5e48085cf521bda7638e868ec846421fe879f45e83e2e0de77c309f095", size = 13890390 }
+sdist = { url = "https://files.pythonhosted.org/packages/3c/6e/55f1c1a56c0dda49e107f9733d3407fab3068286ef1187f9e499ad8c12fc/jupyter_book-2.0.0a3.tar.gz", hash = "sha256:558ed176a027294ef2890c807853cac2be039b11df2d531f909589ab26cdaf00", size = 14415900 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/62/41/c333788655bc09b77d34f6a5231c168655d2013ff4ebc79b42d63bdd3194/jupyter_book-2.0.0a0-py3-none-any.whl", hash = "sha256:4759836159520066a3f45a7f78d92010863d48b115457b86b865e79d018320b7", size = 2581461 },
+    { url = "https://files.pythonhosted.org/packages/f8/b3/05463fab4cbecf1037216ec4e7d8511d0a5768d580f570311c19ebc75f2c/jupyter_book-2.0.0a3-py3-none-any.whl", hash = "sha256:3328b6388cd9c9dd9b0d06b22ff031e53878a80d3ee40873daaef7ab393286ab", size = 2604018 },
 ]
 
 [[package]]

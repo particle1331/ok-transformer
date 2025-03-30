@@ -26,7 +26,7 @@ dependencies = [
     "azure-cli>=2.69.0",
     "pandas>=2.2.3",
     "nltk>=3.9.1",
-    "jupyter-book==2.0.0a0",
+    "jupyter-book==2.0.0a3",
 ]
 
 [project.urls]

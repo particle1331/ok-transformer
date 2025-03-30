@@ -13,11 +13,10 @@ subtitle: From feed-forward neural networks to transformers.
 
 2. [](01-optim.ipynb)
 
-<!-- 
-## Readings
+3. Backpropagation Algorithm
+    - [](02-backprop-0.ipynb)
+    - [](02-backprop-1.ipynb)
+    - [](02-backprop-2.ipynb)
 
-- [Berkeley CS 182. Lecture 1: Introduction](https://cs182sp21.github.io/static/slides/lec-1.pdf)
-- [Berkeley CS 182. Lecture 2: ML Basics 1](https://cs182sp21.github.io/static/slides/lec-2.pdf)
-- [Berkeley CS 182. Lecture 3: ML Basics 2](https://cs182sp21.github.io/static/slides/lec-3.pdf)
-- [Cornell CS 4780. Lecture 12: Bias-Variance Tradeoff](https://www.cs.cornell.edu/courses/cs4780/2018sp/lectures/lecturenote12.html) 
--->
+4. Convolutional Neural Networks
+    - [](03-cnn-0.ipynb)

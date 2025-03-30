@@ -1,4 +1,4 @@
-jupyter-book checklist. version: 2.0.0a0
+jupyter-book checklist. version: 2.0.0a3
 (to check in new versions, e.g. beta release)
 
 features
@@ -8,6 +8,9 @@ features
 - same latex engine as vscode
 - {cite} -> {cite:p}
 - list-table 's are awesome
+- label / references are very nice: easier UX compared to jb 1. 
+    [](<relative_path>) or 
+    [](#label) almost always works.
 
 not supported / issues
 - margin content
@@ -15,8 +18,13 @@ not supported / issues
 - tqdm notebook (base tqdm works)
 - dataframes look bad in dark mode
 - hide source doesn't look as good as JB1
-- font in left sidebar doesn't look too good.
+- font / highlighting in left sidebar doesn't look too good
 - code background becomes transparent after around 120 cols
+- github logo rendering when pasting github repo links
+- latex equations look janky equations get cutoff vertically
 
 notes:
 * closing figures to make smaller notebooks => easier diff!
+
+todos:
+[ ] update validate script

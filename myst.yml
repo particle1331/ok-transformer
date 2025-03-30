@@ -32,7 +32,16 @@ project:
 
       - title: "Backpropagation"
         children:
-        - file: docs/deep-learning/02-backprop.ipynb
+        - file: docs/deep-learning/02-backprop-0.ipynb
+        - file: docs/deep-learning/02-backprop-1.ipynb
+        - file: docs/deep-learning/02-backprop-2.ipynb
+
+      - title: "Convolutional Networks"
+        children:
+        - file: docs/deep-learning/03-cnn-0.ipynb
+        # - file: docs/deep-learning/03-cnn-1.ipynb
+        # - file: docs/deep-learning/03-cnn-2.ipynb
+        # - file: docs/deep-learning/03-cnn-3.ipynb
 
 site:
   template: book-theme

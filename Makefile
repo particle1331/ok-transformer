@@ -11,7 +11,10 @@ publish:
 	uvx ghp-import -n -p -f _build/html
 
 execute:
-	uv run python extras/execute.py --pattern $(pattern)
+	uv run extras/execute.py --pattern $(pattern)
 
 validate:
-	uv run python extras/validate.py
+	uv run extras/validate.py
+
+diff:
+	uv run nbdiff-web $(old) $(new)

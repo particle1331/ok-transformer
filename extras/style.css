@@ -69,3 +69,9 @@ a.block {
 .block {
     font-size: 0.90em;
 }
+
+/* Ensure KaTeX equations have enough space */
+.katex-display {
+    overflow: visible !important;
+    padding-top: 10px;
+}
