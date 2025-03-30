@@ -1,10 +1,21 @@
-/* p {
-    text-align: justify;
+table {
+    width: 100%;
 }
 
-ul, ol {
+p, ul, ol, td, th {
     text-align: justify;
-} */
+    hyphens: auto;
+}
+
+.myst-table {
+    width: 100%;
+}
+
+.myst-table td {
+    text-align: justify;
+    hyphens: auto;
+}
+
 
 /* Improve Pandas DataFrame appearance in dark mode */
 table.dataframe {
@@ -48,4 +59,13 @@ table.dataframe td:first-child {
     width: 5% !important; /* Adjust width as needed */
     min-width: 50px !important;
     text-align: center; /* Center-align index */
+}
+
+/* Adjust toc font size */
+a.block {
+    font-size: 0.90em;
+}
+
+.block {
+    font-size: 0.90em;
 }
