@@ -18,10 +18,6 @@ def committed_changes(filepath: str) -> bool:
         return filepath not in [item.a_path for item in diff]
     except:
         return False
-    
-def is_whitespace_or_empty(s: str) -> bool:
-    # \S matches any non-whitespace character
-    return not bool(re.search(r"\S", s))
 
 
 class NotebookChecker:
@@ -34,7 +30,7 @@ class NotebookChecker:
         self.checks.append(func)
         return func
     
-    def run_checks(self, filepath: dict):
+    def run_checks(self, filepath: dict, debug: int):
         with open(filepath, "r") as f:
             notebook_orig = json.load(f)
 
@@ -46,7 +42,7 @@ class NotebookChecker:
                 self.logs[filepath] = self.logs.get(filepath, []) + [(check.__name__, message)]
         
         if notebook_orig != notebook:
-            if committed_changes(filepath):
+            if debug or committed_changes(filepath):
                 with open(filepath, "w") as f:
                     json.dump(notebook, f, indent=2)
             else:
@@ -104,6 +100,39 @@ def chapter_module_remove_cell(notebook: dict):
 
 
 @checker.register
+def combine_tqdm_outputs(notebook: dict):
+    changed = 0
+    pattern_tqdm = re.compile(r"^\s*\d+%\|")
+    pattern_text = re.compile(r"\S")
+    for cell in get_code_cells(notebook):
+        outputs_else = []
+        outputs_tqdm = []
+        for out in cell["outputs"]:
+            name = out.get("name")
+            type = out.get("output_type")
+            if name == "stderr" and type == "stream":
+                text = ["".join(out.get("text", ["NO_TEXT"])).strip() + "\n\n"]  # flatten
+                if pattern_tqdm.match(text[0]):
+                    out["text"] = text
+                    outputs_tqdm.append(out)
+                elif not pattern_text.match(text[0]):
+                    continue
+            else:
+                outputs_else.append(out)
+
+        # insert final progress bar at beginning
+        outputs = outputs_tqdm[-1:] + outputs_else
+        if cell["outputs"] != outputs:
+            changed += 1
+            cell["outputs"] = outputs
+            
+    if changed:
+        return 1, "To combine tqdm outputs.", notebook
+    else:
+        return 0, "", notebook
+
+
+@checker.register
 def combine_multiline_outputs(notebook: dict):
     changed = 0
     for cell in get_code_cells(notebook):
@@ -128,60 +157,19 @@ def combine_multiline_outputs(notebook: dict):
         return 0, "", notebook
 
 
-@checker.register
-def combine_tqdm_outputs(notebook: dict):
-    progress_bar_pattern = re.compile(r'^\s*\d+%\|')
-    changed = 0
-    for cell in get_code_cells(notebook):
-        # delete whitespace
-        outputs = []
-        for out in cell["outputs"]:
-            # non-trivial behavior: skip whitespace stderr
-            if (
-                out.get("name") == "stderr" and \
-                out.get("output_type") == "stream" and \
-                is_whitespace_or_empty("".join(out.get("text", ["NO_TEXT"])))
-            ):
-                changed += 1
-                continue
-            
-            # default behavior is to append
-            outputs.append(out)
-        cell["outputs"] = outputs
-
-        # Delete all except last progress bar
-        outputs = []
-        progress_flag = 0
-        for out in cell["outputs"]:
-            if (
-                out.get("name") == "stderr" and \
-                out.get("output_type") == "stream" and \
-                bool(progress_bar_pattern.match("".join(out.get("text"))))
-            ):
-                if not progress_flag:
-                    progress_flag = 1
-                    outputs.append(out)
-                else:
-                    changed = +1
-                    outputs[-1] = out
-            else:
-                progress_flag = 0
-                outputs.append(out)
-        cell["outputs"] = outputs
-
-    if changed > 0:
-        return 1, "To combine tqdm outputs.", notebook
-    else:
-        return 0, "", notebook
-
-
 if __name__ == "__main__":
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--debug", type=int, default=0)
+    args = parser.parse_args()
+    DEBUG = args.debug
     PATHS = list(glob.glob("docs/**/*.ipynb", recursive=True))
+
     print(f"Checking {len(PATHS)} notebooks...")
 
     for path in tqdm(PATHS):
         try:
-            checker.run_checks(path)
+            checker.run_checks(path, debug=DEBUG)
         except Exception as e:
             print(f"⚠️ Skipped {path}\n    {e}")
 

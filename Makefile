@@ -1,4 +1,5 @@
 .PHONY: $(MAKECMDGOALS)
+debug ?= 0
 
 build:
 	uv run jupyter book start
@@ -14,7 +15,7 @@ execute:
 	uv run extras/execute.py --pattern $(pattern)
 
 validate:
-	uv run extras/validate.py
+	uv run extras/validate.py --debug $(debug)
 
 diff:
 	uv run nbdiff-web $(old) $(new)
