@@ -6,12 +6,14 @@
 [![jupyter-book](https://raw.githubusercontent.com/jupyter-book/jupyter-book/refs/heads/main/docs/images/badge.svg)](https://jupyterbook.org/en/stable/intro.html)
 &nbsp; ⭐ [![stars](https://img.shields.io/github/stars/particle1331/ok-transformer?style=social)](https://github.com/particle1331/ok-transformer) 
 
-[OK TRANSFORMER](https://en.wikipedia.org/wiki/OK_Computer#Title) is a repository of Jupyter notebooks on **machine learning** **engineering** and **operations**. The notebooks contain some theory, end-to-end experiments, tests and benchmarks, as well as explorations of tools and frameworks in the larger ML ecosystem.
-My goal in writing is to clarify my understanding[^1] and explore details[^2] that I might otherwise overlook. More pragmatically, the notebooks document patterns that worked, showing actual reproducible results.
+[OK TRANSFORMER](https://en.wikipedia.org/wiki/OK_Computer#Title) is a repository of Jupyter notebooks on **machine learning** **engineering** and **operations**. The notebooks contain theory, end-to-end experiments, tests and benchmarks, as well as explorations of frameworks and tools (new and old) in the larger ML ecosystem. More practically, the notebooks document patterns that worked showing actual reproducible results.
+
+<!-- 
+My writing goals are to clarify my understanding[^1] and explore details[^2] that I might otherwise overlook. More pragmatically, the notebooks document patterns that worked, showing actual reproducible results.
 
 
 [^1]: http://www.paulgraham.com/words.html
-[^2]: http://www.paulgraham.com/getideas.html
+[^2]: http://www.paulgraham.com/getideas.html -->
 
 ## Making a local build
 
