@@ -20,3 +20,5 @@ subtitle: From feed-forward neural networks to transformers.
 
 4. Convolutional Neural Networks
     - [](03-cnn-0.ipynb)
+    - [](03-cnn-1.ipynb)
+    - [](03-cnn-2.ipynb)

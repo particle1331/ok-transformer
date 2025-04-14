@@ -6,6 +6,13 @@ import pathlib
 from tqdm import tqdm
 from copy import deepcopy
 
+import random
+import string
+
+def generate_id():
+    length=8
+    chars = string.ascii_lowercase + string.digits
+    return "".join(random.choices(chars, k=length))
 
 def get_code_cells(notebook: dict):
     return [c for c in notebook["cells"] if c["cell_type"] == "code"]
@@ -36,17 +43,23 @@ class NotebookChecker:
 
         notebook = deepcopy(notebook_orig)
         for check in self.checks:
-            exit_code, message, notebook = check(notebook)
-            self.flag += exit_code
-            if message:
-                self.logs[filepath] = self.logs.get(filepath, []) + [(check.__name__, message)]
+            try:
+                exit_code, message, notebook = check(notebook)
+                self.flag += exit_code
+            except Exception as e:
+                exit_code = 1
+                message = f"⚠️ Exception <{filepath}>\n    {type(e).__name__}: {e}"
+            finally:
+                if message:
+                    self.logs[filepath] = self.logs.get(filepath, []) + [(check.__name__, message)]
         
         if notebook_orig != notebook:
             if debug or committed_changes(filepath):
                 with open(filepath, "w") as f:
                     json.dump(notebook, f, indent=2)
             else:
-                self.logs[filepath] += [("COMMIT_CHECK", "⚠️ cannot write nb plz commit first")]
+                self.logs[filepath] = self.logs.get(filepath, []) \
+                    + [("COMMIT_CHECK", "⚠️ cannot write nb plz commit first")]
 
 
 checker = NotebookChecker()
@@ -155,6 +168,47 @@ def combine_multiline_outputs(notebook: dict):
         return 1, "To combine multi-line outputs.", notebook
     else:
         return 0, "", notebook
+    
+
+@checker.register
+def no_nbutils_in_code(notebook: dict):
+    """Functions in nbutils are strictly development helper."""
+    for cell in get_code_cells(notebook):
+        source = "".join(cell["source"])
+        if "nbutils." in source:
+            return 1, "nbutils function found.", notebook
+    return 0, "", notebook
+
+
+@checker.register
+def markdown_for_savefig_exists(notebook: dict):
+    """Check if figure cell exists for savedfig."""
+    filenames = []
+    for ix, cell in enumerate(get_code_cells(notebook)):
+        text = "".join(cell["source"])
+        paths = re.findall(r'plt\.savefig\((["\'])(.*?)\1', text)
+        filepaths = [match[1] for match in paths]
+        
+        if len(filepaths) > 1:
+            return 1, f"Multiple savefig found: {filepaths}", notebook
+
+        # .: zero or one filepaths
+        if len(filepaths) > 0:
+            found = 0
+            file = filepaths[0]
+            for next in notebook["cells"][ix + 1:]:
+                if next["cell_type"] == "markdown":
+                    source = "".join(next["source"])
+                    if file in source and r"{figure}" in source:
+                        found += 1
+
+            if found != 1:
+                filenames.append(file)
+            
+    if len(filenames) == 0:
+        return 0, "", notebook
+    else:
+        return 1, f"Figure directive none / multiple for: {filenames}", notebook
 
 
 if __name__ == "__main__":
@@ -168,10 +222,7 @@ if __name__ == "__main__":
     print(f"Checking {len(PATHS)} notebooks...")
 
     for path in tqdm(PATHS):
-        try:
-            checker.run_checks(path, debug=DEBUG)
-        except Exception as e:
-            print(f"⚠️ Skipped {path}\n    {e}")
+        checker.run_checks(path, debug=DEBUG)
 
     for path in checker.logs:
         logs = checker.logs[path]

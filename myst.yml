@@ -39,8 +39,8 @@ project:
       - title: "Convolutional Networks"
         children:
         - file: docs/deep-learning/03-cnn-0.ipynb
-        # - file: docs/deep-learning/03-cnn-1.ipynb
-        # - file: docs/deep-learning/03-cnn-2.ipynb
+        - file: docs/deep-learning/03-cnn-1.ipynb
+        - file: docs/deep-learning/03-cnn-2.ipynb
         # - file: docs/deep-learning/03-cnn-3.ipynb
 
 site:

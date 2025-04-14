@@ -130,6 +130,6 @@ data/
 lightning_logs/
 .pdm-python
 *.pem
-.ignore/
+.local/
 _build/
 **/tmp.ipynb
