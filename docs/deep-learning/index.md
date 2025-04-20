@@ -22,3 +22,5 @@ subtitle: From feed-forward neural networks to transformers.
     - [](03-cnn-0.ipynb)
     - [](03-cnn-1.ipynb)
     - [](03-cnn-2.ipynb)
+    - [](03-cnn-3.ipynb)
+    - [](03-cnn-4.ipynb)

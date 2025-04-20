@@ -84,8 +84,7 @@ def save_remove_input(notebook: dict):
 def triggers_remove_cell(notebook: dict):
     triggers = [
         "chapter",
-        "def savefig(",
-        "def directive(",
+        "from okt import nbutils"
     ]
     for cell in get_code_cells(notebook):
         source = " ".join(cell["source"])

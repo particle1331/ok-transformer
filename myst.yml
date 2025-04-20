@@ -40,8 +40,11 @@ project:
         children:
         - file: docs/deep-learning/03-cnn-0.ipynb
         - file: docs/deep-learning/03-cnn-1.ipynb
-        - file: docs/deep-learning/03-cnn-2.ipynb
-        # - file: docs/deep-learning/03-cnn-3.ipynb
+        - title: Appendix
+          children:
+          - file: docs/deep-learning/03-cnn-2.ipynb
+          - file: docs/deep-learning/03-cnn-3.ipynb
+          - file: docs/deep-learning/03-cnn-4.ipynb
 
 site:
   template: book-theme

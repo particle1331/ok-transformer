@@ -42,7 +42,6 @@ def init():
 %autoreload 2
 %matplotlib inline
 %config InlineBackend.figure_format = "svg"
-from okt import nbutils
 from okt.nn.utils import get_device, set_seed
 
 from tqdm import tqdm

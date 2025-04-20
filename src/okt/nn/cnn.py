@@ -96,7 +96,7 @@ class Trainer:
             return self(x)
 
     def plot_training_history(
-        self, accs_offset=0.05, loss_offset=-0.1, figsize=(8, 4), annotate=False
+        self, accs_offset=0.05, loss_offset=-0.1, figsize=(8, 4), annotate=False, markersize=12
     ):
         fig, ax = plt.subplots(1, 2, figsize=figsize)
 
@@ -111,13 +111,13 @@ class Trainer:
         
         ax[0].plot(xv, self.valid_log["loss"], label="valid", color="C1", linestyle="--")
         for x, y in zip(xv, self.valid_log["loss"]):
-            ax[0].scatter(x, y, edgecolor="black", facecolor="orange", s=8, zorder=5)
+            ax[0].scatter(x, y, edgecolor="black", facecolor="orange", marker="v", s=markersize, zorder=5)
             if annotate:
                 ax[0].text(x, y + loss_offset, f"{y:.2f}", ha="center", fontsize=9, zorder=5)
 
         ax[1].plot(xv, self.valid_log["accs"], label="valid", color="C1", linestyle="--")
         for x, y in zip(xv, self.valid_log["accs"]):
-            ax[1].scatter(x, y, edgecolor="black", facecolor="orange", s=8, zorder=5)
+            ax[1].scatter(x, y, edgecolor="black", facecolor="orange", marker="v", s=markersize, zorder=5)
             if annotate:
                 ax[1].text(x, y + accs_offset, f"{y:.2f}", ha="center", fontsize=9, zorder=5)
 
