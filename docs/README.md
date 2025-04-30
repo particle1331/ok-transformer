@@ -67,3 +67,11 @@ Running the notebooks require modest hardware:
 | **Threads per core**| 2                                | 1                                   |
 | **L3 Cache**        | 38.5 MiB                         | 12 MiB                              |
 | **Memory**          | 15 GB                            | 8 GB Unified Memory                 |
+
+
+## References
+
+````{toggle}
+```{bibliography}
+```
+````
