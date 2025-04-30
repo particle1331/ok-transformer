@@ -1,5 +1,5 @@
-title: 'OK Transformer'  
-author: 𝗽𝗮𝗿𝘁𝗶𝗰𝗹𝗲𝟭𝟯𝟯𝟭. Powered by <a href='https://jupyterbook.org'>Jupyter Book</a>.
+title: "OK Transformer"  
+author: 𝗽𝗮𝗿𝘁𝗶𝗰𝗹𝗲𝟭𝟯𝟯𝟭. Powered by <a href="https://jupyterbook.org">Jupyter Book</a>.
 logo: logo.png
 
 only_build_toc_files: true
@@ -27,7 +27,7 @@ html:
   use_issues_button: true
   use_repository_button: true
   extra_navbar: ""
-  favicon: favicon.png
+  favicon: "favicon.png"
 
 sphinx:
   default_dark_mode: true
@@ -35,8 +35,8 @@ sphinx:
     html_theme: sphinx_rtd_theme
     html_theme_options:
       logo_only: true
-      pygments_light_style: tango
-      pygments_dark_style: monokai
+      pygments_light_style: "tango"
+      pygments_dark_style: "monokai"
       use_download_button: false
       repository_url: https://github.com/particle1331/ok-transformer
       use_issues_button: true
