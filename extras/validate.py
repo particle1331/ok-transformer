@@ -9,6 +9,8 @@ from copy import deepcopy
 import random
 import string
 
+UTF8 = "utf-8"
+
 def generate_id():
     length=8
     chars = string.ascii_lowercase + string.digits
@@ -16,6 +18,9 @@ def generate_id():
 
 def get_code_cells(notebook: dict):
     return [c for c in notebook["cells"] if c["cell_type"] == "code"]
+
+def get_markdown_cells(notebook: dict):
+    return [c for c in notebook["cells"] if c["cell_type"] == "markdown"]
 
 def committed_changes(filepath: str) -> bool:
     try:
@@ -38,7 +43,7 @@ class NotebookChecker:
         return func
     
     def run_checks(self, filepath: dict, debug: int):
-        with open(filepath, "r") as f:
+        with open(filepath, "r", encoding=UTF8) as f:
             notebook_orig = json.load(f)
 
         notebook = deepcopy(notebook_orig)
@@ -55,8 +60,8 @@ class NotebookChecker:
         
         if notebook_orig != notebook:
             if debug or committed_changes(filepath):
-                with open(filepath, "w") as f:
-                    json.dump(notebook, f, indent=2)
+                with open(filepath, "w", encoding=UTF8) as f:
+                    json.dump(notebook, f, indent=2, ensure_ascii=False)
             else:
                 self.logs[filepath] = self.logs.get(filepath, []) \
                     + [("COMMIT_CHECK", "⚠️ cannot write nb plz commit first")]
@@ -65,49 +70,43 @@ class NotebookChecker:
 checker = NotebookChecker()
 
 
-@checker.register
-def save_remove_input(notebook: dict):
-    tags_required = ["remove-input"]
-    tags_allowed = ["remove-input", "hide-output"]
-    for cell in get_code_cells(notebook):
-        source = " ".join(cell["source"])
-        if r"%%save" in source:
-            try:
-                tags = cell["metadata"].get("tags", [])
-                assert set(tags_required) <= set(tags) <= set(tags_allowed)
-            except:
-                return 1, "Improper tags for save cell.", notebook
-    return 0, "", notebook
+# @checker.register
+# def save_remove_input(notebook: dict):
+#     tags_required = ["remove-input"]
+#     tags_allowed = ["remove-input", "hide-output"]
+#     for cell in get_code_cells(notebook):
+#         source = " ".join(cell["source"])
+#         if r"%%save" in source:
+#             try:
+#                 tags = cell["metadata"].get("tags", [])
+#                 assert set(tags_required) <= set(tags) <= set(tags_allowed)
+#             except:
+#                 return 1, "Improper tags for save cell.", notebook
+#     return 0, "", notebook
 
 
 @checker.register
-def triggers_remove_cell(notebook: dict):
-    triggers = [
-        "chapter",
-        "from okt import nbutils"
+def trigger_warnings(notebook: dict):
+    code_triggers = [
+        r"%%save",
+        "nbutils",
+        "chapter"
     ]
+    markdown_triggers = [
+        r"{cite}",
+        r"boldsymbol{\mathsf"
+    ]
+    
     for cell in get_code_cells(notebook):
-        source = " ".join(cell["source"])
-        for word in triggers:
-            if word in source:
-                try:
-                    tags = cell["metadata"].get("tags", [])
-                    assert "remove-cell" in tags
-                except:
-                    return 1, f"Tag remove-cell not found: '{word}'", notebook
-    return 0, "", notebook
-
-
-@checker.register
-def chapter_module_remove_cell(notebook: dict):
-    for cell in get_code_cells(notebook):
-        source = " ".join(cell["source"])
-        if "chapter" in source:
-            try:
-                tags = cell["metadata"].get("tags", [])
-                assert "remove-cell" in tags
-            except:
-                return 1, "Tag remove-cell not found.", notebook
+        for word in code_triggers:
+            if word in " ".join(cell["source"]):
+                return 1, f"Found in code cell: '{word}'", notebook
+            
+    for cell in get_markdown_cells(notebook):
+        for word in markdown_triggers:
+            if word in " ".join(cell["source"]):
+                return 1, f"Found in markdown cell: '{word}'", notebook
+            
     return 0, "", notebook
 
 
@@ -134,7 +133,7 @@ def combine_tqdm_outputs(notebook: dict):
 
         # insert final progress bar at beginning
         outputs = outputs_tqdm[-1:] + outputs_else
-        if cell["outputs"] != outputs:
+        if outputs != cell["outputs"]:
             changed += 1
             cell["outputs"] = outputs
             
@@ -168,16 +167,6 @@ def combine_multiline_outputs(notebook: dict):
     else:
         return 0, "", notebook
     
-
-@checker.register
-def no_nbutils_in_code(notebook: dict):
-    """Functions in nbutils are strictly development helper."""
-    for cell in get_code_cells(notebook):
-        source = "".join(cell["source"])
-        if "nbutils." in source:
-            return 1, "nbutils function found.", notebook
-    return 0, "", notebook
-
 
 @checker.register
 def markdown_for_savefig_exists(notebook: dict):

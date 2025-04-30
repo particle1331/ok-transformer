@@ -1,4 +1,6 @@
 from pathlib import Path
+from matplotlib_inline import backend_inline
+import matplotlib.pyplot as plt
 
 
 def figure(
@@ -41,7 +43,7 @@ def init():
 %load_ext autoreload
 %autoreload 2
 %matplotlib inline
-%config InlineBackend.figure_format = "svg"
+%config InlineBackend.figure_format = "retina"
 from okt.nn.utils import get_device, set_seed
 
 from tqdm import tqdm
@@ -72,3 +74,16 @@ print(f"Using device: {DEVICE}")
 set_seed(RANDOM_SEED)
 """
 )
+
+
+def set_plot_params(config={
+        "font.size": 6,
+        "font.family": "monospace",
+        "lines.linewidth": 1.5,
+        "figure.dpi": 300
+    }):
+    plt.rcParams.update(config)
+
+
+def set_matplotlib_format(format: str = "retina"):
+    backend_inline.set_matplotlib_formats(format)
