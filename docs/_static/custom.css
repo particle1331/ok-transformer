@@ -1,5 +1,10 @@
-p {
+table {
+    width: 100%;
+}
+
+p, ul, ol, td, th {
     text-align: justify;
+    hyphens: auto;
 }
 
 .wy-nav-content a:visited {
