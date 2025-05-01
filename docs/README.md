@@ -52,7 +52,7 @@ Use the resulting `.venv` as the Jupyter kernel. See [`pyproject.toml`](https://
 
 ⚙️ The notebooks generally run end-to-end with reproducible results between runs. 
 Exact output values may change due to external dependencies such as differences 
-in hardware and dataset versions, or implementation quirks like [non-determinism](https://pytorch.org/docs/stable/notes/randomness.html#reproducibility), but the conclusions should still hold.
+in drivers or dataset versions, or implementation quirks like [non-determinism](https://pytorch.org/docs/stable/notes/randomness.html#reproducibility), but the conclusions generally should still hold.
 
 
 ## Hardware
