@@ -34,7 +34,7 @@ uv venv --python 3.12
 uv sync # install requirements
 ```
 
-Use the resulting `.venv` as the Jupyter kernel. See [`pyproject.toml`](https://github.com/particle1331/ok-transformer/blob/master/pyproject.toml) for the dependency versions.
+Use the resulting `.venv` as Jupyter kernel. See [`pyproject.toml`](https://github.com/particle1331/ok-transformer/blob/master/pyproject.toml) for the dependency versions.
 
 ⚙️ The notebooks generally run end-to-end with reproducible results between runs. 
 Exact output values may change due to external dependencies such as differences 
@@ -55,3 +55,7 @@ Running the notebooks require modest hardware:
 | **Memory**          | 15 GB                            | 8 GB Unified Memory                 |
 
 ---
+
+
+:::{figure} extras/banner.png
+:::
