@@ -19,32 +19,37 @@ def figure(
         fig_caption = caption_body
 
     assert Path(f"./{dir}/{file}").exists(), f"File {dir}/{file} does not exist."
-    print(f""":::{{figure}} ./{dir}/{file}
+    print(
+f"""
+:::{{figure}} ./{dir}/{file}
 ---
 name: {filename}
 width: {width}%
 align: {align}
 ---
 {fig_caption}
-:::""")
+:::"""
+    )
 
 
 def savefig(file: str, /, dir="plots"):
     error = "File format not supported."
     assert file.split(".")[-1] in ["png", "pdf", "svg"], error
-    print(f"""
+    print(
+f"""
 plt.savefig("./{dir}/{file}", bbox_inches="tight")
 plt.close("all")
-""")
+"""
+    )
 
 
 def init():
     print(r"""
 %load_ext autoreload
 %autoreload 2
-%matplotlib inline
-%config InlineBackend.figure_format = "retina"
+from okt.nbutils import set_plot_params
 from okt.nn.utils import get_device, set_seed
+set_plot_params()
 
 from tqdm import tqdm
 from pathlib import Path
@@ -61,12 +66,11 @@ import pandas as pd
 import matplotlib
 import matplotlib.pyplot as plt
 
-ROOT_DIR = Path("../../").resolve()
-LOCAL_DIR = ROOT_DIR / ".local/"
-DATASET_DIR = LOCAL_DIR / "data/"
-ARTIFACTS_DIR = LOCAL_DIR / "artifacts/"
+ROOT_DIR = Path().resolve().parent.parent
+LOCAL_DIR = ROOT_DIR / ".local"
+DATASET_DIR = LOCAL_DIR / "data"
+ARTIFACTS_DIR = LOCAL_DIR / "artifacts"
 warnings.simplefilter(action="ignore")
-matplotlib.rcParams["image.interpolation"] = "nearest"
 
 RANDOM_SEED = 0
 DEVICE = get_device()
@@ -76,14 +80,14 @@ set_seed(RANDOM_SEED)
 )
 
 
-def set_plot_params(config={
-        "font.size": 6,
+def set_plot_params(
+    rcparams={
+        "font.size": 7,
         "font.family": "monospace",
         "lines.linewidth": 1.5,
-        "figure.dpi": 300
-    }):
-    plt.rcParams.update(config)
-
-
-def set_matplotlib_format(format: str = "retina"):
-    backend_inline.set_matplotlib_formats(format)
+        "figure.dpi": 150,
+    },
+    plot_format = "retina"
+):
+    plt.rcParams.update(rcparams)
+    backend_inline.set_matplotlib_formats(plot_format)
