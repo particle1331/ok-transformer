@@ -84,8 +84,9 @@ def set_plot_params(
     rcparams={
         "font.size": 7,
         "font.family": "monospace",
-        "lines.linewidth": 1.5,
+        "lines.linewidth": 1.0,
         "figure.dpi": 150,
+        "figure.figsize": (5, 3),
     },
     plot_format = "retina"
 ):
